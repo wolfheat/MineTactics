@@ -32,7 +32,16 @@ public class Inputs : MonoBehaviour
         {
             Debug.Log("Release "+rayHit.collider.gameObject.name);
             GameBox box = rayHit.collider.GetComponent<GameBox>();
-            box.Click();
+            if (box != null)
+            {
+                box.Click();
+
+            }
+            SmileyButton smiley = rayHit.collider.GetComponent<SmileyButton>();
+            if (smiley != null)
+            {
+                smiley.Click();
+            }
 
         }
 

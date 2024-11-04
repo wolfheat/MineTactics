@@ -31,6 +31,8 @@ public class GameBox : MonoBehaviour
             spriteRenderer.sprite = bustedSprite;
         else
             spriteRenderer.sprite = cleared[type];
+
+        boxCollider.enabled = false;
     }
 
     public void MakeInteractable(bool doSet = true)
@@ -74,7 +76,7 @@ public class GameBox : MonoBehaviour
 
     private void Chard()
     {
-        LevelCreator.Instance.Chard(Pos);
+        LevelCreator.Instance.Chord(Pos);
     }
 
     internal void RightClick()
@@ -90,6 +92,7 @@ public class GameBox : MonoBehaviour
         Debug.Log("Show a busted mine here");
         spriteRenderer.sprite = bustedSprite;
         Busted = true;
+        SmileyButton.Instance.ShowBust();
     }
 
     internal void ShowWrongFlag()
@@ -105,5 +108,14 @@ public class GameBox : MonoBehaviour
     internal bool UnSolved()
     {
         return boxCollider.enabled;
+    }
+
+    internal void Reset()
+    {
+        transform.gameObject.SetActive(true);
+        Busted = false;
+        Marked = false;
+        spriteRenderer.sprite = unmarkedSprite;
+        boxCollider.enabled = true;
     }
 }

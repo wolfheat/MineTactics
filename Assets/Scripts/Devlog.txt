@@ -12,6 +12,12 @@ Nov 2024
 3/11	* Continued with game mechanics
 		* Numbers, mines, busts, flags, wrong flags, added
 		* Chording added
+		* Fixed loop issue?
+		* Restart Level button added, smiley
+
+
+		* Create border with timer and minecount?
+		* Add restart Button Smiley?
 
 
 

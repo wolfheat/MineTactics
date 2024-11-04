@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class LevelCreator : MonoBehaviour
@@ -15,6 +16,16 @@ public class LevelCreator : MonoBehaviour
 
     [SerializeField] private GameObject boxHolder;
     [SerializeField] private GameObject underLaying;
+    [SerializeField] private GameObject borderArea;
+    [SerializeField] private SpriteRenderer borderAreaRenderer;
+    [SerializeField] private GameObject objects;
+    [SerializeField] private GameObject alignPosition;
+    Vector3 align = new Vector3(0.5f, -0.5f, 0); 
+    //Vector3 align = new Vector3(0.5f, -0.5f, 0);
+    Vector2 borderAddon = new Vector3(0.8f, 1.31f);
+    Vector3 borderAlign = new Vector3(0.17f, -0.72f, 0);
+
+    [SerializeField] private GameObject smiley;
 
 
     // Should there be one actual board and one visual board? yes? Only mines are necessarey to describe actual board
@@ -37,18 +48,48 @@ public class LevelCreator : MonoBehaviour
             return;
         }
         Instance = this;
-        Debug.Log("Create Level");
-        mines = new int[gameWidth, gameHeight];
-        underlayBoxes = new GameBox[gameWidth, gameHeight];
-        overlayBoxes = new GameBox[gameWidth, gameHeight];
+
+
+        SizeGameArea();
+        
         CreateLevel();
 
         DrawLevel();
 
+        // Align GameArea
+        objects.transform.position = alignPosition.transform.position; 
+        objects.transform.localScale = Vector3.one*0.5f;
+
+        // Place smiley at half widht of game area
+        smiley.transform.localPosition = new Vector3(borderAreaRenderer.size.x/2, smiley.transform.localPosition.y,0);
+    }
+
+    private void SizeGameArea()
+    {
+        Debug.Log("Create Level");
+        mines = new int[gameWidth, gameHeight];
+        underlayBoxes = new GameBox[gameWidth, gameHeight];
+        overlayBoxes = new GameBox[gameWidth, gameHeight];
+
+        // Set the border to correct size
+        borderAreaRenderer.size = new Vector2(gameWidth / 2 + borderAddon.x, gameHeight / 2 + borderAddon.y);
+        //borderAreaRenderer.size = new Vector2(gameWidth/2+borderAddon.x, gameHeight/2+borderAddon.y);
+
+
+    }
+
+    internal void RestartGame()
+    {
+        ResetLevel();
+        SmileyButton.Instance.ShowNormal();
     }
 
     public bool OpenBox(Vector2Int pos)
     {
+        // If allready open skip
+        if (!overlayBoxes[pos.x, pos.y].gameObject.activeSelf)
+            return false;
+
         Debug.Log("Opening pos "+pos);
         if (mines[pos.x, pos.y] == -1)
         {
@@ -90,6 +131,20 @@ public class LevelCreator : MonoBehaviour
         }
     }
 
+    private void ResetLevel()
+    {
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+                overlayBoxes[i, j].Reset();
+
+                // Make underlaying
+                underlayBoxes[i, j].SetType(mines[i, j]);
+            }
+        }
+    }
+
     private void DrawLevel()
     {
         for (int j = 0; j < gameHeight; j++)
@@ -99,13 +154,13 @@ public class LevelCreator : MonoBehaviour
                 Vector3 pos = boxHolder.transform.position + new Vector3(i, -j, 0);
 
                 // Make uncleared
-                GameBox box = Instantiate(unclearedBoxPrefab, pos, Quaternion.identity, boxHolder.transform);
+                GameBox box = Instantiate(unclearedBoxPrefab, pos+align, Quaternion.identity, boxHolder.transform);
                 box.Pos = new Vector2Int(i,j);
                 overlayBoxes[i, j] = box;
 
                 Debug.Log("checking value for "+i+","+j+" = " + mines[i,j]);
                 // Make underlaying
-                GameBox underlayBox = Instantiate(underlayBoxPrefab, pos, Quaternion.identity, underLaying.transform);
+                GameBox underlayBox = Instantiate(underlayBoxPrefab, pos + align, Quaternion.identity, underLaying.transform);
                 underlayBox.Pos = new Vector2Int(i,j);
                 underlayBoxes[i, j] = underlayBox;
                 underlayBox.SetType(mines[i, j]);
@@ -154,10 +209,10 @@ public class LevelCreator : MonoBehaviour
     }
 
 
-    internal void Chard(Vector2Int pos)
+    internal void Chord(Vector2Int pos)
     {
         Debug.Log("Charding levelcreator at "+pos);
-        if (Chardable(pos))
+        if (Chordable(pos))
         {
             Debug.Log("Chardable");
             OpenAllNeighbord(pos);
@@ -178,13 +233,13 @@ public class LevelCreator : MonoBehaviour
                     continue;
                 if (i < 0 || j < 0 || i >= gameWidth || j >= gameHeight)
                     continue;
-                if (!overlayBoxes[i, j].Marked)
+                if (overlayBoxes[i, j].gameObject.activeSelf && !overlayBoxes[i, j].Marked)
                     OpenBox(new Vector2Int(i,j));
             }
         }
     }
 
-    private bool Chardable(Vector2Int pos)
+    private bool Chordable(Vector2Int pos)
     {
         // Is chardable if X amount of mines are marked around it
         int number = underlayBoxes[pos.x, pos.y].value;
@@ -208,4 +263,5 @@ public class LevelCreator : MonoBehaviour
         }
         return amt;
     }
+
 }
