@@ -26,13 +26,19 @@ public class LevelCreator : MonoBehaviour
     Vector3 borderAlign = new Vector3(0.17f, -0.72f, 0);
 
     [SerializeField] private GameObject smiley;
+    [SerializeField] private GameObject mineCount;
+    [SerializeField] private GameObject timeCount;
+    private int mineCountAmount=0;
+    private int totalmines=0;
+    [SerializeField] DigiDisplay mineDisplay;
+    [SerializeField] DigiDisplay timeDisplay;
 
 
     // Should there be one actual board and one visual board? yes? Only mines are necessarey to describe actual board
 
 
     public static LevelCreator Instance { get; private set; }
-
+    public bool WaitForFirstMove { get; private set; } = true;
 
     int[,] mines;
     GameBox[,] underlayBoxes;
@@ -60,8 +66,10 @@ public class LevelCreator : MonoBehaviour
         objects.transform.position = alignPosition.transform.position; 
         objects.transform.localScale = Vector3.one*0.5f;
 
-        // Place smiley at half widht of game area
+        // Place smiley at half width of game area
+        mineCount.transform.localPosition = new Vector3(0.5f, smiley.transform.localPosition.y,0);
         smiley.transform.localPosition = new Vector3(borderAreaRenderer.size.x/2, smiley.transform.localPosition.y,0);
+        timeCount.transform.localPosition = new Vector3(borderAreaRenderer.size.x - 0.5f, smiley.transform.localPosition.y,0);
     }
 
     private void SizeGameArea()
@@ -82,10 +90,18 @@ public class LevelCreator : MonoBehaviour
     {
         ResetLevel();
         SmileyButton.Instance.ShowNormal();
+        Timer.Instance.ResetCounterAndPause();
+        WaitForFirstMove = true;
     }
 
     public bool OpenBox(Vector2Int pos)
     {
+        if (WaitForFirstMove)
+        {
+            //Start the timer
+            Timer.Instance.StartTimer();
+            WaitForFirstMove = false;
+        }
         // If allready open skip
         if (!overlayBoxes[pos.x, pos.y].gameObject.activeSelf)
             return false;
@@ -116,6 +132,9 @@ public class LevelCreator : MonoBehaviour
 
     private void BustLevel()
     {
+        // Pause the timer
+        Timer.Instance.Pause();
+
         Debug.Log("Bust Level");
         // Go through all flagged boxes and change wrongly marked to red flags and show all unmarked mines
         for (int j = 0; j < gameHeight; j++)
@@ -143,6 +162,8 @@ public class LevelCreator : MonoBehaviour
                 underlayBoxes[i, j].SetType(mines[i, j]);
             }
         }
+        TotalMines();
+        UpdateMineCount();
     }
 
     private void DrawLevel()
@@ -158,7 +179,7 @@ public class LevelCreator : MonoBehaviour
                 box.Pos = new Vector2Int(i,j);
                 overlayBoxes[i, j] = box;
 
-                Debug.Log("checking value for "+i+","+j+" = " + mines[i,j]);
+                //Debug.Log("checking value for "+i+","+j+" = " + mines[i,j]);
                 // Make underlaying
                 GameBox underlayBox = Instantiate(underlayBoxPrefab, pos + align, Quaternion.identity, underLaying.transform);
                 underlayBox.Pos = new Vector2Int(i,j);
@@ -170,11 +191,14 @@ public class LevelCreator : MonoBehaviour
 
     private void CreateLevel()
     {
+        mineCountAmount = 0;
         for (int j = 0; j < gameHeight; j++)
         {
             for (int i = 0; i < gameWidth; i++)
             {
                 mines[i, j] = Random.Range(-1,1);
+                if(mines[i, j]==-1)
+                    mineCountAmount++;
             }
         }
 
@@ -187,6 +211,9 @@ public class LevelCreator : MonoBehaviour
                     mines[i, j] = Neighbors(i,j);
             }
         }
+        totalmines = mineCountAmount;
+        // Set minecount
+        UpdateMineCount();
     }
 
     private int Neighbors(int iCenter, int jCenter)
@@ -264,4 +291,26 @@ public class LevelCreator : MonoBehaviour
         return amt;
     }
 
+    internal void TotalMines()
+    {
+        mineCountAmount = totalmines;
+    }
+    internal void DecreaseMineCount()
+    {
+        mineCountAmount--;
+        UpdateMineCount();
+    }
+    
+    internal void IncreaseMineCount()
+    {
+        mineCountAmount++;
+        UpdateMineCount();
+    }
+
+    internal void UpdateMineCount()
+    {
+        Debug.Log("Showing minecount "+mineCountAmount);
+        // Set minecount
+        mineDisplay.ShowValue(mineCountAmount);
+    }
 }

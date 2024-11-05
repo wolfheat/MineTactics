@@ -85,6 +85,10 @@ public class GameBox : MonoBehaviour
         Debug.Log("Clicking this box at "+Pos+" mark or demark as mine");
         Marked = !Marked;
         spriteRenderer.sprite = Marked ? markedSprite : unmarkedSprite;
+        if(!Marked)
+            LevelCreator.Instance.IncreaseMineCount();
+        else
+            LevelCreator.Instance.DecreaseMineCount();
     }
 
     internal void Bust()

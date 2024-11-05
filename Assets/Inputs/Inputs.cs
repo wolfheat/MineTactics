@@ -34,8 +34,9 @@ public class Inputs : MonoBehaviour
             GameBox box = rayHit.collider.GetComponent<GameBox>();
             if (box != null)
             {
+                if (Timer.Instance.Paused && !LevelCreator.Instance.WaitForFirstMove)
+                    return;
                 box.Click();
-
             }
             SmileyButton smiley = rayHit.collider.GetComponent<SmileyButton>();
             if (smiley != null)
@@ -54,6 +55,8 @@ public class Inputs : MonoBehaviour
     
     public void OnRightClick(InputAction.CallbackContext context)
     {
+        if (Timer.Instance.Paused && !LevelCreator.Instance.WaitForFirstMove)
+            return;
         var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()));
         if (!rayHit.collider) return;
         if (!context.started) return;

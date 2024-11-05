@@ -14,7 +14,7 @@ public class SmileyButton : MonoBehaviour
     {
         if (Instance != null)
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
             return;
         }
         Instance = this;

@@ -14,10 +14,23 @@ Nov 2024
 		* Chording added
 		* Fixed loop issue?
 		* Restart Level button added, smiley
+4/11	* Added Timer 
+		* Added Minecount digits (including minus count)
+		* Timer stops at game bust and restarts accordingly at first input
 
+
+		* Implement stop at bust, only restart should be available there
 
 		* Create border with timer and minecount?
 		* Add restart Button Smiley?
+
+		* Make it run with touch on mobile
+		* Make setting page for flagging touch time etc
+
+		* Make solution to save start state for game
+
+
+
 
 
 
