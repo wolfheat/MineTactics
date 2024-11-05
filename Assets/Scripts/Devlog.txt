@@ -17,16 +17,16 @@ Nov 2024
 4/11	* Added Timer 
 		* Added Minecount digits (including minus count)
 		* Timer stops at game bust and restarts accordingly at first input
+5/11	* New level generated at restart
 
 
-		* Implement stop at bust, only restart should be available there
 
-		* Create border with timer and minecount?
-		* Add restart Button Smiley?
 
+		// MOBILE
 		* Make it run with touch on mobile
 		* Make setting page for flagging touch time etc
 
+		// SAVING / LOADING
 		* Make solution to save start state for game
 
 

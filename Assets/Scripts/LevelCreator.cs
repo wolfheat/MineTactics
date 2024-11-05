@@ -88,6 +88,7 @@ public class LevelCreator : MonoBehaviour
 
     internal void RestartGame()
     {
+        RandomizeMines();
         ResetLevel();
         SmileyButton.Instance.ShowNormal();
         Timer.Instance.ResetCounterAndPause();
@@ -191,24 +192,28 @@ public class LevelCreator : MonoBehaviour
 
     private void CreateLevel()
     {
+        RandomizeMines();
+    }
+
+    private void RandomizeMines()
+    {
         mineCountAmount = 0;
         for (int j = 0; j < gameHeight; j++)
         {
             for (int i = 0; i < gameWidth; i++)
             {
-                mines[i, j] = Random.Range(-1,1);
-                if(mines[i, j]==-1)
+                mines[i, j] = Random.Range(-1, 1);
+                if (mines[i, j] == -1)
                     mineCountAmount++;
             }
         }
-
         // Determine numbers
         for (int j = 0; j < gameHeight; j++)
         {
             for (int i = 0; i < gameWidth; i++)
             {
-                if(mines[i, j]!=-1)
-                    mines[i, j] = Neighbors(i,j);
+                if (mines[i, j] != -1)
+                    mines[i, j] = Neighbors(i, j);
             }
         }
         totalmines = mineCountAmount;
