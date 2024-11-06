@@ -18,9 +18,11 @@ Nov 2024
 		* Added Minecount digits (including minus count)
 		* Timer stops at game bust and restarts accordingly at first input
 5/11	* New level generated at restart
+		
 
+		// Set size? Make it possible to change size with buttons
 
-
+		// Have timer show how long time it took for player to solve it, popup after each game with statistics
 
 		// MOBILE
 		* Make it run with touch on mobile
