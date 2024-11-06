@@ -9,7 +9,7 @@ public class Timer : MonoBehaviour
 
     public static Timer Instance { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         if (Instance != null)
         {

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class Inputs : MonoBehaviour
@@ -25,6 +26,13 @@ public class Inputs : MonoBehaviour
 
     public void OnClick(InputAction.CallbackContext context)
     {
+        // This method handles clicks on items below UI so exit if hitting UI
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            //Debug.Log("Clicked on the UI");
+            return;
+        }
+
         var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()));
         if (!rayHit.collider) return;
 

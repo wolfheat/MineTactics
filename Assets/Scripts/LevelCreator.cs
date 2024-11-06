@@ -188,6 +188,7 @@ public class LevelCreator : MonoBehaviour
                 underlayBox.SetType(mines[i, j]);
             }
         }
+        Timer.Instance.Pause();
     }
 
     private void CreateLevel()

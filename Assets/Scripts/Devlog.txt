@@ -18,7 +18,10 @@ Nov 2024
 		* Added Minecount digits (including minus count)
 		* Timer stops at game bust and restarts accordingly at first input
 5/11	* New level generated at restart
-		
+		* Game select screen added, fixed text issue
+6/11	* Added Setting popup screen to set different levels S-M-L etc and show info is now on UI page
+		* Game does not start directly anymore when first created
+		* Fixed Click through issue with UI panel
 
 		// Set size? Make it possible to change size with buttons
 
