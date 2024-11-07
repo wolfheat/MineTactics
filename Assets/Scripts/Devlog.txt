@@ -25,6 +25,8 @@ Nov 2024
 
 		// Set size? Make it possible to change size with buttons
 
+		// Make setting new level size update underlaying and overlaying to correct amount. Recreate all?
+
 		// Have timer show how long time it took for player to solve it, popup after each game with statistics
 
 		// MOBILE

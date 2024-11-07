@@ -1,12 +1,11 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class LevelCreator : MonoBehaviour
 {
 
-    [SerializeField] private int gameWidth = 10;
-    [SerializeField] private int gameHeight = 6;
+    [SerializeField] private int gameWidth;
+    [SerializeField] private int gameHeight;
 
     [SerializeField] private GameBox mineBoxPrefab;
     [SerializeField] private GameBox unclearedBoxPrefab;
@@ -17,12 +16,15 @@ public class LevelCreator : MonoBehaviour
     [SerializeField] private GameObject boxHolder;
     [SerializeField] private GameObject underLaying;
     [SerializeField] private GameObject borderArea;
+    [SerializeField] private GameObject playArea;
     [SerializeField] private SpriteRenderer borderAreaRenderer;
     [SerializeField] private GameObject objects;
+    [SerializeField] private GameObject origo;
     [SerializeField] private GameObject alignPosition;
-    Vector3 align = new Vector3(0.5f, -0.5f, 0); 
-    //Vector3 align = new Vector3(0.5f, -0.5f, 0);
-    Vector2 borderAddon = new Vector3(0.8f, 1.31f);
+    //Vector3 align = new Vector3(0.5f, -0.5f, 0); 
+    Vector3 align = new Vector3(0f, 0f, 0f);
+    Vector2 borderAddon = new Vector3(0.3f, 0.81f);
+    //Vector2 borderAddon = new Vector3(0.8f, 1.31f);
     Vector3 borderAlign = new Vector3(0.17f, -0.72f, 0);
 
     [SerializeField] private GameObject smiley;
@@ -32,6 +34,10 @@ public class LevelCreator : MonoBehaviour
     private int totalmines=0;
     [SerializeField] DigiDisplay mineDisplay;
     [SerializeField] DigiDisplay timeDisplay;
+
+    Vector2[] sizePositions = new Vector2[3] { new Vector2(-2.2f,2.94f), new Vector2(-2.2f, 2.94f) , new Vector2(-2.2f, 2.94f) };
+    Vector3Int[] gameSizes = new Vector3Int[3] { new Vector3Int(10, 13, 30), new Vector3Int(12, 15, 40), new Vector3Int(15, 15, 50) };
+    float[] sizeScales = new float[3] { 0.832f, 0.832f, 0.832f};
 
 
     // Should there be one actual board and one visual board? yes? Only mines are necessarey to describe actual board
@@ -63,32 +69,56 @@ public class LevelCreator : MonoBehaviour
         DrawLevel();
 
         // Align GameArea
-        objects.transform.position = alignPosition.transform.position; 
+        objects.transform.position = origo.transform.position; 
         objects.transform.localScale = Vector3.one*0.5f;
+        //objects.transform.position = alignPosition.transform.position; 
+        //objects.transform.localScale = Vector3.one*0.5f;
 
         // Place smiley at half width of game area
         mineCount.transform.localPosition = new Vector3(0.5f, smiley.transform.localPosition.y,0);
         smiley.transform.localPosition = new Vector3(borderAreaRenderer.size.x/2, smiley.transform.localPosition.y,0);
         timeCount.transform.localPosition = new Vector3(borderAreaRenderer.size.x - 0.5f, smiley.transform.localPosition.y,0);
+
+        SettingsPanel.GameSizeChange += OnPlaySizeChange;
     }
 
     private void SizeGameArea()
     {
+
+        gameWidth = gameSizes[SettingsPanel.activeGameSize].x;
+        gameHeight = gameSizes[SettingsPanel.activeGameSize].y;
+        totalmines = gameSizes[SettingsPanel.activeGameSize].z;
+
+        Debug.Log("Sizing game area, suing size "+ SettingsPanel.activeGameSize);
+
         Debug.Log("Create Level");
         mines = new int[gameWidth, gameHeight];
         underlayBoxes = new GameBox[gameWidth, gameHeight];
         overlayBoxes = new GameBox[gameWidth, gameHeight];
 
         // Set the border to correct size
-        borderAreaRenderer.size = new Vector2(gameWidth / 2 + borderAddon.x, gameHeight / 2 + borderAddon.y);
+        borderAreaRenderer.size = new Vector2(gameWidth / 2f + borderAddon.x, gameHeight / 2f + borderAddon.y);
+        Debug.Log("Frame size "+ gameWidth / 2f+" + "+ borderAddon.x+" = "+borderAreaRenderer.size.x);
+        Debug.Log("Frame size "+ gameHeight / 2f+" + "+ borderAddon.y+" = "+borderAreaRenderer.size.y);
         //borderAreaRenderer.size = new Vector2(gameWidth/2+borderAddon.x, gameHeight/2+borderAddon.y);
 
+        playArea.transform.position = sizePositions[SettingsPanel.activeGameSize];
+        playArea.transform.localScale = new Vector3(sizeScales[SettingsPanel.activeGameSize], sizeScales[SettingsPanel.activeGameSize],1);
 
+    }
+
+    public void OnPlaySizeChange()
+    {
+        Debug.Log("Play size changed, update game area");
+        RestartGame();
     }
 
     internal void RestartGame()
     {
+
+        SizeGameArea();
         RandomizeMines();
+        DrawLevel();
         ResetLevel();
         SmileyButton.Instance.ShowNormal();
         Timer.Instance.ResetCounterAndPause();
@@ -176,13 +206,13 @@ public class LevelCreator : MonoBehaviour
                 Vector3 pos = boxHolder.transform.position + new Vector3(i, -j, 0);
 
                 // Make uncleared
-                GameBox box = Instantiate(unclearedBoxPrefab, pos+align, Quaternion.identity, boxHolder.transform);
+                GameBox box = Instantiate(unclearedBoxPrefab, align + (pos)* sizeScales[0] , Quaternion.identity, boxHolder.transform);
                 box.Pos = new Vector2Int(i,j);
                 overlayBoxes[i, j] = box;
 
                 //Debug.Log("checking value for "+i+","+j+" = " + mines[i,j]);
                 // Make underlaying
-                GameBox underlayBox = Instantiate(underlayBoxPrefab, pos + align, Quaternion.identity, underLaying.transform);
+                GameBox underlayBox = Instantiate(underlayBoxPrefab, align + (pos)* sizeScales[0] , Quaternion.identity, underLaying.transform);
                 underlayBox.Pos = new Vector2Int(i,j);
                 underlayBoxes[i, j] = underlayBox;
                 underlayBox.SetType(mines[i, j]);
