@@ -27,6 +27,11 @@ public class SmileyButton : MonoBehaviour
         LevelCreator.Instance.RestartGame();
     }
     
+    internal void ShowWin()
+    {
+        spriteRenderer.sprite = sprites[3];
+    }
+    
     internal void ShowBust()
     {
         Debug.Log("Show Bust?");

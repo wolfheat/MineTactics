@@ -2057,7 +2057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 0.13333334}
+  m_Color: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 0.42745098}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2229,6 +2229,7 @@ MonoBehaviour:
   - {fileID: 166070228, guid: b5bb3e91dc60e8240ae494baf06094ab, type: 3}
   - {fileID: -507320681, guid: b5bb3e91dc60e8240ae494baf06094ab, type: 3}
   - {fileID: 665239716, guid: b5bb3e91dc60e8240ae494baf06094ab, type: 3}
+  - {fileID: -853867730, guid: b5bb3e91dc60e8240ae494baf06094ab, type: 3}
   spriteRenderer: {fileID: 1188491520}
 --- !u!1 &1191361551
 GameObject:

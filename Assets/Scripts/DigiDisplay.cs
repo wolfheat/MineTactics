@@ -17,7 +17,7 @@ public class DigiDisplay : MonoBehaviour
         val -= hundreds*100;
         int dec = val / 10;
         val -= dec*10;
-        Debug.Log(""+hundreds+","+dec+","+val);
+        //Debug.Log(""+hundreds+","+dec+","+val);
         // Hundreds - dec - val
         SetDigits(minus?10:hundreds,dec,val);
     }

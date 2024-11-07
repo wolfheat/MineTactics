@@ -53,6 +53,9 @@ public class LevelCreator : MonoBehaviour
     int[,] mines;
     GameBox[,] underlayBoxes = new GameBox[0,0];
     GameBox[,] overlayBoxes = new GameBox[0, 0];
+    private int opened;
+    private int totalToOpen;
+    private Vector2Int swapBox;
 
     void Start()
     {
@@ -162,12 +165,19 @@ public class LevelCreator : MonoBehaviour
             //Start the timer
             Timer.Instance.StartTimer();
             WaitForFirstMove = false;
+
+            // If this is a mine swap it and recalculate the level
+            if (mines[pos.x, pos.y] == -1)
+            {
+                SwapAndRecalculateLevel(pos);
+            }
+
         }
         // If allready open skip
         if (!overlayBoxes[pos.x, pos.y].gameObject.activeSelf)
             return false;
 
-        Debug.Log("Opening pos "+pos);
+        Debug.Log("Opening pos "+pos+" total opened = "+opened+"/"+totalToOpen);
         if (mines[pos.x, pos.y] == -1)
         {
             Debug.Log("Bust");
@@ -179,6 +189,7 @@ public class LevelCreator : MonoBehaviour
         {
             Debug.Log("Opening");
             overlayBoxes[pos.x, pos.y].RemoveAndSetUnderActive();
+            opened++;
             OpenAllNeighbord(pos);
         }
         else
@@ -186,7 +197,12 @@ public class LevelCreator : MonoBehaviour
             Debug.Log("Number ");
             underlayBoxes[pos.x, pos.y].MakeInteractable();
             overlayBoxes[pos.x,pos.y].RemoveAndSetUnderActive();
-
+            opened++;
+            // If last opened is a number check if game is cleared?
+            if (opened == totalToOpen)
+            {
+                WinLevel();                
+            }
         }
         return true;
     }
@@ -209,6 +225,29 @@ public class LevelCreator : MonoBehaviour
                     overlayBoxes[i, j].ShowMine();
             }
         }
+        SmileyButton.Instance.ShowBust();
+    }
+    
+    private void WinLevel()
+    {
+        // Pause the timer
+        Timer.Instance.Pause();
+
+        Debug.Log("Win Level");
+        // Go through all mines and flagg all un-flagged 
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+                // If flagged and wrong change to red flag
+                if (overlayBoxes[i, j].Marked && mines[i, j] != -1)
+                    overlayBoxes[i, j].ShowWrongFlag();
+                //else if (mines[i,j]==-1 && overlayBoxes[i, j].gameObject.activeSelf)
+                else if (mines[i,j]==-1)
+                    overlayBoxes[i, j].Mark();
+            }
+        }
+        SmileyButton.Instance.ShowWin();
     }
 
     private void ResetLevel()
@@ -227,6 +266,17 @@ public class LevelCreator : MonoBehaviour
         }
         TotalMines();
         UpdateMineCount();
+    }
+
+    private void SwapAndRecalculateLevel(Vector2Int pos)
+    {
+        mines[pos.x, pos.y] = 0;
+        mines[swapBox.x, swapBox.y] = -1;
+
+        // Make underlaying
+        RecalculateNeighbors(pos);
+        RecalculateNeighbors(swapBox);
+
     }
 
     private void DrawLevel()
@@ -270,14 +320,19 @@ public class LevelCreator : MonoBehaviour
         int[] allPos = Enumerable.Range(0, gameHeight*gameWidth).ToArray();
         // Fisher-Yates scramble
         allPos = FisherYatesScramble(allPos);
+        int row = allPos[allPos.Length - 1] / gameWidth;
+        int col = allPos[allPos.Length - 1] % gameWidth;
+        swapBox = new Vector2Int(row,col);
+
 
         for (int i = 0; i < totalmines; i++)
         {
-            int row = allPos[i]/gameWidth;
-            int col = allPos[i] % gameWidth;
+            row = allPos[i]/gameWidth;
+            col = allPos[i] % gameWidth;
             mines[row, col] = -1;
         }
         mineCountAmount = totalmines;
+        totalToOpen = gameWidth*gameHeight-totalmines;
         // Determine numbers
         for (int j = 0; j < gameHeight; j++)
         {
@@ -306,6 +361,26 @@ public class LevelCreator : MonoBehaviour
         return allPos;
     }
 
+
+    private void RecalculateNeighbors(Vector2Int pos)
+    {
+        int iCenter = pos.x;
+        int jCenter = pos.y;
+
+        // Determine numbers
+        for (int i = iCenter - 1; i <= iCenter + 1; i++)
+        {
+            for (int j = jCenter - 1; j <= jCenter + 1; j++)
+            {
+                if (i < 0 || j < 0 || i >= gameWidth || j >= gameHeight)
+                    continue;
+                if (mines[i, j] != -1)
+                    mines[i, j] = Neighbors(i, j);
+                underlayBoxes[i,j].SetType(mines[i, j]);
+            }
+        }
+    }
+    
     private int Neighbors(int iCenter, int jCenter)
     {
         int amt = 0;
@@ -384,6 +459,7 @@ public class LevelCreator : MonoBehaviour
     internal void TotalMines()
     {
         mineCountAmount = totalmines;
+        opened = 0;
     }
     internal void DecreaseMineCount()
     {

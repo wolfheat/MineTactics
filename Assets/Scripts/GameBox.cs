@@ -79,6 +79,16 @@ public class GameBox : MonoBehaviour
         LevelCreator.Instance.Chord(Pos);
     }
 
+
+
+    internal void Mark()
+    {
+        if (Marked) return;
+        Marked = true;
+        spriteRenderer.sprite = markedSprite;
+        LevelCreator.Instance.DecreaseMineCount();
+    }
+    
     internal void RightClick()
     {
         if (value > 0) return;
@@ -96,7 +106,6 @@ public class GameBox : MonoBehaviour
         Debug.Log("Show a busted mine here");
         spriteRenderer.sprite = bustedSprite;
         Busted = true;
-        SmileyButton.Instance.ShowBust();
     }
 
     internal void ShowWrongFlag()

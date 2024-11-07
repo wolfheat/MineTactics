@@ -25,14 +25,13 @@ Nov 2024
 7/11	* Better alignement for level
 		* Fixed resizing and aligning again to work in a better fashion
 		* Added Fixed amount of mines per level and Fisher-Yates shuffle to pick positions
+		* Win condition added, player wins if all free tiles are opened
+		* Added fail safe start, no mines at first click
 
 
 		// Make first pick not be a mine
-		// Make game win when all free tiles are cleared
-
+		
 		// Scale is set by hardcoding, instead make it follow screen size
-
-		// Set size? Make it possible to change size with buttons
 
 		// Make setting new level size update underlaying and overlaying to correct amount. Recreate all?
 

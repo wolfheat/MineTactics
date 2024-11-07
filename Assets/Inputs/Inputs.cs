@@ -38,7 +38,7 @@ public class Inputs : MonoBehaviour
 
         if (context.canceled)
         {
-            Debug.Log("Release "+rayHit.collider.gameObject.name);
+            //Debug.Log("Release "+rayHit.collider.gameObject.name);
             GameBox box = rayHit.collider.GetComponent<GameBox>();
             if (box != null)
             {
@@ -56,9 +56,6 @@ public class Inputs : MonoBehaviour
 
         if (!context.started) return;
         if (!rayHit.collider) return;
-
-        else
-            Debug.Log("Hit "+rayHit.collider.gameObject.name);
     }
     
     public void OnRightClick(InputAction.CallbackContext context)
