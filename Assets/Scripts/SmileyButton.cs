@@ -10,7 +10,7 @@ public class SmileyButton : MonoBehaviour
 
     public static SmileyButton Instance { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         if (Instance != null)
         {

@@ -184,7 +184,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: beb5b207aba7acd4ab05c1538f1bc4d8
+      spriteID: b195c852023a6874c96f8d442a4abb99
       internalID: -507320681
       vertices: []
       indices: 
@@ -205,8 +205,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0db7fe2748fce4a4082f0f850174e94a
+      spriteID: 39326d537c3c99b499c972280a72b7f3
       internalID: 665239716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smileys_3
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 0
+        width: 33
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c579908be2592944a8b3a8fbefd3f23a
+      internalID: -853867730
       vertices: []
       indices: 
       edges: []
@@ -225,6 +246,7 @@ TextureImporter:
       Smileys_0: 166070228
       Smileys_1: -507320681
       Smileys_2: 665239716
+      Smileys_3: -853867730
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

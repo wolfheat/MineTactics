@@ -22,6 +22,15 @@ Nov 2024
 6/11	* Added Setting popup screen to set different levels S-M-L etc and show info is now on UI page
 		* Game does not start directly anymore when first created
 		* Fixed Click through issue with UI panel
+7/11	* Better alignement for level
+		* Fixed resizing and aligning again to work in a better fashion
+		* Added Fixed amount of mines per level and Fisher-Yates shuffle to pick positions
+
+
+		// Make first pick not be a mine
+		// Make game win when all free tiles are cleared
+
+		// Scale is set by hardcoding, instead make it follow screen size
 
 		// Set size? Make it possible to change size with buttons
 

@@ -24,7 +24,7 @@ public class SettingsPanel : MonoBehaviour
         Debug.Log("Right");
         activeGameSize = (activeGameSize + 1) % enumGameSize;
         UpdateSizeText();
-        GameSizeChange.Invoke();
+        GameSizeChange?.Invoke();
     }
     private void UpdateSizeText() => gameSizeText.text = Enum.GetNames(typeof(GameSize))[activeGameSize].ToString();
 

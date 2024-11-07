@@ -1,3 +1,5 @@
+using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,8 +23,8 @@ public class LevelCreator : MonoBehaviour
     [SerializeField] private GameObject objects;
     [SerializeField] private GameObject origo;
     [SerializeField] private GameObject alignPosition;
-    //Vector3 align = new Vector3(0.5f, -0.5f, 0); 
-    Vector3 align = new Vector3(0f, 0f, 0f);
+    Vector3 align = new Vector3(0.5f, -0.5f, 0); 
+    //Vector3 align = new Vector3(0f, 0f, 0f);
     Vector2 borderAddon = new Vector3(0.3f, 0.81f);
     //Vector2 borderAddon = new Vector3(0.8f, 1.31f);
     Vector3 borderAlign = new Vector3(0.17f, -0.72f, 0);
@@ -36,7 +38,9 @@ public class LevelCreator : MonoBehaviour
     [SerializeField] DigiDisplay timeDisplay;
 
     Vector2[] sizePositions = new Vector2[3] { new Vector2(-2.2f,2.94f), new Vector2(-2.2f, 2.94f) , new Vector2(-2.2f, 2.94f) };
-    Vector3Int[] gameSizes = new Vector3Int[3] { new Vector3Int(10, 13, 30), new Vector3Int(12, 15, 40), new Vector3Int(15, 15, 50) };
+
+    Vector3Int[] gameSizes = new Vector3Int[3] { new Vector3Int(6, 6, 10), new Vector3Int(8, 8, 22), new Vector3Int(12, 12, 30) };
+
     float[] sizeScales = new float[3] { 0.832f, 0.832f, 0.832f};
 
 
@@ -47,9 +51,8 @@ public class LevelCreator : MonoBehaviour
     public bool WaitForFirstMove { get; private set; } = true;
 
     int[,] mines;
-    GameBox[,] underlayBoxes;
-    GameBox[,] overlayBoxes;
-
+    GameBox[,] underlayBoxes = new GameBox[0,0];
+    GameBox[,] overlayBoxes = new GameBox[0, 0];
 
     void Start()
     {
@@ -61,49 +64,75 @@ public class LevelCreator : MonoBehaviour
         }
         Instance = this;
 
-
+        RestartGame();
+        /*
         SizeGameArea();
-        
         CreateLevel();
-
         DrawLevel();
+        AlignBoxesAnchor();
+        */
+        // Add size change listener
+        SettingsPanel.GameSizeChange += OnPlaySizeChange;
+    }
 
+    private void AlignBoxesAnchor()
+    {
         // Align GameArea
-        objects.transform.position = origo.transform.position; 
-        objects.transform.localScale = Vector3.one*0.5f;
-        //objects.transform.position = alignPosition.transform.position; 
-        //objects.transform.localScale = Vector3.one*0.5f;
+        objects.transform.position = origo.transform.position;
+        objects.transform.localScale = Vector3.one * 0.5f;
+    }
+
+    private void AlignSmileyAndCounterIcons()
+    {
 
         // Place smiley at half width of game area
-        mineCount.transform.localPosition = new Vector3(0.5f, smiley.transform.localPosition.y,0);
-        smiley.transform.localPosition = new Vector3(borderAreaRenderer.size.x/2, smiley.transform.localPosition.y,0);
-        timeCount.transform.localPosition = new Vector3(borderAreaRenderer.size.x - 0.5f, smiley.transform.localPosition.y,0);
-
-        SettingsPanel.GameSizeChange += OnPlaySizeChange;
+        mineCount.transform.localPosition = new Vector3(0.5f, smiley.transform.localPosition.y, 0);
+        smiley.transform.localPosition = new Vector3(borderAreaRenderer.size.x / 2, smiley.transform.localPosition.y, 0);
+        timeCount.transform.localPosition = new Vector3(borderAreaRenderer.size.x - 0.5f, smiley.transform.localPosition.y, 0);
     }
 
     private void SizeGameArea()
     {
-
+        Debug.Log("Load Game Size "+SettingsPanel.activeGameSize);  
+        // Load info of current size
         gameWidth = gameSizes[SettingsPanel.activeGameSize].x;
         gameHeight = gameSizes[SettingsPanel.activeGameSize].y;
         totalmines = gameSizes[SettingsPanel.activeGameSize].z;
 
-        Debug.Log("Sizing game area, suing size "+ SettingsPanel.activeGameSize);
-
-        Debug.Log("Create Level");
+        // Set mines array
         mines = new int[gameWidth, gameHeight];
+
+        DefineUnderAndOverBoxes();
+
+        // Set correct size of the border
+        borderAreaRenderer.size = new Vector2(gameWidth / 2f + borderAddon.x, gameHeight / 2f + borderAddon.y);
+
+        // Orthographics reading changes, currently using a fixed size to get correct scaling
+        float cameraWidthUnits = 5.6262f;
+        float scaleNeeded = cameraWidthUnits / borderAreaRenderer.size.x;
+
+        // This scale is calculated but total width for screen is hardcoded
+        playArea.transform.localScale = new Vector3(scaleNeeded, scaleNeeded, 1);
+
+        playArea.transform.position = new Vector3(-borderAreaRenderer.size.x / 2 * playArea.transform.localScale.x, borderAreaRenderer.size.y / 2 * playArea.transform.localScale.y, 0);
+
+        AlignSmileyAndCounterIcons();
+    }
+
+    private void DefineUnderAndOverBoxes()
+    {
+        for (int i = 0; i < underlayBoxes.GetLength(0); i++)
+        {
+            for (int j = 0; j < underlayBoxes.GetLength(1); j++)
+            {
+                Destroy(underlayBoxes[i, j].gameObject);
+                Destroy(overlayBoxes[i, j].gameObject);
+            }
+        }
+
+        // Set new boxes arrays size
         underlayBoxes = new GameBox[gameWidth, gameHeight];
         overlayBoxes = new GameBox[gameWidth, gameHeight];
-
-        // Set the border to correct size
-        borderAreaRenderer.size = new Vector2(gameWidth / 2f + borderAddon.x, gameHeight / 2f + borderAddon.y);
-        Debug.Log("Frame size "+ gameWidth / 2f+" + "+ borderAddon.x+" = "+borderAreaRenderer.size.x);
-        Debug.Log("Frame size "+ gameHeight / 2f+" + "+ borderAddon.y+" = "+borderAreaRenderer.size.y);
-        //borderAreaRenderer.size = new Vector2(gameWidth/2+borderAddon.x, gameHeight/2+borderAddon.y);
-
-        playArea.transform.position = sizePositions[SettingsPanel.activeGameSize];
-        playArea.transform.localScale = new Vector3(sizeScales[SettingsPanel.activeGameSize], sizeScales[SettingsPanel.activeGameSize],1);
 
     }
 
@@ -120,6 +149,7 @@ public class LevelCreator : MonoBehaviour
         RandomizeMines();
         DrawLevel();
         ResetLevel();
+        AlignBoxesAnchor();
         SmileyButton.Instance.ShowNormal();
         Timer.Instance.ResetCounterAndPause();
         WaitForFirstMove = true;
@@ -183,6 +213,8 @@ public class LevelCreator : MonoBehaviour
 
     private void ResetLevel()
     {
+        Debug.Log("Resetting under and over boxes in arrays");
+
         for (int j = 0; j < gameHeight; j++)
         {
             for (int i = 0; i < gameWidth; i++)
@@ -199,20 +231,23 @@ public class LevelCreator : MonoBehaviour
 
     private void DrawLevel()
     {
+        Debug.Log("Creating new under and over boxes in arrays");
         for (int j = 0; j < gameHeight; j++)
         {
             for (int i = 0; i < gameWidth; i++)
             {
-                Vector3 pos = boxHolder.transform.position + new Vector3(i, -j, 0);
+                //Vector3 pos = boxHolder.transform.position + new Vector3(i, -j, 0);
 
                 // Make uncleared
-                GameBox box = Instantiate(unclearedBoxPrefab, align + (pos)* sizeScales[0] , Quaternion.identity, boxHolder.transform);
+                GameBox box = Instantiate(unclearedBoxPrefab, boxHolder.transform);
+                box.transform.localPosition = new Vector3(i, -j, 0)+align;
                 box.Pos = new Vector2Int(i,j);
                 overlayBoxes[i, j] = box;
 
                 //Debug.Log("checking value for "+i+","+j+" = " + mines[i,j]);
                 // Make underlaying
-                GameBox underlayBox = Instantiate(underlayBoxPrefab, align + (pos)* sizeScales[0] , Quaternion.identity, underLaying.transform);
+                GameBox underlayBox = Instantiate(underlayBoxPrefab, underLaying.transform);
+                underlayBox.transform.localPosition = new Vector3(i, -j, 0) + align;
                 underlayBox.Pos = new Vector2Int(i,j);
                 underlayBoxes[i, j] = underlayBox;
                 underlayBox.SetType(mines[i, j]);
@@ -229,15 +264,20 @@ public class LevelCreator : MonoBehaviour
     private void RandomizeMines()
     {
         mineCountAmount = 0;
-        for (int j = 0; j < gameHeight; j++)
+
+        // Place total Mines at random positions A (Get all positions and take one at random)
+
+        int[] allPos = Enumerable.Range(0, gameHeight*gameWidth).ToArray();
+        // Fisher-Yates scramble
+        allPos = FisherYatesScramble(allPos);
+
+        for (int i = 0; i < totalmines; i++)
         {
-            for (int i = 0; i < gameWidth; i++)
-            {
-                mines[i, j] = Random.Range(-1, 1);
-                if (mines[i, j] == -1)
-                    mineCountAmount++;
-            }
+            int row = allPos[i]/gameWidth;
+            int col = allPos[i] % gameWidth;
+            mines[row, col] = -1;
         }
+        mineCountAmount = totalmines;
         // Determine numbers
         for (int j = 0; j < gameHeight; j++)
         {
@@ -247,9 +287,23 @@ public class LevelCreator : MonoBehaviour
                     mines[i, j] = Neighbors(i, j);
             }
         }
-        totalmines = mineCountAmount;
         // Set minecount
         UpdateMineCount();
+    }
+
+    private int[] FisherYatesScramble(int[] allPos)
+    {
+        int n = allPos.Length;
+        for(int i = 0;i < n; i++)
+        {
+            int temp = allPos[i];
+            // Rendom pos
+            int random = Random.Range(0,n);
+            allPos[i] = allPos[random];
+            allPos[random] = temp;
+
+        }
+        return allPos;
     }
 
     private int Neighbors(int iCenter, int jCenter)
