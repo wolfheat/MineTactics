@@ -29,6 +29,10 @@ public class LevelCreator : MonoBehaviour
     //Vector2 borderAddon = new Vector3(0.8f, 1.31f);
     Vector3 borderAlign = new Vector3(0.17f, -0.72f, 0);
 
+    Vector3 boxScale = new Vector3(0.48f, 0.48f, 1f);
+
+    //Vector3 boxScale = new Vector3(0.5882f, 0.5882f, 1f);
+
     [SerializeField] private GameObject smiley;
     [SerializeField] private GameObject mineCount;
     [SerializeField] private GameObject timeCount;
@@ -287,18 +291,17 @@ public class LevelCreator : MonoBehaviour
         {
             for (int i = 0; i < gameWidth; i++)
             {
-                //Vector3 pos = boxHolder.transform.position + new Vector3(i, -j, 0);
-
                 // Make uncleared
                 GameBox box = Instantiate(unclearedBoxPrefab, boxHolder.transform);
                 box.transform.localPosition = new Vector3(i, -j, 0)+align;
+                box.transform.localScale = boxScale;
                 box.Pos = new Vector2Int(i,j);
                 overlayBoxes[i, j] = box;
 
-                //Debug.Log("checking value for "+i+","+j+" = " + mines[i,j]);
                 // Make underlaying
                 GameBox underlayBox = Instantiate(underlayBoxPrefab, underLaying.transform);
                 underlayBox.transform.localPosition = new Vector3(i, -j, 0) + align;
+                underlayBox.transform.localScale = boxScale;
                 underlayBox.Pos = new Vector2Int(i,j);
                 underlayBoxes[i, j] = underlayBox;
                 underlayBox.SetType(mines[i, j]);
