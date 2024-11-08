@@ -29,8 +29,6 @@ Nov 2024
 		* Added fail safe start, no mines at first click
 
 
-		// Make first pick not be a mine
-		
 		// Scale is set by hardcoding, instead make it follow screen size
 
 		// Make setting new level size update underlaying and overlaying to correct amount. Recreate all?

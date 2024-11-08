@@ -270,6 +270,7 @@ public class LevelCreator : MonoBehaviour
 
     private void SwapAndRecalculateLevel(Vector2Int pos)
     {
+        Debug.Log("Mine at first click swap "+pos+" for "+swapBox);
         mines[pos.x, pos.y] = 0;
         mines[swapBox.x, swapBox.y] = -1;
 
