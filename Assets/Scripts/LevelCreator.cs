@@ -198,11 +198,11 @@ public class LevelCreator : MonoBehaviour
             underlayBoxes[pos.x, pos.y].MakeInteractable();
             overlayBoxes[pos.x,pos.y].RemoveAndSetUnderActive();
             opened++;
-            // If last opened is a number check if game is cleared?
-            if (opened == totalToOpen)
-            {
-                WinLevel();                
-            }
+        }
+        // If last opened is a number check if game is cleared?
+        if (opened == totalToOpen)
+        {
+            WinLevel();                
         }
         return true;
     }
@@ -233,7 +233,7 @@ public class LevelCreator : MonoBehaviour
         // Pause the timer
         Timer.Instance.Pause();
 
-        Debug.Log("Win Level");
+        Debug.Log("Win Level "+Timer.TimeElapsed);
         // Go through all mines and flagg all un-flagged 
         for (int j = 0; j < gameHeight; j++)
         {

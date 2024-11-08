@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Timer : MonoBehaviour
@@ -8,6 +9,7 @@ public class Timer : MonoBehaviour
     public bool Paused { get; set; }
 
     public static Timer Instance { get; private set; }
+    public static float TimeElapsed { get; private set; }
 
     private void Awake()
     {
@@ -38,9 +40,9 @@ public class Timer : MonoBehaviour
     {
         if (Paused) return;
 
-        float timeElapsed = Time.time - startTime;
+        TimeElapsed = Time.time - startTime;
 
-        int seconds = (int)timeElapsed;
+        int seconds = (int)TimeElapsed;
 
         if (seconds != lastValue)
         {
