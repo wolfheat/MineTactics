@@ -1,6 +1,8 @@
 using System.Linq;
+using System.Text;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class LevelCreator : MonoBehaviour
@@ -80,6 +82,7 @@ public class LevelCreator : MonoBehaviour
         */
         // Add size change listener
         SettingsPanel.GameSizeChange += OnPlaySizeChange;
+        Inputs.Instance.Controls.Main.S.performed += OnRequestSaveLevel;
     }
 
     private void AlignBoxesAnchor()
@@ -141,6 +144,28 @@ public class LevelCreator : MonoBehaviour
         underlayBoxes = new GameBox[gameWidth, gameHeight];
         overlayBoxes = new GameBox[gameWidth, gameHeight];
 
+    }
+
+    public void OnRequestSaveLevel(InputAction.CallbackContext context)
+    {
+        Debug.Log("Saving Level requested");
+
+        int amt = 14;
+        char first = (char)('A' + (amt - 26));
+        char second = (char)('a' + amt);
+        Debug.Log("First = "+first+" second = "+second);
+        StringBuilder sb = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
+        sb2.Append(first+second);
+        sb.Append(first);
+        sb.Append(second);
+        Debug.Log("Sb string = " +sb.ToString()+" other = "+sb2.ToString());
+
+
+
+
+        string compressed = SavingLoadingConverter.ComressToString(SavingLoadingConverter.LevelToChar2DArray(mines,overlayBoxes));
+        Debug.Log("Saving Level completed");
     }
 
     public void OnPlaySizeChange()
