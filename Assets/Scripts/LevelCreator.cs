@@ -304,13 +304,15 @@ public class LevelCreator : MonoBehaviour
 
         UpdateNumbers();
 
-        // Set minecount
-        UpdateMineCount();
+
         // Generate numbers
         Debug.Log("Mines set to flagged positions, Numbers updated");
         EditMode = false;
         EditModeB = true; // Fix this to Use same state machine?
 
+        // Set minecount
+        mineCountAmount = 0;
+        UpdateMineCount();
 
         BackgroundController.Instance.SetColorEditModeB();
     }
@@ -741,9 +743,32 @@ public class LevelCreator : MonoBehaviour
 
     internal void UpdateMineCount()
     {
+        if (EditMode)
+        {
+            Debug.Log("Edit Mode Update flagged Mines to show mine count");
+            //Show Mines Total
+            mineDisplay.ShowValue(TotalFlaggedMines());
+            return;
+        }
         //Debug.Log("Showing minecount "+mineCountAmount);
         // Set minecount
         mineDisplay.ShowValue(mineCountAmount);
+    }
+
+    private int TotalFlaggedMines()
+    {
+        int flagged = 0;
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+                
+                if(overlayBoxes[i, j].Marked)
+                    flagged++;
+            }
+        }
+        Debug.Log("Flagged amount = "+flagged);
+        return flagged;
     }
 
     internal bool IsMine(Vector2Int pos)

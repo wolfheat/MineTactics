@@ -42,8 +42,7 @@ Nov 2024
 		* Added Submit function for created Levels
 		* Loading unexisting Levels prohibited
 		* Exiting/Canceling Edit Mode now Closes the Menues and Exits Edit Mode, Loads Random Level, Maybe have a unloaded phase instead
-
-		* Fix mine amount shown in edit mode. Edit Mode 1 should show total mines regardless of flaggs (all are flagged) Edit Mode B shoud show Unlagged mines
+		* Fixed mine amount shown in edit mode. Edit Mode 1 should show total mines regardless of flaggs (all are flagged) Edit Mode B shoud show Unflagged mines
 
 
 		* Make Unloaded basic Mode where player choses when to load a new level.

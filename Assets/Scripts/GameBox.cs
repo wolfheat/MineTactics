@@ -109,8 +109,11 @@ public class GameBox : MonoBehaviour
         
         Debug.Log("Clicking Box in Editmode B, at a mine swap for a tinted mine hidden = "+hidden);
 
-        if (LevelCreator.Instance.EditMode || LevelCreator.Instance.EditModeB)
+        if (LevelCreator.Instance.EditMode)
+        {
+            LevelCreator.Instance.UpdateMineCount();
             return; // Breaks if in edit mode and placing Mines
+        }
         if(!Marked)
             LevelCreator.Instance.IncreaseMineCount();
         else
