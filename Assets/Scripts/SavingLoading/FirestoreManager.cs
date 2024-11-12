@@ -42,6 +42,7 @@ public class FirestoreManager : MonoBehaviour
 
     public void Load(string id)
     {
+        Debug.Log("Firestore Manager Loading Level "+id);
         // The string in read from database
         db.Collection("Levels").Document(id).GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
@@ -53,6 +54,12 @@ public class FirestoreManager : MonoBehaviour
             else if (task.IsCompleted)
             {
                 Debug.Log("Loading Recieved Result");
+                if(!task.Result.Exists)
+                {
+                    Debug.Log("A Level with ID: "+id+" Does not exist in the Database. Loading Aborted");
+                    return;
+                }
+
                 Dictionary<string, object> dict = task.Result.ToDictionary();
                 string level = dict["val"].ToString();
                 //var snapshot = task.Result[0];
@@ -63,12 +70,12 @@ public class FirestoreManager : MonoBehaviour
         });
     }
     
-    public void Store(string val)
+    public void Store(string val, string levelName)
     {
         // The string in val is written to the database
         //DocumentReference docRef = db.Collection("Levels").Document("ID1");
         //docRef.SetAsync(new Dictionary<string, string> {{ "val", val }}).ContinueWithOnMainThread(task =>
-        db.Collection("Levels").Document("ID1").SetAsync(new Dictionary<string, string> {{ "val", val }}).ContinueWithOnMainThread(task =>
+        db.Collection("Levels").Document(levelName).SetAsync(new Dictionary<string, string> {{ "val", val }}).ContinueWithOnMainThread(task =>
         {
             Debug.Log("Updated Level info");
 

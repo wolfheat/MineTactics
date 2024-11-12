@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameBox : MonoBehaviour
@@ -13,6 +12,7 @@ public class GameBox : MonoBehaviour
     [SerializeField] Sprite markedSprite;
     [SerializeField] Sprite unmarkedSprite;
     [SerializeField] Sprite wrongFlagSprite;
+    [SerializeField] Sprite hiddenMineSprite;
     [SerializeField] Sprite[] cleared;
     [SerializeField] Collider2D boxCollider;
 
@@ -48,10 +48,15 @@ public class GameBox : MonoBehaviour
 
     internal void Click()
     {
-        Debug.Log("Clickign Box");
+        Debug.Log("Clicking Box value = "+value);
+
         if (LevelCreator.Instance.EditMode)
         {
             LevelCreator.Instance.OpenBox(Pos);
+            return;
+        }else if (LevelCreator.Instance.EditModeB && LevelCreator.Instance.IsMine(Pos))
+        {
+            RightClick(true);
             return;
         }
         if (value > 0)
@@ -94,14 +99,17 @@ public class GameBox : MonoBehaviour
         spriteRenderer.sprite = markedSprite;
         LevelCreator.Instance.DecreaseMineCount();
     }
-    
-    internal void RightClick()
+
+    internal void RightClick(bool hidden = false)
     {
+        Debug.Log("Clicking this box at "+Pos+" mark or demark as mine value ="+value);
         if (value > 0) return;
-        Debug.Log("Clicking this box at "+Pos+" mark or demark as mine");
         Marked = !Marked;
-        spriteRenderer.sprite = Marked ? markedSprite : unmarkedSprite;
-        if (LevelCreator.Instance.EditMode)
+        spriteRenderer.sprite = Marked ? markedSprite : (hidden?hiddenMineSprite:unmarkedSprite);
+        
+        Debug.Log("Clicking Box in Editmode B, at a mine swap for a tinted mine hidden = "+hidden);
+
+        if (LevelCreator.Instance.EditMode || LevelCreator.Instance.EditModeB)
             return; // Breaks if in edit mode and placing Mines
         if(!Marked)
             LevelCreator.Instance.IncreaseMineCount();

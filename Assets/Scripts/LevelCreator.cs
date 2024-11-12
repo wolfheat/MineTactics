@@ -107,7 +107,7 @@ public class LevelCreator : MonoBehaviour
     }
 
     
-    private void SizeGameArea(bool sizeFromSettings = true)
+    private void SizeGameArea(bool sizeFromSettings = true,bool resetMines = true)
     {
 
         if (sizeFromSettings)
@@ -119,7 +119,8 @@ public class LevelCreator : MonoBehaviour
             totalmines = gameSizes[SettingsPanel.activeGameSize].z;
 
             // Set mines array
-            mines = new int[gameWidth, gameHeight];
+            if(resetMines)
+                mines = new int[gameWidth, gameHeight];
         }else
             Debug.Log("Sizing game Area from Loaded File instead of settings");
 
@@ -161,23 +162,36 @@ public class LevelCreator : MonoBehaviour
     {
         Debug.Log("Saving Level requested");
 
+        SaveLevel();
+
+        BackgroundController.Instance.SetColorNormal();
+
+    }
+
+    private void SaveLevel(string levelName="L01")
+    {
         (int[,] charArray, string pre) = SavingLoadingConverter.LevelTo2DArray(mines, overlayBoxes);
         string compressed = SavingLoadingConverter.ComressToString(charArray, pre);
         Debug.Log("Saving Level completed, send to firebase firestore");
-        FirestoreManager.Instance.Store(compressed);
+        FirestoreManager.Instance.Store(compressed,levelName);
         Debug.Log("Saved Level sent");
-
     }
-    
+
     public void OnRequestLoadLevel(InputAction.CallbackContext context)
     {
         Debug.Log("Loading Level requested");
         LoadRandomLevel();
     }
+    public void CancelEditMode()
+    {
+        EditMode = false;
+        EditModeB = false;
+    }
     public void LoadRandomLevel()
     {
         Debug.Log("Loading Level requested");
-        FirestoreManager.Instance.Load("ID1");
+        FirestoreManager.Instance.Load("L02");
+        BackgroundController.Instance.SetColorNormal();
     }
 
 
@@ -238,6 +252,43 @@ public class LevelCreator : MonoBehaviour
         UpdateMineCount();
     }
 
+    public void OnSubmitLevel()
+    {
+        Debug.Log("Requests to Submit Level to Database");
+        SaveLevel("L02");
+    }
+
+    public void OnCreateBack()
+    {
+        Debug.Log("Create Back");
+        // Unload All but mines
+
+        OnToggleCreate(false);
+
+        totalmines = 0;
+        mineCountAmount = 0;
+
+        // Flag all Mines
+        FlagAllMines();
+
+        
+
+        BackgroundController.Instance.SetColorEditMode();
+    }
+
+    private void FlagAllMines()
+    {
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+                // Make uncleared
+                if (mines[i, j] == -1)
+                    overlayBoxes[i, j].Mark();
+            }
+        }
+    }
+
     public void OnCreateNext()
     {
         // Step into opening/flagging mode
@@ -250,12 +301,34 @@ public class LevelCreator : MonoBehaviour
         // TODO Figure out why Numbers are not added correctly
 
         DetermineNumbersFromNeighbors();
+
+        UpdateNumbers();
+
         // Set minecount
         UpdateMineCount();
         // Generate numbers
         Debug.Log("Mines set to flagged positions, Numbers updated");
         EditMode = false;
         EditModeB = true; // Fix this to Use same state machine?
+
+
+        BackgroundController.Instance.SetColorEditModeB();
+    }
+
+    private void UpdateNumbers()
+    {
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+                // Make uncleared
+                if (mines[i, j] != -1)
+                {
+                    underlayBoxes[i, j].SetType(mines[i,j]);
+                }
+            }
+        }
+
     }
 
     private void SetMinesFromFlags()
@@ -266,17 +339,20 @@ public class LevelCreator : MonoBehaviour
             {
                 // Make uncleared
                 if (overlayBoxes[i, j].Marked)
+                {
+                    Debug.Log("Mine at "+i+","+j+" since its marked");
                     mines[i, j] = -1;
+                }
             }
         }
     }
 
-    public void OnToggleCreate()
+    public void OnToggleCreate(bool resetMines = true)
     {
         Debug.Log("Create Toggle requested");
 
         // Create empty board
-        SizeGameArea(); // Sizes and set empty game
+        SizeGameArea(true,resetMines); // Sizes and set empty game
 
         // Go into Edit mode here - no counter - No normal fail on click
         EditMode = true;
@@ -292,6 +368,8 @@ public class LevelCreator : MonoBehaviour
         SmileyButton.Instance.ShowNormal();
         Timer.Instance.ResetCounterAndPause();
         WaitForFirstMove = false;
+
+        BackgroundController.Instance.SetColorEditMode();
     }
 
     public void OnPlaySizeChange()
@@ -522,8 +600,10 @@ public class LevelCreator : MonoBehaviour
         {
             for (int i = 0; i < gameWidth; i++)
             {
-                if (mines[i, j] != -1)
+                if (mines[i, j] != -1) {
                     mines[i, j] = Neighbors(i, j);
+                    Debug.Log("Neighbor for "+i+","+j+" = " + mines[i,j]);
+                }
             }
         }
     }
@@ -664,5 +744,10 @@ public class LevelCreator : MonoBehaviour
         //Debug.Log("Showing minecount "+mineCountAmount);
         // Set minecount
         mineDisplay.ShowValue(mineCountAmount);
+    }
+
+    internal bool IsMine(Vector2Int pos)
+    {
+        return mines[pos.x, pos.y] == -1;
     }
 }

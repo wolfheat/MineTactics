@@ -38,8 +38,21 @@ Nov 2024
 		* Comfirmed that Amount above 26 is converted correctly.
 		* GitIgnored Firebase files
 		* Edit mode created - First Flagging of Mines - Next goes to Open and unflagg mode (SHow unflagged as faded mines?)
+12/11	* Second step of Creation added, Mines can be deactivated but still shows with tinted mine sprite
+		* Added Submit function for created Levels
+		* Loading unexisting Levels prohibited
+		* Exiting/Canceling Edit Mode now Closes the Menues and Exits Edit Mode, Loads Random Level, Maybe have a unloaded phase instead
 
-		* Enable ability to Open Boxes at Unflagg/Open edit mode part
+		* Fix mine amount shown in edit mode. Edit Mode 1 should show total mines regardless of flaggs (all are flagged) Edit Mode B shoud show Unlagged mines
+
+
+		* Make Unloaded basic Mode where player choses when to load a new level.
+		* Have popup with level results and a button to go to next Level or To Basic unloaded mode?
+
+		* Have player be able to go back to placing mines (Edit Mode A) from Edit Mode B
+
+		* Make Create Button be a cancel button that ends edit Mode
+		* Add Error message popup when loading unexisting level
 
 		// Maybe have different background when in Edit Mode?
 

@@ -44,6 +44,10 @@ PrefabInstance:
       propertyPath: wrongFlagSprite
       value: 
       objectReference: {fileID: -294862322, guid: bacfa614e2371ed42b6ff2c9b48e5469, type: 3}
+    - target: {fileID: 3042822078531655289, guid: 6c0fefd7ec8b7c14d8d0cb222f607c6e, type: 3}
+      propertyPath: hiddenMineSprite
+      value: 
+      objectReference: {fileID: -1917983664, guid: bacfa614e2371ed42b6ff2c9b48e5469, type: 3}
     - target: {fileID: 5670407899125236826, guid: 6c0fefd7ec8b7c14d8d0cb222f607c6e, type: 3}
       propertyPath: m_RootOrder
       value: 0
