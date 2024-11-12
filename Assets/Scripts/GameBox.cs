@@ -48,9 +48,14 @@ public class GameBox : MonoBehaviour
 
     internal void Click()
     {
-        if(value > 0)
+        Debug.Log("Clickign Box");
+        if (LevelCreator.Instance.EditMode)
         {
-            //Debug.Log("This is a number, chard?");
+            LevelCreator.Instance.OpenBox(Pos);
+            return;
+        }
+        if (value > 0)
+        {
             Chord();
             return;
         }
@@ -96,6 +101,8 @@ public class GameBox : MonoBehaviour
         Debug.Log("Clicking this box at "+Pos+" mark or demark as mine");
         Marked = !Marked;
         spriteRenderer.sprite = Marked ? markedSprite : unmarkedSprite;
+        if (LevelCreator.Instance.EditMode)
+            return; // Breaks if in edit mode and placing Mines
         if(!Marked)
             LevelCreator.Instance.IncreaseMineCount();
         else

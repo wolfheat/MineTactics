@@ -56,6 +56,7 @@ public class LevelCreator : MonoBehaviour
 
     public static LevelCreator Instance { get; private set; }
     public bool WaitForFirstMove { get; private set; } = true;
+    public bool EditMode { get; set; } = false;
 
     int[,] mines;
     GameBox[,] underlayBoxes = new GameBox[0,0];
@@ -170,9 +171,15 @@ public class LevelCreator : MonoBehaviour
     public void OnRequestLoadLevel(InputAction.CallbackContext context)
     {
         Debug.Log("Loading Level requested");
-
+        LoadRandomLevel();
+    }
+    public void LoadRandomLevel()
+    {
+        Debug.Log("Loading Level requested");
         FirestoreManager.Instance.Load("ID1");
     }
+
+
     public void OnLoadLevelComplete(string compressed)
     {
         Debug.Log("Recieved compressed level from database: "+compressed);
@@ -230,6 +237,58 @@ public class LevelCreator : MonoBehaviour
         UpdateMineCount();
     }
 
+    public void OnCreateNext()
+    {
+        // Step into opening/flagging mode
+        // Change button to Submit // Have a reset?
+        Debug.Log("Step Into Open / Flag mode");
+
+        // Define Mines from flags
+        SetMinesFromFlags(); 
+        DetermineNumbersFromNeighbors();
+        // Set minecount
+        UpdateMineCount();
+        // Generate numbers
+        Debug.Log("Mines set to flagged positions, Numbers updated");
+        EditMode = false;
+    }
+
+    private void SetMinesFromFlags()
+    {
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+                // Make uncleared
+                if (overlayBoxes[i, j].Marked)
+                    mines[i, j] = -1;
+            }
+        }
+    }
+
+    public void OnToggleCreate()
+    {
+        Debug.Log("Create Toggle requested");
+
+        // Create empty board
+        SizeGameArea(); // Sizes and set empty game
+
+        // Go into Edit mode here - no counter - No normal fail on click
+        EditMode = true;
+
+        // Clicks adds mines
+        // After clicking Next go to Opening tiles or flag(if mine)
+        // After next Add Gold Squares if using them or send the level 
+        DrawLevel();
+        ResetLevel();
+        totalmines = 0;
+        mineCountAmount = 0;
+        AlignBoxesAnchor();
+        SmileyButton.Instance.ShowNormal();
+        Timer.Instance.ResetCounterAndPause();
+        WaitForFirstMove = false;
+    }
+
     public void OnPlaySizeChange()
     {
         Debug.Log("Play size changed, update game area");
@@ -251,6 +310,12 @@ public class LevelCreator : MonoBehaviour
 
     public bool OpenBox(Vector2Int pos)
     {
+        Debug.Log("Open Box "+pos);
+        if (EditMode)
+        {
+            OpenBoxEditMode(pos);
+            return true;
+        }
         //Debug.Log("Open box "+pos);
         if (WaitForFirstMove)
         {
@@ -301,6 +366,15 @@ public class LevelCreator : MonoBehaviour
             WinLevel();                
         }
         return true;
+    }
+
+    private void OpenBoxEditMode(Vector2Int pos)
+    {
+        Debug.Log("Toggle Edit Mode Mine "+pos);    
+        
+        // Toggle Mine
+        mines[pos.x, pos.y] = mines[pos.x, pos.y] == -1?0:-1;
+        overlayBoxes[pos.x, pos.y].RightClick();
     }
 
     private void BustLevel()

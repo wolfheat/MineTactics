@@ -3,7 +3,7 @@ Nov 2024
 
 * IDEAS
 - Make a Mine tactics game/program that lets the player practice different patterns and get a ELO rating that impacts the levels etc.
-- Maybe have some monetization with ads , maybe make it for phones
+- Maybe have some monetization with ads make it for phones
 - maybe have the minimal game board needed to define each pattern.
 
 
@@ -36,15 +36,20 @@ Nov 2024
 		* 
 11/11	* Added Transpose and Rotation at random when loading
 		* Comfirmed that Amount above 26 is converted correctly.
+		* GitIgnored Firebase files
+		* Edit mode created - First Flagging of Mines - Next goes to Open and unflagg mode (SHow unflagged as faded mines?)
 
 
+		// Maybe have different background when in Edit Mode?
 
-		// Figure out more exaclty how to deal with player ratings and levels ratings.
+		// Make create mode that places mines and starts level and request send to database when satisfied
+
+		// Figure out more exactly how to deal with player ratings and levels ratings.
 		// Have a limit for levels for them to count towards rating? How to set this range?
 		// HAve categories for levels depending on logic? How to handle this, how to handle multiple logics?
 		// Should player have different strengths in diffrent logics and unlocking new ones? Prob not. Just have harder levels not appear for new users
 		// How to monitize? Have unlock fee / buying game remove all ads and for rest have x amount of free games before require ad for continueation / or wait.
-		// PLayers need to log on, implement Facebook/googleaccount/email login?
+		// Players need to log on, implement Facebook/googleaccount/email login?
 
 
 
