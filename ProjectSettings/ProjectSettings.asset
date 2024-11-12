@@ -153,7 +153,9 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Android: com.WolfheatProduction.MineTactics
+    iPhone: com.WolfheatProduction.MineTactics
   buildNumber:
     Bratwurst: 0
     Standalone: 0

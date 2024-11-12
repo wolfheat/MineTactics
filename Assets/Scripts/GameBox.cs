@@ -17,6 +17,7 @@ public class GameBox : MonoBehaviour
     [SerializeField] Collider2D boxCollider;
 
 
+    public bool Active => boxCollider.enabled;
     public bool Marked { get; set; } = false;
     public bool Busted { get; set; } = false;
     private void Start()
@@ -49,13 +50,13 @@ public class GameBox : MonoBehaviour
     {
         if(value > 0)
         {
-            Debug.Log("This is a number, chard?");
-            Chard();
+            //Debug.Log("This is a number, chard?");
+            Chord();
             return;
         }
         if (Marked)
             return;
-        Debug.Log("Clicking this box at "+Pos+" notice Levelcreator to respond accordingly");
+        //Debug.Log("Clicking this box at "+Pos+" notice Levelcreator to respond accordingly");
         if (LevelCreator.Instance.OpenBox(Pos))
         {
             //RemoveAndSetUnderActive();
@@ -74,7 +75,7 @@ public class GameBox : MonoBehaviour
         transform.gameObject.SetActive(false);
     }
 
-    private void Chard()
+    private void Chord()
     {
         LevelCreator.Instance.Chord(Pos);
     }

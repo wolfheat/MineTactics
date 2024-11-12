@@ -3,6 +3,7 @@ using System.Text;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.PlayerSettings;
 using Random = UnityEngine.Random;
 
 public class LevelCreator : MonoBehaviour
@@ -83,6 +84,8 @@ public class LevelCreator : MonoBehaviour
         // Add size change listener
         SettingsPanel.GameSizeChange += OnPlaySizeChange;
         Inputs.Instance.Controls.Main.S.performed += OnRequestSaveLevel;
+        Inputs.Instance.Controls.Main.L.performed += OnRequestLoadLevel;
+        FirestoreManager.LoadComplete += OnLoadLevelComplete;
     }
 
     private void AlignBoxesAnchor()
@@ -101,16 +104,22 @@ public class LevelCreator : MonoBehaviour
         timeCount.transform.localPosition = new Vector3(borderAreaRenderer.size.x - 0.5f, smiley.transform.localPosition.y, 0);
     }
 
-    private void SizeGameArea()
+    
+    private void SizeGameArea(bool sizeFromSettings = true)
     {
-        Debug.Log("Load Game Size "+SettingsPanel.activeGameSize);  
-        // Load info of current size
-        gameWidth = gameSizes[SettingsPanel.activeGameSize].x;
-        gameHeight = gameSizes[SettingsPanel.activeGameSize].y;
-        totalmines = gameSizes[SettingsPanel.activeGameSize].z;
 
-        // Set mines array
-        mines = new int[gameWidth, gameHeight];
+        if (sizeFromSettings)
+        {
+            Debug.Log("Load Game Size "+SettingsPanel.activeGameSize);  
+            // Load info of current size
+            gameWidth = gameSizes[SettingsPanel.activeGameSize].x;
+            gameHeight = gameSizes[SettingsPanel.activeGameSize].y;
+            totalmines = gameSizes[SettingsPanel.activeGameSize].z;
+
+            // Set mines array
+            mines = new int[gameWidth, gameHeight];
+        }else
+            Debug.Log("Sizing game Area from Loaded File instead of settings");
 
         DefineUnderAndOverBoxes();
 
@@ -150,22 +159,75 @@ public class LevelCreator : MonoBehaviour
     {
         Debug.Log("Saving Level requested");
 
-        int amt = 14;
-        char first = (char)('A' + (amt - 26));
-        char second = (char)('a' + amt);
-        Debug.Log("First = "+first+" second = "+second);
-        StringBuilder sb = new StringBuilder();
-        StringBuilder sb2 = new StringBuilder();
-        sb2.Append(first+second);
-        sb.Append(first);
-        sb.Append(second);
-        Debug.Log("Sb string = " +sb.ToString()+" other = "+sb2.ToString());
+        (int[,] charArray, string pre) = SavingLoadingConverter.LevelTo2DArray(mines, overlayBoxes);
+        string compressed = SavingLoadingConverter.ComressToString(charArray, pre);
+        Debug.Log("Saving Level completed, send to firebase firestore");
+        FirestoreManager.Instance.Store(compressed);
+        Debug.Log("Saved Level sent");
+
+    }
+    
+    public void OnRequestLoadLevel(InputAction.CallbackContext context)
+    {
+        Debug.Log("Loading Level requested");
+
+        FirestoreManager.Instance.Load("ID1");
+    }
+    public void OnLoadLevelComplete(string compressed)
+    {
+        Debug.Log("Recieved compressed level from database: "+compressed);
+        string deCompressed = SavingLoadingConverter.UnComressString(compressed);
+        (int[,] newMines, int[,] gameLoaded,int newgameWidth,int newgameHeight,int newtotalmines) = SavingLoadingConverter.StringLevelToGameArray(deCompressed);
+        gameHeight = newgameHeight;
+        gameWidth = newgameWidth;
+        totalmines = newtotalmines;
+        mines = newMines;
+        LoadGame(gameLoaded);
+    }
 
 
+    internal void LoadGame(int[,] gameLoaded)
+    {
+        SizeGameArea(false);
+        DetermineNumbersFromNeighbors();
+        DrawLevel();
+        AlignBoxesAnchor();
 
+        // Pre open and flag
+        PreOpenAndFlag(gameLoaded);
 
-        string compressed = SavingLoadingConverter.ComressToString(SavingLoadingConverter.LevelToChar2DArray(mines,overlayBoxes));
-        Debug.Log("Saving Level completed");
+        // Smiley set to Normal
+        SmileyButton.Instance.ShowNormal();
+
+        // Start game and open all preopened and flag flagged
+        Timer.Instance.StartTimer(); // starts the timer
+
+        // Players first click should count in this game mode
+        WaitForFirstMove = false;
+    }
+
+    private void PreOpenAndFlag(int[,] gameLoaded)
+    {
+        TotalMines();
+        Debug.Log("Open correct Boxes");
+        // Go through all mines and flagg all un-flagged 
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+                //Debug.Log("gameLoaded["+i+","+j+"] = "+ gameLoaded[i, j]);
+                if (gameLoaded[i,j]==2)
+                    overlayBoxes[i, j].Mark();
+                else if (gameLoaded[i, j] == 3)
+                {
+                    overlayBoxes[i, j].RemoveAndSetUnderActive();
+                    underlayBoxes[i, j].MakeInteractable();
+                    opened++;
+                }
+            }
+        }
+
+        UpdateMineCount();
     }
 
     public void OnPlaySizeChange()
@@ -189,6 +251,7 @@ public class LevelCreator : MonoBehaviour
 
     public bool OpenBox(Vector2Int pos)
     {
+        //Debug.Log("Open box "+pos);
         if (WaitForFirstMove)
         {
             //Start the timer
@@ -202,34 +265,38 @@ public class LevelCreator : MonoBehaviour
             }
 
         }
+        if (Timer.Instance.Paused)
+        {
+            Debug.Log("Timer Paused skip");
+        }
         // If allready open skip
-        if (!overlayBoxes[pos.x, pos.y].gameObject.activeSelf)
-            return false;
+        //if (!overlayBoxes[pos.x, pos.y].Active)
+        
 
-        Debug.Log("Opening pos "+pos+" total opened = "+opened+"/"+totalToOpen);
+        //Debug.Log("Opening pos "+pos+" total opened = "+opened+"/"+totalToOpen);
         if (mines[pos.x, pos.y] == -1)
         {
-            Debug.Log("Bust");
+            //Debug.Log("Bust");
             overlayBoxes[pos.x, pos.y].Bust();
             BustLevel();
             return false;
         }
         if(mines[pos.x, pos.y] == 0)
         {
-            Debug.Log("Opening");
+            //Debug.Log("Opening");
             overlayBoxes[pos.x, pos.y].RemoveAndSetUnderActive();
             opened++;
-            OpenAllNeighbord(pos);
+            OpenAllNeighbors(pos);
         }
         else
         {
-            Debug.Log("Number ");
+            //Debug.Log("Number ");
             underlayBoxes[pos.x, pos.y].MakeInteractable();
             overlayBoxes[pos.x,pos.y].RemoveAndSetUnderActive();
             opened++;
         }
         // If last opened is a number check if game is cleared?
-        if (opened == totalToOpen)
+        if (opened == totalToOpen && !Timer.Instance.Paused)
         {
             WinLevel();                
         }
@@ -330,6 +397,8 @@ public class LevelCreator : MonoBehaviour
                 underlayBox.Pos = new Vector2Int(i,j);
                 underlayBoxes[i, j] = underlayBox;
                 underlayBox.SetType(mines[i, j]);
+                if(i==3 && j== 3)
+                    Debug.Log("Setting UnderLayBox to "+ mines[i, j]);
             }
         }
         Timer.Instance.Pause();
@@ -346,22 +415,29 @@ public class LevelCreator : MonoBehaviour
 
         // Place total Mines at random positions A (Get all positions and take one at random)
 
-        int[] allPos = Enumerable.Range(0, gameHeight*gameWidth).ToArray();
+        int[] allPos = Enumerable.Range(0, gameHeight * gameWidth).ToArray();
         // Fisher-Yates scramble
         allPos = FisherYatesScramble(allPos);
         int row = allPos[allPos.Length - 1] / gameWidth;
         int col = allPos[allPos.Length - 1] % gameWidth;
-        swapBox = new Vector2Int(row,col);
+        swapBox = new Vector2Int(row, col);
 
 
         for (int i = 0; i < totalmines; i++)
         {
-            row = allPos[i]/gameWidth;
+            row = allPos[i] / gameWidth;
             col = allPos[i] % gameWidth;
             mines[row, col] = -1;
         }
         mineCountAmount = totalmines;
-        totalToOpen = gameWidth*gameHeight-totalmines;
+        totalToOpen = gameWidth * gameHeight - totalmines;
+        DetermineNumbersFromNeighbors();
+        // Set minecount
+        UpdateMineCount();
+    }
+
+    private void DetermineNumbersFromNeighbors()
+    {
         // Determine numbers
         for (int j = 0; j < gameHeight; j++)
         {
@@ -371,8 +447,6 @@ public class LevelCreator : MonoBehaviour
                     mines[i, j] = Neighbors(i, j);
             }
         }
-        // Set minecount
-        UpdateMineCount();
     }
 
     private int[] FisherYatesScramble(int[] allPos)
@@ -436,12 +510,12 @@ public class LevelCreator : MonoBehaviour
         if (Chordable(pos))
         {
             Debug.Log("Chardable");
-            OpenAllNeighbord(pos);
+            OpenAllNeighbors(pos);
         }else
             Debug.Log("Not Chardable");
     }
 
-    private void OpenAllNeighbord(Vector2Int pos)
+    private void OpenAllNeighbors(Vector2Int pos)
     {
         int iCenter = pos.x;
         int jCenter = pos.y;
@@ -455,7 +529,10 @@ public class LevelCreator : MonoBehaviour
                 if (i < 0 || j < 0 || i >= gameWidth || j >= gameHeight)
                     continue;
                 if (overlayBoxes[i, j].gameObject.activeSelf && !overlayBoxes[i, j].Marked)
+                {
+                    //Debug.Log("Opening overlayBox ["+i+","+j+"] since it is active");
                     OpenBox(new Vector2Int(i,j));
+                }
             }
         }
     }
@@ -487,6 +564,7 @@ public class LevelCreator : MonoBehaviour
 
     internal void TotalMines()
     {
+        totalToOpen = gameWidth * gameHeight - totalmines;
         mineCountAmount = totalmines;
         opened = 0;
     }
@@ -504,7 +582,7 @@ public class LevelCreator : MonoBehaviour
 
     internal void UpdateMineCount()
     {
-        Debug.Log("Showing minecount "+mineCountAmount);
+        //Debug.Log("Showing minecount "+mineCountAmount);
         // Set minecount
         mineDisplay.ShowValue(mineCountAmount);
     }

@@ -53,6 +53,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""L"",
+                    ""type"": ""Button"",
+                    ""id"": ""1b8b858a-8034-4fb1-a9d3-56e39f85cd2a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -88,6 +97,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""S"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c8468f22-f9be-482b-9b12-55d186784c3e"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""L"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -99,6 +119,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Main_Mouse = m_Main.FindAction("Mouse", throwIfNotFound: true);
         m_Main_RMouse = m_Main.FindAction("RMouse", throwIfNotFound: true);
         m_Main_S = m_Main.FindAction("S", throwIfNotFound: true);
+        m_Main_L = m_Main.FindAction("L", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -163,6 +184,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Main_Mouse;
     private readonly InputAction m_Main_RMouse;
     private readonly InputAction m_Main_S;
+    private readonly InputAction m_Main_L;
     public struct MainActions
     {
         private @Controls m_Wrapper;
@@ -170,6 +192,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Mouse => m_Wrapper.m_Main_Mouse;
         public InputAction @RMouse => m_Wrapper.m_Main_RMouse;
         public InputAction @S => m_Wrapper.m_Main_S;
+        public InputAction @L => m_Wrapper.m_Main_L;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -188,6 +211,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @S.started += instance.OnS;
             @S.performed += instance.OnS;
             @S.canceled += instance.OnS;
+            @L.started += instance.OnL;
+            @L.performed += instance.OnL;
+            @L.canceled += instance.OnL;
         }
 
         private void UnregisterCallbacks(IMainActions instance)
@@ -201,6 +227,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @S.started -= instance.OnS;
             @S.performed -= instance.OnS;
             @S.canceled -= instance.OnS;
+            @L.started -= instance.OnL;
+            @L.performed -= instance.OnL;
+            @L.canceled -= instance.OnL;
         }
 
         public void RemoveCallbacks(IMainActions instance)
@@ -223,5 +252,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnMouse(InputAction.CallbackContext context);
         void OnRMouse(InputAction.CallbackContext context);
         void OnS(InputAction.CallbackContext context);
+        void OnL(InputAction.CallbackContext context);
     }
 }

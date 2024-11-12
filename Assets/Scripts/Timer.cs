@@ -23,6 +23,7 @@ public class Timer : MonoBehaviour
 
     public void StartTimer()
     {
+        display.ShowValue(0);
         startTime = Time.time;
         Paused = false;
     }

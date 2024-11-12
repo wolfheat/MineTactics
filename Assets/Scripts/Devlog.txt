@@ -30,17 +30,45 @@ Nov 2024
 8/11	* Improved number graphics to higher quality
 		* Added storing method and compress method (compress is not that good atm but can be changed later)
 		* Uncompress method seems to work as well
+9/11	* Added new project database for firestore
+		* Added Save and Load methods to save and get levels from the store
+		* Levels can now be saved and loaded to database
+		* 
+11/11	* Added Transpose and Rotation at random when loading
+		* Comfirmed that Amount above 26 is converted correctly.
 
 
-		// Check that system loads and saves A-Z correctly, might get wrong around the z-A area
-		// Add system for loading levels from de-compressed string
-		// Check for system/database to load and save levels into - FireBase used before try it again
 
-		// Scale is set by hardcoding, instead make it follow screen size
+		// Figure out more exaclty how to deal with player ratings and levels ratings.
+		// Have a limit for levels for them to count towards rating? How to set this range?
+		// HAve categories for levels depending on logic? How to handle this, how to handle multiple logics?
+		// Should player have different strengths in diffrent logics and unlocking new ones? Prob not. Just have harder levels not appear for new users
+		// How to monitize? Have unlock fee / buying game remove all ads and for rest have x amount of free games before require ad for continueation / or wait.
+		// PLayers need to log on, implement Facebook/googleaccount/email login?
 
-		// Make setting new level size update underlaying and overlaying to correct amount. Recreate all?
 
-		// Have timer show how long time it took for player to solve it, popup after each game with statistics
+
+		/ have players be able to be Power users by paying or playing enough enabling ability to supply levels?
+
+
+		// How to handle above 52 identical entries? 
+
+
+		// TODO
+		* Create a Random rotation and Trasnpose method start with only 180° turns to acomodate for non square levels
+
+
+		* Check for system/database to load and save levels into - FireBase used before try it again
+		* Add system to load the game when the string has been recieved
+		* Add system for loading levels from de-compressed string
+
+		* Check that system loads and saves A-Z correctly, might get wrong around the z-A area
+
+		* Scale is set by hardcoding, instead make it follow screen size
+
+		* Make setting new level size update underlaying and overlaying to correct amount. Recreate all?
+
+		* Have timer show how long time it took for player to solve it, popup after each game with statistics
 
 		// MOBILE
 		* Make it run with touch on mobile
