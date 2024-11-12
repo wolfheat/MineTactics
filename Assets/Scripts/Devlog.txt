@@ -39,6 +39,7 @@ Nov 2024
 		* GitIgnored Firebase files
 		* Edit mode created - First Flagging of Mines - Next goes to Open and unflagg mode (SHow unflagged as faded mines?)
 
+		* Enable ability to Open Boxes at Unflagg/Open edit mode part
 
 		// Maybe have different background when in Edit Mode?
 

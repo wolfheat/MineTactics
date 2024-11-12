@@ -57,6 +57,7 @@ public class LevelCreator : MonoBehaviour
     public static LevelCreator Instance { get; private set; }
     public bool WaitForFirstMove { get; private set; } = true;
     public bool EditMode { get; set; } = false;
+    public bool EditModeB { get; set; } = false;
 
     int[,] mines;
     GameBox[,] underlayBoxes = new GameBox[0,0];
@@ -245,12 +246,16 @@ public class LevelCreator : MonoBehaviour
 
         // Define Mines from flags
         SetMinesFromFlags(); 
+
+        // TODO Figure out why Numbers are not added correctly
+
         DetermineNumbersFromNeighbors();
         // Set minecount
         UpdateMineCount();
         // Generate numbers
         Debug.Log("Mines set to flagged positions, Numbers updated");
         EditMode = false;
+        EditModeB = true; // Fix this to Use same state machine?
     }
 
     private void SetMinesFromFlags()
