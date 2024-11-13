@@ -27,6 +27,8 @@ public class FirestoreManager : MonoBehaviour
     public static FirestoreManager Instance { get; private set; }
     public static Action<string> LoadComplete;
     public LevelData LevelData { get; private set; }
+    public HashSet<string> SentLevels { get; private set; }
+    public List<LevelData> DownloadedLevels { get; private set; } = new List<LevelData>();
 
     private void Awake()
     {
@@ -47,12 +49,28 @@ public class FirestoreManager : MonoBehaviour
 
     public void GetRandomLevel(float playerRating)
     {
+        if(DownloadedLevels.Count > 0)
+        {
+            Debug.Log("There is Downloaded levels in the list, Load one from there instead of downloading new");
+            LoadALevelFromDownloadedLevelsList();
+            return;
+        }
+
         float minDifficulty = 0;
         float maxDifficulty = playerRating+500;
 
+        string statusToLoad = "Approved";
+        // Select Pending or Approved
+        if (PanelController.UsePending)
+        {
+            if (UnityEngine.Random.Range(0, 2) == 1)
+                statusToLoad = "Pending";
+        }
+        Debug.Log("No Downloaded Levels in the list, Loading Level with Status: "+statusToLoad+" PendingToggle is set to "+PanelController.UsePending);
+
         CollectionReference levelsRef = db.Collection("Levels");
         levelsRef
-            .WhereEqualTo("Status", "Approved")
+            .WhereEqualTo("Status", statusToLoad)
             .WhereGreaterThanOrEqualTo("DifficultyRating", minDifficulty)
             .WhereLessThanOrEqualTo("DifficultyRating", maxDifficulty)
             .GetSnapshotAsync().ContinueWithOnMainThread(task =>
@@ -62,13 +80,25 @@ public class FirestoreManager : MonoBehaviour
                     QuerySnapshot snapshot = task.Result;
                     if (snapshot.Count > 0)
                     {
-                        // Select a random level from the retrieved documents
-                        int randomIndex = UnityEngine.Random.Range(0, snapshot.Count);
-                        DocumentSnapshot selectedLevel = snapshot.Documents.ToArray()[randomIndex];
-                        LevelData = selectedLevel.ConvertTo<LevelData>();
+                        foreach (var document in snapshot.Documents)
+                        {
+                            try
+                            {
+                                LevelData level = document.ConvertTo<LevelData>();
+                                Debug.Log("Read a level from db added to the list: "+level.Level);
+                                DownloadedLevels.Add(level);
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.LogError("Error converting document: " + document.Id + " - " + ex.Message);
+                            }
+                        }
+                        // Save all Recieved levels into the Downloaded List
+                        //DownloadedLevels = snapshot.Documents.Select(x=>x.ConvertTo<LevelData>()).ToList();
 
-                        // Callback with the retrieved level data
-                        LoadComplete?.Invoke(LevelData.Level);
+                        Debug.Log("Downloaded LEvels from the database: "+snapshot.Count);
+                        // Select a random level from the retrieved documents
+                        LoadALevelFromDownloadedLevelsList();                        
                     }
                     else
                     {
@@ -81,6 +111,20 @@ public class FirestoreManager : MonoBehaviour
                 }
             });
     }
+
+    private void LoadALevelFromDownloadedLevelsList()
+    {
+        // Load one level
+        LevelData = DownloadedLevels[0];
+        DownloadedLevels.RemoveAt(0);
+        Debug.Log("Loaded the first Downloaded Level into LevelData");
+        Debug.Log("Leveldata: "+LevelData.Level);
+
+
+        // Callback with the retrieved level data
+        LoadComplete?.Invoke(LevelData.Level);
+    }
+
     public void UpdateLevelData(string levelId, float newDifficultyRating)
     {
         DocumentReference levelRef = db.Collection("levels").Document(levelId);
@@ -159,6 +203,15 @@ public class FirestoreManager : MonoBehaviour
     }
     public void Store(string val, string levelName)
     {
+        // Check if Level has been sent to db allready
+        if (SentLevels.Contains(val))
+        {
+            Debug.Log("This Level has allready been sent to the database!");
+            return;
+        }
+        // Add this Level to the list of sent levels so it wont be sent again
+        SentLevels.Add(val);
+
         // Create Level from this data
         LevelData levelData = new LevelData {
             Level = val,

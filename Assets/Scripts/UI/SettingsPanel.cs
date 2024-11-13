@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameSize {S,M,L}
 
@@ -11,9 +12,22 @@ public class SettingsPanel : MonoBehaviour
     [SerializeField] TextMeshProUGUI gameSizeText;
     [SerializeField] TextMeshProUGUI mineDens;
     [SerializeField] TextMeshProUGUI winprob;
+    [SerializeField] Toggle pendingToggle;
 
     private float[] winProbs = {30.2f, 1.08f, 1.56f};
     private float[] densities = {15f, 34.38f, 30.02f};
+
+    public static SettingsPanel Instance { get; private set; }
+
+    private void Start()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
 
     public static Action GameSizeChange;

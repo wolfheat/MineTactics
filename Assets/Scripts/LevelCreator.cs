@@ -1,7 +1,5 @@
 using System.Linq;
-using System.Text;
 using TMPro;
-using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -32,7 +30,7 @@ public class LevelCreator : MonoBehaviour
     //Vector3 align = new Vector3(0f, 0f, 0f);
     Vector2 borderAddon = new Vector3(0.3f, 0.81f);
     //Vector2 borderAddon = new Vector3(0.8f, 1.31f);
-    Vector3 borderAlign = new Vector3(0.17f, -0.72f, 0);
+    //Vector3 borderAlign = new Vector3(0.17f, -0.72f, 0);
 
     Vector3 boxScale = new Vector3(0.48f, 0.48f, 1f);
 
@@ -79,12 +77,7 @@ public class LevelCreator : MonoBehaviour
         Instance = this;
 
         RestartGame();
-        /*
-        SizeGameArea();
-        CreateLevel();
-        DrawLevel();
-        AlignBoxesAnchor();
-        */
+
         // Add size change listener
         SettingsPanel.GameSizeChange += OnPlaySizeChange;
         Inputs.Instance.Controls.Main.S.performed += OnRequestSaveLevel;

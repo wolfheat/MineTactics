@@ -46,7 +46,13 @@ Nov 2024
 		* Added Query for loading levels, Approved - Rating > X - Rating < Y - 
 		* Levels are now indexed with a generic Firebase ID aslo set to LevelID 
 		* Level shown in bottom right corner.
+13/11	* Added toggle for accepting loading of Pending levels
+		* When Loading several levels, they are stored in a List and Player loads from the List if there are Levels available before loading from database again
 
+		* Limit player from sending same level to database twice. Maybe after successful submission, go to start craft or basic play?
+
+		* Maybe - Make player unable to load same level again for 20 or 50 levels?
+		* Have player be able to favour some levels they want to practice and keep them locally? Have an option to run only favourite levels?
 
 
 		* Have creator guess a rating 1-10 which determines the levels start rating
