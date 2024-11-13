@@ -4,17 +4,21 @@ using Firebase.Firestore;
 using Firebase.Extensions;
 using System.Collections.Generic;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
+
 
 [FirestoreData]
-struct MyData
+public class LevelData
 {
-    // get a string, to answer the question in the post
-    [FirestoreProperty]
-    public string StringValue { get; set; }
-
-    // get an int to demonstrate that it's not string specific
-    [FirestoreProperty]
-    public int IntValue { get; set; }
+    [FirestoreProperty]    public string Level { get; set; } // The actual Level string
+    [FirestoreProperty]    public string LevelId { get; set; }
+    [FirestoreProperty]    public string CreatorId { get; set; }
+    [FirestoreProperty]    public string Status { get; set; } // Pending, Approved, Declined
+    [FirestoreProperty]    public float DifficultyRating { get; set; } // 0-3000 ?? 
+    [FirestoreProperty]    public int Upvotes { get; set; }
+    [FirestoreProperty]    public int Downvotes { get; set; }
+    [FirestoreProperty]    public int PlayCount { get; set; }
 }
 
 public class FirestoreManager : MonoBehaviour
@@ -22,6 +26,7 @@ public class FirestoreManager : MonoBehaviour
     FirebaseFirestore db;
     public static FirestoreManager Instance { get; private set; }
     public static Action<string> LoadComplete;
+    public LevelData LevelData { get; private set; }
 
     private void Awake()
     {
@@ -40,6 +45,75 @@ public class FirestoreManager : MonoBehaviour
         //Inputs.Instance.Controls.Main.S.performed += SaveToFile;
     }
 
+    public void GetRandomLevel(float playerRating)
+    {
+        float minDifficulty = 0;
+        float maxDifficulty = playerRating+500;
+
+        CollectionReference levelsRef = db.Collection("Levels");
+        levelsRef
+            .WhereEqualTo("Status", "Approved")
+            .WhereGreaterThanOrEqualTo("DifficultyRating", minDifficulty)
+            .WhereLessThanOrEqualTo("DifficultyRating", maxDifficulty)
+            .GetSnapshotAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
+                {
+                    QuerySnapshot snapshot = task.Result;
+                    if (snapshot.Count > 0)
+                    {
+                        // Select a random level from the retrieved documents
+                        int randomIndex = UnityEngine.Random.Range(0, snapshot.Count);
+                        DocumentSnapshot selectedLevel = snapshot.Documents.ToArray()[randomIndex];
+                        LevelData = selectedLevel.ConvertTo<LevelData>();
+
+                        // Callback with the retrieved level data
+                        LoadComplete?.Invoke(LevelData.Level);
+                    }
+                    else
+                    {
+                        Debug.Log("No levels found within the specified range.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Error retrieving levels: " + task.Exception);
+                }
+            });
+    }
+    public void UpdateLevelData(string levelId, float newDifficultyRating)
+    {
+        DocumentReference levelRef = db.Collection("levels").Document(levelId);
+
+        levelRef.UpdateAsync("difficulty_rating", newDifficultyRating).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted && !task.IsFaulted)
+            {
+                Debug.Log("Level data updated successfully.");
+            }
+            else
+            {
+                Debug.LogError("Error updating level data: " + task.Exception);
+            }
+        });
+    }
+
+    public void UpdatePlayerRating(string playerId, float newRating)
+    {
+        DocumentReference playerRef = db.Collection("players").Document(playerId);
+
+        playerRef.UpdateAsync("current_rating", newRating).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted && !task.IsFaulted)
+            {
+                Debug.Log("Player rating updated successfully.");
+            }
+            else
+            {
+                Debug.LogError("Error updating player rating: " + task.Exception);
+            }
+        });
+    }
     public void Load(string id)
     {
         Debug.Log("Firestore Manager Loading Level "+id);
@@ -69,18 +143,33 @@ public class FirestoreManager : MonoBehaviour
             }
         });
     }
-    
-    public void Store(string val, string levelName)
-    {
-        // The string in val is written to the database
-        //DocumentReference docRef = db.Collection("Levels").Document("ID1");
-        //docRef.SetAsync(new Dictionary<string, string> {{ "val", val }}).ContinueWithOnMainThread(task =>
-        db.Collection("Levels").Document(levelName).SetAsync(new Dictionary<string, string> {{ "val", val }}).ContinueWithOnMainThread(task =>
-        {
-            Debug.Log("Updated Level info");
 
-        });
+
+    public async Task StoreLevelWithUniqueId(LevelData levelData)
+    {
+
+        DocumentReference newDocRef = db.Collection("Levels").Document();
+        string autoGeneratedId = newDocRef.Id; // This ID is guaranteed to be unique
+        levelData.LevelId = autoGeneratedId;
+        // Set data to Firestore
+        await newDocRef.SetAsync(levelData);
+        Debug.Log("Level with ID " + autoGeneratedId + " written to Database successfully.");
+
 
     }
+    public void Store(string val, string levelName)
+    {
+        // Create Level from this data
+        LevelData levelData = new LevelData {
+            Level = val,
+            LevelId = levelName,
+            PlayCount = 0,
+            Status = "Approved",
+            DifficultyRating = 0,
+            CreatorId = "Player 01"
+        };
 
+        // Have levelName be random?
+        Task task = StoreLevelWithUniqueId(levelData);
+    }
 }

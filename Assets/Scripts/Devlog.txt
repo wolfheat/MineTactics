@@ -43,7 +43,13 @@ Nov 2024
 		* Loading unexisting Levels prohibited
 		* Exiting/Canceling Edit Mode now Closes the Menues and Exits Edit Mode, Loads Random Level, Maybe have a unloaded phase instead
 		* Fixed mine amount shown in edit mode. Edit Mode 1 should show total mines regardless of flaggs (all are flagged) Edit Mode B shoud show Unflagged mines
+		* Added Query for loading levels, Approved - Rating > X - Rating < Y - 
+		* Levels are now indexed with a generic Firebase ID aslo set to LevelID 
+		* Level shown in bottom right corner.
 
+
+
+		* Have creator guess a rating 1-10 which determines the levels start rating
 
 		* Make Unloaded basic Mode where player choses when to load a new level.
 		* Have popup with level results and a button to go to next Level or To Basic unloaded mode?

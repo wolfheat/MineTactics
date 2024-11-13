@@ -1,9 +1,9 @@
 using System.Linq;
 using System.Text;
+using TMPro;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.PlayerSettings;
 using Random = UnityEngine.Random;
 
 public class LevelCreator : MonoBehaviour
@@ -11,6 +11,8 @@ public class LevelCreator : MonoBehaviour
 
     [SerializeField] private int gameWidth;
     [SerializeField] private int gameHeight;
+    
+    [SerializeField] private TextMeshProUGUI levelText;
 
     [SerializeField] private GameBox mineBoxPrefab;
     [SerializeField] private GameBox unclearedBoxPrefab;
@@ -190,7 +192,10 @@ public class LevelCreator : MonoBehaviour
     public void LoadRandomLevel()
     {
         Debug.Log("Loading Level requested");
-        FirestoreManager.Instance.Load("L02");
+        //FirestoreManager.Instance.Load("L02");
+
+        FirestoreManager.Instance.GetRandomLevel(1000);
+
         BackgroundController.Instance.SetColorNormal();
     }
 
@@ -205,6 +210,8 @@ public class LevelCreator : MonoBehaviour
         totalmines = newtotalmines;
         mines = newMines;
         LoadGame(gameLoaded);
+        // Set the level text to this level ID
+        levelText.text = FirestoreManager.Instance.LevelData.LevelId;
     }
 
 
@@ -372,6 +379,7 @@ public class LevelCreator : MonoBehaviour
         WaitForFirstMove = false;
 
         BackgroundController.Instance.SetColorEditMode();
+        levelText.text = "CREATE " + gameWidth + "x" + gameHeight;
     }
 
     public void OnPlaySizeChange()
@@ -382,7 +390,6 @@ public class LevelCreator : MonoBehaviour
 
     internal void RestartGame()
     {
-
         SizeGameArea();
         RandomizeMines();
         DrawLevel();
@@ -391,6 +398,7 @@ public class LevelCreator : MonoBehaviour
         SmileyButton.Instance.ShowNormal();
         Timer.Instance.ResetCounterAndPause();
         WaitForFirstMove = true;
+        levelText.text = "RANDOM "+gameWidth+"x"+gameHeight;
     }
 
     public bool OpenBox(Vector2Int pos)
