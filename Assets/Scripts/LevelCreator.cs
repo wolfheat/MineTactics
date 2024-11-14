@@ -11,6 +11,7 @@ public class LevelCreator : MonoBehaviour
     [SerializeField] private int gameHeight;
     
     [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI amtText;
 
     [SerializeField] private GameBox mineBoxPrefab;
     [SerializeField] private GameBox unclearedBoxPrefab;
@@ -142,8 +143,10 @@ public class LevelCreator : MonoBehaviour
         {
             for (int j = 0; j < underlayBoxes.GetLength(1); j++)
             {
-                Destroy(underlayBoxes[i, j].gameObject);
-                Destroy(overlayBoxes[i, j].gameObject);
+                if(underlayBoxes[i, j] != null)
+                    Destroy(underlayBoxes[i, j].gameObject);
+                if (overlayBoxes[i, j] != null)
+                    Destroy(overlayBoxes[i, j].gameObject);
             }
         }
 
@@ -158,9 +161,6 @@ public class LevelCreator : MonoBehaviour
         Debug.Log("Saving Level requested");
 
         SaveLevel();
-
-        BackgroundController.Instance.SetColorNormal();
-
     }
 
     private void SaveLevel(string levelName="L01")
@@ -188,8 +188,6 @@ public class LevelCreator : MonoBehaviour
         //FirestoreManager.Instance.Load("L02");
 
         FirestoreManager.Instance.GetRandomLevel(1000);
-
-        BackgroundController.Instance.SetColorNormal();
     }
 
 
@@ -204,6 +202,7 @@ public class LevelCreator : MonoBehaviour
         mines = newMines;
         LoadGame(gameLoaded);
         // Set the level text to this level ID
+        amtText.text = "" + FirestoreManager.Instance.LoadedAmount;
         levelText.text = FirestoreManager.Instance.LevelData.LevelId;
     }
 
@@ -214,6 +213,7 @@ public class LevelCreator : MonoBehaviour
         DetermineNumbersFromNeighbors();
         DrawLevel();
         AlignBoxesAnchor();
+
 
         // Pre open and flag
         PreOpenAndFlag(gameLoaded);
@@ -226,6 +226,9 @@ public class LevelCreator : MonoBehaviour
 
         // Players first click should count in this game mode
         WaitForFirstMove = false;
+
+
+        BackgroundController.Instance.SetColorTactics();
     }
 
     private void PreOpenAndFlag(int[,] gameLoaded)
@@ -392,6 +395,9 @@ public class LevelCreator : MonoBehaviour
         Timer.Instance.ResetCounterAndPause();
         WaitForFirstMove = true;
         levelText.text = "RANDOM "+gameWidth+"x"+gameHeight;
+        amtText.text = ""+FirestoreManager.Instance.LoadedAmount;
+        BackgroundController.Instance.SetColorNormal();
+
     }
 
     public bool OpenBox(Vector2Int pos)

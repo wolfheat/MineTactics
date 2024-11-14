@@ -27,8 +27,9 @@ public class FirestoreManager : MonoBehaviour
     public static FirestoreManager Instance { get; private set; }
     public static Action<string> LoadComplete;
     public LevelData LevelData { get; private set; }
-    public HashSet<string> SentLevels { get; private set; }
+    public HashSet<string> SentLevels { get; private set; } = new HashSet<string>();
     public List<LevelData> DownloadedLevels { get; private set; } = new List<LevelData>();
+    public int LoadedAmount => DownloadedLevels.Count;
 
     private void Awake()
     {

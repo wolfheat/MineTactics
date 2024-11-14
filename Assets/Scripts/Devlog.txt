@@ -48,8 +48,19 @@ Nov 2024
 		* Level shown in bottom right corner.
 13/11	* Added toggle for accepting loading of Pending levels
 		* When Loading several levels, they are stored in a List and Player loads from the List if there are Levels available before loading from database again
+		* LimitS player from sending same level to database twice.
+		* Added counter that shows Donwloaded Levels
+		* Rewrote Menu System into a better one
+		* Background Colors are now different in all modes
+		
+		* Make Submit button hide when submitted a level.
+		* Decide where to go after a Level is submitted
+		* Change so placemnt of mines are tinted mines and not flags, rework this
+		
 
-		* Limit player from sending same level to database twice. Maybe after successful submission, go to start craft or basic play?
+		//ISSUES
+		* Changeing Size during a Create even breaks the level. Maybe have the level size set at the first creation step?
+
 
 		* Maybe - Make player unable to load same level again for 20 or 50 levels?
 		* Have player be able to favour some levels they want to practice and keep them locally? Have an option to run only favourite levels?
