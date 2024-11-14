@@ -53,30 +53,26 @@ Nov 2024
 		* Rewrote Menu System into a better one
 		* Background Colors are now different in all modes
 		
+		// TODO
 		* Make Submit button hide when submitted a level.
 		* Decide where to go after a Level is submitted
+			* Have player be able to go back to placing mines (Edit Mode A) from Edit Mode B
 		* Change so placemnt of mines are tinted mines and not flags, rework this
+		* Have player be able to favour some levels they want to practice and keep them locally? Have an option to run only favourite levels?
+		* Have creator guess a rating 1-10 which determines the levels start rating
+
+		* Have popup with level results and a button to go to next Level or To Basic unloaded mode?
+		* Add Error message popup when loading unexisting level
 		
+		* Make Unloaded basic Mode where player choses when to load a new level. Maybe not. Loading a random local game is sufficient
 
 		//ISSUES
 		* Changeing Size during a Create even breaks the level. Maybe have the level size set at the first creation step?
-
-
 		* Maybe - Make player unable to load same level again for 20 or 50 levels?
-		* Have player be able to favour some levels they want to practice and keep them locally? Have an option to run only favourite levels?
 
-
-		* Have creator guess a rating 1-10 which determines the levels start rating
-
-		* Make Unloaded basic Mode where player choses when to load a new level.
-		* Have popup with level results and a button to go to next Level or To Basic unloaded mode?
-
-		* Have player be able to go back to placing mines (Edit Mode A) from Edit Mode B
-
-		* Make Create Button be a cancel button that ends edit Mode
-		* Add Error message popup when loading unexisting level
-
-		// Maybe have different background when in Edit Mode?
+		// DATABASE
+		* Figure out a way to not load to many Levels at a time
+		* Maybe have many levels per entry, makes reads a lot fewer if 100 levels are in one read?
 
 		// Make create mode that places mines and starts level and request send to database when satisfied
 
