@@ -52,7 +52,16 @@ Nov 2024
 		* Added counter that shows Donwloaded Levels
 		* Rewrote Menu System into a better one
 		* Background Colors are now different in all modes
-		
+14/11	* Added rules for updating values in database
+		* Added ResultScreen after completing challenge, shows data
+		* ResultScreen has stars player can set and vote
+		* Added update rules that allowes players to update certain data
+		* Setting Pending value make you load pending levels
+
+
+		* Need to fix issue when busting a level and how to handle that
+		* Pressing Next just closes the Result, should it start new level?
+
 		// TODO
 		* Make Submit button hide when submitted a level.
 		* Decide where to go after a Level is submitted
@@ -65,6 +74,26 @@ Nov 2024
 		* Add Error message popup when loading unexisting level
 		
 		* Make Unloaded basic Mode where player choses when to load a new level. Maybe not. Loading a random local game is sufficient
+
+		// Cloud Firestore Rules
+
+		* Allow writing if
+			- PLayer is power user = paying or playing a lot?
+			- Level starts with number between 06-20
+			- Status == Pending (Players always place the level in Pending status) Might allow admin status to place as Approved?
+			- Upwotes == 0 && Downvotes == 0 - When level is uploaded it has to start at no Votes
+			- 
+		* Allow updating if
+			- Update specific value 
+				- Pending -> Approved if Upvotes - DownVotes > 10
+				- DifficultRating if newValue >= OldValue -MaxChange &&  newValue <= OldValue +MaxChange 
+				- DownVotes if newValue == OldValue +1 
+				- UpVotes if newValue == OldValue +1 
+				- PlayCount if newValue == OldValue +1 
+				-- Do Not allow updating Level, LevelID, CreatorId
+
+
+
 
 		//ISSUES
 		* Changeing Size during a Create even breaks the level. Maybe have the level size set at the first creation step?

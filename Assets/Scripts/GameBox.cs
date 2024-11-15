@@ -48,7 +48,7 @@ public class GameBox : MonoBehaviour
 
     internal void Click()
     {
-        Debug.Log("Clicking Box value = "+value);
+        //Debug.Log("Clicking Box value = "+value);
 
         if (LevelCreator.Instance.EditMode)
         {

@@ -19,6 +19,7 @@ public class LevelCreator : MonoBehaviour
 
     [SerializeField] private GameBox[] numberPrefabs;
 
+    [SerializeField] private LevelCompletionScreen levelCompletionPanel;
     [SerializeField] private GameObject boxHolder;
     [SerializeField] private GameObject underLaying;
     [SerializeField] private GameObject borderArea;
@@ -59,6 +60,7 @@ public class LevelCreator : MonoBehaviour
     public bool WaitForFirstMove { get; private set; } = true;
     public bool EditMode { get; set; } = false;
     public bool EditModeB { get; set; } = false;
+    public bool LevelBusted { get; private set; }
 
     int[,] mines;
     GameBox[,] underlayBoxes = new GameBox[0,0];
@@ -170,6 +172,13 @@ public class LevelCreator : MonoBehaviour
         Debug.Log("Saving Level completed, send to firebase firestore");
         FirestoreManager.Instance.Store(compressed,levelName);
         Debug.Log("Saved Level sent");
+    }
+    
+    public void UpdateLevel(LevelData data)
+    {
+        // Create Dictionary of changed values
+
+        
     }
 
     public void OnRequestLoadLevel(InputAction.CallbackContext context)
@@ -402,7 +411,7 @@ public class LevelCreator : MonoBehaviour
 
     public bool OpenBox(Vector2Int pos)
     {
-        Debug.Log("Open Box "+pos);
+        //Debug.Log("Open Box "+pos);
         if (EditMode)
         {
             OpenBoxEditMode(pos);
@@ -473,6 +482,7 @@ public class LevelCreator : MonoBehaviour
     {
         // Pause the timer
         Timer.Instance.Pause();
+        LevelBusted = true;
 
         Debug.Log("Bust Level");
         // Go through all flagged boxes and change wrongly marked to red flags and show all unmarked mines
@@ -510,6 +520,12 @@ public class LevelCreator : MonoBehaviour
             }
         }
         SmileyButton.Instance.ShowWin();
+
+        LevelBusted = false;
+        // Open Completion Panel
+        levelCompletionPanel.gameObject.SetActive(true);
+        levelCompletionPanel.RequestUpdateLevelInfo();
+
     }
 
     private void ResetLevel()
@@ -674,13 +690,12 @@ public class LevelCreator : MonoBehaviour
 
     internal void Chord(Vector2Int pos)
     {
-        Debug.Log("Charding levelcreator at "+pos);
+        //Debug.Log("Charding levelcreator at "+pos);
         if (Chordable(pos))
         {
-            Debug.Log("Chardable");
+            //Debug.Log("Chardable");
             OpenAllNeighbors(pos);
-        }else
-            Debug.Log("Not Chardable");
+        }
     }
 
     private void OpenAllNeighbors(Vector2Int pos)
