@@ -57,12 +57,17 @@ Nov 2024
 		* ResultScreen has stars player can set and vote
 		* Added update rules that allowes players to update certain data
 		* Setting Pending value make you load pending levels
+15/11	* Added a login page and tried adding authentication with email and pass
+		
 
 
 		* Need to fix issue when busting a level and how to handle that
 		* Pressing Next just closes the Result, should it start new level?
 
 		// TODO
+		* Maybe only allow paying players to rate and play pending games?
+
+		* Amke it possible to support as patriot, Buy Me a coffie or buying the game / unloading ads 5$?
 		* Make Submit button hide when submitted a level.
 		* Decide where to go after a Level is submitted
 			* Have player be able to go back to placing mines (Edit Mode A) from Edit Mode B
