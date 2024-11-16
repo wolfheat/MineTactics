@@ -58,8 +58,14 @@ Nov 2024
 		* Added update rules that allowes players to update certain data
 		* Setting Pending value make you load pending levels
 15/11	* Added a login page and tried adding authentication with email and pass
-		
+		* Tried making the register and Login work but got issues
 
+		* Having this issues with creating new Users for the project
+		System.AggregateException: One or more errors occurred. (An internal error has occurred.) ---> Firebase.FirebaseException: An internal error has occurred.
+  at Firebase.Auth.FirebaseAuth.CreateUserWithEmailAndPasswordAsync (System.String email, System.String password) [0x00038] in /Users/runner/work/firebase-unity-sdk/firebase-unity-sdk/android_unity/armeabi-v7a/auth/swig/Firebase.Auth_fixed.cs:3853 
+   --- End of inner exception stack trace ---
+---> (Inner Exception #0) Firebase.FirebaseException: An internal error has occurred.
+  at Firebase.Auth.FirebaseAuth.CreateUserWithEmailAndPasswordAsync (System.String email, System.String password) [0x00038] in /Users/runner/work/firebase-unity-sdk/firebase-unity-sdk/android_unity/armeabi-v7a/auth/swig/Firebase.Auth_fixed.cs:3853 <---
 
 		* Need to fix issue when busting a level and how to handle that
 		* Pressing Next just closes the Result, should it start new level?

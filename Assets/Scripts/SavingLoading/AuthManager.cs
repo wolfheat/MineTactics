@@ -9,9 +9,20 @@ public class AuthManager : MonoBehaviour
     FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
     FirebaseAuth auth = FirebaseAuth.DefaultInstance;
     public static Action<string> OnSuccessfulLogIn;
+    public static Action<string> OnSuccessfulCreation;
+
+
+    public static AuthManager Instance { get; private set; }
 
     private void Start()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
         Firebase.FirebaseApp app;
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
             var dependencyStatus = task.Result;
@@ -20,7 +31,7 @@ public class AuthManager : MonoBehaviour
                 // Create and hold a reference to your FirebaseApp,
                 // where app is a Firebase.FirebaseApp property of your application class.
                 app = Firebase.FirebaseApp.DefaultInstance;
-
+                Debug.Log("*** Fixed FirebaseApp Dependencies ***");
                 // Set a flag here to indicate whether Firebase is ready to use by your app.
             }
             else
@@ -32,9 +43,9 @@ public class AuthManager : MonoBehaviour
         });
     }
 
-    public void CreatePlayerWithUserNameAndPassword(string email, string password)
+    public void RegisterPlayerWithUserNameAndPassword(string email, string password)
     {
-
+        auth = FirebaseAuth.DefaultInstance;
         auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
             if (task.IsCanceled)
             {
@@ -43,14 +54,19 @@ public class AuthManager : MonoBehaviour
             }
             if (task.IsFaulted)
             {
+                foreach (var error in task.Exception.Flatten().InnerExceptions)
+                    Debug.LogWarning("Exception: " + error.Message);
+                Debug.Log(" ");
                 Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
                 return;
             }
 
             // Firebase user has been created.
-            Firebase.Auth.AuthResult result = task.Result;
+            AuthResult result = task.Result;
             //Debug.LogFormat("Firebase user created successfully: {0} ({1})",
-            OnSuccessfulLogIn?.Invoke(result.User.UserId);
+            OnSuccessfulCreation?.Invoke(result.User.UserId);
+            SignInPlayerWithUserNameAndPassword(email, password);
+            USerInfo.Instance.SetUserInfoFromFirebaseUser(auth.CurrentUser);
         });
 
 
@@ -58,7 +74,7 @@ public class AuthManager : MonoBehaviour
     
     public void SignInPlayerWithUserNameAndPassword(string email, string password)
     {
-
+        auth = FirebaseAuth.DefaultInstance;
         auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
             if (task.IsCanceled)
             {
@@ -74,6 +90,7 @@ public class AuthManager : MonoBehaviour
             AuthResult result = task.Result;
             Debug.LogFormat("User signed in successfully: {0} ({1})", result.User.DisplayName, result.User.UserId);
             LevelCreator.Instance.OnPlayerSignedInSuccess(result.User.DisplayName);
+            OnSuccessfulLogIn?.Invoke(result.User.UserId);
         });
 
 

@@ -234,7 +234,7 @@ public class FirestoreManager : MonoBehaviour
             PlayCount = 0,
             Status = "Approved",
             DifficultyRating = 0,
-            CreatorId = "Player 01"
+            CreatorId = USerInfo.Instance.uid
         };
 
         // Have levelName be random?
