@@ -59,6 +59,10 @@ Nov 2024
 		* Setting Pending value make you load pending levels
 15/11	* Added a login page and tried adding authentication with email and pass
 		* Tried making the register and Login work but got issues
+17/11	* Added Android Build
+		* Changed resolution to suite mobile
+		* Did Android build trying to solve Auth issues, no luck there
+
 
 		* Having this issues with creating new Users for the project
 		System.AggregateException: One or more errors occurred. (An internal error has occurred.) ---> Firebase.FirebaseException: An internal error has occurred.

@@ -37,6 +37,7 @@ public class PanelController : MonoBehaviour
 
     public void OpenSettings()
     {
+        Debug.Log("Opening Settings");
         ToggleMenuButtons(false);
         settingsPanel.SetActive(true);
     }

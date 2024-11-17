@@ -3,6 +3,7 @@ using Firebase.Extensions;
 using Firebase.Firestore;
 using Firebase.Auth;
 using System;
+using System.Collections;
 
 public class AuthManager : MonoBehaviour
 {
@@ -72,6 +73,29 @@ public class AuthManager : MonoBehaviour
 
     }
     
+    public IEnumerator SignInPlayerWithUserNameAndPasswordTest(string email, string password)
+    {
+        auth = FirebaseAuth.DefaultInstance;
+        var task = auth.CreateUserWithEmailAndPasswordAsync(email, password);
+        yield return new WaitUntil( () => task.IsCompleted);
+
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                foreach (Exception innerException in task.Exception.Flatten().InnerExceptions)
+                {
+                    Firebase.FirebaseException firebaseEx = innerException as Firebase.FirebaseException;
+                    Debug.LogError("Error code: " + firebaseEx.ErrorCode);
+                    Debug.LogError("Error message: " + innerException.Message);
+                }
+            }
+
+    }
+    
     public void SignInPlayerWithUserNameAndPassword(string email, string password)
     {
         auth = FirebaseAuth.DefaultInstance;
@@ -84,6 +108,12 @@ public class AuthManager : MonoBehaviour
             if (task.IsFaulted)
             {
                 Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                foreach (Exception innerException in task.Exception.Flatten().InnerExceptions)
+                {
+                    Firebase.FirebaseException firebaseEx = innerException as Firebase.FirebaseException;
+                    Debug.LogError("Error code: " + firebaseEx.ErrorCode);
+                    Debug.LogError("Error message: " + innerException.Message);
+                }
                 return;
             }
 

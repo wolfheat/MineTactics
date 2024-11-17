@@ -30,7 +30,8 @@ public class LoginMenu : MonoBehaviour
     public void OnTryLogin()
     {
         Debug.Log("Player is trying to log in with name: "+username_field.text+" password: "+password_field.text);
-        AuthManager.Instance.SignInPlayerWithUserNameAndPassword(username_field.text,password_field.text);
+        //AuthManager.Instance.SignInPlayerWithUserNameAndPassword(username_field.text,password_field.text);
+        StartCoroutine(AuthManager.Instance.SignInPlayerWithUserNameAndPasswordTest(username_field.text,password_field.text));
     }
     public void OnTryRegister()
     {
