@@ -24,6 +24,57 @@ public class Inputs : MonoBehaviour
         Controls.Enable();
     }
 
+
+    private float startTouch = 0;
+
+    private void Update()
+    {
+        if (Input.touches.Length > 0)
+        {
+            Touch touch = Input.touches[0];
+            if(touch.phase == UnityEngine.TouchPhase.Began)
+            {
+                startTouch = Time.time;
+            }else if(touch.phase == UnityEngine.TouchPhase.Ended)
+            {
+                float timeHeld = (Time.time - startTouch);
+                if(timeHeld > 0.2f)
+                {
+                    TouchDebug.Instance.ShowText("Touch r-click at: "+ touch.position+" for "+timeHeld+"s");
+                    OnTouchClick(touch.position,true);
+                }
+                else
+                {
+                    TouchDebug.Instance.ShowText("Touch click at: "+ touch.position+" for "+timeHeld+"s");
+                    OnTouchClick(touch.position);
+                }
+            }
+        }
+    }
+    public void OnTouchClick(Vector2 pos,bool rightClick = false)
+    {
+        var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(pos));
+        if (!rayHit.collider) return;
+        
+        GameBox box = rayHit.collider.GetComponent<GameBox>();
+        if (box != null)
+        {
+            if (Timer.Instance.Paused && !LevelCreator.Instance.WaitForFirstMove && !LevelCreator.Instance.EditMode && !LevelCreator.Instance.EditModeB)
+                return;
+            if(rightClick)
+                box.RightClick();
+            else
+                box.Click();
+        }
+        SmileyButton smiley = rayHit.collider.GetComponent<SmileyButton>();
+        if (smiley != null)
+        {
+            smiley.Click();
+        }
+    }
+
+
+
     public void OnClick(InputAction.CallbackContext context)
     {
         // This method handles clicks on items below UI so exit if hitting UI
@@ -32,6 +83,8 @@ public class Inputs : MonoBehaviour
             //Debug.Log("Clicked on the UI");
             return;
         }
+        if(Input.touches.Length>0)
+            TouchDebug.Instance.ShowText("Touch At: " + Mouse.current.position.ReadValue() + " touch " + Input.touches[0].position);
 
         var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()));
         if (!rayHit.collider) return;
@@ -62,6 +115,7 @@ public class Inputs : MonoBehaviour
     {
         if (Timer.Instance.Paused && !LevelCreator.Instance.WaitForFirstMove)
             return;
+        // Changing this to detect touches
         var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()));
         if (!rayHit.collider) return;
         if (!context.started) return;

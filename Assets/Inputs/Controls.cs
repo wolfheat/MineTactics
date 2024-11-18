@@ -78,6 +78,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""ba0553cd-a552-4be5-bbaf-7bb269a6b92b"",
+                    ""path"": ""<Touchscreen>/touch0/tap"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mouse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""e6f57c31-23ca-4d4b-8470-7b8ab1d2b1a5"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",

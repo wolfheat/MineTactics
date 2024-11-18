@@ -31,12 +31,14 @@ public class LoginMenu : MonoBehaviour
     {
         Debug.Log("Player is trying to log in with name: "+username_field.text+" password: "+password_field.text);
         //AuthManager.Instance.SignInPlayerWithUserNameAndPassword(username_field.text,password_field.text);
-        StartCoroutine(AuthManager.Instance.SignInPlayerWithUserNameAndPasswordTest(username_field.text,password_field.text));
+        errorMessage.text = "Trying to Log In";
+        StartCoroutine(AuthManager.Instance.SignInPlayerWithUserNameAndPasswordTest(username_field.text,password_field.text,errorMessage));
     }
     public void OnTryRegister()
     {
         Debug.Log("Player is trying to register with name: "+username_field.text+" password: "+password_field.text);
-        AuthManager.Instance.RegisterPlayerWithUserNameAndPassword(username_field.text,password_field.text);
+        errorMessage.text = "Trying to Register";
+        AuthManager.Instance.RegisterPlayerWithUserNameAndPassword(username_field.text,password_field.text, errorMessage);
     }
     public void ShowError()
     {

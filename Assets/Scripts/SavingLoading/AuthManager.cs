@@ -4,6 +4,7 @@ using Firebase.Firestore;
 using Firebase.Auth;
 using System;
 using System.Collections;
+using TMPro;
 
 public class AuthManager : MonoBehaviour
 {
@@ -44,7 +45,7 @@ public class AuthManager : MonoBehaviour
         });
     }
 
-    public void RegisterPlayerWithUserNameAndPassword(string email, string password)
+    public void RegisterPlayerWithUserNameAndPassword(string email, string password, TextMeshProUGUI resultTextfield = null)
     {
         auth = FirebaseAuth.DefaultInstance;
         auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
@@ -55,6 +56,7 @@ public class AuthManager : MonoBehaviour
             }
             if (task.IsFaulted)
             {
+                resultTextfield.text = task.Exception.ToString();
                 foreach (var error in task.Exception.Flatten().InnerExceptions)
                     Debug.LogWarning("Exception: " + error.Message);
                 Debug.Log(" ");
@@ -73,7 +75,7 @@ public class AuthManager : MonoBehaviour
 
     }
     
-    public IEnumerator SignInPlayerWithUserNameAndPasswordTest(string email, string password)
+    public IEnumerator SignInPlayerWithUserNameAndPasswordTest(string email, string password, TextMeshProUGUI resultTextfield = null)
     {
         auth = FirebaseAuth.DefaultInstance;
         var task = auth.CreateUserWithEmailAndPasswordAsync(email, password);
@@ -85,7 +87,9 @@ public class AuthManager : MonoBehaviour
             }
             if (task.IsFaulted)
             {
-                Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+            resultTextfield.text = task.Exception.ToString();
+            Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+            // Show error message in game 
                 foreach (Exception innerException in task.Exception.Flatten().InnerExceptions)
                 {
                     Firebase.FirebaseException firebaseEx = innerException as Firebase.FirebaseException;

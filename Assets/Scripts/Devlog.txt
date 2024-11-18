@@ -62,7 +62,9 @@ Nov 2024
 17/11	* Added Android Build
 		* Changed resolution to suite mobile
 		* Did Android build trying to solve Auth issues, no luck there
+		* Have touch working on Android
 
+		* Issues connecting to Firestore on mobile, cant even load levels
 
 		* Having this issues with creating new Users for the project
 		System.AggregateException: One or more errors occurred. (An internal error has occurred.) ---> Firebase.FirebaseException: An internal error has occurred.
