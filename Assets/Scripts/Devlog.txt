@@ -63,8 +63,18 @@ Nov 2024
 		* Changed resolution to suite mobile
 		* Did Android build trying to solve Auth issues, no luck there
 		* Have touch working on Android
+		* Adjusted camera ortho size to make levels fit on mobile/screen again
+18/11	* Fixed issue with Auth for players
+		* Player can now register and log in
+		* Players can now submit levels to the database as Pending
+
+
+		* Fix the error handeling of submitting levels
+		* Fix so the waiting coroutine for logging in or regitring is not used. Use the result of the action instead to determine whats shown.
+		* Fix so the Pending checkbox is counting as checked at start
 
 		* Issues connecting to Firestore on mobile, cant even load levels
+		* Add touch timing settings in settings 5-30ms?
 
 		* Having this issues with creating new Users for the project
 		System.AggregateException: One or more errors occurred. (An internal error has occurred.) ---> Firebase.FirebaseException: An internal error has occurred.

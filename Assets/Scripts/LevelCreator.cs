@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class LevelCreator : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI amtText;
     [SerializeField] private TextMeshProUGUI playerIDText;
+    [SerializeField] private TextMeshProUGUI playerIDText2;
 
     [SerializeField] private GameBox mineBoxPrefab;
     [SerializeField] private GameBox unclearedBoxPrefab;
@@ -84,8 +86,6 @@ public class LevelCreator : MonoBehaviour
 
         // Add size change listener
         SettingsPanel.GameSizeChange += OnPlaySizeChange;
-        Inputs.Instance.Controls.Main.S.performed += OnRequestSaveLevel;
-        Inputs.Instance.Controls.Main.L.performed += OnRequestLoadLevel;
         FirestoreManager.LoadComplete += OnLoadLevelComplete;
         AuthManager.OnSuccessfulLogIn += OnPlayerSignedInSuccess;
     }
@@ -130,7 +130,8 @@ public class LevelCreator : MonoBehaviour
         borderAreaRenderer.size = new Vector2(gameWidth / 2f + borderAddon.x, gameHeight / 2f + borderAddon.y);
 
         // Orthographics reading changes, currently using a fixed size to get correct scaling
-        float cameraWidthUnits = 5.6262f;
+        float cameraWidthUnits = 5.45f;
+        //float cameraWidthUnits = 5.6262f;
         float scaleNeeded = cameraWidthUnits / borderAreaRenderer.size.x;
 
         // This scale is calculated but total width for screen is hardcoded
@@ -202,11 +203,17 @@ public class LevelCreator : MonoBehaviour
     }
 
 
-    public void OnPlayerSignedInSuccess(string playerID)
+    public void PrintPlayerID(string playerID)
     {
-        levelText.text = playerID;
+        playerIDText2.text = playerID;
     }
     
+    public void OnPlayerSignedInSuccess()
+    {
+        string playerID = USerInfo.Instance.email;
+        playerIDText.text = playerID;        
+    }
+
     public void OnLoadLevelComplete(string compressed)
     {
         Debug.Log("Recieved compressed level from database: "+compressed);

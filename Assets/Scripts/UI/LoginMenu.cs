@@ -1,28 +1,41 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoginMenu : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI username_field;
-    [SerializeField] TextMeshProUGUI password_field;
+    [SerializeField] TMP_InputField password_field;
     [SerializeField] TextMeshProUGUI errorMessage;
 
     private void Start()
     {
+    }
+    private void OnEnable()
+    {
+        Debug.Log("Register for Success Methods from "+this.name);
         AuthManager.OnSuccessfulLogIn += OnSuccessfulLogIn;
-        AuthManager.OnSuccessfulCreation += OnSuccessfulCreation;
+        AuthManager.OnSuccessfulCreation += OnSuccessfulCreation;        
+    }
+    private void OnDisable()
+    {
+        Debug.Log("UN-Register for Success Methods from "+this.name);
+        AuthManager.OnSuccessfulLogIn -= OnSuccessfulLogIn;
+        AuthManager.OnSuccessfulCreation -= OnSuccessfulCreation;        
+        
     }
 
-    private void OnSuccessfulCreation(string obj)
+    private void OnSuccessfulCreation()
     {
+        Debug.Log("Successfully Created User from "+this.name);
         CloseMenu();        
-        Debug.Log("Successfully Created User, Log in directly?");
 
     }
     
-    private void OnSuccessfulLogIn(string obj)
+    private void OnSuccessfulLogIn()
     {
+        Debug.Log("Successfully Logged in User from " + this.name);
         CloseMenu();
         // PLayer is logged in just close the menues
     }
@@ -32,7 +45,7 @@ public class LoginMenu : MonoBehaviour
         Debug.Log("Player is trying to log in with name: "+username_field.text+" password: "+password_field.text);
         //AuthManager.Instance.SignInPlayerWithUserNameAndPassword(username_field.text,password_field.text);
         errorMessage.text = "Trying to Log In";
-        StartCoroutine(AuthManager.Instance.SignInPlayerWithUserNameAndPasswordTest(username_field.text,password_field.text,errorMessage));
+        AuthManager.Instance.SignInPlayerWithUserNameAndPassword(username_field.text,password_field.text);
     }
     public void OnTryRegister()
     {

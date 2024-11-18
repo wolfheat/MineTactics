@@ -10,8 +10,8 @@ public class AuthManager : MonoBehaviour
 {
     FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
     FirebaseAuth auth = FirebaseAuth.DefaultInstance;
-    public static Action<string> OnSuccessfulLogIn;
-    public static Action<string> OnSuccessfulCreation;
+    public static Action OnSuccessfulLogIn;
+    public static Action OnSuccessfulCreation;
 
 
     public static AuthManager Instance { get; private set; }
@@ -47,6 +47,9 @@ public class AuthManager : MonoBehaviour
 
     public void RegisterPlayerWithUserNameAndPassword(string email, string password, TextMeshProUGUI resultTextfield = null)
     {
+        StartCoroutine(DelayedAfterSignIn());
+        Debug.Log("Register player: "+email+" pass: "+password);
+        //password = "TEST123test";
         auth = FirebaseAuth.DefaultInstance;
         auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
             if (task.IsCanceled)
@@ -63,13 +66,13 @@ public class AuthManager : MonoBehaviour
                 Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
                 return;
             }
-
+            Debug.Log("Registration success!");
             // Firebase user has been created.
             AuthResult result = task.Result;
             //Debug.LogFormat("Firebase user created successfully: {0} ({1})",
-            OnSuccessfulCreation?.Invoke(result.User.UserId);
+            Debug.Log("Start PLayer Log in!");
+            //OnSuccessfulCreation?.Invoke(result.User.UserId);
             SignInPlayerWithUserNameAndPassword(email, password);
-            USerInfo.Instance.SetUserInfoFromFirebaseUser(auth.CurrentUser);
         });
 
 
@@ -81,27 +84,29 @@ public class AuthManager : MonoBehaviour
         var task = auth.CreateUserWithEmailAndPasswordAsync(email, password);
         yield return new WaitUntil( () => task.IsCompleted);
 
-            if (task.IsCanceled)
+        if (task.IsCanceled)
+        {
+            Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+        }
+        if (task.IsFaulted)
+        {
+        resultTextfield.text = task.Exception.ToString();
+        Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+        // Show error message in game 
+            foreach (Exception innerException in task.Exception.Flatten().InnerExceptions)
             {
-                Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+                Firebase.FirebaseException firebaseEx = innerException as Firebase.FirebaseException;
+                Debug.LogError("Error code: " + firebaseEx.ErrorCode);
+                Debug.LogError("Error message: " + innerException.Message);
             }
-            if (task.IsFaulted)
-            {
-            resultTextfield.text = task.Exception.ToString();
-            Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
-            // Show error message in game 
-                foreach (Exception innerException in task.Exception.Flatten().InnerExceptions)
-                {
-                    Firebase.FirebaseException firebaseEx = innerException as Firebase.FirebaseException;
-                    Debug.LogError("Error code: " + firebaseEx.ErrorCode);
-                    Debug.LogError("Error message: " + innerException.Message);
-                }
-            }
+        }
+        Debug.Log("PLayer is Now Logged in");
 
     }
     
     public void SignInPlayerWithUserNameAndPassword(string email, string password)
     {
+        StartCoroutine(DelayedAfterSignIn());
         auth = FirebaseAuth.DefaultInstance;
         auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
             if (task.IsCanceled)
@@ -121,13 +126,24 @@ public class AuthManager : MonoBehaviour
                 return;
             }
 
-            AuthResult result = task.Result;
-            Debug.LogFormat("User signed in successfully: {0} ({1})", result.User.DisplayName, result.User.UserId);
-            LevelCreator.Instance.OnPlayerSignedInSuccess(result.User.DisplayName);
-            OnSuccessfulLogIn?.Invoke(result.User.UserId);
+            Debug.Log("Player successfully Logged in!");
+            //AuthResult result = task.Result;
+            Debug.Log("Result set");
+            //Debug.LogFormat("User signed in successfully: {0} ({1})", result.User.DisplayName, result.User.UserId);
         });
 
 
+    }
+
+    private IEnumerator DelayedAfterSignIn()
+    {
+            Debug.Log("Before Delay - Wait 2 seconds");
+            yield return new WaitForSeconds(2);
+            Debug.Log("After Delay - Set Player as Current User");
+            USerInfo.Instance.SetUserInfoFromFirebaseUser(auth.CurrentUser);
+            Debug.Log("Display Players name");
+            OnSuccessfulLogIn?.Invoke();
+            LevelCreator.Instance.OnPlayerSignedInSuccess();
     }
 
     /*

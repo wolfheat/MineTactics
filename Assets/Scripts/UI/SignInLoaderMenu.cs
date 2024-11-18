@@ -16,7 +16,7 @@ public class SignInLoaderMenu : MonoBehaviour
         AuthManager.OnSuccessfulLogIn += OnSuccessfulLogIn;
     }
 
-    private void OnSuccessfulLogIn(string obj)
+    private void OnSuccessfulLogIn()
     {
         Debug.Log("Signed In success");
         gameObject.SetActive(false);
