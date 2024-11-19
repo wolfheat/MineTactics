@@ -5,11 +5,13 @@ using Firebase.Auth;
 using System;
 using System.Collections;
 using TMPro;
+using System.Threading.Tasks;
 
 public class AuthManager : MonoBehaviour
 {
     FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
     FirebaseAuth auth = FirebaseAuth.DefaultInstance;
+    public static Action LogInAttemptStarted;
     public static Action OnSuccessfulLogIn;
     public static Action OnSuccessfulCreation;
 
@@ -45,9 +47,11 @@ public class AuthManager : MonoBehaviour
         });
     }
 
+    private string logInEmail = "none@none.com";
     public void RegisterPlayerWithUserNameAndPassword(string email, string password, TextMeshProUGUI resultTextfield = null)
     {
-        StartCoroutine(DelayedAfterSignIn());
+        authResult = null;
+        StartCoroutine(WaitForRegister(email,password));
         Debug.Log("Register player: "+email+" pass: "+password);
         //password = "TEST123test";
         auth = FirebaseAuth.DefaultInstance;
@@ -67,46 +71,22 @@ public class AuthManager : MonoBehaviour
                 return;
             }
             Debug.Log("Registration success!");
+            authResult = task;
             // Firebase user has been created.
-            AuthResult result = task.Result;
             //Debug.LogFormat("Firebase user created successfully: {0} ({1})",
-            Debug.Log("Start PLayer Log in!");
-            //OnSuccessfulCreation?.Invoke(result.User.UserId);
-            SignInPlayerWithUserNameAndPassword(email, password);
         });
 
 
     }
-    
-    public IEnumerator SignInPlayerWithUserNameAndPasswordTest(string email, string password, TextMeshProUGUI resultTextfield = null)
-    {
-        auth = FirebaseAuth.DefaultInstance;
-        var task = auth.CreateUserWithEmailAndPasswordAsync(email, password);
-        yield return new WaitUntil( () => task.IsCompleted);
-
-        if (task.IsCanceled)
-        {
-            Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
-        }
-        if (task.IsFaulted)
-        {
-        resultTextfield.text = task.Exception.ToString();
-        Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
-        // Show error message in game 
-            foreach (Exception innerException in task.Exception.Flatten().InnerExceptions)
-            {
-                Firebase.FirebaseException firebaseEx = innerException as Firebase.FirebaseException;
-                Debug.LogError("Error code: " + firebaseEx.ErrorCode);
-                Debug.LogError("Error message: " + innerException.Message);
-            }
-        }
-        Debug.Log("PLayer is Now Logged in");
-
-    }
+    Task<AuthResult> authResult = null;
     
     public void SignInPlayerWithUserNameAndPassword(string email, string password)
     {
-        StartCoroutine(DelayedAfterSignIn());
+        Debug.Log("Running SignInPlayerWithUserNameAndPassword");
+        //auth.SignOut();
+        authResult = null;
+        logInEmail = email;
+        StartCoroutine(WaitForSignIn());
         auth = FirebaseAuth.DefaultInstance;
         auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
             if (task.IsCanceled)
@@ -126,6 +106,7 @@ public class AuthManager : MonoBehaviour
                 return;
             }
 
+            authResult = task;
             Debug.Log("Player successfully Logged in!");
             //AuthResult result = task.Result;
             Debug.Log("Result set");
@@ -135,16 +116,34 @@ public class AuthManager : MonoBehaviour
 
     }
 
-    private IEnumerator DelayedAfterSignIn()
+    private IEnumerator WaitForRegister(string email, string password)
     {
-            Debug.Log("Before Delay - Wait 2 seconds");
-            yield return new WaitForSeconds(2);
-            Debug.Log("After Delay - Set Player as Current User");
-            USerInfo.Instance.SetUserInfoFromFirebaseUser(auth.CurrentUser);
-            Debug.Log("Display Players name");
-            OnSuccessfulLogIn?.Invoke();
-            LevelCreator.Instance.OnPlayerSignedInSuccess();
+        Debug.Log("Waiting for auth result to complete");
+        while(authResult == null || !authResult.IsCompleted)
+            yield return new WaitForSeconds(0.1f);
+        //yield return new WaitUntil(() => authResult.IsCompleted);
+        Debug.Log("Waited until auth result was complete");
+
+        Debug.Log("Start Player Log in!");
+        //OnSuccessfulCreation?.Invoke(result.User.UserId);
+        SignInPlayerWithUserNameAndPassword(email, password);
+
     }
+
+    private IEnumerator WaitForSignIn()
+    {
+        Debug.Log("WaitForSignIn - Started");
+        LogInAttemptStarted?.Invoke();
+        while (authResult == null || !authResult.IsCompleted)
+            yield return new WaitForSeconds(0.1f);
+        //yield return new WaitUntil(() => authResult.IsCompleted);
+
+        USerInfo.Instance.SetUserInfoFromFirebaseUser(auth.CurrentUser);
+        Debug.Log("Display Players name");
+        OnSuccessfulLogIn?.Invoke();
+    }
+
+    internal void LogOut() => auth?.SignOut();
 
     /*
     void InitializeFirebase()

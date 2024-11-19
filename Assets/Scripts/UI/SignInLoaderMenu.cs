@@ -13,12 +13,20 @@ public class SignInLoaderMenu : MonoBehaviour
         }
         Instance = this;
 
-        AuthManager.OnSuccessfulLogIn += OnSuccessfulLogIn;
+    }
+    private void OnEnable()
+    {
+        AuthManager.OnSuccessfulLogIn += OnSuccessfulLogIn;        
+    }
+    private void OnDisable()
+    {
+        AuthManager.OnSuccessfulLogIn -= OnSuccessfulLogIn;
     }
 
     private void OnSuccessfulLogIn()
     {
-        Debug.Log("Signed In success");
+        Debug.Log("Signed In success - Close the Loader Menu");
+        LevelCreator.Instance.OnPlayerSignedInSuccess();
         gameObject.SetActive(false);
     }
 }
