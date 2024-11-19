@@ -69,7 +69,8 @@ Nov 2024
 		* Players can now submit levels to the database as Pending
 19/11	* Made a progress circle for the LoadingPanel
 		* LoadingScreen now works for Log In and Register Actions
-
+		* Anonymous log in only allowes game play and return to Menu button
+		* Submitting Levels now use ProgressPanel
 		
 
 
