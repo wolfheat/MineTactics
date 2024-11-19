@@ -17,7 +17,7 @@ public class PanelController : MonoBehaviour
     [SerializeField] GameObject registerMenu;
     [SerializeField] GameObject submitMenu;
 
-    [SerializeField] GameObject signInLoaderPanel;
+    [SerializeField] LoadingPanel progressPanel;
 
     [SerializeField] GameObject settingsPanel;
     [SerializeField] GameObject createPanel;
@@ -32,13 +32,13 @@ public class PanelController : MonoBehaviour
     }
     private void OnEnable()
     {
-        AuthManager.LogInAttemptStarted += ShowLoaderPanel;
-        AuthManager.OnSuccessfulLogIn += JustLoggedInMenus;        
+        AuthManager.LoginAttemptStarted += ShowLoaderPanelLogin;
+        AuthManager.OnSuccessfulLogIn += LoginConfirmed;        
     }
     private void OnDisable()
     {
-        AuthManager.LogInAttemptStarted -= ShowLoaderPanel;
-        AuthManager.OnSuccessfulLogIn -= JustLoggedInMenus;
+        AuthManager.LoginAttemptStarted -= ShowLoaderPanelLogin;
+        AuthManager.OnSuccessfulLogIn -= LoginConfirmed;
     }
     private void InitStartMenu()
     {
@@ -47,6 +47,7 @@ public class PanelController : MonoBehaviour
         loginMenu.SetActive(false);
         registerMenu.SetActive(false);
         settingsPanel.SetActive(false);
+        progressPanel.gameObject.SetActive(false);
     }
 
     public void CloseMainMenuNoLogIn()
@@ -66,14 +67,19 @@ public class PanelController : MonoBehaviour
         settingsPanel.SetActive(false);
     }
 
-    public void ShowLoaderPanel()
+    public void ShowLoaderPanelLogin()
     {
-        // Close login and register panels
-        loginMenu.SetActive(false);
-        registerMenu.SetActive(false);
-        signInLoaderPanel.gameObject.SetActive(true);
+        progressPanel.gameObject.SetActive(true);
+        progressPanel.OnLoginStarted();
     }
-    public void JustLoggedInMenus()
+
+    public void LoginDeclined()
+    {
+        progressPanel.gameObject.SetActive(true);
+        progressPanel.OnRegisterStarted();
+    }
+    
+    public void LoginConfirmed()
     {
         ToggleMenuButtons(true);
         startMenu.SetActive(false);
@@ -83,6 +89,9 @@ public class PanelController : MonoBehaviour
     public void RequestLogOut()
     {
         Debug.Log("Player requested log out");
+
+        // Reset Player Name
+        LevelCreator.Instance.OnPlayerSignedOut();
 
         // Log out Menu ?? not needed since its sync?
         AuthManager.Instance.LogOut();

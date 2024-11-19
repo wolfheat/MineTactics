@@ -16,14 +16,29 @@ public class LoginMenu : MonoBehaviour
     {
         Debug.Log("Register for Success Methods from "+this.name);
         AuthManager.OnSuccessfulLogIn += OnSuccessfulLogIn;
-        AuthManager.OnSuccessfulCreation += OnSuccessfulCreation;        
+        AuthManager.OnSuccessfulCreation += OnSuccessfulCreation;
+        AuthManager.RegisterAttemptFailed += OnRegisterFailed;
+        AuthManager.LoginAttemptFailed += OnLoginFailed;
     }
+
+    private void OnLoginFailed(string error)
+    {
+        errorMessage.text = error;
+    }
+
+    private void OnRegisterFailed(string error)
+    {
+        errorMessage.text = error;
+    }
+
     private void OnDisable()
     {
         Debug.Log("UN-Register for Success Methods from "+this.name);
         AuthManager.OnSuccessfulLogIn -= OnSuccessfulLogIn;
-        AuthManager.OnSuccessfulCreation -= OnSuccessfulCreation;        
-        
+        AuthManager.OnSuccessfulCreation -= OnSuccessfulCreation;
+        AuthManager.RegisterAttemptFailed -= OnRegisterFailed;
+        AuthManager.LoginAttemptFailed -= OnLoginFailed;
+
     }
 
     private void OnSuccessfulCreation()
