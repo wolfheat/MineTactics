@@ -6,7 +6,7 @@ using System;
 using System.Collections;
 using TMPro;
 using System.Threading.Tasks;
-using UnityEditor.PackageManager;
+using Firebase;
 
 public class AuthManager : MonoBehaviour
 {
@@ -18,6 +18,8 @@ public class AuthManager : MonoBehaviour
     public static Action<string> LoginAttemptFailed;
     public static Action OnSuccessfulLogIn;
     public static Action OnSuccessfulCreation;
+
+    public static Action<string> OnDependenciesSuccess;
 
 
     public static AuthManager Instance { get; private set; }
@@ -33,8 +35,8 @@ public class AuthManager : MonoBehaviour
     }
     private void Start()
     {
-        db = FirebaseFirestore.DefaultInstance;
-        auth = FirebaseAuth.DefaultInstance;
+        //LevelCreator.Instance.SetAppRef("Run Fix!");
+        //LevelCreator.Instance.SetAppRef("Run Fix!!");
         Firebase.FirebaseApp app;
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
             var dependencyStatus = task.Result;
@@ -43,13 +45,17 @@ public class AuthManager : MonoBehaviour
                 // Create and hold a reference to your FirebaseApp,
                 // where app is a Firebase.FirebaseApp property of your application class.
                 app = Firebase.FirebaseApp.DefaultInstance;
+                db = FirebaseFirestore.DefaultInstance;
+                auth = FirebaseAuth.DefaultInstance;
                 Debug.Log("*** Fixed FirebaseApp Dependencies ***");
+                //LevelCreator.Instance.SetAppRef("OK!");
                 // Set a flag here to indicate whether Firebase is ready to use by your app.
+                OnDependenciesSuccess?.Invoke("Success");
             }
             else
             {
-                Debug.LogError(System.String.Format(
-                  "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+                OnDependenciesSuccess?.Invoke("Failed");
+                //LevelCreator.Instance.SetAppRef("FAIL!");
                 // Firebase Unity SDK is not safe to use here.
             }
         });
@@ -75,8 +81,178 @@ public class AuthManager : MonoBehaviour
             if (task.IsFaulted)
             {
                 //resultTextfield.text = task.Exception.ToString();
-                foreach (var error in task.Exception.Flatten().InnerExceptions)
-                    errorMessage = error.Message;
+                FirebaseException exception = task.Exception.GetBaseException() as FirebaseException;
+                AuthError error = (AuthError)exception.ErrorCode;
+                /*
+                switch (error)
+                {
+                    case AuthError.None:
+                        break;
+                    case AuthError.Unimplemented:
+                        break;
+                    case AuthError.Failure:
+                        break;
+                    case AuthError.InvalidCustomToken:
+                        break;
+                    case AuthError.CustomTokenMismatch:
+                        break;
+                    case AuthError.InvalidCredential:
+                        break;
+                    case AuthError.UserDisabled:
+                        break;
+                    case AuthError.AccountExistsWithDifferentCredentials:
+                        break;
+                    case AuthError.OperationNotAllowed:
+                        break;
+                    case AuthError.EmailAlreadyInUse:
+                        break;
+                    case AuthError.RequiresRecentLogin:
+                        break;
+                    case AuthError.CredentialAlreadyInUse:
+                        break;
+                    case AuthError.InvalidEmail:
+                        break;
+                    case AuthError.WrongPassword:
+                        break;
+                    case AuthError.TooManyRequests:
+                        break;
+                    case AuthError.UserNotFound:
+                        break;
+                    case AuthError.ProviderAlreadyLinked:
+                        break;
+                    case AuthError.NoSuchProvider:
+                        break;
+                    case AuthError.InvalidUserToken:
+                        break;
+                    case AuthError.UserTokenExpired:
+                        break;
+                    case AuthError.NetworkRequestFailed:
+                        break;
+                    case AuthError.InvalidApiKey:
+                        break;
+                    case AuthError.AppNotAuthorized:
+                        break;
+                    case AuthError.UserMismatch:
+                        break;
+                    case AuthError.WeakPassword:
+                        break;
+                    case AuthError.NoSignedInUser:
+                        break;
+                    case AuthError.ApiNotAvailable:
+                        break;
+                    case AuthError.ExpiredActionCode:
+                        break;
+                    case AuthError.InvalidActionCode:
+                        break;
+                    case AuthError.InvalidMessagePayload:
+                        break;
+                    case AuthError.InvalidPhoneNumber:
+                        break;
+                    case AuthError.MissingPhoneNumber:
+                        break;
+                    case AuthError.InvalidRecipientEmail:
+                        break;
+                    case AuthError.InvalidSender:
+                        break;
+                    case AuthError.InvalidVerificationCode:
+                        break;
+                    case AuthError.InvalidVerificationId:
+                        break;
+                    case AuthError.MissingVerificationCode:
+                        break;
+                    case AuthError.MissingVerificationId:
+                        break;
+                    case AuthError.MissingEmail:
+                        break;
+                    case AuthError.MissingPassword:
+                        break;
+                    case AuthError.QuotaExceeded:
+                        break;
+                    case AuthError.RetryPhoneAuth:
+                        break;
+                    case AuthError.SessionExpired:
+                        break;
+                    case AuthError.AppNotVerified:
+                        break;
+                    case AuthError.AppVerificationFailed:
+                        break;
+                    case AuthError.CaptchaCheckFailed:
+                        break;
+                    case AuthError.InvalidAppCredential:
+                        break;
+                    case AuthError.MissingAppCredential:
+                        break;
+                    case AuthError.InvalidClientId:
+                        break;
+                    case AuthError.InvalidContinueUri:
+                        break;
+                    case AuthError.MissingContinueUri:
+                        break;
+                    case AuthError.KeychainError:
+                        break;
+                    case AuthError.MissingAppToken:
+                        break;
+                    case AuthError.MissingIosBundleId:
+                        break;
+                    case AuthError.NotificationNotForwarded:
+                        break;
+                    case AuthError.UnauthorizedDomain:
+                        break;
+                    case AuthError.WebContextAlreadyPresented:
+                        break;
+                    case AuthError.WebContextCancelled:
+                        break;
+                    case AuthError.DynamicLinkNotActivated:
+                        break;
+                    case AuthError.Cancelled:
+                        break;
+                    case AuthError.InvalidProviderId:
+                        break;
+                    case AuthError.WebInternalError:
+                        break;
+                    case AuthError.WebStorateUnsupported:
+                        break;
+                    case AuthError.TenantIdMismatch:
+                        break;
+                    case AuthError.UnsupportedTenantOperation:
+                        break;
+                    case AuthError.InvalidLinkDomain:
+                        break;
+                    case AuthError.RejectedCredential:
+                        break;
+                    case AuthError.PhoneNumberNotFound:
+                        break;
+                    case AuthError.InvalidTenantId:
+                        break;
+                    case AuthError.MissingClientIdentifier:
+                        break;
+                    case AuthError.MissingMultiFactorSession:
+                        break;
+                    case AuthError.MissingMultiFactorInfo:
+                        break;
+                    case AuthError.InvalidMultiFactorSession:
+                        break;
+                    case AuthError.MultiFactorInfoNotFound:
+                        break;
+                    case AuthError.AdminRestrictedOperation:
+                        break;
+                    case AuthError.UnverifiedEmail:
+                        break;
+                    case AuthError.SecondFactorAlreadyEnrolled:
+                        break;
+                    case AuthError.MaximumSecondFactorCountExceeded:
+                        break;
+                    case AuthError.UnsupportedFirstFactor:
+                        break;
+                    case AuthError.EmailChangeNeedsVerification:
+                        break;
+                }
+                */
+                // Maybe just printe the name? 
+                errorMessage = error.GetType().Name ?? "??";
+
+                //foreach (var error in task.Exception.Flatten().InnerExceptions)
+                //    errorMessage = error.Message;
                 //Debug.LogWarning("Exception: " + error.Message);
                 //Debug.Log(" ");
                 //Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);

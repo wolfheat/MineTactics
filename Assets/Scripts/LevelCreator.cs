@@ -15,6 +15,7 @@ public class LevelCreator : MonoBehaviour
     [SerializeField] private TextMeshProUGUI amtText;
     [SerializeField] private TextMeshProUGUI playerIDText;
     [SerializeField] private TextMeshProUGUI playerIDText2;
+    [SerializeField] private TextMeshProUGUI appRef;
 
     [SerializeField] private GameBox mineBoxPrefab;
     [SerializeField] private GameBox unclearedBoxPrefab;
@@ -90,6 +91,7 @@ public class LevelCreator : MonoBehaviour
         AuthManager.OnSuccessfulLogIn += OnPlayerSignedInSuccess;
     }
 
+    public void SetAppRef(string s) => appRef.text = s;
     private void AlignBoxesAnchor()
     {
         // Align GameArea

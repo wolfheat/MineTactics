@@ -71,7 +71,10 @@ Nov 2024
 		* LoadingScreen now works for Log In and Register Actions
 		* Anonymous log in only allowes game play and return to Menu button
 		* Submitting Levels now use ProgressPanel
-		
+		* Tried Changing Manifest to get it to Run Firebase on Android, but it did not want to open from this
+
+
+		* Figure out how to get it to run Firebase on Mobile
 
 
 		* Make the loadingpanel usable from all places loading is needed - Log in - Register - Submitting Level
