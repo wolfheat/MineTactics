@@ -31,9 +31,15 @@ public class FirestoreManager : MonoBehaviour
     public List<LevelData> DownloadedLevels { get; private set; } = new List<LevelData>();
     public int LoadedAmount => DownloadedLevels.Count;
 
+
     public static Action<string> SubmitLevelAttemptFailed;
     public static Action SubmitLevelAttemptSuccess;
     public static Action OnSubmitLevelStarted;
+
+    public static Action OnSuccessfulLoadingOfLevels;
+    public static Action OnLoadLevelStarted;
+
+
 
     private void Awake()
     {
@@ -73,6 +79,9 @@ public class FirestoreManager : MonoBehaviour
         }
         Debug.Log("No Downloaded Levels in the list, Loading Level with Status: "+statusToLoad+" PendingToggle is set to "+PanelController.UsePending);
 
+        // Show LoadingPanel here
+        OnLoadLevelStarted?.Invoke();
+
         CollectionReference levelsRef = db.Collection("Levels");
         levelsRef
             .WhereEqualTo("Status", statusToLoad)
@@ -103,7 +112,10 @@ public class FirestoreManager : MonoBehaviour
 
                         Debug.Log("Downloaded LEvels from the database: "+snapshot.Count);
                         // Select a random level from the retrieved documents
-                        LoadALevelFromDownloadedLevelsList();                        
+                        LoadALevelFromDownloadedLevelsList();
+
+
+                        OnSuccessfulLoadingOfLevels?.Invoke();
                     }
                     else
                     {

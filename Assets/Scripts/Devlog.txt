@@ -77,8 +77,8 @@ Nov 2024
 21/11	* Fixed issue with Firebase and build Gradle issue - solution was to check the MInify boxes in the Android Build Settings - Custom Gradle manifests are enable but not written to
 		* Updated the Input system so only new is used for touch
 		* Adjusted ResultScreens into different ones depending on GameType
+		* Added Loading Screen For Loading Levels from db
 
-		* Add Loading Screen For Loading Levels from db
 
 
 		* Fix the error handeling of submitting levels

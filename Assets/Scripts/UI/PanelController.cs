@@ -48,12 +48,14 @@ public class PanelController : MonoBehaviour
         AuthManager.LoginAttemptStarted += ShowLoaderPanelLogin;
         AuthManager.OnSuccessfulLogIn += LoginConfirmed;        
         FirestoreManager.OnSubmitLevelStarted += ShowLoaderPanelSubmitLevel;
+        FirestoreManager.OnLoadLevelStarted += ShowLoaderPanelReceiveLevel;
     }
     private void OnDisable()
     {
         AuthManager.LoginAttemptStarted -= ShowLoaderPanelLogin;
         AuthManager.OnSuccessfulLogIn -= LoginConfirmed;
         FirestoreManager.OnSubmitLevelStarted -= ShowLoaderPanelSubmitLevel;
+        FirestoreManager.OnLoadLevelStarted -= ShowLoaderPanelReceiveLevel;
     }
     private void InitStartMenu()
     {
@@ -82,10 +84,22 @@ public class PanelController : MonoBehaviour
         settingsPanel.SetActive(false);
     }
 
+    public void ShowLoaderPanelLoadLevels()
+    {
+        progressPanel.gameObject.SetActive(true);
+        progressPanel.OnLoadLevelsStarted();
+    }
+    
     public void ShowLoaderPanelLogin()
     {
         progressPanel.gameObject.SetActive(true);
         progressPanel.OnLoginStarted();
+    }
+    
+    public void ShowLoaderPanelReceiveLevel()
+    {
+        progressPanel.gameObject.SetActive(true);
+        progressPanel.OnLoadLevelsStarted();
     }
     
     public void ShowLoaderPanelSubmitLevel()
