@@ -76,12 +76,9 @@ Nov 2024
 		- Git it to run By deleting the android-35 from the E:\Unity Projects\2022.3.53f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms dir
 21/11	* Fixed issue with Firebase and build Gradle issue - solution was to check the MInify boxes in the Android Build Settings - Custom Gradle manifests are enable but not written to
 		* Updated the Input system so only new is used for touch
+		* Adjusted ResultScreens into different ones depending on GameType
 
-		* Figure out how to get it to run Firebase on Mobile
-
-
-		* Make the loadingpanel usable from all places loading is needed - Log in - Register - Submitting Level
-
+		* Add Loading Screen For Loading Levels from db
 
 
 		* Fix the error handeling of submitting levels

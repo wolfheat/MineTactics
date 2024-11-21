@@ -57,7 +57,14 @@ public class Inputs : MonoBehaviour
 
     public void OnTouchClick(Vector2 pos,bool rightClick = false)
     {
-        var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(pos));
+
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            Debug.Log("Pointer is hitting UI discard touch");
+            return;
+        }
+
+            var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(pos));
         if (!rayHit.collider) return;
         
         GameBox box = rayHit.collider.GetComponent<GameBox>();

@@ -23,14 +23,23 @@ public class LevelCompletionScreen : MonoBehaviour
 
     public void UpdateLevelInfo(LevelData data)
     {
-        LoadedData = data;
-        creatorId.text = data.CreatorId.ToString();
-        rating.text = data.DifficultyRating.ToString();
-        votes.text = data.Upvotes.ToString()+"/"+ data.Downvotes.ToString();
-        levelID.text = data.LevelId.ToString();
-        status.text = data.Status.ToString();
-        playCount.text = data.PlayCount.ToString();
-        time.text = Timer.TimeElapsed.ToString();
+        if (USerInfo.Instance.currentType == GameType.Normal)
+        {
+            levelID.text = USerInfo.Instance.levelID;
+            time.text = Timer.TimeElapsed.ToString();
+        }
+        else {         
+            if (data == null)
+                return;
+            LoadedData = data;
+            creatorId.text = data.CreatorId.ToString();
+            rating.text = data.DifficultyRating.ToString();
+            votes.text = data.Upvotes.ToString()+"/"+ data.Downvotes.ToString();
+            levelID.text = data.LevelId.ToString();
+            status.text = data.Status.ToString();
+            playCount.text = data.PlayCount.ToString();
+            time.text = Timer.TimeElapsed.ToString();
+        }
     }
     
     public void SetVote(int set)

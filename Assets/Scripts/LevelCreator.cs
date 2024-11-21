@@ -256,6 +256,7 @@ public class LevelCreator : MonoBehaviour
         // Players first click should count in this game mode
         WaitForFirstMove = false;
 
+        USerInfo.Instance.currentType = GameType.Loaded;
 
         BackgroundController.Instance.SetColorTactics();
     }
@@ -423,8 +424,10 @@ public class LevelCreator : MonoBehaviour
         SmileyButton.Instance.ShowNormal();
         Timer.Instance.ResetCounterAndPause();
         WaitForFirstMove = true;
-        levelText.text = "RANDOM "+gameWidth+"x"+gameHeight;
+        USerInfo.Instance.levelID = "RANDOM " + gameWidth + "x" + gameHeight;
+        levelText.text = USerInfo.Instance.levelID;
         amtText.text = ""+FirestoreManager.Instance.LoadedAmount;
+        USerInfo.Instance.currentType = GameType.Normal;
         BackgroundController.Instance.SetColorNormal();
 
     }
@@ -542,10 +545,10 @@ public class LevelCreator : MonoBehaviour
         SmileyButton.Instance.ShowWin();
 
         LevelBusted = false;
-        // Open Completion Panel
-        levelCompletionPanel.gameObject.SetActive(true);
-        levelCompletionPanel.RequestUpdateLevelInfo();
 
+        // Open Completion Panel - Pick correct one depending on level type
+        PanelController.Instance.ShowLevelComplete();
+        
     }
 
     private void ResetLevel()

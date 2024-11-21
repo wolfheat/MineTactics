@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,9 @@ public class PanelController : MonoBehaviour
     [SerializeField] GameObject registerMenu;
     [SerializeField] GameObject submitMenu;
 
+    [SerializeField] LevelCompletionScreen levelCompleteNormal;
+    [SerializeField] LevelCompletionScreen levelComplete;
+
     [SerializeField] LoadingPanel progressPanel;
 
     [SerializeField] GameObject settingsPanel;
@@ -24,8 +28,17 @@ public class PanelController : MonoBehaviour
     [SerializeField] Toggle toggle;
     public static bool UsePending { get; private set; }
 
+
+    public static PanelController Instance { get; private set; }
+
     private void Start()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
         // Initiate correct Menues at start
 
         InitStartMenu();
@@ -94,7 +107,7 @@ public class PanelController : MonoBehaviour
         loginMenu.SetActive(false);
         registerMenu.SetActive(false);
     }
-    public void RequestLogOut()
+    public void RequestLogOutInitMainMenu()
     {
         Debug.Log("Player requested log out");
 
@@ -173,4 +186,19 @@ public class PanelController : MonoBehaviour
         startMenuButton.SetActive(false);
     }
 
+    internal void ShowLevelComplete()
+    {
+        if (USerInfo.Instance.currentType == GameType.Normal)
+        {
+            levelCompleteNormal.gameObject.SetActive(true); 
+            levelCompleteNormal.RequestUpdateLevelInfo();
+        }
+        else
+        {
+            levelComplete.gameObject.SetActive(true);
+            levelComplete.RequestUpdateLevelInfo();
+
+        }
+
+    }
 }
