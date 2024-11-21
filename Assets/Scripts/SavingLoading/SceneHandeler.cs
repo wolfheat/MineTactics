@@ -8,12 +8,19 @@ using UnityEngine.SceneManagement;
 public class SceneHandeler : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI resultText;
+    [SerializeField] TextMeshProUGUI info;
     [SerializeField] GameObject ui;
     void Start()
     {
         AuthManager.OnDependenciesSuccess += ShowDependencyResult;
+        AuthManager.OnShowInfo += ShowInfo;
     }
 
+    private void ShowInfo(string infoText)
+    {
+            info.text = infoText+" "+timer;        
+    }
+    
     private void ShowDependencyResult(string result)
     {
         StartCoroutine(DelayedLoad(result));

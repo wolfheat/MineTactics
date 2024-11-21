@@ -72,6 +72,9 @@ Nov 2024
 		* Anonymous log in only allowes game play and return to Menu button
 		* Submitting Levels now use ProgressPanel
 		* Tried Changing Manifest to get it to Run Firebase on Android, but it did not want to open from this
+20/11	- Struggled all day trying to get it to run on mobile. Had tons of gradle issues making the build fail for android. Updated project to v 2022.3.53f1
+		- Git it to run By deleting the android-35 from the E:\Unity Projects\2022.3.53f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms dir
+
 
 
 		* Figure out how to get it to run Firebase on Mobile
