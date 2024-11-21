@@ -207,8 +207,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15.12
-  m_fontSizeBase: 15.12
+  m_fontSize: 7.02
+  m_fontSizeBase: 7.02
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12548,14 +12548,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a384c8e8-cb41-47d3-847c-9d246bd2b3a5
     m_ActionName: Main/RMouse[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6a06f11b-b959-4c1d-817d-96abe4952b60
-    m_ActionName: Main/S[/Keyboard/s]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 1b8b858a-8034-4fb1-a9d3-56e39f85cd2a
-    m_ActionName: Main/L[/Keyboard/l]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Main

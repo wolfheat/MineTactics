@@ -9,7 +9,7 @@
                     "name": "Mouse",
                     "type": "Button",
                     "id": "a7b4a103-1ae0-478f-8560-b45d725f92d3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -18,10 +18,19 @@
                     "name": "RMouse",
                     "type": "Button",
                     "id": "a384c8e8-cb41-47d3-847c-9d246bd2b3a5",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TouchPosition",
+                    "type": "Value",
+                    "id": "2567ab95-0a7c-493c-a902-16b8b940c38b",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -39,7 +48,7 @@
                 {
                     "name": "",
                     "id": "ba0553cd-a552-4be5-bbaf-7bb269a6b92b",
-                    "path": "<Touchscreen>/touch0/tap",
+                    "path": "<Touchscreen>/primaryTouch/press",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -55,6 +64,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "RMouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "645a3b79-7b10-4e66-87d5-d7c5d3cdafdd",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

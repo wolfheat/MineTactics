@@ -26,7 +26,7 @@ public class SceneHandeler : MonoBehaviour
         StartCoroutine(DelayedLoad(result));
     }
 
-    int timer = 10;
+    int timer = 2;
     private IEnumerator DelayedLoad(string result)
     {
         resultText.text = result;

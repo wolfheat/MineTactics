@@ -31,7 +31,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""Mouse"",
                     ""type"": ""Button"",
                     ""id"": ""a7b4a103-1ae0-478f-8560-b45d725f92d3"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -40,10 +40,19 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""RMouse"",
                     ""type"": ""Button"",
                     ""id"": ""a384c8e8-cb41-47d3-847c-9d246bd2b3a5"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TouchPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""2567ab95-0a7c-493c-a902-16b8b940c38b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -61,7 +70,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ba0553cd-a552-4be5-bbaf-7bb269a6b92b"",
-                    ""path"": ""<Touchscreen>/touch0/tap"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -79,6 +88,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""RMouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""645a3b79-7b10-4e66-87d5-d7c5d3cdafdd"",
+                    ""path"": ""<Touchscreen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -89,6 +109,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Main = asset.FindActionMap("Main", throwIfNotFound: true);
         m_Main_Mouse = m_Main.FindAction("Mouse", throwIfNotFound: true);
         m_Main_RMouse = m_Main.FindAction("RMouse", throwIfNotFound: true);
+        m_Main_TouchPosition = m_Main.FindAction("TouchPosition", throwIfNotFound: true);
     }
 
     ~@Controls()
@@ -157,12 +178,14 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private List<IMainActions> m_MainActionsCallbackInterfaces = new List<IMainActions>();
     private readonly InputAction m_Main_Mouse;
     private readonly InputAction m_Main_RMouse;
+    private readonly InputAction m_Main_TouchPosition;
     public struct MainActions
     {
         private @Controls m_Wrapper;
         public MainActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Mouse => m_Wrapper.m_Main_Mouse;
         public InputAction @RMouse => m_Wrapper.m_Main_RMouse;
+        public InputAction @TouchPosition => m_Wrapper.m_Main_TouchPosition;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -178,6 +201,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @RMouse.started += instance.OnRMouse;
             @RMouse.performed += instance.OnRMouse;
             @RMouse.canceled += instance.OnRMouse;
+            @TouchPosition.started += instance.OnTouchPosition;
+            @TouchPosition.performed += instance.OnTouchPosition;
+            @TouchPosition.canceled += instance.OnTouchPosition;
         }
 
         private void UnregisterCallbacks(IMainActions instance)
@@ -188,6 +214,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @RMouse.started -= instance.OnRMouse;
             @RMouse.performed -= instance.OnRMouse;
             @RMouse.canceled -= instance.OnRMouse;
+            @TouchPosition.started -= instance.OnTouchPosition;
+            @TouchPosition.performed -= instance.OnTouchPosition;
+            @TouchPosition.canceled -= instance.OnTouchPosition;
         }
 
         public void RemoveCallbacks(IMainActions instance)
@@ -209,5 +238,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     {
         void OnMouse(InputAction.CallbackContext context);
         void OnRMouse(InputAction.CallbackContext context);
+        void OnTouchPosition(InputAction.CallbackContext context);
     }
 }
