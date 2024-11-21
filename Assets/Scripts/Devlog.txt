@@ -82,46 +82,66 @@ Nov 2024
 		* Changed so when pressing Next a new Level is Loaded instead of pressing the Random button
 
 		
-		* Make Tab step to next Input field when in Login or Register (Not needed for android)
+		* Make Tab step to next Input field when in Login or Register (Not needed for android) Tried no luck
 
 		* Still The Smiley sends player to normal games even when playing Random Loaded ones, should not be this way? How to manage
 
-		* Fix so the Pending checkbox is counting as checked at start - Not needed have it off at start
 		* Fix so settings are saved to disk and loaded correctly
 
 		* Fix the error handeling of submitting levels
 
 		* Issues connecting to Firestore on mobile, cant even load levels
 		* Add touch timing settings in settings 5-30ms?
+		
+		* Fix so the Pending checkbox is counting as checked at start - Not needed have it off at start
 
-		* Having this issues with creating new Users for the project
-		System.AggregateException: One or more errors occurred. (An internal error has occurred.) ---> Firebase.FirebaseException: An internal error has occurred.
-  at Firebase.Auth.FirebaseAuth.CreateUserWithEmailAndPasswordAsync (System.String email, System.String password) [0x00038] in /Users/runner/work/firebase-unity-sdk/firebase-unity-sdk/android_unity/armeabi-v7a/auth/swig/Firebase.Auth_fixed.cs:3853 
-   --- End of inner exception stack trace ---
----> (Inner Exception #0) Firebase.FirebaseException: An internal error has occurred.
-  at Firebase.Auth.FirebaseAuth.CreateUserWithEmailAndPasswordAsync (System.String email, System.String password) [0x00038] in /Users/runner/work/firebase-unity-sdk/firebase-unity-sdk/android_unity/armeabi-v7a/auth/swig/Firebase.Auth_fixed.cs:3853 <---
 
-		* Need to fix issue when busting a level and how to handle that
-		* Pressing Next just closes the Result, should it start new level?
-
+		* Make the Setting Size Have Single size steps from 5x5 -> 15x15 ??
+		
 		// TODO
 		* Maybe only allow paying players to rate and play pending games?
 
-		* Amke it possible to support as patriot, Buy Me a coffie or buying the game / unloading ads 5$?
+		// PRO USERS
+		* Make it possible to support as patriot, Buy Me a coffie or buying the game / unloading ads 5$?
 		* Make Submit button hide when submitted a level.
+		* Have creator guess a rating 1-10 which determines the levels start rating
+
+		// MONITIZATION
+		* How to monitize? Have unlock fee / buying game remove all ads and for rest have x amount of free games before require ad for continueation / or wait.
+
+		// USER EXPERIENCE
+		* Have player be able to favour some levels they want to practice and keep them locally? Have an option to run only favourite levels?
+		* Maybe - Make player unable to load same level again for 20 or 50 levels?
+		* Figure out more exactly how to deal with player ratings and levels ratings.
+		* Have a limit for levels for them to count towards rating? How to set this range?
+		* HAve categories for levels depending on logic? How to handle this, how to handle multiple logics?
+		* Should player have different strengths in diffrent logics and unlocking new ones? Prob not. Just have harder levels not appear for new users
+
+		// LEVEL CREATION
 		* Decide where to go after a Level is submitted
 			* Have player be able to go back to placing mines (Edit Mode A) from Edit Mode B
 		* Change so placemnt of mines are tinted mines and not flags, rework this
-		* Have player be able to favour some levels they want to practice and keep them locally? Have an option to run only favourite levels?
-		* Have creator guess a rating 1-10 which determines the levels start rating
+		* Make create mode that places mines and starts level and request send to database when satisfied
 
-		* Have popup with level results and a button to go to next Level or To Basic unloaded mode?
+		// UI
+		* Scale is set by hardcoding, instead make it follow screen size
+
+
+		// LEVEL CREATION SYSTEM
+		* Make setting new level size update underlaying and overlaying to correct amount. Recreate all?
+
+
 		* Add Error message popup when loading unexisting level
 		
-		* Make Unloaded basic Mode where player choses when to load a new level. Maybe not. Loading a random local game is sufficient
+		// AUTHENTICATION
+		* Players need to be able to log in with Facebook/googleaccount
+
+
+		// DATABASE
+		* Figure out a way to not load to many Levels at a time
+		* Maybe have many levels per entry, makes reads a lot fewer if 100 levels are in one read?
 
 		// Cloud Firestore Rules
-
 		* Allow writing if
 			- PLayer is power user = paying or playing a lot?
 			- Level starts with number between 06-20
@@ -142,75 +162,22 @@ Nov 2024
 
 		//ISSUES
 		* Changeing Size during a Create even breaks the level. Maybe have the level size set at the first creation step?
-		* Maybe - Make player unable to load same level again for 20 or 50 levels?
 
-		// DATABASE
-		* Figure out a way to not load to many Levels at a time
-		* Maybe have many levels per entry, makes reads a lot fewer if 100 levels are in one read?
+		* SOLVED - Having this issues with creating new Users for the project
+		System.AggregateException: One or more errors occurred. (An internal error has occurred.) ---> Firebase.FirebaseException: An internal error has occurred.
+  at Firebase.Auth.FirebaseAuth.CreateUserWithEmailAndPasswordAsync (System.String email, System.String password) [0x00038] in /Users/runner/work/firebase-unity-sdk/firebase-unity-sdk/android_unity/armeabi-v7a/auth/swig/Firebase.Auth_fixed.cs:3853 
+   --- End of inner exception stack trace ---
+---> (Inner Exception #0) Firebase.FirebaseException: An internal error has occurred.
+  at Firebase.Auth.FirebaseAuth.CreateUserWithEmailAndPasswordAsync (System.String email, System.String password) [0x00038] in /Users/runner/work/firebase-unity-sdk/firebase-unity-sdk/android_unity/armeabi-v7a/auth/swig/Firebase.Auth_fixed.cs:3853 <---
 
-		// Make create mode that places mines and starts level and request send to database when satisfied
+		
 
-		// Figure out more exactly how to deal with player ratings and levels ratings.
-		// Have a limit for levels for them to count towards rating? How to set this range?
-		// HAve categories for levels depending on logic? How to handle this, how to handle multiple logics?
-		// Should player have different strengths in diffrent logics and unlocking new ones? Prob not. Just have harder levels not appear for new users
-		// How to monitize? Have unlock fee / buying game remove all ads and for rest have x amount of free games before require ad for continueation / or wait.
-		// Players need to log on, implement Facebook/googleaccount/email login?
-
-
-
-		/ have players be able to be Power users by paying or playing enough enabling ability to supply levels?
-
-
-		// How to handle above 52 identical entries? 
-
-
+		
 		// TODO
-		* Create a Random rotation and Trasnpose method start with only 180° turns to acomodate for non square levels
-
-
-		* Check for system/database to load and save levels into - FireBase used before try it again
-		* Add system to load the game when the string has been recieved
-		* Add system for loading levels from de-compressed string
-
-		* Check that system loads and saves A-Z correctly, might get wrong around the z-A area
-
-		* Scale is set by hardcoding, instead make it follow screen size
-
-		* Make setting new level size update underlaying and overlaying to correct amount. Recreate all?
-
-		* Have timer show how long time it took for player to solve it, popup after each game with statistics
-
-		// MOBILE
-		* Make it run with touch on mobile
-		* Make setting page for flagging touch time etc
 
 		// SAVING / LOADING
-		* Make solution to save start state for game
 
-
-
-
-
-
-		* Make shovel even out ground
-
-		* Light flickers if to many lights or to close lights, disable lights when to far from player?
-		* some light get through meshes down to bottom of chunk and shows borders of vertices
-
-		// VISION
-
-		* Make forest that regrows and can be harvested for logs
-		* Make player able to dig chunks/stones from the underground
-		* Make player able to add logging into the driftmine
-
-
-		// TODO //
-		* Add sounds / Music ? No?
-		* Should player be firsty person or able to change?
-		
 		 - MAIN MENU
-		* Fix a menu
 
 		 - MECHANICS
 		
