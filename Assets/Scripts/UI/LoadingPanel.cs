@@ -37,7 +37,7 @@ public class LoadingPanel : MonoBehaviour
         FirestoreManager.SubmitLevelAttemptSuccess += OnSubmitLevelSuccess;        
         FirestoreManager.SubmitLevelAttemptFailed += OnSubmitLevelFailed;        
 
-        FirestoreManager.OnSuccessfulLoadingOfLevels += OnSuccessfulLoadLevels;        
+        FirestoreManager.OnSuccessfulLoadingOfLevels += OnSuccessfulLoadLevels;          
 
         AuthManager.OnSuccessfulLogIn += OnSuccessfulLogIn;
     }
@@ -117,13 +117,22 @@ public class LoadingPanel : MonoBehaviour
         headerText.text = "Submitting Level";
         subText.text = "Trying to Submit the Level, please wait!";
     }
-    internal void OnSuccessfulLoadLevels()
+    internal void OnSuccessfulLoadLevels(bool success=true)
     {
         ShowLoadingCircleAnimation(false);
         Debug.Log("OnSuccessfulLoadLevels");
-        // Set Name to Regitrating
-        headerText.text = FirestoreManager.Instance.LoadedAmount +" Levels Loaded Successfully";
-        subText.text = "Enjoy!";
+        if (success)
+        {
+            // Set Name to Regitrating
+            headerText.text = FirestoreManager.Instance.LoadedAmount +" Levels Loaded Successfully";
+            subText.text = "Enjoy!";
+        }
+        else
+        {
+            // Set Name to Regitrating
+            headerText.text = "Could Not Load any Levels";
+            subText.text = "Sorry!";
+        }
     }
     internal void OnSubmitLevelSuccess()
     {
@@ -147,7 +156,12 @@ public class LoadingPanel : MonoBehaviour
         // Load Main Menu if coming from log in or register else just close?
         if(currentState == LoadingState.LogIn || currentState == LoadingState.Register)
             startMenu.gameObject.SetActive(true);
+        if(currentState == LoadingState.LoadingLevels)
+        {
+            // Select a random level from the retrieved documents
+            FirestoreManager.Instance.GetRandomLevel(1000);
 
+        }
         this.gameObject.SetActive(false);
     }
 

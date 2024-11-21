@@ -36,7 +36,7 @@ public class FirestoreManager : MonoBehaviour
     public static Action SubmitLevelAttemptSuccess;
     public static Action OnSubmitLevelStarted;
 
-    public static Action OnSuccessfulLoadingOfLevels;
+    public static Action<bool> OnSuccessfulLoadingOfLevels;
     public static Action OnLoadLevelStarted;
 
 
@@ -111,15 +111,14 @@ public class FirestoreManager : MonoBehaviour
                         //DownloadedLevels = snapshot.Documents.Select(x=>x.ConvertTo<LevelData>()).ToList();
 
                         Debug.Log("Downloaded LEvels from the database: "+snapshot.Count);
-                        // Select a random level from the retrieved documents
-                        LoadALevelFromDownloadedLevelsList();
+                        
 
-
-                        OnSuccessfulLoadingOfLevels?.Invoke();
+                        OnSuccessfulLoadingOfLevels?.Invoke(true);
                     }
                     else
                     {
                         Debug.Log("No levels found within the specified range.");
+                        OnSuccessfulLoadingOfLevels?.Invoke(false);
                     }
                 }
                 else

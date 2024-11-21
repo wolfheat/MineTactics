@@ -23,12 +23,9 @@ public class LevelCompletionScreen : MonoBehaviour
 
     public void UpdateLevelInfo(LevelData data)
     {
-        if (USerInfo.Instance.currentType == GameType.Normal)
-        {
-            levelID.text = USerInfo.Instance.levelID;
-            time.text = Timer.TimeElapsed.ToString();
-        }
-        else {         
+        levelID.text = USerInfo.Instance.levelID;
+        time.text = Timer.TimeElapsed.ToString("F3") + "s";
+        if (USerInfo.Instance.currentType == GameType.Loaded) { 
             if (data == null)
                 return;
             LoadedData = data;
@@ -38,7 +35,6 @@ public class LevelCompletionScreen : MonoBehaviour
             levelID.text = data.LevelId.ToString();
             status.text = data.Status.ToString();
             playCount.text = data.PlayCount.ToString();
-            time.text = Timer.TimeElapsed.ToString();
         }
     }
     
@@ -53,6 +49,11 @@ public class LevelCompletionScreen : MonoBehaviour
         gameObject.SetActive(false);
         SendLevelUpdates();
         // Send Update to the database for this level? / this will create a write...
+        if(USerInfo.Instance.currentType == GameType.Loaded)
+            // Select a random level from the retrieved documents
+            FirestoreManager.Instance.GetRandomLevel(1000);
+
+
     }
     public void Back()
     {

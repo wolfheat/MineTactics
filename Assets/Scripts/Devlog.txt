@@ -78,12 +78,18 @@ Nov 2024
 		* Updated the Input system so only new is used for touch
 		* Adjusted ResultScreens into different ones depending on GameType
 		* Added Loading Screen For Loading Levels from db
+		* Fixed first level starting directly when loaded levels complete - Now starts at closing menu
+		* Changed so when pressing Next a new Level is Loaded instead of pressing the Random button
 
+		
+		* Make Tab step to next Input field when in Login or Register (Not needed for android)
 
+		* Still The Smiley sends player to normal games even when playing Random Loaded ones, should not be this way? How to manage
+
+		* Fix so the Pending checkbox is counting as checked at start - Not needed have it off at start
+		* Fix so settings are saved to disk and loaded correctly
 
 		* Fix the error handeling of submitting levels
-		* Fix so the waiting coroutine for logging in or regitring is not used. Use the result of the action instead to determine whats shown.
-		* Fix so the Pending checkbox is counting as checked at start
 
 		* Issues connecting to Firestore on mobile, cant even load levels
 		* Add touch timing settings in settings 5-30ms?
