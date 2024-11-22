@@ -82,14 +82,20 @@ Nov 2024
 		* Changed so when pressing Next a new Level is Loaded instead of pressing the Random button
 22/11	* Make the Setting Size Have Single size steps from 5x5 -> 15x15 ??
 		* Player can now set levels 5-15 on a slider in settings - updates on closing the menu preset Minecount 5, 7, 10, 13, 16, 20, 24, 30, 35, 42
+		* Added buttons to swap between game modes
+		* When not able to load levels it reverts to normal mode when closing loading panel
 
 
+		* Issue when no levels could be loaded, what should happen? Revert to loading normal levels?
+		* SHould Normal Button be removed when playing normal etc so it cant be pressed from the current state
+
+		* Still The Smiley sends player to normal games even when playing Random Loaded ones, should not be this way? How to manage
+		- Have Mode shown and a button to change mode and the smiley just restarts next level for current mode
 
 
 		
 		* Make Tab step to next Input field when in Login or Register (Not needed for android) Tried no luck
 
-		* Still The Smiley sends player to normal games even when playing Random Loaded ones, should not be this way? How to manage
 
 		* Fix so settings are saved to disk and loaded correctly
 

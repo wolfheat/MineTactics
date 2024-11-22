@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,9 +10,13 @@ public class PanelController : MonoBehaviour
     [SerializeField] GameObject createButton;
     [SerializeField] GameObject randomButton;
     [SerializeField] GameObject startMenuButton;
+
+    [SerializeField] GameObject normalMode;
+    [SerializeField] GameObject challengeMode;
     
     [SerializeField] GameObject cancelButton;
     [SerializeField] GameObject nextButton;
+    [SerializeField] TextMeshProUGUI modeText;
 
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject loginMenu;
@@ -82,6 +87,25 @@ public class PanelController : MonoBehaviour
         }
         ToggleMenuButtons(true);
         settingsPanel.SetActive(false);
+    }
+
+    public void UpdateModeShown() => modeText.text = USerInfo.Instance.currentType == GameType.Normal ? "NORMAL MODE" : "CHALLENGE MODE";
+    public void ChangeMode(int type)
+    {
+        USerInfo.Instance.currentType = (GameType)type;
+        if (type == 0)
+        {
+            normalMode.gameObject.SetActive(false);
+            challengeMode.gameObject.SetActive(true);
+            LevelCreator.Instance.RestartGame();
+        }
+        else
+        {
+            normalMode.gameObject.SetActive(true);
+            challengeMode.gameObject.SetActive(false);
+            LevelCreator.Instance.LoadRandomLevel();
+        }
+        UpdateModeShown();
     }
 
     public void ShowLoaderPanelLoadLevels()

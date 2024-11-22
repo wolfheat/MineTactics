@@ -4,7 +4,8 @@ using UnityEngine;
 
 
 public enum LoadingState{LogIn,Register,SubmitLevel,
-    LoadingLevels
+    LoadingLevels,
+    LoadingLevelsFailed
 }
 
 public class LoadingPanel : MonoBehaviour
@@ -120,7 +121,7 @@ public class LoadingPanel : MonoBehaviour
     internal void OnSuccessfulLoadLevels(bool success=true)
     {
         ShowLoadingCircleAnimation(false);
-        Debug.Log("OnSuccessfulLoadLevels");
+        Debug.Log("OnSuccessfulLoadLevels: "+success);
         if (success)
         {
             // Set Name to Regitrating
@@ -129,6 +130,7 @@ public class LoadingPanel : MonoBehaviour
         }
         else
         {
+            currentState = LoadingState.LoadingLevelsFailed;
             // Set Name to Regitrating
             headerText.text = "Could Not Load any Levels";
             subText.text = "Sorry!";
@@ -156,12 +158,12 @@ public class LoadingPanel : MonoBehaviour
         // Load Main Menu if coming from log in or register else just close?
         if(currentState == LoadingState.LogIn || currentState == LoadingState.Register)
             startMenu.gameObject.SetActive(true);
-        if(currentState == LoadingState.LoadingLevels)
-        {
+        if (currentState == LoadingState.LoadingLevels)
             // Select a random level from the retrieved documents
             FirestoreManager.Instance.GetRandomLevel(1000);
+        else
+            PanelController.Instance.ChangeMode(0);
 
-        }
         this.gameObject.SetActive(false);
     }
 
