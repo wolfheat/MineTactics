@@ -52,7 +52,8 @@ public class LevelCreator : MonoBehaviour
 
     Vector2[] sizePositions = new Vector2[3] { new Vector2(-2.2f,2.94f), new Vector2(-2.2f, 2.94f) , new Vector2(-2.2f, 2.94f) };
 
-    Vector3Int[] gameSizes = new Vector3Int[3] { new Vector3Int(6, 6, 10), new Vector3Int(8, 8, 22), new Vector3Int(12, 12, 30) };
+
+    int[] gameSizes = new int[10] { 5, 7, 10, 13, 16, 20, 24, 30, 35, 42 };
 
     float[] sizeScales = new float[3] { 0.832f, 0.832f, 0.832f};
 
@@ -114,11 +115,13 @@ public class LevelCreator : MonoBehaviour
 
         if (sizeFromSettings)
         {
-            Debug.Log("Load Game Size "+SettingsPanel.activeGameSize);  
+            int boardSize = USerInfo.Instance.BoardSize;
+            // Change to Use Userinfo?
+            Debug.Log("Load Game Size "+ boardSize);  
             // Load info of current size
-            gameWidth = gameSizes[SettingsPanel.activeGameSize].x;
-            gameHeight = gameSizes[SettingsPanel.activeGameSize].y;
-            totalmines = gameSizes[SettingsPanel.activeGameSize].z;
+            gameWidth = boardSize;
+            gameHeight = boardSize;
+            totalmines = gameSizes[boardSize-6];
 
             // Set mines array
             if(resetMines)

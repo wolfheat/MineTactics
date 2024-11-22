@@ -8,12 +8,14 @@ public class USerInfo : MonoBehaviour
 	public string userName = "";
 	public string email = "";
 	public string uid = "00";
-	public GameType currentType = GameType.Normal;
     internal string levelID;
 
-    public static USerInfo Instance { get; private set; }
+	public GameType currentType = GameType.Normal;
 
-	private void Awake()
+    public static USerInfo Instance { get; private set; }
+	public int BoardSize { get; internal set; } = 6;
+
+    private void Awake()
 	{
 		if (Instance != null)
 		{

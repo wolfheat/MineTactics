@@ -80,6 +80,11 @@ Nov 2024
 		* Added Loading Screen For Loading Levels from db
 		* Fixed first level starting directly when loaded levels complete - Now starts at closing menu
 		* Changed so when pressing Next a new Level is Loaded instead of pressing the Random button
+22/11	* Make the Setting Size Have Single size steps from 5x5 -> 15x15 ??
+		* Player can now set levels 5-15 on a slider in settings - updates on closing the menu preset Minecount 5, 7, 10, 13, 16, 20, 24, 30, 35, 42
+
+
+
 
 		
 		* Make Tab step to next Input field when in Login or Register (Not needed for android) Tried no luck
@@ -90,13 +95,11 @@ Nov 2024
 
 		* Fix the error handeling of submitting levels
 
-		* Issues connecting to Firestore on mobile, cant even load levels
 		* Add touch timing settings in settings 5-30ms?
 		
 		* Fix so the Pending checkbox is counting as checked at start - Not needed have it off at start
 
 
-		* Make the Setting Size Have Single size steps from 5x5 -> 15x15 ??
 		
 		// TODO
 		* Maybe only allow paying players to rate and play pending games?
@@ -129,13 +132,24 @@ Nov 2024
 
 		// LEVEL CREATION SYSTEM
 		* Make setting new level size update underlaying and overlaying to correct amount. Recreate all?
-
+		* Make a Collection sub database that holds many levels? Limits Reads. (writes? how to limit? collections does not need to be updated? Rating needs to?)
 
 		* Add Error message popup when loading unexisting level
 		
 		// AUTHENTICATION
 		* Players need to be able to log in with Facebook/googleaccount
+		* Have Log out use Loadingpanel and show result?
 
+
+		// FIREBASE LIMITS
+		Monthly active users	50k/month 
+		Stored data 			1 GiB total 
+		Document writes 		20K writes/day 	No-cost up to 20K writes/day Then Google Cloud pricing
+		Document reads 			50K reads/day 	No-cost up to 50K reads/day Then Google Cloud pricing
+		Document deletes 		20K deletes/day No-cost up to 20K deletes/day Then Google Cloud pricing https://firebase.google.com/pricing
+		Outbound data transfer 	10 GiB per month
+		Maximum size for a document 	1 MiB (1,048,576 bytes)
+		Maximum size of a field value 	1 MiB - 89 bytes (1,048,487 bytes)
 
 		// DATABASE
 		* Figure out a way to not load to many Levels at a time

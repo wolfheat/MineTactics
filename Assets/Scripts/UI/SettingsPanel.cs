@@ -9,10 +9,11 @@ public class SettingsPanel : MonoBehaviour
 {
     int enumGameSize = Enum.GetNames(typeof(GameSize)).Length;
     public static int activeGameSize = 0;
-    [SerializeField] TextMeshProUGUI gameSizeText;
+    [SerializeField] TextMeshProUGUI boardSizeText;
     [SerializeField] TextMeshProUGUI mineDens;
     [SerializeField] TextMeshProUGUI winprob;
     [SerializeField] Toggle pendingToggle;
+    [SerializeField] Slider slider;
 
     private float[] winProbs = {30.2f, 1.08f, 1.56f};
     private float[] densities = {15f, 34.38f, 30.02f};
@@ -32,26 +33,21 @@ public class SettingsPanel : MonoBehaviour
 
     public static Action GameSizeChange;
 
-    public void OnLeftArrow()
+    public void ConfirmSettings()
     {
-        Debug.Log("Left");
-        activeGameSize = (activeGameSize+enumGameSize-1)%enumGameSize;
-        UpdateSizeText();
-        GameSizeChange.Invoke();
+        // Apply the size settings
+        if(USerInfo.Instance.BoardSize != (int)slider.value)
+        {
+            USerInfo.Instance.BoardSize = (int)slider.value;
+            Debug.Log("Setting new boardSize to "+slider.value);
+            LevelCreator.Instance.RestartGame();
+        }
     }
-    public void OnRightArrow()
+    public void UpdateSizeText(Slider slider)
     {
-        Debug.Log("Right");
-        activeGameSize = (activeGameSize + 1) % enumGameSize;
-        UpdateSizeText();
-        GameSizeChange?.Invoke();
-    }
-    private void UpdateSizeText()
-    {
-        gameSizeText.text = Enum.GetNames(typeof(GameSize))[activeGameSize].ToString();
-        // Also change mine density and win prob
-        winprob.text = "Win Prob: " + winProbs[activeGameSize]+"%";
-        mineDens.text = "Mine Density: " + densities[activeGameSize]+"%";
+        // Read value of slider and update
+        int nexValue = (int)slider.value;
+        boardSizeText.text = nexValue+"x"+ nexValue;
 
     }
 }
