@@ -24,7 +24,10 @@ public class SmileyButton : MonoBehaviour
     {
         Debug.Log("Smiley?");
         spriteRenderer.sprite = sprites[1];
-        LevelCreator.Instance.RestartGame();
+        if(USerInfo.Instance.currentType == GameType.Normal)
+            LevelCreator.Instance.RestartGame();
+        else
+            LevelCreator.Instance.LoadRandomLevel();
     }
     
     internal void ShowWin()

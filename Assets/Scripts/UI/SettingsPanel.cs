@@ -10,10 +10,12 @@ public class SettingsPanel : MonoBehaviour
     int enumGameSize = Enum.GetNames(typeof(GameSize)).Length;
     public static int activeGameSize = 0;
     [SerializeField] TextMeshProUGUI boardSizeText;
+    [SerializeField] TextMeshProUGUI sensitivity;
     [SerializeField] TextMeshProUGUI mineDens;
     [SerializeField] TextMeshProUGUI winprob;
     [SerializeField] Toggle pendingToggle;
     [SerializeField] Slider slider;
+    [SerializeField] Slider sensitivitySlider;
 
     private float[] winProbs = {30.2f, 1.08f, 1.56f};
     private float[] densities = {15f, 34.38f, 30.02f};
@@ -48,6 +50,14 @@ public class SettingsPanel : MonoBehaviour
         // Read value of slider and update
         int nexValue = (int)slider.value;
         boardSizeText.text = nexValue+"x"+ nexValue;
+
+    }
+    public void UpdateSensitivity(Slider slider)
+    {
+        // Read value of slider and update
+        int nexValue = (int)slider.value;
+        sensitivity.text = nexValue+" ms";
+        USerInfo.Instance.Sensitivity = nexValue;
 
     }
 }

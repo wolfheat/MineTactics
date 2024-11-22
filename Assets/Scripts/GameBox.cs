@@ -107,7 +107,7 @@ public class GameBox : MonoBehaviour
         Marked = !Marked;
         spriteRenderer.sprite = Marked ? markedSprite : (hidden?hiddenMineSprite:unmarkedSprite);
         
-        Debug.Log("Clicking Box in Editmode B, at a mine swap for a tinted mine hidden = "+hidden);
+        Debug.Log("Right Clicking Box, hidden = "+hidden);
 
         if (LevelCreator.Instance.EditMode)
         {

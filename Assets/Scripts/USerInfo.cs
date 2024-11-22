@@ -14,6 +14,10 @@ public class USerInfo : MonoBehaviour
 
     public static USerInfo Instance { get; private set; }
 	public int BoardSize { get; internal set; } = 6;
+	public int Sensitivity { get; internal set; } = 15;
+	public float SensitivityMS => Sensitivity / 100f;
+
+	public bool IsPlayerLoggedIn { get; internal set; } = false;
 
     private void Awake()
 	{
@@ -30,7 +34,9 @@ public class USerInfo : MonoBehaviour
 		userName = user.DisplayName;
 		email = user.Email;
 		uid = user.UserId;
-	}
+		IsPlayerLoggedIn = true;
+
+    }
 
 
 }

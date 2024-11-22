@@ -84,7 +84,12 @@ Nov 2024
 		* Player can now set levels 5-15 on a slider in settings - updates on closing the menu preset Minecount 5, 7, 10, 13, 16, 20, 24, 30, 35, 42
 		* Added buttons to swap between game modes
 		* When not able to load levels it reverts to normal mode when closing loading panel
+		* Made Settings for delay
+		* Make Smiley start Challenge if in challenge mode
+		* Added the Active GameMode Panel at the top
 
+
+		* Fix gameWidth not fitting on mobile
 
 		* Issue when no levels could be loaded, what should happen? Revert to loading normal levels?
 		* SHould Normal Button be removed when playing normal etc so it cant be pressed from the current state

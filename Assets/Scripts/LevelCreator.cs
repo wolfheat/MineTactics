@@ -121,7 +121,7 @@ public class LevelCreator : MonoBehaviour
             // Load info of current size
             gameWidth = boardSize;
             gameHeight = boardSize;
-            totalmines = gameSizes[boardSize-6];
+            totalmines = gameSizes[boardSize-6]; // -6 since the lowest setting a gamearea can be is 6 and the index starsts at 0
 
             // Set mines array
             if(resetMines)
@@ -135,7 +135,8 @@ public class LevelCreator : MonoBehaviour
         borderAreaRenderer.size = new Vector2(gameWidth / 2f + borderAddon.x, gameHeight / 2f + borderAddon.y);
 
         // Orthographics reading changes, currently using a fixed size to get correct scaling
-        float cameraWidthUnits = 5.45f;
+        float cameraWidthUnits = 5.1f;
+        //float cameraWidthUnits = 5.45f;
         //float cameraWidthUnits = 5.6262f;
         float scaleNeeded = cameraWidthUnits / borderAreaRenderer.size.x;
 

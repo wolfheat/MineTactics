@@ -64,17 +64,19 @@ public class PanelController : MonoBehaviour
     }
     private void InitStartMenu()
     {
-        ToggleMenuButtons(false);
         startMenu.SetActive(true);
         loginMenu.SetActive(false);
         registerMenu.SetActive(false);
+
         settingsPanel.SetActive(false);
         progressPanel.gameObject.SetActive(false);
+
+        ToggleMenuButtons(false);
     }
 
     public void CloseMainMenuNoLogIn()
     {
-        startMenuButton.SetActive(true);
+        ToggleMenuButtons(true);
         startMenu.SetActive(false);
     }
 
@@ -89,7 +91,7 @@ public class PanelController : MonoBehaviour
         settingsPanel.SetActive(false);
     }
 
-    public void UpdateModeShown() => modeText.text = USerInfo.Instance.currentType == GameType.Normal ? "NORMAL MODE" : "CHALLENGE MODE";
+    public void UpdateModeShown() => modeText.text = USerInfo.Instance.currentType == GameType.Normal ? "NORMAL" : "CHALLENGE";
     public void ChangeMode(int type)
     {
         USerInfo.Instance.currentType = (GameType)type;
@@ -154,6 +156,9 @@ public class PanelController : MonoBehaviour
 
         // Log out Menu ?? not needed since its sync?
         AuthManager.Instance.LogOut();
+
+        USerInfo.Instance.IsPlayerLoggedIn = false;
+
         InitStartMenu();
     }
     
@@ -212,16 +217,24 @@ public class PanelController : MonoBehaviour
     
     public void Random()
     {
-        LevelCreator.Instance.LoadRandomLevel();
+        if (USerInfo.Instance.currentType == GameType.Loaded)
+            return;
+        ChangeMode((int)GameType.Loaded);
     }
 
     private void ToggleMenuButtons(bool setActive)
     {
         // Disable all Buttons
         settingsButton.SetActive(setActive);
-        createButton.SetActive(setActive);
-        randomButton.SetActive(setActive);
-        startMenuButton.SetActive(false);
+        bool Logged = USerInfo.Instance.IsPlayerLoggedIn;        
+        bool Normal = USerInfo.Instance.currentType == GameType.Normal;        
+        //randomButton.SetActive(Logged ? setActive : false);
+        createButton.SetActive(Logged ? setActive : false);    
+        normalMode.SetActive(Logged ? setActive && !Normal : false);    
+        challengeMode.SetActive(Logged ? setActive && Normal : false);    
+
+        startMenuButton.SetActive(!Logged ? setActive : false);
+        
     }
 
     internal void ShowLevelComplete()
