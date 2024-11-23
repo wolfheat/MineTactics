@@ -84,34 +84,21 @@ Nov 2024
 		* Player can now set levels 5-15 on a slider in settings - updates on closing the menu preset Minecount 5, 7, 10, 13, 16, 20, 24, 30, 35, 42
 		* Added buttons to swap between game modes
 		* When not able to load levels it reverts to normal mode when closing loading panel
-		* Made Settings for delay
+		* Made Settings for delay touch timing settings in settings 5-30ms?
 		* Make Smiley start Challenge if in challenge mode
 		* Added the Active GameMode Panel at the top
+		* Had strange issue with strings not being equal when changing from TextMEshPro.text value to InputFiled.Text
+		* Fixed issues in LoadingScreen texts showing wrong things
 
 
 		* Fix gameWidth not fitting on mobile
 
-		* Issue when no levels could be loaded, what should happen? Revert to loading normal levels?
-		* SHould Normal Button be removed when playing normal etc so it cant be pressed from the current state
-
-		* Still The Smiley sends player to normal games even when playing Random Loaded ones, should not be this way? How to manage
-		- Have Mode shown and a button to change mode and the smiley just restarts next level for current mode
-
-
-		
 		* Make Tab step to next Input field when in Login or Register (Not needed for android) Tried no luck
-
 
 		* Fix so settings are saved to disk and loaded correctly
 
 		* Fix the error handeling of submitting levels
 
-		* Add touch timing settings in settings 5-30ms?
-		
-		* Fix so the Pending checkbox is counting as checked at start - Not needed have it off at start
-
-
-		
 		// TODO
 		* Maybe only allow paying players to rate and play pending games?
 

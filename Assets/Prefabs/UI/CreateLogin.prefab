@@ -755,8 +755,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username_field: {fileID: 2448610922733030935}
-  password_field: {fileID: 0}
+  password_field: {fileID: 950888064487596491}
   errorMessage: {fileID: 5725541432947739735}
+  submitButton: {fileID: 792154944424466008}
 --- !u!1 &4980653891095146674
 GameObject:
   m_ObjectHideFlags: 0
@@ -1581,6 +1582,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3236425880125560136}
     m_Modifications:
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -1841,7 +1846,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_Navigation.m_Mode
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp

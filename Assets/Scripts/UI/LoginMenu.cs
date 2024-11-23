@@ -1,13 +1,17 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class LoginMenu : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI username_field;
+    //[SerializeField] TMP_InputField username_field;
     [SerializeField] TMP_InputField password_field;
     [SerializeField] TextMeshProUGUI errorMessage;
+    [SerializeField] Button submitButton;
 
     private void Start()
     {
@@ -19,8 +23,34 @@ public class LoginMenu : MonoBehaviour
         AuthManager.OnSuccessfulCreation += OnSuccessfulCreation;
         AuthManager.RegisterAttemptFailed += OnRegisterFailed;
         AuthManager.LoginAttemptFailed += OnLoginFailed;
+        Inputs.Instance.Controls.UI.TAB.performed += OnTAB;
+        Inputs.Instance.Controls.UI.Enter.performed += OnEnter;
+
+        EventSystem.current.SetSelectedGameObject(username_field.gameObject);
     }
 
+    private void OnEnter(InputAction.CallbackContext context)
+    {
+        Debug.Log("ENTER");
+        if (EventSystem.current.currentSelectedGameObject.name == "Password" || EventSystem.current.currentSelectedGameObject.name == "Ok")
+        {
+            Debug.Log("SUMBMIT");
+        }
+    }
+    private void OnTAB(InputAction.CallbackContext context)
+    {
+        Debug.Log("TAB WHEN EventSystem.current.currentSelectedGameObject.name ="+ EventSystem.current.currentSelectedGameObject.name);
+        // IF Current Active is email go to Pass, iff pass go to Submit
+        if(EventSystem.current.currentSelectedGameObject.name == "Name")
+        {
+            Debug.Log("Go To Pass");
+            EventSystem.current.SetSelectedGameObject(password_field.gameObject);
+        }else if(EventSystem.current.currentSelectedGameObject.name == "Password")
+        {
+            Debug.Log("Go To Submit");
+            EventSystem.current.SetSelectedGameObject(submitButton.gameObject);
+        }
+    }
     private void OnLoginFailed(string error)
     {
         errorMessage.text = error;
@@ -38,6 +68,8 @@ public class LoginMenu : MonoBehaviour
         AuthManager.OnSuccessfulCreation -= OnSuccessfulCreation;
         AuthManager.RegisterAttemptFailed -= OnRegisterFailed;
         AuthManager.LoginAttemptFailed -= OnLoginFailed;
+        Inputs.Instance.Controls.UI.TAB.performed -= OnTAB;
+        Inputs.Instance.Controls.UI.Enter.performed -= OnEnter;
 
     }
 
@@ -57,6 +89,7 @@ public class LoginMenu : MonoBehaviour
 
     public void OnTryLogin()
     {
+        Debug.Log("Name length = "+username_field.text.Length+ "Pass length = " + password_field.text.Length);
         Debug.Log("Player is trying to log in with name: "+username_field.text+" password: "+password_field.text);
         //AuthManager.Instance.SignInPlayerWithUserNameAndPassword(username_field.text,password_field.text);
         errorMessage.text = "Trying to Log In";

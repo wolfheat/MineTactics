@@ -3,10 +3,7 @@ using TMPro;
 using UnityEngine;
 
 
-public enum LoadingState{LogIn,Register,SubmitLevel,
-    LoadingLevels,
-    LoadingLevelsFailed
-}
+public enum LoadingState{LogIn,Register,SubmitLevel,LoadingLevels,LoadingLevelsFailed}
 
 public class LoadingPanel : MonoBehaviour
 {
@@ -29,10 +26,7 @@ public class LoadingPanel : MonoBehaviour
     }
     private void OnEnable()
     {
-        AuthManager.RegisterAttemptStarted += OnRegisterStarted;        
-        AuthManager.RegisterAttemptFailed += OnRegisterFailed;       
-        
-        AuthManager.LoginAttemptStarted += OnLoginStarted;        
+        AuthManager.RegisterAttemptFailed += OnRegisterFailed;               
         AuthManager.LoginAttemptFailed += OnLoginFailed;        
         
         FirestoreManager.SubmitLevelAttemptSuccess += OnSubmitLevelSuccess;        
@@ -49,7 +43,8 @@ public class LoadingPanel : MonoBehaviour
         ShowLoadingCircleAnimation(false);
         Debug.Log("OnRegisterFailed: "+error);
         // Set Name to Regitrating
-        subText.text = "Failed to log in!";
+        headerText.text = "Registrating new Player";
+        subText.text = "Failed to register!";
     }
     private void OnLoginFailed(string error)
     {
@@ -58,6 +53,7 @@ public class LoadingPanel : MonoBehaviour
         // Set Name to Regitrating
         subText.text = "Failed to log in!";
     }
+
     public void OnRegisterStarted()
     {
         currentState = LoadingState.Register;
@@ -88,10 +84,8 @@ public class LoadingPanel : MonoBehaviour
     private void OnDisable()
     {
 
-        AuthManager.RegisterAttemptStarted -= OnRegisterStarted;
         AuthManager.RegisterAttemptFailed -= OnRegisterFailed;
 
-        AuthManager.LoginAttemptStarted -= OnLoginStarted;
         AuthManager.LoginAttemptFailed -= OnLoginFailed;
 
         FirestoreManager.SubmitLevelAttemptSuccess -= OnSubmitLevelSuccess;

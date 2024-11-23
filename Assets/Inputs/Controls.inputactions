@@ -94,19 +94,10 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Submit",
-                    "type": "Button",
-                    "id": "6ca69409-95ec-42b2-ab81-23e09458c661",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Cancel",
                     "type": "Button",
                     "id": "d16aac6a-5f0a-4e36-8d51-05952b94bd8a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -170,6 +161,24 @@
                     "type": "PassThrough",
                     "id": "a7b03b65-5b11-48f4-92a9-304f26e47777",
                     "expectedControlType": "Quaternion",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TAB",
+                    "type": "Button",
+                    "id": "eee8b97a-c4a4-44c3-8fce-2563107c03ca",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Enter",
+                    "type": "Button",
+                    "id": "8a2045ca-b1ca-4abe-a430-cd84d3bca626",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -453,17 +462,6 @@
                 },
                 {
                     "name": "",
-                    "id": "e6a4448d-0d66-49f7-8e3a-f5955b43b5f5",
-                    "path": "*/{Submit}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
-                    "action": "Submit",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "bb30080b-2590-42b1-8293-339421df996d",
                     "path": "*/{Cancel}",
                     "interactions": "",
@@ -602,6 +600,28 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eebaae40-6119-4e0d-88fa-e71a5e859667",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TAB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "01532433-b51e-4117-96b2-433aa176f46d",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Enter",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

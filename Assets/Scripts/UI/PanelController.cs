@@ -50,6 +50,7 @@ public class PanelController : MonoBehaviour
     }
     private void OnEnable()
     {
+        AuthManager.RegisterAttemptStarted += ShowLoaderPanelRegister;
         AuthManager.LoginAttemptStarted += ShowLoaderPanelLogin;
         AuthManager.OnSuccessfulLogIn += LoginConfirmed;        
         FirestoreManager.OnSubmitLevelStarted += ShowLoaderPanelSubmitLevel;
@@ -57,6 +58,7 @@ public class PanelController : MonoBehaviour
     }
     private void OnDisable()
     {
+        AuthManager.RegisterAttemptStarted -= ShowLoaderPanelRegister;
         AuthManager.LoginAttemptStarted -= ShowLoaderPanelLogin;
         AuthManager.OnSuccessfulLogIn -= LoginConfirmed;
         FirestoreManager.OnSubmitLevelStarted -= ShowLoaderPanelSubmitLevel;
@@ -116,6 +118,12 @@ public class PanelController : MonoBehaviour
         progressPanel.OnLoadLevelsStarted();
     }
     
+    public void ShowLoaderPanelRegister()
+    {
+        progressPanel.gameObject.SetActive(true);
+        progressPanel.OnRegisterStarted();
+    }
+    
     public void ShowLoaderPanelLogin()
     {
         progressPanel.gameObject.SetActive(true);
@@ -133,13 +141,7 @@ public class PanelController : MonoBehaviour
         progressPanel.gameObject.SetActive(true);
         progressPanel.OnSubmitLevelStarted();
     }
-
-    public void LoginDeclined()
-    {
-        progressPanel.gameObject.SetActive(true);
-        progressPanel.OnRegisterStarted();
-    }
-    
+        
     public void LoginConfirmed()
     {
         ToggleMenuButtons(true);
@@ -147,6 +149,7 @@ public class PanelController : MonoBehaviour
         loginMenu.SetActive(false);
         registerMenu.SetActive(false);
     }
+
     public void RequestLogOutInitMainMenu()
     {
         Debug.Log("Player requested log out");
