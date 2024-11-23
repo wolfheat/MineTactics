@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class LoginMenu : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI username_field;
-    //[SerializeField] TMP_InputField username_field;
+    //[SerializeField] TextMeshProUGUI username_field;
+    [SerializeField] TMP_InputField username_field;
     [SerializeField] TMP_InputField password_field;
     [SerializeField] TextMeshProUGUI errorMessage;
     [SerializeField] Button submitButton;
@@ -32,9 +32,10 @@ public class LoginMenu : MonoBehaviour
     private void OnEnter(InputAction.CallbackContext context)
     {
         Debug.Log("ENTER");
-        if (EventSystem.current.currentSelectedGameObject.name == "Password" || EventSystem.current.currentSelectedGameObject.name == "Ok")
+        if (EventSystem.current.currentSelectedGameObject.name == "Password")
         {
             Debug.Log("SUMBMIT");
+            submitButton.onClick?.Invoke();
         }
     }
     private void OnTAB(InputAction.CallbackContext context)

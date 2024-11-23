@@ -89,6 +89,7 @@ Nov 2024
 		* Added the Active GameMode Panel at the top
 		* Had strange issue with strings not being equal when changing from TextMEshPro.text value to InputFiled.Text
 		* Fixed issues in LoadingScreen texts showing wrong things
+		* Enter after inserting Password now invokes OnCLick.
 
 
 		* Fix gameWidth not fitting on mobile
