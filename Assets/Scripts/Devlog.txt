@@ -89,21 +89,27 @@ Nov 2024
 		* Added the Active GameMode Panel at the top
 		* Had strange issue with strings not being equal when changing from TextMEshPro.text value to InputFiled.Text
 		* Fixed issues in LoadingScreen texts showing wrong things
-		* Enter after inserting Password now invokes OnCLick.
-
-
-		* Fix gameWidth not fitting on mobile
-
 		* Make Tab step to next Input field when in Login or Register (Not needed for android) Tried no luck
+		* Enter after inserting Password now invokes OnCLick.
+23/11	* Fixed GameArea scaling issue. Should scale correctly now
+		* Added saving of settings		
+		* Rearranged Settings Screen
+		* Fixed Background not being large enough when scaling
 
-		* Fix so settings are saved to disk and loaded correctly
+		* Introduce Collections, that holds 100+ level? Group them by type or difficluty?
 
-		* Fix the error handeling of submitting levels
+		* Create Paper on Expected features for the game and Steps to get there?
+		* Have some as Optional - Reasonable - Wishful?
+		// PAPER
 
 		// TODO
-		* Maybe only allow paying players to rate and play pending games?
+		* Fix the error handeling of submitting levels
+
+		* Make admin Log in that allowes approved levels directly
+		* Make admin Log in that allows upload of Collections?
 
 		// PRO USERS
+		* Maybe only allow paying players to rate and play pending games?
 		* Make it possible to support as patriot, Buy Me a coffie or buying the game / unloading ads 5$?
 		* Make Submit button hide when submitted a level.
 		* Have creator guess a rating 1-10 which determines the levels start rating

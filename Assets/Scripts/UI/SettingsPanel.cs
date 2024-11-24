@@ -22,8 +22,9 @@ public class SettingsPanel : MonoBehaviour
 
     public static SettingsPanel Instance { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
+        Debug.Log("SETTINGS PANEL AWAKE");
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -41,7 +42,15 @@ public class SettingsPanel : MonoBehaviour
         if(USerInfo.Instance.BoardSize != (int)slider.value)
         {
             USerInfo.Instance.BoardSize = (int)slider.value;
-            Debug.Log("Setting new boardSize to "+slider.value);
+
+            // Update settings values
+            SavingUtility.gameSettingsData.BoardSize = (int)slider.value;
+            SavingUtility.gameSettingsData.TouchSensitivity = (int)sensitivitySlider.value;
+            SavingUtility.gameSettingsData.UsePending = pendingToggle.isOn;
+
+            // Save to File here
+            SavingUtility.Instance.SaveAllDataToFile();
+
             LevelCreator.Instance.RestartGame();
         }
     }
@@ -59,5 +68,12 @@ public class SettingsPanel : MonoBehaviour
         sensitivity.text = nexValue+" ms";
         USerInfo.Instance.Sensitivity = nexValue;
 
+    }
+    internal void SetValuesFromLoadedSettings()
+    {
+        GameSettingsData data = SavingUtility.gameSettingsData;
+        sensitivitySlider.value = data.TouchSensitivity;
+        slider.value = data.BoardSize;
+        pendingToggle.isOn = data.UsePending;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -117,35 +118,43 @@ public class LevelCreator : MonoBehaviour
         {
             int boardSize = USerInfo.Instance.BoardSize;
             // Change to Use Userinfo?
-            Debug.Log("Load Game Size "+ boardSize);  
+            Debug.Log("Load Game Size " + boardSize);
             // Load info of current size
             gameWidth = boardSize;
             gameHeight = boardSize;
-            totalmines = gameSizes[boardSize-6]; // -6 since the lowest setting a gamearea can be is 6 and the index starsts at 0
+            totalmines = gameSizes[boardSize - 6]; // -6 since the lowest setting a gamearea can be is 6 and the index starsts at 0
 
             // Set mines array
-            if(resetMines)
+            if (resetMines)
                 mines = new int[gameWidth, gameHeight];
-        }else
+        }
+        else
             Debug.Log("Sizing game Area from Loaded File instead of settings");
 
         DefineUnderAndOverBoxes();
 
         // Set correct size of the border
-        borderAreaRenderer.size = new Vector2(gameWidth / 2f + borderAddon.x, gameHeight / 2f + borderAddon.y);
 
-        // Orthographics reading changes, currently using a fixed size to get correct scaling
-        float cameraWidthUnits = 5.1f;
-        //float cameraWidthUnits = 5.45f;
-        //float cameraWidthUnits = 5.6262f;
-        float scaleNeeded = cameraWidthUnits / borderAreaRenderer.size.x;
-
-        // This scale is calculated but total width for screen is hardcoded
-        playArea.transform.localScale = new Vector3(scaleNeeded, scaleNeeded, 1);
-
-        playArea.transform.position = new Vector3(-borderAreaRenderer.size.x / 2 * playArea.transform.localScale.x, borderAreaRenderer.size.y / 2 * playArea.transform.localScale.y, 0);
-
+        // Screen alignments
+        ScaleGameAreaBorder();
         AlignSmileyAndCounterIcons();
+        SetCameraOrthographicSize();
+        CenterGameArea();
+    }
+
+    private void ScaleGameAreaBorder()
+    {
+        borderAreaRenderer.size = new Vector2(gameWidth / 2f + borderAddon.x, gameHeight / 2f + borderAddon.y);
+    }
+
+    private void CenterGameArea() => playArea.transform.position = new Vector3(-borderAreaRenderer.size.x / 2 * playArea.transform.localScale.x, borderAreaRenderer.size.y / 2 * playArea.transform.localScale.y, 0);
+
+    private void SetCameraOrthographicSize()
+    {
+        float screenRatio = (float)Screen.height / Screen.width;
+        float targetWidthInWorldUnits = borderAreaRenderer.size.x;
+        float orthographicSize = targetWidthInWorldUnits * screenRatio / 2;
+        Camera.main.orthographicSize = orthographicSize;
     }
 
     private void DefineUnderAndOverBoxes()
@@ -654,7 +663,7 @@ public class LevelCreator : MonoBehaviour
             {
                 if (mines[i, j] != -1) {
                     mines[i, j] = Neighbors(i, j);
-                    Debug.Log("Neighbor for "+i+","+j+" = " + mines[i,j]);
+                    //Debug.Log("Neighbor for "+i+","+j+" = " + mines[i,j]);
                 }
             }
         }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -17,7 +18,9 @@ public class USerInfo : MonoBehaviour
 	public int Sensitivity { get; internal set; } = 15;
 	public float SensitivityMS => Sensitivity / 100f;
 
-	public bool IsPlayerLoggedIn { get; internal set; } = false;
+	public bool UsePending { get; internal set; } = false;
+
+    public bool IsPlayerLoggedIn { get; internal set; } = false;
 
     private void Awake()
 	{
@@ -27,11 +30,22 @@ public class USerInfo : MonoBehaviour
 			return;
 		}
 		Instance = this;
+
+		SavingUtility.LoadingComplete += SetDataFromSaveFile;
 	}
 
-	public void SetUserInfoFromFirebaseUser(Firebase.Auth.FirebaseUser user)
+    private void SetDataFromSaveFile()
+    {
+		Debug.Log("Setting data from Saved Settings File");
+        Sensitivity = SavingUtility.gameSettingsData.TouchSensitivity;
+		BoardSize = SavingUtility.gameSettingsData.BoardSize;
+		UsePending = SavingUtility.gameSettingsData.UsePending;
+    }
+
+    public void SetUserInfoFromFirebaseUser(Firebase.Auth.FirebaseUser user)
 	{
-		userName = user.DisplayName;
+        Debug.Log("Setting data from Firebase User File");
+        userName = user.DisplayName;
 		email = user.Email;
 		uid = user.UserId;
 		IsPlayerLoggedIn = true;

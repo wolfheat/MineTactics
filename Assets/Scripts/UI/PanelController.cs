@@ -175,6 +175,8 @@ public class PanelController : MonoBehaviour
         Debug.Log("Opening Settings");
         ToggleMenuButtons(false);
         settingsPanel.SetActive(true);
+        Debug.Log("Settings Instance: "+ SettingsPanel.Instance);
+        SettingsPanel.Instance.SetValuesFromLoadedSettings();
     }
 
     public void OpenCreateMenu()
