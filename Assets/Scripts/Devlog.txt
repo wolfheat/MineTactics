@@ -95,6 +95,7 @@ Nov 2024
 		* Added saving of settings		
 		* Rearranged Settings Screen
 		* Fixed Background not being large enough when scaling
+24/11	* Fixed Mode shown and Buttons in Create Menu - After submit player goes to first creation menu step
 
 		* Introduce Collections, that holds 100+ level? Group them by type or difficluty?
 

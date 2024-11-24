@@ -416,9 +416,13 @@ public class LevelCreator : MonoBehaviour
         SmileyButton.Instance.ShowNormal();
         Timer.Instance.ResetCounterAndPause();
         WaitForFirstMove = false;
+        
+        USerInfo.Instance.currentType = GameType.Create;
+        PanelController.Instance.UpdateModeShown();
 
         BackgroundController.Instance.SetColorEditMode();
         levelText.text = "CREATE " + gameWidth + "x" + gameHeight;
+
     }
 
     public void OnPlaySizeChange()

@@ -21,6 +21,8 @@ public class PanelController : MonoBehaviour
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject loginMenu;
     [SerializeField] GameObject registerMenu;
+
+    [SerializeField] GameObject createMainButtons;
     [SerializeField] GameObject submitMenu;
 
     [SerializeField] LevelCompletionScreen levelCompleteNormal;
@@ -93,7 +95,25 @@ public class PanelController : MonoBehaviour
         settingsPanel.SetActive(false);
     }
 
-    public void UpdateModeShown() => modeText.text = USerInfo.Instance.currentType == GameType.Normal ? "NORMAL" : "CHALLENGE";
+    public void UpdateModeShown()
+    {
+        switch (USerInfo.Instance.currentType)
+        {
+            case GameType.Normal:
+                modeText.text = "NORMAL";
+                break;
+            case GameType.Loaded:
+                modeText.text = "CHALLENGE";
+                break;
+            case GameType.Create:
+                modeText.text = "CREATE";
+                break;
+            default:
+                modeText.text = "MODE";
+                break;
+        }
+    }
+
     public void ChangeMode(int type)
     {
         USerInfo.Instance.currentType = (GameType)type;
@@ -188,7 +208,7 @@ public class PanelController : MonoBehaviour
 
     public void Next()
     {
-        nextButton.gameObject.SetActive(false);
+        createMainButtons.SetActive(false);
         submitMenu.SetActive(true);
         LevelCreator.Instance.OnCreateNext();
     }
@@ -200,16 +220,20 @@ public class PanelController : MonoBehaviour
 
     private void BaseMenu()
     {
-        nextButton.gameObject.SetActive(true);
+        createMainButtons.SetActive(true);
         submitMenu.SetActive(false);
     }
 
     public void Cancel()
     {
+        USerInfo.Instance.currentType = GameType.Normal;
+        UpdateModeShown();
+
         BaseMenu();
         ToggleMenuButtons(true);
         createPanel.SetActive(false);
         LevelCreator.Instance.CancelEditMode();
+
 
         // Change this for going to Nothing loaded?
         LevelCreator.Instance.RestartGame();

@@ -155,6 +155,8 @@ public class LoadingPanel : MonoBehaviour
         if (currentState == LoadingState.LoadingLevels)
             // Select a random level from the retrieved documents
             FirestoreManager.Instance.GetRandomLevel(1000);
+        else if (currentState == LoadingState.SubmitLevel)
+            PanelController.Instance.Back();
         else
             PanelController.Instance.ChangeMode(0);
 
