@@ -105,6 +105,17 @@ Nov 2024
 		
 		// MODES
 		* Add find missflagged mine Game Mode??
+		
+		
+		* Make backed on Challenge mode not able to click on the gameboxes to start a level? Only able to start this with the smiley is not clicking next on last resultscreen
+		* Create Screen is broken, can place mines but not edit at second create screen fix
+
+		* Redo the Menu system for Creation etc its a mess :P
+
+		* Introduce Collections, that holds 100+ level? Group them by type or difficluty?
+
+		// MODES
+		* Add find missflagged mine Game Mode??
 
 		* Redo the Menu system for Creation etc its a mess :P
 
