@@ -33,26 +33,22 @@ public class SettingsPanel : MonoBehaviour
         Instance = this;
     }
 
-
-    public static Action GameSizeChange;
-
     public void ConfirmSettings()
     {
+        USerInfo.Instance.BoardSize = (int)slider.value;
+
+        // Update settings values
+        SavingUtility.gameSettingsData.BoardSize = (int)slider.value;
+        SavingUtility.gameSettingsData.TouchSensitivity = (int)sensitivitySlider.value;
+        SavingUtility.gameSettingsData.UsePending = pendingToggle.isOn;
+
+        // Save to File here
+        SavingUtility.Instance.SaveAllDataToFile();
+
         // Apply the size settings
-        if(USerInfo.Instance.BoardSize != (int)slider.value)
-        {
-            USerInfo.Instance.BoardSize = (int)slider.value;
+        if(USerInfo.Instance.currentType == GameType.Normal)
+            PanelController.Instance.ChangeMode(0); // Forces Update if playing Normal game
 
-            // Update settings values
-            SavingUtility.gameSettingsData.BoardSize = (int)slider.value;
-            SavingUtility.gameSettingsData.TouchSensitivity = (int)sensitivitySlider.value;
-            SavingUtility.gameSettingsData.UsePending = pendingToggle.isOn;
-
-            // Save to File here
-            SavingUtility.Instance.SaveAllDataToFile();
-
-            LevelCreator.Instance.RestartGame();
-        }
     }
     public void UpdateSizeText(Slider slider)
     {

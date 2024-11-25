@@ -74,7 +74,7 @@ public class Inputs : MonoBehaviour
         GameBox box = rayHit.collider.GetComponent<GameBox>();
         if (box != null)
         {
-            if (Timer.Instance.Paused && !LevelCreator.Instance.WaitForFirstMove && !LevelCreator.Instance.EditMode && !LevelCreator.Instance.EditModeB)
+            if (Timer.Instance.Paused && !USerInfo.Instance.WaitForFirstMove && USerInfo.Instance.currentType != GameType.Create)
                 return;
             if(rightClick)
                 box.RightClick();

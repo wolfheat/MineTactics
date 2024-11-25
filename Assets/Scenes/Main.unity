@@ -3188,7 +3188,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Minesweeper Tactics
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 31458722a785c5049acb65eff1bf5ae9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 84dbb383ae1cf3140b9aa5999b1c178f, type: 2}
   m_sharedMaterial: {fileID: 4604725082095245766, guid: 31458722a785c5049acb65eff1bf5ae9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3252,7 +3252,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &409131150
@@ -3278,7 +3278,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2138559169271846511, guid: f080cb04d5ec5d9419413932a739ed4a, type: 3}
       propertyPath: m_Name
-      value: Box (1)
+      value: Mines Digi Display
       objectReference: {fileID: 0}
     - target: {fileID: 3689197368036609706, guid: f080cb04d5ec5d9419413932a739ed4a, type: 3}
       propertyPath: m_RootOrder
@@ -3798,6 +3798,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 461548504}
+  - component: {fileID: 461548505}
   m_Layer: 0
   m_Name: PlayArea
   m_TagString: Untagged
@@ -3821,6 +3822,28 @@ Transform:
   - {fileID: 1749497323}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &461548505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461548503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 000a933b942376446b6611989612e8b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unclearedBoxPrefab: {fileID: 4293421603843087214, guid: 9435087f2cb76b94681e843d8d164b96, type: 3}
+  underlayBoxPrefab: {fileID: 4293421603843087214, guid: 12202b7e55e31fc4d83f9f06d693bead, type: 3}
+  boxHolder: {fileID: 32078655}
+  underLaying: {fileID: 40856110}
+  levelText: {fileID: 654245109}
+  amtText: {fileID: 712174408}
+  objects: {fileID: 2127916641}
+  origo: {fileID: 2104534494}
+  mineDisplay: {fileID: 1608229216}
+  timeDisplay: {fileID: 1117693267}
 --- !u!1 &464275390
 GameObject:
   m_ObjectHideFlags: 0
@@ -9729,6 +9752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ceece262b43b24893765f8fd6423b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameArea: {fileID: 461548505}
   gameWidth: 10
   gameHeight: 13
   levelText: {fileID: 654245109}
@@ -18284,7 +18308,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2138559169271846511, guid: f080cb04d5ec5d9419413932a739ed4a, type: 3}
       propertyPath: m_Name
-      value: Box
+      value: Time Digi Display
       objectReference: {fileID: 0}
     - target: {fileID: 3689197368036609706, guid: f080cb04d5ec5d9419413932a739ed4a, type: 3}
       propertyPath: m_RootOrder

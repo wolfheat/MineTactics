@@ -14,15 +14,17 @@ public class USerInfo : MonoBehaviour
     internal string levelID;
 
 	public GameType currentType = GameType.Normal;
+	public static int EditMode { get; private set; } = 0;
 
     public static USerInfo Instance { get; private set; }
-	public int BoardSize { get; internal set; } = 6;
+	public int BoardSize { get; set; } = 6;
 	public int Sensitivity { get; internal set; } = 15;
 	public float SensitivityMS => Sensitivity / 100f;
 
 	public bool UsePending { get; internal set; } = false;
 
     public bool IsPlayerLoggedIn { get; internal set; } = false;
+    public bool WaitForFirstMove { get; internal set; }
 
     private void Awake()
 	{
@@ -36,12 +38,14 @@ public class USerInfo : MonoBehaviour
 		SavingUtility.LoadingComplete += SetDataFromSaveFile;
 	}
 
+	public static Action BoardSizeChange;
     private void SetDataFromSaveFile()
     {
 		Debug.Log("Setting data from Saved Settings File");
         Sensitivity = SavingUtility.gameSettingsData.TouchSensitivity;
 		BoardSize = SavingUtility.gameSettingsData.BoardSize;
 		UsePending = SavingUtility.gameSettingsData.UsePending;
+		BoardSizeChange?.Invoke();
     }
 
     public void SetUserInfoFromFirebaseUser(Firebase.Auth.FirebaseUser user)

@@ -36,6 +36,7 @@ public class LevelCompletionScreen : MonoBehaviour
             status.text = data.Status.ToString();
             playCount.text = data.PlayCount.ToString();
         }
+        OnClickStar(3); // Sets to 3 star as default
     }
     
     public void SetVote(int set)
@@ -47,19 +48,28 @@ public class LevelCompletionScreen : MonoBehaviour
     {
         Debug.Log("Level Completion Next clicked");
         gameObject.SetActive(false);
-        SendLevelUpdates();
         // Send Update to the database for this level? / this will create a write...
         if(USerInfo.Instance.currentType == GameType.Loaded)
+        {
             // Select a random level from the retrieved documents
             FirestoreManager.Instance.GetRandomLevel(1000);
-
+            SendLevelUpdates();
+        }
+        else if(USerInfo.Instance.currentType == GameType.Normal)
+        {
+            Debug.Log("Closing Normal Game Result screen - currently do nothing");
+        }
 
     }
     public void Back()
     {
         Debug.Log("Level Completion Back clicked");
         gameObject.SetActive(false);
-        SendLevelUpdates();
+        if (USerInfo.Instance.currentType == GameType.Loaded)
+        {
+            // Sent Level Updates when closing resultscreen for loaded level
+            SendLevelUpdates();
+        }
     }
 
     private void SendLevelUpdates()
