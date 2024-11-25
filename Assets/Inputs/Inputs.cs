@@ -68,15 +68,16 @@ public class Inputs : MonoBehaviour
             return;
         }
 
-            var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(pos));
+        var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(pos));
         if (!rayHit.collider) return;
         
         GameBox box = rayHit.collider.GetComponent<GameBox>();
         if (box != null)
         {
+            // Do not allow any clicks if game is Paused, unless you are in normal mode and waiting for the first click
             if (Timer.Instance.Paused && !USerInfo.Instance.WaitForFirstMove && USerInfo.Instance.currentType != GameType.Create)
                 return;
-            if(rightClick)
+            if(rightClick && USerInfo.Instance.currentType != GameType.Create) // Only rightclick in non Edit
                 box.RightClick();
             else
                 box.Click();
@@ -110,7 +111,7 @@ public class Inputs : MonoBehaviour
             GameBox box = rayHit.collider.GetComponent<GameBox>();
             if (box != null)
             {
-                if (Timer.Instance.Paused && !LevelCreator.Instance.WaitForFirstMove && !LevelCreator.Instance.EditMode && !LevelCreator.Instance.EditModeB)
+                if (Timer.Instance.Paused && !LevelCreator.Instance.WaitForFirstMove && !LevelCreator.Instance.EditMode)
                     return;
                 box.Click();
             }

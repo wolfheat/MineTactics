@@ -12,6 +12,7 @@ public class LoginMenu : MonoBehaviour
     [SerializeField] TMP_InputField password_field;
     [SerializeField] TextMeshProUGUI errorMessage;
     [SerializeField] Button submitButton;
+    [SerializeField] Button adam;
 
     private void Start()
     {
@@ -88,6 +89,7 @@ public class LoginMenu : MonoBehaviour
         // PLayer is logged in just close the menues
     }
 
+    public void OnTryLoginAdam() => AuthManager.Instance.SignInPlayerWithUserNameAndPassword("adam@adam.com", "adam1234");
     public void OnTryLogin()
     {
         Debug.Log("Name length = "+username_field.text.Length+ "Pass length = " + password_field.text.Length);

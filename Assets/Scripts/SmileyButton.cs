@@ -24,12 +24,19 @@ public class SmileyButton : MonoBehaviour
     {
         Debug.Log("Smiley?");
         spriteRenderer.sprite = sprites[1];
-        if(USerInfo.Instance.currentType == GameType.Normal)
+        if (USerInfo.Instance.currentType == GameType.Normal)
             LevelCreator.Instance.RestartGame();
-        else
+        else if (USerInfo.Instance.currentType == GameType.Loaded)
             LevelCreator.Instance.LoadRandomLevel();
+        else if (USerInfo.Instance.currentType == GameType.Create)
+        {
+            spriteRenderer.sprite = sprites[0];
+            Debug.Log("No smiley in create mode");
+            return;
+        }
+
     }
-    
+
     internal void ShowWin()
     {
         spriteRenderer.sprite = sprites[3];

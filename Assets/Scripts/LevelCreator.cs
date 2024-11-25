@@ -166,18 +166,9 @@ public class LevelCreator : MonoBehaviour
     {
         Debug.Log("Saving Level requested");
 
-        SaveLevel();
+        GameArea.Instance.SaveLevel();
     }
 
-    private void SaveLevel(string levelName="L01")
-    {
-        (int[,] charArray, string pre) = SavingLoadingConverter.LevelTo2DArray(mines, overlayBoxes);
-        string compressed = SavingLoadingConverter.ComressToString(charArray, pre);
-        Debug.Log("Saving Level completed, send to firebase firestore");
-        FirestoreManager.Instance.Store(compressed,levelName);
-        Debug.Log("Saved Level sent");
-    }
-    
     public void UpdateLevel(LevelData data)
     {
         // Create Dictionary of changed values
@@ -223,33 +214,34 @@ public class LevelCreator : MonoBehaviour
     public void OnSubmitLevel()
     {
         Debug.Log("Requests to Submit Level to Database");
-        SaveLevel("L02");
+        GameArea.Instance.SaveLevel();
     }
 
     public void OnCreateBack()
     {
+        USerInfo.EditMode = 0;
         Debug.Log("Create Back");
         // Unload All but mines
 
-        OnToggleCreate(false);
+
+        int[,] flagged = GameArea.Instance.GetFlaggedArray();
+        // This keeps the mines
+        OnToggleCreate(false); 
 
         totalmines = 0;
         mineCountAmount = 0;
-
-        GameArea.Instance.OnCreateBack();
+        GameArea.Instance.OnCreateBack(flagged);
 
         BackgroundController.Instance.SetColorEditMode();
     }
 
     public void OnCreateNext()
     {
+        USerInfo.EditMode = 1;
         GameArea.Instance.OnCreateNext();
 
         // Generate numbers
         Debug.Log("Mines set to flagged positions, Numbers updated");
-        EditMode = false;
-        EditModeB = true; // Fix this to Use same state machine?
-
         BackgroundController.Instance.SetColorEditModeB();
     }
 

@@ -14,7 +14,7 @@ public class USerInfo : MonoBehaviour
     internal string levelID;
 
 	public GameType currentType = GameType.Normal;
-	public static int EditMode { get; private set; } = 0;
+	public static int EditMode { get; set; } = 0;
 
     public static USerInfo Instance { get; private set; }
 	public int BoardSize { get; set; } = 6;

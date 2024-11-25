@@ -52,13 +52,10 @@ public class GameBox : MonoBehaviour
 
         if (USerInfo.Instance.currentType == GameType.Create)
         {
-            GameArea.Instance.OpenBox(Pos);
-            return;
-        }else if (USerInfo.EditMode == 1 && GameArea.Instance.IsMine(Pos))
-        {
-            RightClick(true);
+            GameArea.Instance.OpenBoxCreate(Pos);
             return;
         }
+        // This workds for normal gameplay keep it
         if (value > 0)
         {
             Chord();
@@ -66,7 +63,7 @@ public class GameBox : MonoBehaviour
         }
         if (Marked)
             return;
-        //Debug.Log("Clicking this box at "+Pos+" notice Levelcreator to respond accordingly");
+
         if (GameArea.Instance.OpenBox(Pos))
         {
             //RemoveAndSetUnderActive();
@@ -102,23 +99,35 @@ public class GameBox : MonoBehaviour
 
     internal void RightClick(bool hidden = false)
     {
-        Debug.Log("Clicking this box at "+Pos+" mark or demark as mine value ="+value);
+        Debug.Log("Clicking this box at " + Pos + " mark or demark as mine value =" + value);
         if (value > 0) return;
         Marked = !Marked;
-        spriteRenderer.sprite = Marked ? markedSprite : (hidden?hiddenMineSprite:unmarkedSprite);
-        
-        Debug.Log("Right Clicking Box, hidden = "+hidden);
+
+        if (Marked)
+            SetAsFlaggedMine();
+        else
+        {
+            if(hidden)
+                SetAsHiddenMine();
+            else
+                SetAsUnFlagged();
+        }
+        Debug.Log("Right Clicking Box, hidden = " + hidden);
 
         if (LevelCreator.Instance.EditMode)
         {
             GameArea.Instance.UpdateMineCount();
             return; // Breaks if in edit mode and placing Mines
         }
-        if(!Marked)
+        if (!Marked)
             GameArea.Instance.IncreaseMineCount();
         else
             GameArea.Instance.DecreaseMineCount();
     }
+
+    public void SetAsHiddenMine() => spriteRenderer.sprite = hiddenMineSprite;
+    public void SetAsFlaggedMine() => spriteRenderer.sprite = markedSprite;
+    public void SetAsUnFlagged() => spriteRenderer.sprite = unmarkedSprite;
 
     internal void Bust()
     {

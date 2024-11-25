@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Text;
 using TMPro;
-using UnityEditorInternal;
 using UnityEngine;
 using WolfheatProductions;
 public class GameArea : MonoBehaviour  
@@ -300,16 +299,70 @@ public class GameArea : MonoBehaviour
         return amt;
     }
 
-    public bool OpenBox(Vector2Int pos)
+    private void BoxClickInEditB(Vector2Int pos)
     {
+        // Clicking mine in Edit Mode 1 - Toggle
+        if (mines[pos.x, pos.y] == -1)
+        {
+            Debug.Log("* MINE TOGGLE");
+            // Handle mined position
+            overlayBoxes[pos.x, pos.y].RightClick(true);
+        }
+        else
+        {
+            if (overlayBoxes[pos.x, pos.y].gameObject.activeSelf)
+            {
+                Debug.Log("* BASIC OPEN");
+                BasicOpeningBox(pos);
+            }
+            else
+            {
+                Debug.Log("* CHORD");
+                Chord(pos);
+            }
+        }
+    }
+    
+    private void BoxClickInEditA(Vector2Int pos)
+    {
+        Debug.Log("Toggle Edit Mode Mine " + pos);
+        // Clicking mine in Edit Mode 1 - Toggle
+        if (mines[pos.x, pos.y] != -1)
+        {
+            mines[pos.x, pos.y] = -1;
+            overlayBoxes[pos.x, pos.y].SetAsHiddenMine();
+        }
+        else if (overlayBoxes[pos.x, pos.y].Marked)
+        {
+            mines[pos.x, pos.y] = 0;
+            overlayBoxes[pos.x, pos.y].SetAsUnFlagged();
+            overlayBoxes[pos.x, pos.y].Marked = false;
+        }
+        else
+        {
+            overlayBoxes[pos.x, pos.y].RightClick();
+        }
+        
+    }
+
+    internal void OpenBoxCreate(Vector2Int pos)
+    {
+        // Separate Create Clicks for ease
         //Debug.Log("Open Box "+pos);
         if (USerInfo.Instance.currentType == GameType.Create)
         {
-            OpenBoxEditMode(pos);
-            return true;
+            if (USerInfo.EditMode == 0)
+                BoxClickInEditA(pos);
+            else
+                BoxClickInEditB(pos);
+            return;
         }
-        //Debug.Log("Open box "+pos);
-        if (USerInfo.Instance.WaitForFirstMove)
+    }
+
+    public bool OpenBox(Vector2Int pos)
+    {
+        // Only wait for first click in Normal mode to start timer
+        if (USerInfo.Instance.WaitForFirstMove && USerInfo.Instance.currentType == GameType.Normal)
         {
             //Start the timer
             Timer.Instance.StartTimer();
@@ -327,7 +380,19 @@ public class GameArea : MonoBehaviour
             Debug.Log("Timer Paused skip");
         }
 
+        if(!BasicOpeningBox(pos))
+            return false;
 
+        // If last opened is a number check if game is cleared?
+        if (opened == totalToOpen && !Timer.Instance.Paused)
+        {
+            WinLevel();
+        }
+        return true;
+    }
+
+    private bool BasicOpeningBox(Vector2Int pos)
+    {
         if (mines[pos.x, pos.y] == -1)
         {
             //Debug.Log("Bust");
@@ -349,12 +414,12 @@ public class GameArea : MonoBehaviour
             overlayBoxes[pos.x, pos.y].RemoveAndSetUnderActive();
             opened++;
         }
-        // If last opened is a number check if game is cleared?
-        if (opened == totalToOpen && !Timer.Instance.Paused)
-        {
-            WinLevel();
-        }
         return true;
+    }
+
+    private void EditToggleMine(Vector2Int pos)
+    {
+        throw new NotImplementedException();
     }
 
     private void WinLevel()
@@ -478,22 +543,16 @@ public class GameArea : MonoBehaviour
         }
     }
 
-    private void OpenBoxEditMode(Vector2Int pos)
-    {
-        Debug.Log("Toggle Edit Mode Mine " + pos);
-
-        // Toggle Mine
-        mines[pos.x, pos.y] = mines[pos.x, pos.y] == -1 ? 0 : -1;
-        overlayBoxes[pos.x, pos.y].RightClick();
-    }
-
     internal void UpdateMineCount()
     {
         if (USerInfo.Instance.currentType == GameType.Create)
         {
             Debug.Log("Edit Mode Update flagged Mines to show mine count");
             //Show Mines Total
-            mineDisplay.ShowValue(TotalFlaggedMines());
+            if(USerInfo.EditMode == 0)
+                mineDisplay.ShowValue(TotalAllMines());
+            else
+                mineDisplay.ShowValue(TotalUnFlagged());
             return;
         }
         //Debug.Log("Showing minecount "+mineCountAmount);
@@ -501,20 +560,36 @@ public class GameArea : MonoBehaviour
         mineDisplay.ShowValue(mineCountAmount);
     }
 
-    private int TotalFlaggedMines()
+    private int TotalAllMines()
     {
-        int flagged = 0;
+        int all = 0;
         for (int j = 0; j < gameHeight; j++)
         {
             for (int i = 0; i < gameWidth; i++)
             {
 
-                if (overlayBoxes[i, j].Marked)
-                    flagged++;
+                if (mines[i,j]==-1)
+                    all++;
             }
         }
-        Debug.Log("Flagged amount = " + flagged);
-        return flagged;
+        Debug.Log("All amount = " + all);
+        return all;
+    }
+    
+    private int TotalUnFlagged()
+    {
+        int unFlagged = 0;
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+
+                if (mines[i,j]==-1 && !overlayBoxes[i, j].Marked)
+                    unFlagged++;
+            }
+        }
+        Debug.Log("Flagged amount = " + unFlagged);
+        return unFlagged;
     }
 
     private void DetermineNumbersFromNeighbors()
@@ -584,16 +659,17 @@ public class GameArea : MonoBehaviour
 
     }
 
-    public void OnCreateBack()
+    public void OnCreateBack(int[,] flagged)
     {
         // Flag all Mines
-        FlagAllMines();
+        FlagMinesForEditA(flagged);
     }
 
     internal bool IsMine(Vector2Int pos)
     {
         return mines[pos.x, pos.y] == -1;
     }
+
     private void FlagAllMines()
     {
         for (int j = 0; j < gameHeight; j++)
@@ -603,6 +679,24 @@ public class GameArea : MonoBehaviour
                 // Make uncleared
                 if (mines[i, j] == -1)
                     overlayBoxes[i, j].Mark();
+            }
+        }
+    }
+    
+    private void FlagMinesForEditA(int[,] flags)
+    {
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+                // Make uncleared
+                if (mines[i, j] == -1)
+                {
+                    if (flags[i,j] == 1)
+                        overlayBoxes[i, j].Mark();
+                    else
+                        overlayBoxes[i, j].SetAsHiddenMine();
+                }
             }
         }
     }
@@ -654,4 +748,29 @@ public class GameArea : MonoBehaviour
     }
 
     internal Vector2 BorderAreaRendererWidth() => new Vector2(gameWidth / 2f + borderAddon.x, gameHeight / 2f + borderAddon.y);
+
+    internal int[,] GetFlaggedArray()
+    {
+        int[,] flagged = new int[gameWidth, gameHeight];
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+                // Make uncleared
+                if (overlayBoxes[i,j].Marked)
+                    flagged[i, j] = 1;
+            }
+        }
+        return flagged;
+    }
+
+    public void SaveLevel(string levelName = "L01")
+    {
+        (int[,] charArray, string pre) = SavingLoadingConverter.LevelTo2DArray(mines, overlayBoxes);
+        string compressed = SavingLoadingConverter.ComressToString(charArray, pre);
+        Debug.Log("Saving Level completed, send to firebase firestore");
+        FirestoreManager.Instance.Store(compressed, levelName);
+        Debug.Log("Saved Level sent");
+    }
+
 }
