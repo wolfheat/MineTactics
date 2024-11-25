@@ -11,7 +11,7 @@ public class BackgroundController : MonoBehaviour
 
     public static BackgroundController Instance { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         if (Instance != null)
         {

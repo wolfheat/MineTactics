@@ -1,15 +1,32 @@
+using System;
 using UnityEngine;
 
+
+public enum GameType{Normal,Loaded,
+    Create
+}
 public class USerInfo : MonoBehaviour
 {
 
 	public string userName = "";
 	public string email = "";
 	public string uid = "00";
+    internal string levelID;
 
-	public static USerInfo Instance { get; private set; }
+	public GameType currentType = GameType.Normal;
+	public static int EditMode { get; private set; } = 0;
 
-	private void Start()
+    public static USerInfo Instance { get; private set; }
+	public int BoardSize { get; set; } = 6;
+	public int Sensitivity { get; internal set; } = 15;
+	public float SensitivityMS => Sensitivity / 100f;
+
+	public bool UsePending { get; internal set; } = false;
+
+    public bool IsPlayerLoggedIn { get; internal set; } = false;
+    public bool WaitForFirstMove { get; internal set; }
+
+    private void Awake()
 	{
 		if (Instance != null)
 		{
@@ -17,14 +34,29 @@ public class USerInfo : MonoBehaviour
 			return;
 		}
 		Instance = this;
+
+		SavingUtility.LoadingComplete += SetDataFromSaveFile;
 	}
 
-	public void SetUserInfoFromFirebaseUser(Firebase.Auth.FirebaseUser user)
+	public static Action BoardSizeChange;
+    private void SetDataFromSaveFile()
+    {
+		Debug.Log("Setting data from Saved Settings File");
+        Sensitivity = SavingUtility.gameSettingsData.TouchSensitivity;
+		BoardSize = SavingUtility.gameSettingsData.BoardSize;
+		UsePending = SavingUtility.gameSettingsData.UsePending;
+		BoardSizeChange?.Invoke();
+    }
+
+    public void SetUserInfoFromFirebaseUser(Firebase.Auth.FirebaseUser user)
 	{
-		userName = user.DisplayName;
+        Debug.Log("Setting data from Firebase User File");
+        userName = user.DisplayName;
 		email = user.Email;
 		uid = user.UserId;
-	}
+		IsPlayerLoggedIn = true;
+
+    }
 
 
 }

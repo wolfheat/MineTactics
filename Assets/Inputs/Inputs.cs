@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -6,8 +7,8 @@ public class Inputs : MonoBehaviour
 {
     public Controls Controls { get; set; }
     public InputAction Actions { get; set; }
-
     public static Inputs Instance { get; private set; }
+    public static InputAction touchAction { get; private set; }
 
     // Start is called before the first frame update
     void Awake()
@@ -24,42 +25,56 @@ public class Inputs : MonoBehaviour
         Controls.Enable();
     }
 
-
     private float startTouch = 0;
 
-    private void Update()
+    private void OnEnable()
     {
-        if (Input.touches.Length > 0)
-        {
-            Touch touch = Input.touches[0];
-            if(touch.phase == UnityEngine.TouchPhase.Began)
-            {
-                startTouch = Time.time;
-            }else if(touch.phase == UnityEngine.TouchPhase.Ended)
-            {
-                float timeHeld = (Time.time - startTouch);
-                if(timeHeld > 0.2f)
-                {
-                    TouchDebug.Instance.ShowText("Touch r-click at: "+ touch.position+" for "+timeHeld+"s");
-                    OnTouchClick(touch.position,true);
-                }
-                else
-                {
-                    TouchDebug.Instance.ShowText("Touch click at: "+ touch.position+" for "+timeHeld+"s");
-                    OnTouchClick(touch.position);
-                }
-            }
-        }
+        
+
     }
+    private void OnDisable()
+    {
+        
+    }
+    private void Start()
+    {
+        Controls.Main.Mouse.started += OnTouchStart;
+        Controls.Main.Mouse.canceled += OnTouchEnd;
+    }
+
+    private void OnTouchStart(InputAction.CallbackContext context)
+    {
+        startTouch = Time.time;
+        Debug.Log("Started new Touch");
+    }
+    private void OnTouchEnd(InputAction.CallbackContext context)
+    {
+        Debug.Log("Ended Touch");
+        float timeHeld = (Time.time - startTouch);
+        Vector2 pos = Controls.Main.TouchPosition.ReadValue<Vector2>();
+        TouchDebug.Instance.ShowText("Touch r-click at: "+ pos +" for "+timeHeld+"s");
+        if(timeHeld > USerInfo.Instance.SensitivityMS)
+            Debug.Log("R Click");
+        Debug.Log("TouchTime > Sensitivity "+timeHeld+"/"+USerInfo.Instance.SensitivityMS);
+        OnTouchClick(pos, timeHeld > USerInfo.Instance.SensitivityMS ? true : false);
+    }
+
     public void OnTouchClick(Vector2 pos,bool rightClick = false)
     {
-        var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(pos));
+        Debug.Log("TOUCH! Rightclick ="+rightClick);
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            Debug.Log("Pointer is hitting UI discard touch");
+            return;
+        }
+
+            var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(pos));
         if (!rayHit.collider) return;
         
         GameBox box = rayHit.collider.GetComponent<GameBox>();
         if (box != null)
         {
-            if (Timer.Instance.Paused && !LevelCreator.Instance.WaitForFirstMove && !LevelCreator.Instance.EditMode && !LevelCreator.Instance.EditModeB)
+            if (Timer.Instance.Paused && !USerInfo.Instance.WaitForFirstMove && USerInfo.Instance.currentType != GameType.Create)
                 return;
             if(rightClick)
                 box.RightClick();

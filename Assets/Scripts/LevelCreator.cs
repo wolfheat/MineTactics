@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Linq;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class LevelCreator : MonoBehaviour
 {
+    [SerializeField] private GameArea gameArea;
 
     [SerializeField] private int gameWidth;
     [SerializeField] private int gameHeight;
@@ -52,7 +52,8 @@ public class LevelCreator : MonoBehaviour
 
     Vector2[] sizePositions = new Vector2[3] { new Vector2(-2.2f,2.94f), new Vector2(-2.2f, 2.94f) , new Vector2(-2.2f, 2.94f) };
 
-    Vector3Int[] gameSizes = new Vector3Int[3] { new Vector3Int(6, 6, 10), new Vector3Int(8, 8, 22), new Vector3Int(12, 12, 30) };
+
+    int[] gameSizes = new int[10] { 5, 7, 10, 13, 16, 20, 24, 30, 35, 42 };
 
     float[] sizeScales = new float[3] { 0.832f, 0.832f, 0.832f};
 
@@ -83,12 +84,15 @@ public class LevelCreator : MonoBehaviour
         }
         Instance = this;
 
-        RestartGame();
+        //gameArea = new GameArea();
+
+        //gameArea.RestartGame();
 
         // Add size change listener
-        SettingsPanel.GameSizeChange += OnPlaySizeChange;
-        FirestoreManager.LoadComplete += OnLoadLevelComplete;
+        
+        //FirestoreManager.LoadComplete += OnLoadLevelComplete;
         AuthManager.OnSuccessfulLogIn += OnPlayerSignedInSuccess;
+        USerInfo.BoardSizeChange += OnPlaySizeChange;
     }
 
     public void SetAppRef(string s) => appRef.text = s;
@@ -108,59 +112,54 @@ public class LevelCreator : MonoBehaviour
         timeCount.transform.localPosition = new Vector3(borderAreaRenderer.size.x - 0.5f, smiley.transform.localPosition.y, 0);
     }
 
-    
+    /*
     private void SizeGameArea(bool sizeFromSettings = true,bool resetMines = true)
     {
 
         if (sizeFromSettings)
         {
-            Debug.Log("Load Game Size "+SettingsPanel.activeGameSize);  
+            int boardSize = USerInfo.Instance.BoardSize;
+            // Change to Use Userinfo?
+            Debug.Log("Load Game Size " + boardSize);
             // Load info of current size
-            gameWidth = gameSizes[SettingsPanel.activeGameSize].x;
-            gameHeight = gameSizes[SettingsPanel.activeGameSize].y;
-            totalmines = gameSizes[SettingsPanel.activeGameSize].z;
+            gameWidth = boardSize;
+            gameHeight = boardSize;
+            totalmines = gameSizes[boardSize - 6]; // -6 since the lowest setting a gamearea can be is 6 and the index starsts at 0
 
             // Set mines array
-            if(resetMines)
+            if (resetMines)
                 mines = new int[gameWidth, gameHeight];
-        }else
+        }
+        else
             Debug.Log("Sizing game Area from Loaded File instead of settings");
 
         DefineUnderAndOverBoxes();
 
         // Set correct size of the border
-        borderAreaRenderer.size = new Vector2(gameWidth / 2f + borderAddon.x, gameHeight / 2f + borderAddon.y);
 
-        // Orthographics reading changes, currently using a fixed size to get correct scaling
-        float cameraWidthUnits = 5.45f;
-        //float cameraWidthUnits = 5.6262f;
-        float scaleNeeded = cameraWidthUnits / borderAreaRenderer.size.x;
+        // Screen alignments
+        AlignGameArea();
+    }*/
 
-        // This scale is calculated but total width for screen is hardcoded
-        playArea.transform.localScale = new Vector3(scaleNeeded, scaleNeeded, 1);
-
-        playArea.transform.position = new Vector3(-borderAreaRenderer.size.x / 2 * playArea.transform.localScale.x, borderAreaRenderer.size.y / 2 * playArea.transform.localScale.y, 0);
-
+    public void AlignGameArea()
+    {
+        ScaleGameAreaBorder();
         AlignSmileyAndCounterIcons();
+        SetCameraOrthographicSize();
+        CenterGameArea();
     }
 
-    private void DefineUnderAndOverBoxes()
+    private void ScaleGameAreaBorder() => borderAreaRenderer.size = GameArea.Instance.BorderAreaRendererWidth();
+
+    private void CenterGameArea() => playArea.transform.position = new Vector3(-borderAreaRenderer.size.x / 2 * playArea.transform.localScale.x, borderAreaRenderer.size.y / 2 * playArea.transform.localScale.y, 0);
+
+    private void SetCameraOrthographicSize()
     {
-        for (int i = 0; i < underlayBoxes.GetLength(0); i++)
-        {
-            for (int j = 0; j < underlayBoxes.GetLength(1); j++)
-            {
-                if(underlayBoxes[i, j] != null)
-                    Destroy(underlayBoxes[i, j].gameObject);
-                if (overlayBoxes[i, j] != null)
-                    Destroy(overlayBoxes[i, j].gameObject);
-            }
-        }
-
-        // Set new boxes arrays size
-        underlayBoxes = new GameBox[gameWidth, gameHeight];
-        overlayBoxes = new GameBox[gameWidth, gameHeight];
-
+        Debug.Log("* SetCameraOrthographicSize");
+        float screenRatio = (float)Screen.height / Screen.width;
+        float targetWidthInWorldUnits = borderAreaRenderer.size.x;
+        float orthographicSize = targetWidthInWorldUnits * screenRatio / 2;
+        Camera.main.orthographicSize = orthographicSize;
     }
 
     public void OnRequestSaveLevel(InputAction.CallbackContext context)
@@ -220,46 +219,115 @@ public class LevelCreator : MonoBehaviour
         playerIDText.text = "Anonymous";        
     }
 
-    public void OnLoadLevelComplete(string compressed)
+
+    public void OnSubmitLevel()
     {
-        Debug.Log("Recieved compressed level from database: "+compressed);
-        string deCompressed = SavingLoadingConverter.UnComressString(compressed);
-        (int[,] newMines, int[,] gameLoaded,int newgameWidth,int newgameHeight,int newtotalmines) = SavingLoadingConverter.StringLevelToGameArray(deCompressed);
-        gameHeight = newgameHeight;
-        gameWidth = newgameWidth;
-        totalmines = newtotalmines;
-        mines = newMines;
-        LoadGame(gameLoaded);
-        // Set the level text to this level ID
-        amtText.text = "" + FirestoreManager.Instance.LoadedAmount;
-        levelText.text = FirestoreManager.Instance.LevelData.LevelId;
+        Debug.Log("Requests to Submit Level to Database");
+        SaveLevel("L02");
     }
 
-
-    internal void LoadGame(int[,] gameLoaded)
+    public void OnCreateBack()
     {
-        SizeGameArea(false);
-        DetermineNumbersFromNeighbors();
-        DrawLevel();
-        AlignBoxesAnchor();
+        Debug.Log("Create Back");
+        // Unload All but mines
 
+        OnToggleCreate(false);
 
-        // Pre open and flag
-        PreOpenAndFlag(gameLoaded);
+        totalmines = 0;
+        mineCountAmount = 0;
 
-        // Smiley set to Normal
+        GameArea.Instance.OnCreateBack();
+
+        BackgroundController.Instance.SetColorEditMode();
+    }
+
+    public void OnCreateNext()
+    {
+        GameArea.Instance.OnCreateNext();
+
+        // Generate numbers
+        Debug.Log("Mines set to flagged positions, Numbers updated");
+        EditMode = false;
+        EditModeB = true; // Fix this to Use same state machine?
+
+        BackgroundController.Instance.SetColorEditModeB();
+    }
+
+    public void OnToggleCreate(bool resetMines = true)
+    {
+        Debug.Log("Create Toggle requested");
+
+        // Create empty board
+        GameArea.Instance.SizeGameArea(true, resetMines); // Sizes and set empty game
+
+        // Go into Edit mode here - no counter - No normal fail on click
+        USerInfo.Instance.currentType = GameType.Create;
+
+        // Clicks adds mines
+        // After clicking Next go to Opening tiles or flag(if mine)
+        // After next Add Gold Squares if using them or send the level 
+
+        GameArea.Instance.DrawLevel();
+        GameArea.Instance.ResetLevel();
+
+        totalmines = 0;
+        mineCountAmount = 0;
+        GameArea.Instance.AlignBoxesAnchor();
         SmileyButton.Instance.ShowNormal();
+        Timer.Instance.ResetCounterAndPause();
+        USerInfo.Instance.WaitForFirstMove = false;
 
-        // Start game and open all preopened and flag flagged
-        Timer.Instance.StartTimer(); // starts the timer
+        USerInfo.Instance.currentType = GameType.Create;
+        PanelController.Instance.UpdateModeShown();
 
-        // Players first click should count in this game mode
-        WaitForFirstMove = false;
+        BackgroundController.Instance.SetColorEditMode();
+        levelText.text = "CREATE " + gameWidth + "x" + gameHeight;
 
-
-        BackgroundController.Instance.SetColorTactics();
     }
 
+
+    public void OnPlaySizeChange()
+    {
+        Debug.Log("* Play size changed, update game area");
+        RestartGame();
+    }
+
+    internal void RestartGame()
+    {
+        Debug.Log("* RestartGame");
+        gameArea.RestartGame();        
+        AlignGameArea();
+        return;
+    }
+
+    private void DefineUnderAndOverBoxes()
+    {
+        for (int i = 0; i < underlayBoxes.GetLength(0); i++)
+        {
+            for (int j = 0; j < underlayBoxes.GetLength(1); j++)
+            {
+                if (underlayBoxes[i, j] != null)
+                    Destroy(underlayBoxes[i, j].gameObject);
+                if (overlayBoxes[i, j] != null)
+                    Destroy(overlayBoxes[i, j].gameObject);
+            }
+        }
+
+        // Set new boxes arrays size
+        underlayBoxes = new GameBox[gameWidth, gameHeight];
+        overlayBoxes = new GameBox[gameWidth, gameHeight];
+
+    }
+
+    internal void LoadedGameFinalizing()
+    {
+        AlignGameArea();
+        SmileyButton.Instance.ShowNormal();
+        Timer.Instance.StartTimer();
+    }
+
+
+    /*
     private void PreOpenAndFlag(int[,] gameLoaded)
     {
         TotalMines();
@@ -284,30 +352,6 @@ public class LevelCreator : MonoBehaviour
         UpdateMineCount();
     }
 
-    public void OnSubmitLevel()
-    {
-        Debug.Log("Requests to Submit Level to Database");
-        SaveLevel("L02");
-    }
-
-    public void OnCreateBack()
-    {
-        Debug.Log("Create Back");
-        // Unload All but mines
-
-        OnToggleCreate(false);
-
-        totalmines = 0;
-        mineCountAmount = 0;
-
-        // Flag all Mines
-        FlagAllMines();
-
-        
-
-        BackgroundController.Instance.SetColorEditMode();
-    }
-
     private void FlagAllMines()
     {
         for (int j = 0; j < gameHeight; j++)
@@ -319,34 +363,6 @@ public class LevelCreator : MonoBehaviour
                     overlayBoxes[i, j].Mark();
             }
         }
-    }
-
-    public void OnCreateNext()
-    {
-        // Step into opening/flagging mode
-        // Change button to Submit // Have a reset?
-        Debug.Log("Step Into Open / Flag mode");
-
-        // Define Mines from flags
-        SetMinesFromFlags(); 
-
-        // TODO Figure out why Numbers are not added correctly
-
-        DetermineNumbersFromNeighbors();
-
-        UpdateNumbers();
-
-
-        // Generate numbers
-        Debug.Log("Mines set to flagged positions, Numbers updated");
-        EditMode = false;
-        EditModeB = true; // Fix this to Use same state machine?
-
-        // Set minecount
-        mineCountAmount = 0;
-        UpdateMineCount();
-
-        BackgroundController.Instance.SetColorEditModeB();
     }
 
     private void UpdateNumbers()
@@ -381,41 +397,15 @@ public class LevelCreator : MonoBehaviour
         }
     }
 
-    public void OnToggleCreate(bool resetMines = true)
-    {
-        Debug.Log("Create Toggle requested");
 
-        // Create empty board
-        SizeGameArea(true,resetMines); // Sizes and set empty game
-
-        // Go into Edit mode here - no counter - No normal fail on click
-        EditMode = true;
-
-        // Clicks adds mines
-        // After clicking Next go to Opening tiles or flag(if mine)
-        // After next Add Gold Squares if using them or send the level 
-        DrawLevel();
-        ResetLevel();
-        totalmines = 0;
-        mineCountAmount = 0;
-        AlignBoxesAnchor();
-        SmileyButton.Instance.ShowNormal();
-        Timer.Instance.ResetCounterAndPause();
-        WaitForFirstMove = false;
-
-        BackgroundController.Instance.SetColorEditMode();
-        levelText.text = "CREATE " + gameWidth + "x" + gameHeight;
-    }
-
-    public void OnPlaySizeChange()
-    {
-        Debug.Log("Play size changed, update game area");
-        RestartGame();
-    }
 
     internal void RestartGame()
     {
+        gameArea.RestartGame();
+        return;
+
         SizeGameArea();
+
         RandomizeMines();
         DrawLevel();
         ResetLevel();
@@ -423,11 +413,14 @@ public class LevelCreator : MonoBehaviour
         SmileyButton.Instance.ShowNormal();
         Timer.Instance.ResetCounterAndPause();
         WaitForFirstMove = true;
-        levelText.text = "RANDOM "+gameWidth+"x"+gameHeight;
+        USerInfo.Instance.levelID = "RANDOM " + gameWidth + "x" + gameHeight;
+        levelText.text = USerInfo.Instance.levelID;
         amtText.text = ""+FirestoreManager.Instance.LoadedAmount;
+        USerInfo.Instance.currentType = GameType.Normal;
         BackgroundController.Instance.SetColorNormal();
 
     }
+
 
     public bool OpenBox(Vector2Int pos)
     {
@@ -542,10 +535,10 @@ public class LevelCreator : MonoBehaviour
         SmileyButton.Instance.ShowWin();
 
         LevelBusted = false;
-        // Open Completion Panel
-        levelCompletionPanel.gameObject.SetActive(true);
-        levelCompletionPanel.RequestUpdateLevelInfo();
 
+        // Open Completion Panel - Pick correct one depending on level type
+        PanelController.Instance.ShowLevelComplete();
+        
     }
 
     private void ResetLevel()
@@ -606,11 +599,6 @@ public class LevelCreator : MonoBehaviour
         Timer.Instance.Pause();
     }
 
-    private void CreateLevel()
-    {
-        RandomizeMines();
-    }
-
     private void RandomizeMines()
     {
         mineCountAmount = 0;
@@ -647,7 +635,7 @@ public class LevelCreator : MonoBehaviour
             {
                 if (mines[i, j] != -1) {
                     mines[i, j] = Neighbors(i, j);
-                    Debug.Log("Neighbor for "+i+","+j+" = " + mines[i,j]);
+                    //Debug.Log("Neighbor for "+i+","+j+" = " + mines[i,j]);
                 }
             }
         }
@@ -746,6 +734,8 @@ public class LevelCreator : MonoBehaviour
         int number = underlayBoxes[pos.x, pos.y].value;
         return number == MarkedNeighbors(pos.x,pos.y);
     }
+
+
     private int MarkedNeighbors(int iCenter, int jCenter)
     {
         int amt = 0;
@@ -817,4 +807,6 @@ public class LevelCreator : MonoBehaviour
     {
         return mines[pos.x, pos.y] == -1;
     }
+    */
+
 }

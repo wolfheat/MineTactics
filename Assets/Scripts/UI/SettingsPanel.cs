@@ -9,18 +9,22 @@ public class SettingsPanel : MonoBehaviour
 {
     int enumGameSize = Enum.GetNames(typeof(GameSize)).Length;
     public static int activeGameSize = 0;
-    [SerializeField] TextMeshProUGUI gameSizeText;
+    [SerializeField] TextMeshProUGUI boardSizeText;
+    [SerializeField] TextMeshProUGUI sensitivity;
     [SerializeField] TextMeshProUGUI mineDens;
     [SerializeField] TextMeshProUGUI winprob;
     [SerializeField] Toggle pendingToggle;
+    [SerializeField] Slider slider;
+    [SerializeField] Slider sensitivitySlider;
 
     private float[] winProbs = {30.2f, 1.08f, 1.56f};
     private float[] densities = {15f, 34.38f, 30.02f};
 
     public static SettingsPanel Instance { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
+        Debug.Log("SETTINGS PANEL AWAKE");
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -29,29 +33,43 @@ public class SettingsPanel : MonoBehaviour
         Instance = this;
     }
 
-
-    public static Action GameSizeChange;
-
-    public void OnLeftArrow()
+    public void ConfirmSettings()
     {
-        Debug.Log("Left");
-        activeGameSize = (activeGameSize+enumGameSize-1)%enumGameSize;
-        UpdateSizeText();
-        GameSizeChange.Invoke();
+        USerInfo.Instance.BoardSize = (int)slider.value;
+
+        // Update settings values
+        SavingUtility.gameSettingsData.BoardSize = (int)slider.value;
+        SavingUtility.gameSettingsData.TouchSensitivity = (int)sensitivitySlider.value;
+        SavingUtility.gameSettingsData.UsePending = pendingToggle.isOn;
+
+        // Save to File here
+        SavingUtility.Instance.SaveAllDataToFile();
+
+        // Apply the size settings
+        if(USerInfo.Instance.currentType == GameType.Normal)
+            PanelController.Instance.ChangeMode(0); // Forces Update if playing Normal game
+
     }
-    public void OnRightArrow()
+    public void UpdateSizeText(Slider slider)
     {
-        Debug.Log("Right");
-        activeGameSize = (activeGameSize + 1) % enumGameSize;
-        UpdateSizeText();
-        GameSizeChange?.Invoke();
-    }
-    private void UpdateSizeText()
-    {
-        gameSizeText.text = Enum.GetNames(typeof(GameSize))[activeGameSize].ToString();
-        // Also change mine density and win prob
-        winprob.text = "Win Prob: " + winProbs[activeGameSize]+"%";
-        mineDens.text = "Mine Density: " + densities[activeGameSize]+"%";
+        // Read value of slider and update
+        int nexValue = (int)slider.value;
+        boardSizeText.text = nexValue+"x"+ nexValue;
 
+    }
+    public void UpdateSensitivity(Slider slider)
+    {
+        // Read value of slider and update
+        int nexValue = (int)slider.value;
+        sensitivity.text = nexValue+" ms";
+        USerInfo.Instance.Sensitivity = nexValue;
+
+    }
+    internal void SetValuesFromLoadedSettings()
+    {
+        GameSettingsData data = SavingUtility.gameSettingsData;
+        sensitivitySlider.value = data.TouchSensitivity;
+        slider.value = data.BoardSize;
+        pendingToggle.isOn = data.UsePending;
     }
 }

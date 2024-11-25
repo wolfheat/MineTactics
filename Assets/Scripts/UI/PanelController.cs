@@ -1,3 +1,5 @@
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,14 +10,23 @@ public class PanelController : MonoBehaviour
     [SerializeField] GameObject createButton;
     [SerializeField] GameObject randomButton;
     [SerializeField] GameObject startMenuButton;
+
+    [SerializeField] GameObject normalMode;
+    [SerializeField] GameObject challengeMode;
     
     [SerializeField] GameObject cancelButton;
     [SerializeField] GameObject nextButton;
+    [SerializeField] TextMeshProUGUI modeText;
 
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject loginMenu;
     [SerializeField] GameObject registerMenu;
+
+    [SerializeField] GameObject createMainButtons;
     [SerializeField] GameObject submitMenu;
+
+    [SerializeField] LevelCompletionScreen levelCompleteNormal;
+    [SerializeField] LevelCompletionScreen levelComplete;
 
     [SerializeField] LoadingPanel progressPanel;
 
@@ -24,37 +35,52 @@ public class PanelController : MonoBehaviour
     [SerializeField] Toggle toggle;
     public static bool UsePending { get; private set; }
 
+
+    public static PanelController Instance { get; private set; }
+
     private void Start()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
         // Initiate correct Menues at start
 
         InitStartMenu();
     }
     private void OnEnable()
     {
+        AuthManager.RegisterAttemptStarted += ShowLoaderPanelRegister;
         AuthManager.LoginAttemptStarted += ShowLoaderPanelLogin;
         AuthManager.OnSuccessfulLogIn += LoginConfirmed;        
         FirestoreManager.OnSubmitLevelStarted += ShowLoaderPanelSubmitLevel;
+        FirestoreManager.OnLoadLevelStarted += ShowLoaderPanelReceiveLevel;
     }
     private void OnDisable()
     {
+        AuthManager.RegisterAttemptStarted -= ShowLoaderPanelRegister;
         AuthManager.LoginAttemptStarted -= ShowLoaderPanelLogin;
         AuthManager.OnSuccessfulLogIn -= LoginConfirmed;
         FirestoreManager.OnSubmitLevelStarted -= ShowLoaderPanelSubmitLevel;
+        FirestoreManager.OnLoadLevelStarted -= ShowLoaderPanelReceiveLevel;
     }
     private void InitStartMenu()
     {
-        ToggleMenuButtons(false);
         startMenu.SetActive(true);
         loginMenu.SetActive(false);
         registerMenu.SetActive(false);
+
         settingsPanel.SetActive(false);
         progressPanel.gameObject.SetActive(false);
+
+        ToggleMenuButtons(false);
     }
 
     public void CloseMainMenuNoLogIn()
     {
-        startMenuButton.SetActive(true);
+        ToggleMenuButtons(true);
         startMenu.SetActive(false);
     }
 
@@ -69,10 +95,65 @@ public class PanelController : MonoBehaviour
         settingsPanel.SetActive(false);
     }
 
+    public void UpdateModeShown()
+    {
+        switch (USerInfo.Instance.currentType)
+        {
+            case GameType.Normal:
+                modeText.text = "NORMAL";
+                break;
+            case GameType.Loaded:
+                modeText.text = "CHALLENGE";
+                break;
+            case GameType.Create:
+                modeText.text = "CREATE";
+                break;
+            default:
+                modeText.text = "MODE";
+                break;
+        }
+    }
+
+    public void ChangeMode(int type)
+    {
+        USerInfo.Instance.currentType = (GameType)type;
+        if (type == 0)
+        {
+            normalMode.gameObject.SetActive(false);
+            challengeMode.gameObject.SetActive(true);
+            LevelCreator.Instance.RestartGame();
+        }
+        else
+        {
+            normalMode.gameObject.SetActive(true);
+            challengeMode.gameObject.SetActive(false);
+            LevelCreator.Instance.LoadRandomLevel();
+        }
+        UpdateModeShown();
+    }
+
+    public void ShowLoaderPanelLoadLevels()
+    {
+        progressPanel.gameObject.SetActive(true);
+        progressPanel.OnLoadLevelsStarted();
+    }
+    
+    public void ShowLoaderPanelRegister()
+    {
+        progressPanel.gameObject.SetActive(true);
+        progressPanel.OnRegisterStarted();
+    }
+    
     public void ShowLoaderPanelLogin()
     {
         progressPanel.gameObject.SetActive(true);
         progressPanel.OnLoginStarted();
+    }
+    
+    public void ShowLoaderPanelReceiveLevel()
+    {
+        progressPanel.gameObject.SetActive(true);
+        progressPanel.OnLoadLevelsStarted();
     }
     
     public void ShowLoaderPanelSubmitLevel()
@@ -80,13 +161,7 @@ public class PanelController : MonoBehaviour
         progressPanel.gameObject.SetActive(true);
         progressPanel.OnSubmitLevelStarted();
     }
-
-    public void LoginDeclined()
-    {
-        progressPanel.gameObject.SetActive(true);
-        progressPanel.OnRegisterStarted();
-    }
-    
+        
     public void LoginConfirmed()
     {
         ToggleMenuButtons(true);
@@ -94,7 +169,8 @@ public class PanelController : MonoBehaviour
         loginMenu.SetActive(false);
         registerMenu.SetActive(false);
     }
-    public void RequestLogOut()
+
+    public void RequestLogOutInitMainMenu()
     {
         Debug.Log("Player requested log out");
 
@@ -103,6 +179,9 @@ public class PanelController : MonoBehaviour
 
         // Log out Menu ?? not needed since its sync?
         AuthManager.Instance.LogOut();
+
+        USerInfo.Instance.IsPlayerLoggedIn = false;
+
         InitStartMenu();
     }
     
@@ -116,6 +195,8 @@ public class PanelController : MonoBehaviour
         Debug.Log("Opening Settings");
         ToggleMenuButtons(false);
         settingsPanel.SetActive(true);
+        Debug.Log("Settings Instance: "+ SettingsPanel.Instance);
+        SettingsPanel.Instance.SetValuesFromLoadedSettings();
     }
 
     public void OpenCreateMenu()
@@ -127,7 +208,7 @@ public class PanelController : MonoBehaviour
 
     public void Next()
     {
-        nextButton.gameObject.SetActive(false);
+        createMainButtons.SetActive(false);
         submitMenu.SetActive(true);
         LevelCreator.Instance.OnCreateNext();
     }
@@ -139,16 +220,20 @@ public class PanelController : MonoBehaviour
 
     private void BaseMenu()
     {
-        nextButton.gameObject.SetActive(true);
+        createMainButtons.SetActive(true);
         submitMenu.SetActive(false);
     }
 
     public void Cancel()
     {
+        USerInfo.Instance.currentType = GameType.Normal;
+        UpdateModeShown();
+
         BaseMenu();
         ToggleMenuButtons(true);
         createPanel.SetActive(false);
         LevelCreator.Instance.CancelEditMode();
+
 
         // Change this for going to Nothing loaded?
         LevelCreator.Instance.RestartGame();
@@ -161,16 +246,39 @@ public class PanelController : MonoBehaviour
     
     public void Random()
     {
-        LevelCreator.Instance.LoadRandomLevel();
+        if (USerInfo.Instance.currentType == GameType.Loaded)
+            return;
+        ChangeMode((int)GameType.Loaded);
     }
 
     private void ToggleMenuButtons(bool setActive)
     {
         // Disable all Buttons
         settingsButton.SetActive(setActive);
-        createButton.SetActive(setActive);
-        randomButton.SetActive(setActive);
-        startMenuButton.SetActive(false);
+        bool Logged = USerInfo.Instance.IsPlayerLoggedIn;        
+        bool Normal = USerInfo.Instance.currentType == GameType.Normal;        
+        //randomButton.SetActive(Logged ? setActive : false);
+        createButton.SetActive(Logged ? setActive : false);    
+        normalMode.SetActive(Logged ? setActive && !Normal : false);    
+        challengeMode.SetActive(Logged ? setActive && Normal : false);    
+
+        startMenuButton.SetActive(!Logged ? setActive : false);
+        
     }
 
+    internal void ShowLevelComplete()
+    {
+        if (USerInfo.Instance.currentType == GameType.Normal)
+        {
+            levelCompleteNormal.gameObject.SetActive(true); 
+            levelCompleteNormal.RequestUpdateLevelInfo();
+        }
+        else
+        {
+            levelComplete.gameObject.SetActive(true);
+            levelComplete.RequestUpdateLevelInfo();
+
+        }
+
+    }
 }

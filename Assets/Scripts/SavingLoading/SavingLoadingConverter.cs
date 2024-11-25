@@ -160,12 +160,16 @@ public class SavingLoadingConverter : MonoBehaviour
 
     internal static (int[,], int[,], int, int,int) StringLevelToGameArray(string deCompressed)
     {
+        Debug.Log("Making game array from decompressed string: "+deCompressed);
         int totalSize = deCompressed.Length - 2;
         string gameDeCompressed = deCompressed.Substring(2, totalSize);
         //Debug.Log("Decompressed: "+deCompressed);
         int width = Int32.Parse(deCompressed.Substring(0, 2));
         int height = totalSize / width;
         int totMines = 0;
+
+        Debug.Log("Width = "+width+" Height ="+height);
+
         if (totalSize % width != 0)
             Debug.Log("Loaded string is not correct length");
 
@@ -192,7 +196,7 @@ public class SavingLoadingConverter : MonoBehaviour
                 gameArray[i,j] = value;
             }
         }
-
+        
         // Rotate? 180
         int rotate = Random.Range(0,4);
         if (rotate>0)

@@ -50,11 +50,11 @@ public class GameBox : MonoBehaviour
     {
         //Debug.Log("Clicking Box value = "+value);
 
-        if (LevelCreator.Instance.EditMode)
+        if (USerInfo.Instance.currentType == GameType.Create)
         {
-            LevelCreator.Instance.OpenBox(Pos);
+            GameArea.Instance.OpenBox(Pos);
             return;
-        }else if (LevelCreator.Instance.EditModeB && LevelCreator.Instance.IsMine(Pos))
+        }else if (USerInfo.EditMode == 1 && GameArea.Instance.IsMine(Pos))
         {
             RightClick(true);
             return;
@@ -67,7 +67,7 @@ public class GameBox : MonoBehaviour
         if (Marked)
             return;
         //Debug.Log("Clicking this box at "+Pos+" notice Levelcreator to respond accordingly");
-        if (LevelCreator.Instance.OpenBox(Pos))
+        if (GameArea.Instance.OpenBox(Pos))
         {
             //RemoveAndSetUnderActive();
         }
@@ -87,7 +87,7 @@ public class GameBox : MonoBehaviour
 
     private void Chord()
     {
-        LevelCreator.Instance.Chord(Pos);
+        GameArea.Instance.Chord(Pos);
     }
 
 
@@ -97,7 +97,7 @@ public class GameBox : MonoBehaviour
         if (Marked) return;
         Marked = true;
         spriteRenderer.sprite = markedSprite;
-        LevelCreator.Instance.DecreaseMineCount();
+        GameArea.Instance.DecreaseMineCount();
     }
 
     internal void RightClick(bool hidden = false)
@@ -107,17 +107,17 @@ public class GameBox : MonoBehaviour
         Marked = !Marked;
         spriteRenderer.sprite = Marked ? markedSprite : (hidden?hiddenMineSprite:unmarkedSprite);
         
-        Debug.Log("Clicking Box in Editmode B, at a mine swap for a tinted mine hidden = "+hidden);
+        Debug.Log("Right Clicking Box, hidden = "+hidden);
 
         if (LevelCreator.Instance.EditMode)
         {
-            LevelCreator.Instance.UpdateMineCount();
+            GameArea.Instance.UpdateMineCount();
             return; // Breaks if in edit mode and placing Mines
         }
         if(!Marked)
-            LevelCreator.Instance.IncreaseMineCount();
+            GameArea.Instance.IncreaseMineCount();
         else
-            LevelCreator.Instance.DecreaseMineCount();
+            GameArea.Instance.DecreaseMineCount();
     }
 
     internal void Bust()

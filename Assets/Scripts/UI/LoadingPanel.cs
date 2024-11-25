@@ -1,8 +1,9 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 
 
-public enum LoadingState{LogIn,Register,SubmitLevel}
+public enum LoadingState{LogIn,Register,SubmitLevel,LoadingLevels,LoadingLevelsFailed}
 
 public class LoadingPanel : MonoBehaviour
 {
@@ -25,37 +26,38 @@ public class LoadingPanel : MonoBehaviour
     }
     private void OnEnable()
     {
-        AuthManager.RegisterAttemptStarted += OnRegisterStarted;        
-        AuthManager.RegisterAttemptFailed += OnRegisterFailed;       
-        
-        AuthManager.LoginAttemptStarted += OnLoginStarted;        
+        AuthManager.RegisterAttemptFailed += OnRegisterFailed;               
         AuthManager.LoginAttemptFailed += OnLoginFailed;        
         
         FirestoreManager.SubmitLevelAttemptSuccess += OnSubmitLevelSuccess;        
         FirestoreManager.SubmitLevelAttemptFailed += OnSubmitLevelFailed;        
 
-        AuthManager.OnSuccessfulLogIn += OnSuccessfulLogIn;        
+        FirestoreManager.OnSuccessfulLoadingOfLevels += OnSuccessfulLoadLevels;          
+
+        AuthManager.OnSuccessfulLogIn += OnSuccessfulLogIn;
     }
 
-    private void ShowLoader(bool show) => loadingBar.gameObject.SetActive(show);
+    private void ShowLoadingCircleAnimation(bool show) => loadingBar.gameObject.SetActive(show);
     private void OnRegisterFailed(string error)
     {
-        ShowLoader(false);
+        ShowLoadingCircleAnimation(false);
         Debug.Log("OnRegisterFailed: "+error);
         // Set Name to Regitrating
-        subText.text = "Failed to log in!";
+        headerText.text = "Registrating new Player";
+        subText.text = "Failed to register!";
     }
     private void OnLoginFailed(string error)
     {
-        ShowLoader(false);
+        ShowLoadingCircleAnimation(false);
         Debug.Log("OnLoginFailed" + error);
         // Set Name to Regitrating
         subText.text = "Failed to log in!";
     }
+
     public void OnRegisterStarted()
     {
         currentState = LoadingState.Register;
-        ShowLoader(true);
+        ShowLoadingCircleAnimation(true);
         Debug.Log("OnRegisterStarted");
         // Set Name to Regitrating
         headerText.text = "Registrating new Player";
@@ -64,21 +66,32 @@ public class LoadingPanel : MonoBehaviour
     public void OnLoginStarted()
     {
         currentState = LoadingState.LogIn;
-        ShowLoader(true);
+        ShowLoadingCircleAnimation(true);
         Debug.Log("OnLoginStarted");
         // Set Name to Regitrating
         headerText.text = "Logging in";
         subText.text = "Trying to Log in, please wait!";
     }
-
+    internal void OnLoadLevelsStarted()
+    {
+        currentState = LoadingState.LoadingLevels;
+        ShowLoadingCircleAnimation(true);
+        Debug.Log("OnLoadLevelsStarted");
+        // Set Name to Regitrating
+        headerText.text = "Loading new Levels";
+        subText.text = "Trying to Load new Levels, please wait!";
+    }
     private void OnDisable()
     {
 
-        AuthManager.RegisterAttemptStarted -= OnRegisterStarted;
         AuthManager.RegisterAttemptFailed -= OnRegisterFailed;
 
-        AuthManager.LoginAttemptStarted -= OnLoginStarted;
         AuthManager.LoginAttemptFailed -= OnLoginFailed;
+
+        FirestoreManager.SubmitLevelAttemptSuccess -= OnSubmitLevelSuccess;
+        FirestoreManager.SubmitLevelAttemptFailed -= OnSubmitLevelFailed;
+
+        FirestoreManager.OnSuccessfulLoadingOfLevels -= OnSuccessfulLoadLevels;
 
         AuthManager.OnSuccessfulLogIn -= OnSuccessfulLogIn;
     }
@@ -93,15 +106,33 @@ public class LoadingPanel : MonoBehaviour
     internal void OnSubmitLevelStarted()
     {
         currentState = LoadingState.SubmitLevel;
-        ShowLoader(true);
+        ShowLoadingCircleAnimation(true);
         Debug.Log("OnSubmitLevelStarted");
         // Set Name to Regitrating
         headerText.text = "Submitting Level";
         subText.text = "Trying to Submit the Level, please wait!";
     }
+    internal void OnSuccessfulLoadLevels(bool success=true)
+    {
+        ShowLoadingCircleAnimation(false);
+        Debug.Log("OnSuccessfulLoadLevels: "+success);
+        if (success)
+        {
+            // Set Name to Regitrating
+            headerText.text = FirestoreManager.Instance.LoadedAmount +" Levels Loaded Successfully";
+            subText.text = "Enjoy!";
+        }
+        else
+        {
+            currentState = LoadingState.LoadingLevelsFailed;
+            // Set Name to Regitrating
+            headerText.text = "Could Not Load any Levels";
+            subText.text = "Sorry!";
+        }
+    }
     internal void OnSubmitLevelSuccess()
     {
-        ShowLoader(false);
+        ShowLoadingCircleAnimation(false);
         Debug.Log("OnSubmitLevelSuccess");
         // Set Name to Regitrating
         headerText.text = "Level Accepted";
@@ -109,7 +140,7 @@ public class LoadingPanel : MonoBehaviour
     }
     private void OnSubmitLevelFailed(string error)
     {
-        ShowLoader(false);
+        ShowLoadingCircleAnimation(false);
         Debug.Log("OnSubmitLevelFailed: " + error);
         headerText.text = "Level Rejected";
         // Set Name to Regitrating
@@ -121,7 +152,15 @@ public class LoadingPanel : MonoBehaviour
         // Load Main Menu if coming from log in or register else just close?
         if(currentState == LoadingState.LogIn || currentState == LoadingState.Register)
             startMenu.gameObject.SetActive(true);
+        if (currentState == LoadingState.LoadingLevels)
+            // Select a random level from the retrieved documents
+            FirestoreManager.Instance.GetRandomLevel(1000);
+        else if (currentState == LoadingState.SubmitLevel)
+            PanelController.Instance.Back();
+        else
+            PanelController.Instance.ChangeMode(0);
 
         this.gameObject.SetActive(false);
     }
+
 }
