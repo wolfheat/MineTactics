@@ -9297,6 +9297,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1033595235}
   m_CullTransparentMesh: 1
+--- !u!1 &1040906864 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 845975129365461220, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
+  m_PrefabInstance: {fileID: 340026606}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1066486995
 GameObject:
   m_ObjectHideFlags: 0
@@ -15140,10 +15145,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsButton: {fileID: 162632045}
   createButton: {fileID: 845152869}
-  randomButton: {fileID: 0}
+  randomButton: {fileID: 1040906864}
   startMenuButton: {fileID: 419063971}
-  normalMode: {fileID: 1126462541}
-  challengeMode: {fileID: 1771531679}
+  normalModeButton: {fileID: 1126462541}
+  challengeModeButton: {fileID: 1771531679}
   cancelButton: {fileID: 1499802922}
   nextButton: {fileID: 444523418}
   modeText: {fileID: 1107668859}

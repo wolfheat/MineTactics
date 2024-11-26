@@ -41,10 +41,11 @@ public class USerInfo : MonoBehaviour
 	public static Action BoardSizeChange;
     private void SetDataFromSaveFile()
     {
-		Debug.Log("Setting data from Saved Settings File");
+		Debug.Log("** Setting data from Saved Settings File");
         Sensitivity = SavingUtility.gameSettingsData.TouchSensitivity;
 		BoardSize = SavingUtility.gameSettingsData.BoardSize;
 		UsePending = SavingUtility.gameSettingsData.UsePending;
+		Debug.Log("** UserInfo set Usepending to "+UsePending);
 		BoardSizeChange?.Invoke();
     }
 

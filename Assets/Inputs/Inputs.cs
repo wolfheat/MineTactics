@@ -59,7 +59,7 @@ public class Inputs : MonoBehaviour
         OnTouchClick(pos, timeHeld > USerInfo.Instance.SensitivityMS ? true : false);
     }
 
-    public void OnTouchClick(Vector2 pos,bool rightClick = false)
+    public void OnTouchClick(Vector2 touchPos,bool rightClick = false)
     {
         Debug.Log("TOUCH! Rightclick ="+rightClick);
         if (EventSystem.current.IsPointerOverGameObject())
@@ -68,7 +68,7 @@ public class Inputs : MonoBehaviour
             return;
         }
 
-        var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(pos));
+        var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(touchPos));
         if (!rayHit.collider) return;
         
         GameBox box = rayHit.collider.GetComponent<GameBox>();
@@ -77,10 +77,15 @@ public class Inputs : MonoBehaviour
             // Do not allow any clicks if game is Paused, unless you are in normal mode and waiting for the first click
             if (Timer.Instance.Paused && !USerInfo.Instance.WaitForFirstMove && USerInfo.Instance.currentType != GameType.Create)
                 return;
-            if(rightClick && USerInfo.Instance.currentType != GameType.Create) // Only rightclick in non Edit
-                box.RightClick();
-            else
-                box.Click();
+            if (rightClick && USerInfo.Instance.currentType != GameType.Create) // Only rightclick in non Edit{
+            { 
+                if(!GameArea.Instance.UnSolved(box.Pos))
+                    box.Click();
+                else
+                    box.RightClick();
+            }
+        else
+            box.Click();
         }
         SmileyButton smiley = rayHit.collider.GetComponent<SmileyButton>();
         if (smiley != null)

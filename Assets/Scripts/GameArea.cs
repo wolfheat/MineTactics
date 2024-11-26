@@ -139,6 +139,7 @@ public class GameArea : MonoBehaviour
         PreOpenAndFlag(gameLoaded);
         LevelBusted = false;
         LevelCreator.Instance.LoadedGameFinalizing();
+        BackgroundController.Instance.SetColorTactics();
         // Also Start the timer and reset the smiley
     }
 
@@ -344,7 +345,8 @@ public class GameArea : MonoBehaviour
         {
             overlayBoxes[pos.x, pos.y].RightClick();
         }
-        
+        UpdateMineCount();
+
     }
 
     internal void OpenBoxCreate(Vector2Int pos)
@@ -779,4 +781,5 @@ public class GameArea : MonoBehaviour
         Debug.Log("Saved Level sent");
     }
 
+    internal bool UnSolved(Vector2Int pos) => overlayBoxes[pos.x, pos.y].UnSolved();
 }

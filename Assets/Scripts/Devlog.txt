@@ -100,9 +100,10 @@ Nov 2024
 		* Made Stars reset to 3 when resultscreen starts
 		* Fixed Create Mode Issues. First step now can handle ghost mines and flags. these stays when jumping between the steps.
 		* Fixed Create Mode size issue when coming from Challenge and the Busted issue
+		* Fixed so correct amount of mines shown in create A
+		* Fixed backgrouindissue for challenge mode
+		* Fixed settings not remembering using Pending
 
-
-		* Make backed on Challenge mode not able to click on the gameboxes to start a level? Only able to start this with the smiley is not clicking next on last resultscreen
 		
 		// MODES
 		* Add find missflagged mine Game Mode??

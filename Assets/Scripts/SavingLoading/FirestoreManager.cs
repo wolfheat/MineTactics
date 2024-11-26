@@ -72,12 +72,12 @@ public class FirestoreManager : MonoBehaviour
 
         string statusToLoad = "Approved";
         // Select Pending or Approved
-        if (PanelController.UsePending)
+        if (USerInfo.Instance.UsePending)
         {
             //if (UnityEngine.Random.Range(0, 2) == 1)
                 statusToLoad = "Pending";
         }
-        Debug.Log("No Downloaded Levels in the list, Loading Level with Status: "+statusToLoad+" PendingToggle is set to "+PanelController.UsePending);
+        Debug.Log("No Downloaded Levels in the list, Loading Level with Status: "+statusToLoad+" PendingToggle is set to "+ USerInfo.Instance.UsePending);
 
         // Show LoadingPanel here
         OnLoadLevelStarted?.Invoke();

@@ -11,8 +11,8 @@ public class PanelController : MonoBehaviour
     [SerializeField] GameObject randomButton;
     [SerializeField] GameObject startMenuButton;
 
-    [SerializeField] GameObject normalMode;
-    [SerializeField] GameObject challengeMode;
+    [SerializeField] GameObject normalModeButton;
+    [SerializeField] GameObject challengeModeButton;
     
     [SerializeField] GameObject cancelButton;
     [SerializeField] GameObject nextButton;
@@ -33,8 +33,6 @@ public class PanelController : MonoBehaviour
     [SerializeField] GameObject settingsPanel;
     [SerializeField] GameObject createPanel;
     [SerializeField] Toggle toggle;
-    public static bool UsePending { get; private set; }
-
 
     public static PanelController Instance { get; private set; }
 
@@ -101,6 +99,7 @@ public class PanelController : MonoBehaviour
         {
             case GameType.Normal:
                 modeText.text = "NORMAL";
+
                 break;
             case GameType.Loaded:
                 modeText.text = "CHALLENGE";
@@ -119,14 +118,14 @@ public class PanelController : MonoBehaviour
         USerInfo.Instance.currentType = (GameType)type;
         if (type == 0)
         {
-            normalMode.gameObject.SetActive(false);
-            challengeMode.gameObject.SetActive(true);
+            normalModeButton.gameObject.SetActive(false);
+            challengeModeButton.gameObject.SetActive(true);
             LevelCreator.Instance.RestartGame();
         }
         else
         {
-            normalMode.gameObject.SetActive(true);
-            challengeMode.gameObject.SetActive(false);
+            normalModeButton.gameObject.SetActive(true);
+            challengeModeButton.gameObject.SetActive(false);
             LevelCreator.Instance.LoadRandomLevel();
         }
         UpdateModeShown();
@@ -185,11 +184,6 @@ public class PanelController : MonoBehaviour
         InitStartMenu();
     }
     
-    public void UpdateLoadPending()
-    {
-        UsePending = toggle.isOn;
-    }
-
     public void OpenSettings()
     {
         Debug.Log("Opening Settings");
@@ -259,8 +253,8 @@ public class PanelController : MonoBehaviour
         bool Normal = USerInfo.Instance.currentType == GameType.Normal;        
         //randomButton.SetActive(Logged ? setActive : false);
         createButton.SetActive(Logged ? setActive : false);    
-        normalMode.SetActive(Logged ? setActive && !Normal : false);    
-        challengeMode.SetActive(Logged ? setActive && Normal : false);    
+        normalModeButton.SetActive(Logged ? setActive && !Normal : false);    
+        challengeModeButton.SetActive(Logged ? setActive && Normal : false);    
 
         startMenuButton.SetActive(!Logged ? setActive : false);
         

@@ -36,7 +36,7 @@ public class SettingsPanel : MonoBehaviour
     public void ConfirmSettings()
     {
         USerInfo.Instance.BoardSize = (int)slider.value;
-
+        USerInfo.Instance.UsePending = pendingToggle.isOn;
         // Update settings values
         SavingUtility.gameSettingsData.BoardSize = (int)slider.value;
         SavingUtility.gameSettingsData.TouchSensitivity = (int)sensitivitySlider.value;
@@ -48,6 +48,7 @@ public class SettingsPanel : MonoBehaviour
         // Apply the size settings
         if(USerInfo.Instance.currentType == GameType.Normal)
             PanelController.Instance.ChangeMode(0); // Forces Update if playing Normal game
+
 
     }
     public void UpdateSizeText(Slider slider)
@@ -71,5 +72,7 @@ public class SettingsPanel : MonoBehaviour
         sensitivitySlider.value = data.TouchSensitivity;
         slider.value = data.BoardSize;
         pendingToggle.isOn = data.UsePending;
+        Debug.Log("Settingspanel set Usepending to " + data.UsePending);
+        Debug.Log("Settingspanel set Usepending to " + pendingToggle.isOn);
     }
 }
