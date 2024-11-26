@@ -48,6 +48,8 @@ public class GameBox : MonoBehaviour
 
     internal void Click()
     {
+        if (GameArea.Instance.LevelBusted)
+            return;
         //Debug.Log("Clicking Box value = "+value);
 
         if (USerInfo.Instance.currentType == GameType.Create)
@@ -55,6 +57,8 @@ public class GameBox : MonoBehaviour
             GameArea.Instance.OpenBoxCreate(Pos);
             return;
         }
+        // If Busted Level disallow any click on Area
+
         // This workds for normal gameplay keep it
         if (value > 0)
         {

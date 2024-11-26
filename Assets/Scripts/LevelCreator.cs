@@ -254,6 +254,7 @@ public class LevelCreator : MonoBehaviour
 
         // Go into Edit mode here - no counter - No normal fail on click
         USerInfo.Instance.currentType = GameType.Create;
+        AlignGameArea();
 
         // Clicks adds mines
         // After clicking Next go to Opening tiles or flag(if mine)

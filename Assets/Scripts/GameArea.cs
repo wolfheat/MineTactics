@@ -98,6 +98,7 @@ public class GameArea : MonoBehaviour
         levelText.text = USerInfo.Instance.levelID;
         amtText.text = "" + FirestoreManager.Instance.LoadedAmount;
 
+        LevelBusted = false;
         USerInfo.Instance.currentType = GameType.Normal;
         BackgroundController.Instance.SetColorNormal();
 
@@ -136,6 +137,7 @@ public class GameArea : MonoBehaviour
         DrawLevel();
         // Pre open and flag
         PreOpenAndFlag(gameLoaded);
+        LevelBusted = false;
         LevelCreator.Instance.LoadedGameFinalizing();
         // Also Start the timer and reset the smiley
     }
@@ -375,9 +377,10 @@ public class GameArea : MonoBehaviour
             }
 
         }
-        if (Timer.Instance.Paused)
+        if (Timer.Instance.Paused && USerInfo.Instance.currentType != GameType.Create)
         {
             Debug.Log("Timer Paused skip");
+            return true;
         }
 
         if(!BasicOpeningBox(pos))
@@ -610,6 +613,9 @@ public class GameArea : MonoBehaviour
 
     public void SizeGameArea(bool sizeFromSettings = true, bool resetMines = true)
     {
+        // Not sure if it should be here
+        LevelBusted = false;
+               
 
         if (sizeFromSettings)
         {
