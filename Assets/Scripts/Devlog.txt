@@ -103,7 +103,17 @@ Nov 2024
 		* Fixed so correct amount of mines shown in create A
 		* Fixed backgrouindissue for challenge mode
 		* Fixed settings not remembering using Pending
+28/11	* Changed Buttons to new in Completionscreens
+		* Added Clear button and Size Slider selector
 
+
+		* Change creator from showing email to name
+
+		* Add Black space Bar on top to acomodate for camera?
+		* Add page with statistics for the player?
+			* Total games cleared
+			* Practice levels completed?
+			* Rating?
 		
 		// MODES
 		* Add find missflagged mine Game Mode??

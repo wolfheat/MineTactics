@@ -45,26 +45,26 @@ public class Inputs : MonoBehaviour
     private void OnTouchStart(InputAction.CallbackContext context)
     {
         startTouch = Time.time;
-        Debug.Log("Started new Touch");
+        //Debug.Log("Started new Touch");
     }
     private void OnTouchEnd(InputAction.CallbackContext context)
     {
-        Debug.Log("Ended Touch");
+        //Debug.Log("Ended Touch");
         float timeHeld = (Time.time - startTouch);
         Vector2 pos = Controls.Main.TouchPosition.ReadValue<Vector2>();
         TouchDebug.Instance.ShowText("Touch r-click at: "+ pos +" for "+timeHeld+"s");
-        if(timeHeld > USerInfo.Instance.SensitivityMS)
-            Debug.Log("R Click");
-        Debug.Log("TouchTime > Sensitivity "+timeHeld+"/"+USerInfo.Instance.SensitivityMS);
+        //if(timeHeld > USerInfo.Instance.SensitivityMS)
+        //    Debug.Log("R Click");
+        //Debug.Log("TouchTime > Sensitivity "+timeHeld+"/"+USerInfo.Instance.SensitivityMS);
         OnTouchClick(pos, timeHeld > USerInfo.Instance.SensitivityMS ? true : false);
     }
 
     public void OnTouchClick(Vector2 touchPos,bool rightClick = false)
     {
-        Debug.Log("TOUCH! Rightclick ="+rightClick);
+        //Debug.Log("TOUCH! Rightclick ="+rightClick);
         if (EventSystem.current.IsPointerOverGameObject())
         {
-            Debug.Log("Pointer is hitting UI discard touch");
+            //Debug.Log("Pointer is hitting UI discard touch");
             return;
         }
 

@@ -197,14 +197,11 @@ public class PanelController : MonoBehaviour
     {
         ToggleMenuButtons(false);
         createPanel.SetActive(true);
-        LevelCreator.Instance.OnToggleCreate();
     }
 
-    public void Next()
+    public void Clear()
     {
-        createMainButtons.SetActive(false);
-        submitMenu.SetActive(true);
-        LevelCreator.Instance.OnCreateNext();
+        LevelCreator.Instance.OnToggleCreate();
     }
     public void Back()
     {
@@ -225,10 +222,7 @@ public class PanelController : MonoBehaviour
 
         BaseMenu();
         ToggleMenuButtons(true);
-        createPanel.SetActive(false);
         LevelCreator.Instance.CancelEditMode();
-
-
         // Change this for going to Nothing loaded?
         LevelCreator.Instance.RestartGame();
     }
