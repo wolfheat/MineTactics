@@ -212,7 +212,9 @@ public class GameArea : MonoBehaviour
 
     public void DrawLevel()
     {
-        Debug.Log("Creating new under and over boxes in arrays");
+        Debug.Log("Creating new under and over boxes in arrays ["+gameWidth+","+gameHeight+"] ");
+        Debug.Log("OverlayBoxes size = ["+overlayBoxes.GetLength(0)+","+overlayBoxes.GetLength(1)+"] ");
+        Debug.Log("Underlayboxes size = ["+underlayBoxes.GetLength(0)+","+underlayBoxes.GetLength(1)+"] ");
         for (int j = 0; j < gameHeight; j++)
         {
             for (int i = 0; i < gameWidth; i++)
@@ -617,8 +619,7 @@ public class GameArea : MonoBehaviour
     {
         // Not sure if it should be here
         LevelBusted = false;
-               
-
+        
         if (sizeFromSettings)
         {
             int boardSize = USerInfo.Instance.BoardSize;
@@ -640,6 +641,21 @@ public class GameArea : MonoBehaviour
             // Set mines array
             if (resetMines)
                 mines = new int[gameWidth, gameHeight];
+            else
+            {
+                // Copy last mines to the new array
+                int[,] newMines = new int[gameWidth, gameHeight];
+                int maxWidth = Math.Min(gameWidth, mines.GetLength(0));
+                int maxHeight = Math.Min(gameHeight, mines.GetLength(1));
+                for (int j = 0; j < maxHeight; j++)
+                {
+                    for (int i = 0; i < maxWidth; i++)
+                    {
+                        newMines[i, j] = mines[i, j];
+                    }
+                }
+                mines = newMines;
+            }
         }
         else
             Debug.Log("Sizing game Area from Loaded File instead of settings");
@@ -693,9 +709,13 @@ public class GameArea : MonoBehaviour
     
     private void FlagMinesForEditA(int[,] flags)
     {
-        for (int j = 0; j < gameHeight; j++)
+        int maxHeight = Math.Min(gameHeight, flags.GetLength(1));
+        int maxWidht = Math.Min(gameWidth, flags.GetLength(0));
+
+
+        for (int j = 0; j < maxHeight; j++)
         {
-            for (int i = 0; i < gameWidth; i++)
+            for (int i = 0; i < maxWidht; i++)
             {
                 // Make uncleared
                 if (mines[i, j] == -1)

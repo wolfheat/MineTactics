@@ -245,6 +245,17 @@ public class LevelCreator : MonoBehaviour
         BackgroundController.Instance.SetColorEditModeB();
     }
 
+    public void OnChangeSizeCreate(int[,] flagged)
+    {
+        Debug.Log("OnChangeSizeCreate");
+        OnToggleCreate(false);
+        Debug.Log("Changing Size Create");
+        // Place flags and ghost mines
+        
+        GameArea.Instance.OnCreateBack(flagged);
+        //GameArea.Instance.ApplyFlagged(flagged);
+        //GameArea.Instance.OnCreateBack(flagged);
+    }
     public void OnToggleCreate(bool resetMines = true)
     {
         Debug.Log("Create Toggle requested");
@@ -317,6 +328,11 @@ public class LevelCreator : MonoBehaviour
         AlignGameArea();
         SmileyButton.Instance.ShowNormal();
         Timer.Instance.StartTimer();
+    }
+
+    internal void ApplyFlagged(int[,] flagged)
+    {
+        Debug.Log("ApplyFlagged");
     }
 
 

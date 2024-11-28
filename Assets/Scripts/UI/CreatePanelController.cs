@@ -52,14 +52,16 @@ public class CreatePanelController : MonoBehaviour
 
         // SAVE THIS??? NO
 
-        // Update settings values
-        SavingUtility.gameSettingsData.BoardSize = (int)slider.value;
-        // Save to File here
-        SavingUtility.Instance.SaveAllDataToFile();
-
+        int[,] flagged = GameArea.Instance.GetFlaggedArray();
+        
+        Debug.Log("** Before OnChangeSizeCreate");   
         // Apply the size settings
-        LevelCreator.Instance.OnToggleCreate();
+        LevelCreator.Instance.OnChangeSizeCreate(flagged);
+        Debug.Log("** After OnChangeSizeCreate");
 
+
+        //LevelCreator.Instance.ApplyFlagged(flagged);
+        GameArea.Instance.OnCreateBack(flagged);
     }
 
     public void SetSliderSize() => slider.value = USerInfo.Instance.BoardSize;
