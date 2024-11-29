@@ -65,7 +65,7 @@ public class AuthManager : MonoBehaviour
         }
 
     private string logInEmail = "none@none.com";
-    public void RegisterPlayerWithUserNameAndPassword(string email, string password, TextMeshProUGUI resultTextfield = null)
+    public void RegisterPlayerWithEmailAndPassword(string userName,string email, string password, TextMeshProUGUI resultTextfield = null)
     {
         authResult = null;
         errorMessage = "";
@@ -265,6 +265,34 @@ public class AuthManager : MonoBehaviour
             authResult = task;
             // Firebase user has been created.
             //Debug.LogFormat("Firebase user created successfully: {0} ({1})",
+            FirebaseUser user = auth.CurrentUser;
+            if (user != null)
+            {
+                Debug.Log("Updating Player "+user.Email+" with name "+user.DisplayName+" to "+userName);
+                UserProfile profile = new UserProfile
+                {
+                    DisplayName = userName
+                    //PhotoUrl = new System.Uri("https://example.com/jane-q-user/profile.jpg"),
+                };
+                user.UpdateUserProfileAsync(profile).ContinueWith(task => {
+                    if (task.IsCanceled)
+                    {
+                        Debug.LogError("UpdateUserProfileAsync was canceled.");
+                        return;
+                    }
+                    if (task.IsFaulted)
+                    {
+                        Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
+                        return;
+                    }
+
+                    Debug.Log("User profile updated successfully.");
+                });
+            }
+
+
+
+
         });
 
 
@@ -272,7 +300,7 @@ public class AuthManager : MonoBehaviour
     Task<AuthResult> authResult = null;
     string errorMessage = "";
     
-    public void SignInPlayerWithUserNameAndPassword(string email, string password)
+    public void SignInPlayerEmailAndPassword(string email, string password)
     {
         errorMessage = "";
         Debug.Log("Running SignInPlayerWithUserNameAndPassword");
@@ -331,9 +359,12 @@ public class AuthManager : MonoBehaviour
             //yield return new WaitUntil(() => authResult.IsCompleted);
             Debug.Log("Waited until auth result was complete");
 
+            // Register success here so Also send the Username to PLayerList in Database?
+            //FirestoreManager.Instance.RegisterUserName(USerInfo.Instance.userName,email);
+
             Debug.Log("Start Player Log in!");
             //OnSuccessfulCreation?.Invoke(result.User.UserId);
-            SignInPlayerWithUserNameAndPassword(email, password);
+            SignInPlayerEmailAndPassword(email, password);
         }
     }
 

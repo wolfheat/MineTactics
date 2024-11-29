@@ -107,7 +107,8 @@ Nov 2024
 		* Added Clear button and Size Slider selector
 		* Have solution that works to update size in Create A panel but its not optimized
 		* Added Black space Bar on top
-
+		* Added Username for players which is placed on created levels (no more email showing)
+		* Added Backgrop of playArea to main menu
 
 		* Change creator from showing email to name
 

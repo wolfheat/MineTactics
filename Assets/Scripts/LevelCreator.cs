@@ -202,7 +202,7 @@ public class LevelCreator : MonoBehaviour
     
     public void OnPlayerSignedInSuccess()
     {
-        playerIDText.text = USerInfo.Instance.email;        
+        playerIDText.text = USerInfo.Instance.userName;        
     }
     
     public void OnPlayerSignedOut()

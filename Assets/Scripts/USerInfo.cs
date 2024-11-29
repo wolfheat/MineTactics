@@ -51,12 +51,11 @@ public class USerInfo : MonoBehaviour
 
     public void SetUserInfoFromFirebaseUser(Firebase.Auth.FirebaseUser user)
 	{
-        Debug.Log("Setting data from Firebase User File");
+        Debug.Log("Setting data from Firebase User File: "+user.DisplayName);
         userName = user.DisplayName;
 		email = user.Email;
 		uid = user.UserId;
 		IsPlayerLoggedIn = true;
-
     }
 
 

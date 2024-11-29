@@ -9,6 +9,7 @@ public class LoginMenu : MonoBehaviour
 {
     //[SerializeField] TextMeshProUGUI username_field;
     [SerializeField] TMP_InputField username_field;
+    [SerializeField] TMP_InputField email_field;
     [SerializeField] TMP_InputField password_field;
     [SerializeField] TextMeshProUGUI errorMessage;
     [SerializeField] Button submitButton;
@@ -89,20 +90,21 @@ public class LoginMenu : MonoBehaviour
         // PLayer is logged in just close the menues
     }
 
-    public void OnTryLoginAdam() => AuthManager.Instance.SignInPlayerWithUserNameAndPassword("adam@adam.com", "adam1234");
+    public void OnTryLoginAdam() => AuthManager.Instance.SignInPlayerEmailAndPassword("adam@adam.com", "adam1234");
     public void OnTryLogin()
     {
         Debug.Log("Name length = "+username_field.text.Length+ "Pass length = " + password_field.text.Length);
         Debug.Log("Player is trying to log in with name: "+username_field.text+" password: "+password_field.text);
         //AuthManager.Instance.SignInPlayerWithUserNameAndPassword(username_field.text,password_field.text);
         errorMessage.text = "Trying to Log In";
-        AuthManager.Instance.SignInPlayerWithUserNameAndPassword(username_field.text,password_field.text);
+        AuthManager.Instance.SignInPlayerEmailAndPassword(email_field.text,password_field.text);
     }
     public void OnTryRegister()
     {
         Debug.Log("Player is trying to register with name: "+username_field.text+" password: "+password_field.text);
         errorMessage.text = "Trying to Register";
-        AuthManager.Instance.RegisterPlayerWithUserNameAndPassword(username_field.text,password_field.text, errorMessage);
+        USerInfo.Instance.userName = username_field.text;
+        AuthManager.Instance.RegisterPlayerWithEmailAndPassword(username_field.text,email_field.text,password_field.text, errorMessage);
     }
     public void ShowError()
     {
