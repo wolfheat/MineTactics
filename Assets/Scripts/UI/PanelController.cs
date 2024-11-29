@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -203,6 +204,19 @@ public class PanelController : MonoBehaviour
     {
         LevelCreator.Instance.OnToggleCreate();
     }
+    public void StoreCollection()
+    {
+        Debug.Log("Request Store COllection");
+
+        FirestoreManager.Instance.StoreLevelCollectionPreset();
+    }
+    
+    public void LoadCollection()
+    {
+        Debug.Log("Request Load Collection");
+        FirestoreManager.Instance.LoadLevelCollectionPreset();
+    }
+    
     public void Back()
     {
         BaseMenu();
