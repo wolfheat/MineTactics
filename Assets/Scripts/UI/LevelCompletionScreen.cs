@@ -74,6 +74,10 @@ public class LevelCompletionScreen : MonoBehaviour
 
     private void SendLevelUpdates()
     {
+        // Only save if its a normal level not from collections
+
+
+
         // Generate Dictionary of changes to the Level
         Dictionary<string, object> dict = new();
 

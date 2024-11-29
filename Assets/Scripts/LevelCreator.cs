@@ -185,13 +185,13 @@ public class LevelCreator : MonoBehaviour
     {
         EditMode = false;
         EditModeB = false;
+        BackgroundController.Instance.SetColorNormal();
     }
     public void LoadRandomLevel()
     {
         Debug.Log("Loading Level requested");
         //FirestoreManager.Instance.Load("L02");
-
-        FirestoreManager.Instance.GetRandomLevel(1000);
+        FirestoreManager.Instance.LoadDownloadedLevel();
     }
 
 
@@ -232,7 +232,6 @@ public class LevelCreator : MonoBehaviour
         mineCountAmount = 0;
         GameArea.Instance.OnCreateBack(flagged);
 
-        BackgroundController.Instance.SetColorEditMode();
     }
 
     public void OnCreateNext()

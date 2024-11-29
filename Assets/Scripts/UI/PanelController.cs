@@ -12,8 +12,8 @@ public class PanelController : MonoBehaviour
     [SerializeField] GameObject randomButton;
     [SerializeField] GameObject startMenuButton;
 
-    [SerializeField] GameObject normalModeButton;
-    [SerializeField] GameObject challengeModeButton;
+    [SerializeField] GameObject normalModeButtonPanel;
+    [SerializeField] GameObject challengeModeButtonPanel;
     
     [SerializeField] GameObject cancelButton;
     [SerializeField] GameObject nextButton;
@@ -119,15 +119,20 @@ public class PanelController : MonoBehaviour
         USerInfo.Instance.currentType = (GameType)type;
         if (type == 0)
         {
-            normalModeButton.gameObject.SetActive(false);
-            challengeModeButton.gameObject.SetActive(true);
+            normalModeButtonPanel.gameObject.SetActive(true);
+            challengeModeButtonPanel.gameObject.SetActive(false);
+            BackgroundController.Instance.SetColorNormal(); 
             LevelCreator.Instance.RestartGame();
         }
         else
         {
-            normalModeButton.gameObject.SetActive(true);
-            challengeModeButton.gameObject.SetActive(false);
-            LevelCreator.Instance.LoadRandomLevel();
+            normalModeButtonPanel.gameObject.SetActive(false);
+            challengeModeButtonPanel.gameObject.SetActive(true);
+            //LevelCreator.Instance.RestartGame();
+            // Set unstarted level here for challengemode where player needs to press smiley to access the gamearea
+
+
+            BackgroundController.Instance.SetColorTactics(); 
         }
         UpdateModeShown();
     }
@@ -198,17 +203,30 @@ public class PanelController : MonoBehaviour
     {
         ToggleMenuButtons(false);
         createPanel.SetActive(true);
+        Clear();
     }
 
     public void Clear()
     {
         LevelCreator.Instance.OnToggleCreate();
     }
+    public void ClearCollection()
+    {
+        Debug.Log("Request Clear Collection");
+
+        FirestoreManager.Instance.ClearLocalCollectionList();
+    }
     public void StoreCollection()
     {
         Debug.Log("Request Store COllection");
 
         FirestoreManager.Instance.StoreLevelCollectionPreset();
+    }
+    
+    public void LoadLevels()
+    {
+        Debug.Log("Request Load Levels");
+        FirestoreManager.Instance.GetRandomLevel(1000f);
     }
     
     public void LoadCollection()
@@ -260,9 +278,9 @@ public class PanelController : MonoBehaviour
         bool Logged = USerInfo.Instance.IsPlayerLoggedIn;        
         bool Normal = USerInfo.Instance.currentType == GameType.Normal;        
         //randomButton.SetActive(Logged ? setActive : false);
-        createButton.SetActive(Logged ? setActive : false);    
-        normalModeButton.SetActive(Logged ? setActive && !Normal : false);    
-        challengeModeButton.SetActive(Logged ? setActive && Normal : false);    
+        createButton.SetActive(Logged ? setActive : false);
+        normalModeButtonPanel.SetActive(Logged ? setActive && Normal : false);
+        challengeModeButtonPanel.SetActive(Logged ? setActive && !Normal : false);    
 
         startMenuButton.SetActive(!Logged ? setActive : false);
         

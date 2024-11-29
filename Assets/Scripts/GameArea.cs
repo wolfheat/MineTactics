@@ -67,9 +67,6 @@ public class GameArea : MonoBehaviour
         mines = newMines;
 
         LoadGame(gameLoaded);
-        // Set the level text to this level ID
-        amtText.text = "" + FirestoreManager.Instance.LoadedAmount;
-        levelText.text = FirestoreManager.Instance.LevelData.LevelId;
     }
 
 
@@ -100,7 +97,6 @@ public class GameArea : MonoBehaviour
 
         LevelBusted = false;
         USerInfo.Instance.currentType = GameType.Normal;
-        BackgroundController.Instance.SetColorNormal();
 
     }
 
@@ -139,7 +135,6 @@ public class GameArea : MonoBehaviour
         PreOpenAndFlag(gameLoaded);
         LevelBusted = false;
         LevelCreator.Instance.LoadedGameFinalizing();
-        BackgroundController.Instance.SetColorTactics();
         // Also Start the timer and reset the smiley
     }
 
@@ -792,12 +787,19 @@ public class GameArea : MonoBehaviour
         return flagged;
     }
 
+    public void AddLevelToCollection()
+    {
+        (int[,] charArray, string pre) = SavingLoadingConverter.LevelTo2DArray(mines, overlayBoxes);
+        string compressed = SavingLoadingConverter.ComressToString(charArray, pre);
+        FirestoreManager.Instance.AddToLocalCollection(compressed);
+        Debug.Log("Saved Level added to Collection");
+    }
     public void SaveLevel(string levelName = "L01")
     {
         (int[,] charArray, string pre) = SavingLoadingConverter.LevelTo2DArray(mines, overlayBoxes);
         string compressed = SavingLoadingConverter.ComressToString(charArray, pre);
         Debug.Log("Saving Level completed, send to firebase firestore");
-        FirestoreManager.Instance.Store(compressed, levelName);
+        FirestoreManager.Instance.Store(compressed);
         Debug.Log("Saved Level sent");
     }
 

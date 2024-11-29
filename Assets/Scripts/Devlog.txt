@@ -110,10 +110,15 @@ Nov 2024
 		* Added Username for players which is placed on created levels (no more email showing)
 		* Added Backgrop of playArea to main menu
 29/11	* Added support for Uploading and downloading Collections of LevelData
-		
+		* Added Support for saving Levels to Local Collection and sending it to the database at request
+		* Made loaded levels not start directly
+		* Clearing level when going to Challenge mode
+		* Made Player Displayname of levels store to database instead of email
+
+		* Have each level knowing its collection?
 
 
-
+		// Trouble with Id only unique inside each document not both
 
 		* Add collections to download?
 		* Introduce Collections, that holds 100+ level? Group them by type or difficluty?

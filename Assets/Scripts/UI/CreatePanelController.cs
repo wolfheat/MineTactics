@@ -20,6 +20,12 @@ public class CreatePanelController : MonoBehaviour
         UpdateCreateLevelSize();
     }
 
+    public void AddToCollectionList()
+    {
+        Debug.Log("Add this Level to The Collection List");
+        GameArea.Instance.AddLevelToCollection();
+    }
+
     public void Back()
     {
         SetCreateButtonsToLevel(1);
@@ -42,9 +48,6 @@ public class CreatePanelController : MonoBehaviour
         for (int i = 0; i < createPanels.Length; i++) 
             createPanels[i].SetActive(i==v?true:false);
     }
-
-
-
 
     public void ConfirmSettings()
     {
