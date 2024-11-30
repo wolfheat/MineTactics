@@ -86,4 +86,11 @@ public class LocalLevelsPanel : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    internal void UpdateIndexFromCollection(int index)
+    {
+        ListItem newListItem = listItems[index];
+        LevelData levelData = FirestoreManager.Instance.LocalCollectionList[index];
+        newListItem.UpdateData(index, levelData);
+    }
 }

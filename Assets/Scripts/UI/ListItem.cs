@@ -9,6 +9,13 @@ public class ListItem : MonoBehaviour
     private int index = 0;
     private LevelData levelData;
 
+    public void RequestReplaceLevel()
+    {
+        Debug.Log("Request Replace Level (ListItem)");
+        //LocalLevelsPanel.Instance.RemoveIndexFromList(index);
+        GameArea.Instance.ReplaceLevelToCollection(index);
+        LocalLevelsPanel.Instance.UpdateIndexFromCollection(index);
+    }
     public void RequestDeleteLevel()
     {
         Debug.Log("Request Delete Level (ListItem)");

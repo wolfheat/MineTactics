@@ -114,8 +114,10 @@ Nov 2024
 		* Made loaded levels not start directly
 		* Clearing level when going to Challenge mode
 		* Made Player Displayname of levels store to database instead of email
-30/11	* Added LoadedLevelsPane to hae a menu to handle load and remove from the list
+30/11	* Added LoadedLevelsPanel to have a menu to handle load and remove from the list
+		* Implemented Replacing of levels in the Collection
 
+		* Implement loading from Collection
 
 		* Have each level knowing its collection? - Needed to know if game should be saved or not when completed. Can we write to the Collection?
 

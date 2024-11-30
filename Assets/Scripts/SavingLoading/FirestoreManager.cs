@@ -416,6 +416,16 @@ public class FirestoreManager : MonoBehaviour
         // Have levelName be random?
         Task task = StoreLevelWithUniqueId(levelData);
     }
+    public void ReplaceItemInLocalCollection(string val,int index)
+    {
+        LevelData levelData = CreateLevelDataFromName(val);
+        if (levelData == null)
+            return;
+        Debug.Log("Replacing index "+index+" in LocalCollectionList "+ LocalCollectionList[index].LevelId + " with new LevelData: "+levelData.LevelId);
+        LocalCollectionList[index] = levelData;
+        OnLevelCollectionListChange?.Invoke();
+    }
+    
     public void AddToLocalCollection(string val)
     {
         LevelData levelData = CreateLevelDataFromName(val);
