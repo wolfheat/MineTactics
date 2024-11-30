@@ -51,12 +51,13 @@ public class GameArea : MonoBehaviour
         FirestoreManager.LoadComplete += OnLoadLevelComplete;
     }
 
-    public void OnLoadLevelComplete(string compressed)
+    public void OnLoadLevelComplete(string compressed) => OnLoadLevelComplete(compressed,false);
+    public void OnLoadLevelComplete(string compressed, bool editorcreateMode)
     {
         Debug.Log("Recieved compressed level from database: " + compressed);
         string deCompressed = SavingLoadingConverter.UnComressString(compressed);
 
-        (int[,] newMines, int[,] gameLoaded, int newgameWidth, int newgameHeight, int newtotalmines) = SavingLoadingConverter.StringLevelToGameArray(deCompressed);
+        (int[,] newMines, int[,] gameLoaded, int newgameWidth, int newgameHeight, int newtotalmines) = SavingLoadingConverter.StringLevelToGameArray(deCompressed,editorcreateMode);
 
         // I dont want the size to change from the loaded level only player can change this in settings
         //USerInfo.Instance.BoardSize = newgameWidth;
@@ -66,7 +67,7 @@ public class GameArea : MonoBehaviour
         totalmines = newtotalmines;
         mines = newMines;
 
-        LoadGame(gameLoaded);
+        LoadGame(gameLoaded, editorcreateMode);
     }
 
 
@@ -121,7 +122,7 @@ public class GameArea : MonoBehaviour
         Debug.Log(sb.ToString());
     }
 
-    internal void LoadGame(int[,] gameLoaded)
+    internal void LoadGame(int[,] gameLoaded,bool editorcreateMode = false)
     {
         // Define mines for this load?
         Debug.Log("LOADING GAME IN GAMEAREA");
@@ -132,13 +133,13 @@ public class GameArea : MonoBehaviour
         DetermineNumbersFromNeighbors(); // Sets all numbers
         DrawLevel();
         // Pre open and flag
-        PreOpenAndFlag(gameLoaded);
+        PreOpenAndFlag(gameLoaded,editorcreateMode);
         LevelBusted = false;
-        LevelCreator.Instance.LoadedGameFinalizing();
+        LevelCreator.Instance.LoadedGameFinalizing(editorcreateMode);
         // Also Start the timer and reset the smiley
     }
 
-    private void PreOpenAndFlag(int[,] gameLoaded)
+    private void PreOpenAndFlag(int[,] gameLoaded,bool editorcreateMode = false)
     {
         TotalMines();
         Debug.Log("Open correct Boxes");
@@ -150,6 +151,8 @@ public class GameArea : MonoBehaviour
                 //Debug.Log("gameLoaded["+i+","+j+"] = "+ gameLoaded[i, j]);
                 if (gameLoaded[i, j] == 2)
                     overlayBoxes[i, j].Mark();
+                else if (editorcreateMode && gameLoaded[i, j] == 1) 
+                    overlayBoxes[i, j].SetAsHiddenMine();
                 else if (gameLoaded[i, j] == 3)
                 {
                     overlayBoxes[i, j].RemoveAndSetUnderActive();

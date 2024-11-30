@@ -93,4 +93,17 @@ public class LocalLevelsPanel : MonoBehaviour
         LevelData levelData = FirestoreManager.Instance.LocalCollectionList[index];
         newListItem.UpdateData(index, levelData);
     }
+
+    internal void LoadLevel(LevelData levelData)
+    {
+        Debug.Log("** Load Level from LLP");        
+        GameArea.Instance.OnLoadLevelComplete(levelData.Level,true);
+
+        // Dont startr Timer and normal Mode
+        // Flag ghostmines
+        // Dont rotate or transpose
+
+        Debug.Log("** Loaded Level from LLP");
+
+    }
 }

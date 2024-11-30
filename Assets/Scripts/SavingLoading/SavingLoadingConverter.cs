@@ -158,7 +158,7 @@ public class SavingLoadingConverter : MonoBehaviour
         return (char)('a' + amt-1);
     }
 
-    internal static (int[,], int[,], int, int,int) StringLevelToGameArray(string deCompressed)
+    internal static (int[,], int[,], int, int,int) StringLevelToGameArray(string deCompressed, bool editorcreateMode = false)
     {
         Debug.Log("Making game array from decompressed string: "+deCompressed);
         int totalSize = deCompressed.Length - 2;
@@ -197,6 +197,10 @@ public class SavingLoadingConverter : MonoBehaviour
             }
         }
         
+        // Exit without rotating or transposing if in editor mode
+        if(editorcreateMode)
+            return (newMines, gameArray, width, height, totMines);
+
         // Rotate? 180
         int rotate = Random.Range(0,4);
         if (rotate>0)

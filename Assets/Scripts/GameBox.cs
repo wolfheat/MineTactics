@@ -91,8 +91,6 @@ public class GameBox : MonoBehaviour
         GameArea.Instance.Chord(Pos);
     }
 
-
-
     internal void Mark()
     {
         if (Marked) return;

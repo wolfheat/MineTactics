@@ -24,6 +24,7 @@ public class ListItem : MonoBehaviour
     public void RequestLoadLevel()
     {
         Debug.Log("Request Load Level (ListItem)");
+        LocalLevelsPanel.Instance.LoadLevel(levelData);
     }
 
     internal void UpdateData(int i, LevelData newlevelData)

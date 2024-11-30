@@ -322,11 +322,12 @@ public class LevelCreator : MonoBehaviour
 
     }
 
-    internal void LoadedGameFinalizing()
+    internal void LoadedGameFinalizing(bool editorcreateMode = false)
     {
         AlignGameArea();
         SmileyButton.Instance.ShowNormal();
-        Timer.Instance.StartTimer();
+        if(!editorcreateMode)
+            Timer.Instance.StartTimer();
     }
 
     internal void ApplyFlagged(int[,] flagged)
