@@ -114,13 +114,23 @@ Nov 2024
 		* Made loaded levels not start directly
 		* Clearing level when going to Challenge mode
 		* Made Player Displayname of levels store to database instead of email
+30/11	* Added LoadedLevelsPane to hae a menu to handle load and remove from the list
 
-		* Have each level knowing its collection?
+
+		* Have each level knowing its collection? - Needed to know if game should be saved or not when completed. Can we write to the Collection?
+
+
+		* How about having new Pending levels in a pot where players can play and rate them and after 100 ratings it is ether approved or discarded?
+		* Approved goes into certain Collections? Maybe Monthly new or Weekly?
+
+		* Initially players get the basic collections maybe 1000 levels? Need to complete them to unlock rest?
+
+		// Moderator Tools
+		* Add Special Creator Menu that can load a collection, remove specific elements, load them into edit etc?
 
 
 		// Trouble with Id only unique inside each document not both
 
-		* Add collections to download?
 		* Introduce Collections, that holds 100+ level? Group them by type or difficluty?
 
 		* Add page with statistics for the player?

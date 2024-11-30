@@ -22,6 +22,7 @@ public class PanelController : MonoBehaviour
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject loginMenu;
     [SerializeField] GameObject registerMenu;
+    [SerializeField] LocalLevelsPanel localLevelPanel;
 
     [SerializeField] GameObject createMainButtons;
     [SerializeField] GameObject submitMenu;
@@ -165,6 +166,12 @@ public class PanelController : MonoBehaviour
     {
         progressPanel.gameObject.SetActive(true);
         progressPanel.OnSubmitLevelStarted();
+    }
+        
+    public void ShowLocalLevelPanel()
+    {
+        localLevelPanel.gameObject.SetActive(true);
+        localLevelPanel.UpdatePanel();
     }
         
     public void LoginConfirmed()
