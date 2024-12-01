@@ -75,8 +75,12 @@ public class LevelCompletionScreen : MonoBehaviour
     private void SendLevelUpdates()
     {
         // Only save if its a normal level not from collections
-
-
+        if(USerInfo.Instance.Collection != null)
+        {
+            // Dont send Updates for Collections for now
+            Debug.Log("Wont send Update cause this is a collection");
+            return;
+        }
 
         // Generate Dictionary of changes to the Level
         Dictionary<string, object> dict = new();

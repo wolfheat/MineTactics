@@ -149,6 +149,7 @@ public class FirestoreManager : MonoBehaviour
                         Debug.Log("Downloaded LEvels from the database: "+snapshot.Count);
                         OnSuccessfulLoadingOfLevels?.Invoke(true);
                         OnLevelCollectionListChange?.Invoke();
+                        USerInfo.Instance.Collection = null;
                     }
                     else
                     {
@@ -191,6 +192,7 @@ public class FirestoreManager : MonoBehaviour
 
                     OnSuccessfulLoadingOfLevels?.Invoke(true);
                     OnLevelCollectionListChange?.Invoke();
+                    USerInfo.Instance.Collection = id;
                 }
                 else
                 {
@@ -490,12 +492,17 @@ public class FirestoreManager : MonoBehaviour
 
     }
     
-    internal void LoadLevelCollection(string collectionName, bool editMode = false)
+    public void LoadLevelCollection(string collectionName, bool editMode = false)
     {
         GetLevelCollection(collectionName,editMode);
     }
     
-    internal void LoadLevelCollectionPreset(bool editMode = false)
+    public void LoadLevelCollectionChallengeMode(string name)
+    {
+        GetLevelCollection(name,false);
+    }
+    
+    public void LoadLevelCollectionPreset(bool editMode = false)
     {
         GetLevelCollection("BasicCollection",editMode);
     }

@@ -126,6 +126,10 @@ Nov 2024
 		* Saving of Collection to specific name is possible
 1/12	* Show Error message if trying to load unexisting collection
 		* Fixed issue with loading collections
+		* Collection loaded wont save to database
+
+		* Have Collection games save to Collection file which can update entire collection?
+
 
 		* Make sure fail to load Collection displays correctly
 		* Make Loading / saving collection correctly close menu and fail to show correctly

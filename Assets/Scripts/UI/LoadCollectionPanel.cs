@@ -15,7 +15,7 @@ public class LoadCollectionPanel : MonoBehaviour
     private void OnSuccessfulLoadLevels(int amt)
     {
         gameObject.SetActive(false);
-        PanelController.Instance.ShowFadableInfo(amt + " Levels Added");
+        PanelController.Instance.ShowFadableInfo(amt + " Levels Added");        
     }
     
     private void OnUnsuccessfulLoadLevels(string info)

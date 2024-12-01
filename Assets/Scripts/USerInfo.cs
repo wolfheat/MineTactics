@@ -25,6 +25,7 @@ public class USerInfo : MonoBehaviour
 
     public bool IsPlayerLoggedIn { get; internal set; } = false;
     public bool WaitForFirstMove { get; internal set; }
+    public string Collection { get; internal set; }
 
     private void Awake()
 	{
