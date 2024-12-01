@@ -23,7 +23,17 @@ public class CreatePanelController : MonoBehaviour
     public void AddToCollectionList()
     {
         Debug.Log("Add this Level to The Collection List");
-        GameArea.Instance.AddLevelToCollection();
+
+        // CHeck here for valid Level
+        bool isValid = GameArea.Instance.ValidateLevel();
+
+        if (isValid)
+        {
+            GameArea.Instance.AddLevelToCollection();
+            PanelController.Instance.ShowInfo("Level Added!");
+        }
+        else
+            PanelController.Instance.ShowInfo("not able to save level due to no clickable tiles");
     }
 
     public void Back()

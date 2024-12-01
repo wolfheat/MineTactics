@@ -12,9 +12,20 @@ public class ListItem : MonoBehaviour
     public void RequestReplaceLevel()
     {
         Debug.Log("Request Replace Level (ListItem)");
-        //LocalLevelsPanel.Instance.RemoveIndexFromList(index);
-        GameArea.Instance.ReplaceLevelToCollection(index);
-        LocalLevelsPanel.Instance.UpdateIndexFromCollection(index);
+
+
+        // CHeck here for valid Level
+        bool isValid = GameArea.Instance.ValidateLevel();
+
+        if (isValid) { 
+            GameArea.Instance.ReplaceLevelToCollection(index);
+            LocalLevelsPanel.Instance.UpdateIndexFromCollection(index);
+        }
+        else
+        {
+            PanelController.Instance.ShowInfo("this level can not be replaced because the current one is not valid");            
+        }
+
     }
     public void RequestDeleteLevel()
     {

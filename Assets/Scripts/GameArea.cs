@@ -596,6 +596,22 @@ public class GameArea : MonoBehaviour
         Debug.Log("Flagged amount = " + unFlagged);
         return unFlagged;
     }
+    
+    private int TotalClickable()
+    {
+        int clickable = 0;
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+
+                if (mines[i,j]!=-1 && overlayBoxes[i, j].gameObject.activeSelf)
+                    clickable++;
+            }
+        }
+        Debug.Log("Clickable amount = " + clickable);
+        return clickable;
+    }
 
     private void DetermineNumbersFromNeighbors()
     {
@@ -814,4 +830,9 @@ public class GameArea : MonoBehaviour
     }
 
     internal bool UnSolved(Vector2Int pos) => overlayBoxes[pos.x, pos.y].UnSolved();
+
+    internal bool ValidateLevel()
+    {
+        return TotalClickable() > 0;
+    }
 }

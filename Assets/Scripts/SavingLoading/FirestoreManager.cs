@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using static UnityEngine.Rendering.DebugUI;
 
 
 [FirestoreData]
@@ -160,7 +161,7 @@ public class FirestoreManager : MonoBehaviour
             });
     }
 
-    public void GetLevelCollection(string id)
+    public void GetLevelCollection(string id,bool forEditMode = false)
     {
         // Show LoadingPanel here
         OnLoadLevelStarted?.Invoke();
@@ -175,7 +176,10 @@ public class FirestoreManager : MonoBehaviour
                 {
                     LevelDataCollection levelCollection = document.ConvertTo<LevelDataCollection>();
                     List<LevelData> levels = ConvertCollectionToLevels(levelCollection);
-
+                    if (forEditMode)
+                    {
+                        LocalCollectionList = levels;
+                    }
                     DownloadedLevels.AddRange(levels);
                     // Save all Recieved levels into the Downloaded List
 
@@ -431,6 +435,7 @@ public class FirestoreManager : MonoBehaviour
         LevelData levelData = CreateLevelDataFromName(val);
         if (levelData == null)
             return;
+
         LocalCollectionList.Add(levelData);
         OnLevelCollectionListChange?.Invoke();
     }
@@ -441,7 +446,8 @@ public class FirestoreManager : MonoBehaviour
         if (SentLevels.Contains(val))
         {
             Debug.Log("This Level has allready been sent to the database!");
-            SubmitLevelAttemptFailed?.Invoke("Level has allready been Submitted");
+            PanelController.Instance.ShowInfo("This Level has allready been sent to the database!");
+            SubmitLevelAttemptFailed ?.Invoke("Level has allready been Submitted");
             return null;
         }
         // Add this Level to the list of sent levels so it wont be sent again
@@ -478,9 +484,9 @@ public class FirestoreManager : MonoBehaviour
 
     }
 
-    internal void LoadLevelCollectionPreset()
+    internal void LoadLevelCollectionPreset(bool editMode = false)
     {
-        GetLevelCollection("BasicCollection");
+        GetLevelCollection("BasicCollection",editMode);
     }
 
     internal void ClearLocalCollectionList()

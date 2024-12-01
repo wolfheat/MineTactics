@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +29,7 @@ public class PanelController : MonoBehaviour
     [SerializeField] LevelCompletionScreen levelComplete;
 
     [SerializeField] LoadingPanel progressPanel;
+    [SerializeField] InfoPanel infoPanel;
 
     [SerializeField] GameObject settingsPanel;
     [SerializeField] GameObject createPanel;
@@ -168,6 +167,12 @@ public class PanelController : MonoBehaviour
         progressPanel.OnSubmitLevelStarted();
     }
         
+    public void ShowInfo(string infoText)
+    {
+        infoPanel.gameObject.SetActive(true);
+        infoPanel.ShowInfo(infoText);
+    }
+        
     public void ShowLocalLevelPanel()
     {
         localLevelPanel.gameObject.SetActive(true);
@@ -217,29 +222,10 @@ public class PanelController : MonoBehaviour
     {
         LevelCreator.Instance.OnToggleCreate();
     }
-    public void ClearCollection()
-    {
-        Debug.Log("Request Clear Collection");
-
-        FirestoreManager.Instance.ClearLocalCollectionList();
-    }
-    public void StoreCollection()
-    {
-        Debug.Log("Request Store COllection");
-
-        FirestoreManager.Instance.StoreLevelCollectionPreset();
-    }
-    
     public void LoadLevels()
     {
         Debug.Log("Request Load Levels");
         FirestoreManager.Instance.GetRandomLevel(1000f);
-    }
-    
-    public void LoadCollection()
-    {
-        Debug.Log("Request Load Collection");
-        FirestoreManager.Instance.LoadLevelCollectionPreset();
     }
     
     public void Back()

@@ -20,8 +20,15 @@ public class LocalLevelsPanel : MonoBehaviour
             return;
         }
         Instance = this;
+
+        FirestoreManager.OnLevelCollectionListChange += UpdateCollectionSize;
     }
 
+    private void UpdateCollectionSize()
+    {
+        UpdateList();
+        Debug.Log("Updating List of Collection "+FirestoreManager.Instance.LocalCollectionList.Count);
+    }
 
     internal void RemoveIndexFromList(int i)
     {
@@ -87,6 +94,27 @@ public class LocalLevelsPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    public void ClearCollection()
+    {
+        Debug.Log("Request Clear Collection");
+
+        FirestoreManager.Instance.ClearLocalCollectionList();
+        DestroyOldListItems();
+
+    }
+    public void StoreCollection()
+    {
+        Debug.Log("Request Store COllection");
+
+        FirestoreManager.Instance.StoreLevelCollectionPreset();
+    }
+
+    public void LoadCollection()
+    {
+        Debug.Log("Request Load Collection");
+        FirestoreManager.Instance.LoadLevelCollectionPreset(true);
+    }
+
     internal void UpdateIndexFromCollection(int index)
     {
         ListItem newListItem = listItems[index];
@@ -96,14 +124,6 @@ public class LocalLevelsPanel : MonoBehaviour
 
     internal void LoadLevel(LevelData levelData)
     {
-        Debug.Log("** Load Level from LLP");        
         GameArea.Instance.OnLoadLevelComplete(levelData.Level,true);
-
-        // Dont startr Timer and normal Mode
-        // Flag ghostmines
-        // Dont rotate or transpose
-
-        Debug.Log("** Loaded Level from LLP");
-
     }
 }

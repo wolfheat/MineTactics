@@ -2,7 +2,6 @@
 using UnityEngine;
 
 public enum LoadingState{LogIn,Register,SubmitLevel,LoadingLevels,LoadingLevelsFailed}
-
 public class LoadingPanel : MonoBehaviour
 {
     public static LoadingPanel Instance { get; private set; }
