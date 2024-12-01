@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,6 +31,7 @@ public class PanelController : MonoBehaviour
 
     [SerializeField] LoadingPanel progressPanel;
     [SerializeField] InfoPanel infoPanel;
+    [SerializeField] FadableInfo fadableInfo;
 
     [SerializeField] GameObject settingsPanel;
     [SerializeField] GameObject createPanel;
@@ -293,5 +295,11 @@ public class PanelController : MonoBehaviour
 
         }
 
+    }
+
+    internal void ShowFadableInfo(string info)
+    {
+        fadableInfo.gameObject.SetActive(true);
+        fadableInfo.ShowInfo(info);
     }
 }

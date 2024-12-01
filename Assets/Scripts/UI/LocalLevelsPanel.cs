@@ -125,5 +125,8 @@ public class LocalLevelsPanel : MonoBehaviour
     internal void LoadLevel(LevelData levelData)
     {
         GameArea.Instance.OnLoadLevelComplete(levelData.Level,true);
+        // Close Panel and show Load message
+        PanelController.Instance.ShowFadableInfo("Level Loaded");
+        gameObject.SetActive(false);
     }
 }

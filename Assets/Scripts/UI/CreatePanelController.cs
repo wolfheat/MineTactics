@@ -30,7 +30,7 @@ public class CreatePanelController : MonoBehaviour
         if (isValid)
         {
             GameArea.Instance.AddLevelToCollection();
-            PanelController.Instance.ShowInfo("Level Added!");
+            PanelController.Instance.ShowFadableInfo("Level Added!");
         }
         else
             PanelController.Instance.ShowInfo("not able to save level due to no clickable tiles");

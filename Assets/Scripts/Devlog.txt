@@ -119,12 +119,12 @@ Nov 2024
 		* Implemented loading from Collections - Also ghostflags and keep it at editormode
 		* Popup now shown with info when failing to send levels
 		* Moved Load Clear and Save collection buttons to Collection Panel
-		* Loading of Collection can now go to Edit mode list
+		* Loading of Collection now go to Edit mode list
+		* Add Short fadable text for quick actions
+		* Loading Level from Collection now closes the Panel and shows fade info
 
 
 		* Missing functionality Creating collections
-
-		- Loading Collection loads it for playing challenge mode - maybe add different to load it to challenge list for create mode
 
 		- Add option to name the collection when sending it to the db, also have option to name the one downloaded
 		- Having checks for valid submissions? Maybe later for now allow any level? Maybe add so at least one box can be clicked
