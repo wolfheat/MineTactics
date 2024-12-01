@@ -102,11 +102,12 @@ public class LocalLevelsPanel : MonoBehaviour
         DestroyOldListItems();
 
     }
-    public void StoreCollection()
+    public void StoreCollection(string collectionName)
     {
         Debug.Log("Request Store COllection");
 
-        FirestoreManager.Instance.StoreLevelCollectionPreset();
+        FirestoreManager.Instance.StoreLevelCollection(collectionName);
+        //FirestoreManager.Instance.StoreLevelCollectionPreset();
     }
 
     public void LoadCollection(string levelName)

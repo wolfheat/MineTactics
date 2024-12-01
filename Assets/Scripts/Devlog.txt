@@ -123,7 +123,10 @@ Nov 2024
 		* Add Short fadable text for quick actions
 		* Loading Level from Collection now closes the Panel and shows fade info
 		* Loading of Collection can now be specified
+		* Saving of Collection to specific name is possible
 
+		* Make sure fail to load Collection displays correctly
+		* Make Loading / saving collection correctly close menu and fail to show correctly
 
 		* Make the active level marked in CollectionList
 		* Missing functionality Creating collections

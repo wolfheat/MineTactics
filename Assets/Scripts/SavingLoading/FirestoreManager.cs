@@ -477,16 +477,16 @@ public class FirestoreManager : MonoBehaviour
         Task task = StoreUsernameById(v,id);
     }
 
-    internal void StoreLevelCollectionPreset()
+    internal void StoreLevelCollection(string collectionName = "BasicCollection")
     {
         LevelDataCollection collection = ConvertLevelsToCollection(LocalCollectionList);
-        Task task = StoreLevelCollectionWithUniqueId(collection, "BasicCollection");
+        Task task = StoreLevelCollectionWithUniqueId(collection, collectionName);
 
     }
-
-    internal void LoadLevelCollection(string levelName, bool editMode = false)
+    
+    internal void LoadLevelCollection(string collectionName, bool editMode = false)
     {
-        GetLevelCollection(levelName,editMode);
+        GetLevelCollection(collectionName,editMode);
     }
     
     internal void LoadLevelCollectionPreset(bool editMode = false)
