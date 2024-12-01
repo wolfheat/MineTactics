@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using static UnityEngine.Rendering.DebugUI;
 
 
 [FirestoreData]
@@ -53,6 +52,7 @@ public class FirestoreManager : MonoBehaviour
     public List<LevelData> LocalCollectionList { get; private set; } = new List<LevelData>();
     public int LoadedAmount => DownloadedLevels.Count;
 
+    public List<LevelData> DownloadedCollection { get; private set; }
 
     public static Action<string> SubmitLevelAttemptFailed;
     public static Action<string> SubmitNameFailed;
@@ -66,7 +66,18 @@ public class FirestoreManager : MonoBehaviour
     public static Action OnLoadLevelStarted;
     public static Action OnLevelCollectionListChange;
 
-
+    public bool ReplaceLevelInDownloadedCollection(LevelData data)
+    {
+        for (int i = 0; i < DownloadedCollection.Count; i++)
+        {
+            if (DownloadedCollection[i].LevelId == data.LevelId)
+            {
+                DownloadedCollection[i] = data;
+                return true;
+            }
+        }
+        return false;
+    } 
 
     private void Awake()
     {
@@ -101,6 +112,7 @@ public class FirestoreManager : MonoBehaviour
         if (DownloadedLevels.Count > 0)
         {
             Debug.Log("There is Downloaded levels in the list, not allowed to download new from database");
+
             return;
         }
         float minDifficulty = 0;
@@ -186,6 +198,7 @@ public class FirestoreManager : MonoBehaviour
                         OnLevelCollectionLevelsDownloaded?.Invoke(levels.Count);
                     }
                     DownloadedLevels.AddRange(levels);
+                    DownloadedCollection = levels;
                     // Save all Recieved levels into the Downloaded List
 
                     Debug.Log("Downloaded Levels from the collectiondatabase: " + levels.Count);

@@ -127,11 +127,10 @@ Nov 2024
 1/12	* Show Error message if trying to load unexisting collection
 		* Fixed issue with loading collections
 		* Collection loaded wont save to database
+		* Collection games save to Collection file
 
-		* Have Collection games save to Collection file which can update entire collection?
+		* Make the collection file write to database after all levels are completed. Handle Eixt game? Store to file as well so players can continue?
 
-
-		* Make sure fail to load Collection displays correctly
 		* Make Loading / saving collection correctly close menu and fail to show correctly
 
 		* Make the active level marked in CollectionList

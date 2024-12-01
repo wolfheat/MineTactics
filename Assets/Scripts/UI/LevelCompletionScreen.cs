@@ -79,6 +79,14 @@ public class LevelCompletionScreen : MonoBehaviour
         {
             // Dont send Updates for Collections for now
             Debug.Log("Wont send Update cause this is a collection");
+
+            // Find index of Loaded data and add to the DownloadedCollection
+            bool updatedSuccess = FirestoreManager.Instance.ReplaceLevelInDownloadedCollection(LoadedData);
+
+            if (updatedSuccess)
+                Debug.Log("Updated Level in Collection successfully");                   
+            else
+                Debug.Log("Could not update Level in Collection.");
             return;
         }
 
