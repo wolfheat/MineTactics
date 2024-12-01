@@ -1916,19 +1916,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 395533778}
+      objectReference: {fileID: 715767398}
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
+      value: RequestStoreCollection
       objectReference: {fileID: 0}
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: LocalLevelsPanel, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
@@ -9581,6 +9581,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listItemPrefab: {fileID: 6737306718523821907, guid: 333673e8968634b4eb942569f2bdf9f3, type: 3}
   listItemHolder: {fileID: 1977189782}
+  storeCollection: {fileID: 1936718228}
 --- !u!114 &715767399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24861,6 +24862,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1936718228 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 845975129365461220, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
+  m_PrefabInstance: {fileID: 191878382}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1959997171 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 770764066996094890, guid: 1e70eabf8e8b50a468ff32657accdd9d, type: 3}

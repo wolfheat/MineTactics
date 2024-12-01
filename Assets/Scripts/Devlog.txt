@@ -124,6 +124,8 @@ Nov 2024
 		* Loading Level from Collection now closes the Panel and shows fade info
 		* Loading of Collection can now be specified
 		* Saving of Collection to specific name is possible
+1/12	* Show Error message if trying to load unexisting collection
+		* Fixed issue with loading collections
 
 		* Make sure fail to load Collection displays correctly
 		* Make Loading / saving collection correctly close menu and fail to show correctly

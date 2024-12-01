@@ -8,6 +8,7 @@ public class LocalLevelsPanel : MonoBehaviour
     private List<ListItem> listItems = new List<ListItem>();
     [SerializeField] ListItem listItemPrefab;
     [SerializeField] GameObject listItemHolder;
+    [SerializeField] GameObject storeCollection;
 
 
     public static LocalLevelsPanel Instance { get; private set; }
@@ -114,6 +115,16 @@ public class LocalLevelsPanel : MonoBehaviour
     {
         Debug.Log("Request Load Collection");
         FirestoreManager.Instance.LoadLevelCollection(levelName,true);
+    }
+    
+    public void RequestStoreCollection()
+    {
+        if(FirestoreManager.Instance.LocalCollectionList.Count == 0)
+        {
+            PanelController.Instance.ShowInfo("The Collection is Empty, can not save an empty Collection.");
+            return;
+        }
+        storeCollection.gameObject.SetActive(true);
     }
 
     internal void UpdateIndexFromCollection(int index)

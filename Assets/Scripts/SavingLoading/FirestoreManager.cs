@@ -61,6 +61,8 @@ public class FirestoreManager : MonoBehaviour
     public static Action OnSubmitLevelStarted;
 
     public static Action<bool> OnSuccessfulLoadingOfLevels;
+    public static Action<int> OnLevelCollectionLevelsDownloaded;
+    public static Action<string> OnLevelCollectionLevelsDownloadedFail;
     public static Action OnLoadLevelStarted;
     public static Action OnLevelCollectionListChange;
 
@@ -164,21 +166,23 @@ public class FirestoreManager : MonoBehaviour
     public void GetLevelCollection(string id,bool forEditMode = false)
     {
         // Show LoadingPanel here
-        OnLoadLevelStarted?.Invoke();
+        if(!forEditMode)
+            OnLoadLevelStarted?.Invoke();
 
-                                       //db.Collection("Levels").Document(id).GetSnapshotAsync().ContinueWithOnMainThread(task =>
         db.Collection("LevelCollections").Document(id).GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
+            Debug.Log("Tried to get snapshot for "+id);
             if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
             {
                 DocumentSnapshot document = task.Result;
-                if (document != null)
+                if (document.Exists)
                 {
                     LevelDataCollection levelCollection = document.ConvertTo<LevelDataCollection>();
                     List<LevelData> levels = ConvertCollectionToLevels(levelCollection);
                     if (forEditMode)
                     {
                         LocalCollectionList = levels;
+                        OnLevelCollectionLevelsDownloaded?.Invoke(levels.Count);
                     }
                     DownloadedLevels.AddRange(levels);
                     // Save all Recieved levels into the Downloaded List
@@ -190,13 +194,15 @@ public class FirestoreManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("No levels found within the specified range.");
-                    OnSuccessfulLoadingOfLevels?.Invoke(false);
+                    if(!forEditMode)
+                        OnSuccessfulLoadingOfLevels?.Invoke(false);
+                    OnLevelCollectionLevelsDownloadedFail?.Invoke("Could not find a Collection with this name!");    
                 }
             }
             else
             {
                 Debug.LogError("Error retrieving levels: " + task.Exception);
+                OnLevelCollectionLevelsDownloadedFail?.Invoke("Unknown Error Loading the collection");    
             }
         });
     }
