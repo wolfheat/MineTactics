@@ -122,8 +122,10 @@ Nov 2024
 		* Loading of Collection now go to Edit mode list
 		* Add Short fadable text for quick actions
 		* Loading Level from Collection now closes the Panel and shows fade info
+		* Loading of Collection can now be specified
 
 
+		* Make the active level marked in CollectionList
 		* Missing functionality Creating collections
 
 		- Add option to name the collection when sending it to the db, also have option to name the one downloaded

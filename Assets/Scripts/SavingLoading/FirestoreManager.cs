@@ -484,6 +484,11 @@ public class FirestoreManager : MonoBehaviour
 
     }
 
+    internal void LoadLevelCollection(string levelName, bool editMode = false)
+    {
+        GetLevelCollection(levelName,editMode);
+    }
+    
     internal void LoadLevelCollectionPreset(bool editMode = false)
     {
         GetLevelCollection("BasicCollection",editMode);

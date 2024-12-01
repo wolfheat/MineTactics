@@ -109,10 +109,10 @@ public class LocalLevelsPanel : MonoBehaviour
         FirestoreManager.Instance.StoreLevelCollectionPreset();
     }
 
-    public void LoadCollection()
+    public void LoadCollection(string levelName)
     {
         Debug.Log("Request Load Collection");
-        FirestoreManager.Instance.LoadLevelCollectionPreset(true);
+        FirestoreManager.Instance.LoadLevelCollection(levelName,true);
     }
 
     internal void UpdateIndexFromCollection(int index)
