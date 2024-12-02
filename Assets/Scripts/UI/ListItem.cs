@@ -1,13 +1,20 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ListItem : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI index_text;
     [SerializeField] TextMeshProUGUI id_text;
+    [SerializeField] Color unMarkedColor;
+    [SerializeField] Color markedColor;
+    [SerializeField] Image image;
+
     private int index = 0;
     private LevelData levelData;
+
+    public int Index { get { return index; }}
 
     public void RequestReplaceLevel()
     {
@@ -18,8 +25,8 @@ public class ListItem : MonoBehaviour
         bool isValid = GameArea.Instance.ValidateLevel();
 
         if (isValid) { 
-            GameArea.Instance.ReplaceLevelToCollection(index);
-            LocalLevelsPanel.Instance.UpdateIndexFromCollection(index);
+            if(GameArea.Instance.ReplaceLevelToCollection(index))
+                LocalLevelsPanel.Instance.UpdateIndexFromCollection(index);
         }
         else
         {
@@ -27,6 +34,8 @@ public class ListItem : MonoBehaviour
         }
 
     }
+
+    public void SetAsActive(bool set) => image.color = set ? markedColor : unMarkedColor;
     public void RequestDeleteLevel()
     {
         Debug.Log("Request Delete Level (ListItem)");
@@ -35,7 +44,7 @@ public class ListItem : MonoBehaviour
     public void RequestLoadLevel()
     {
         Debug.Log("Request Load Level (ListItem)");
-        LocalLevelsPanel.Instance.LoadLevel(levelData);
+        LocalLevelsPanel.Instance.LoadLevel(levelData,this);
     }
 
     internal void UpdateData(int i, LevelData newlevelData)

@@ -591,6 +591,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index_text: {fileID: 6640594097911515201}
   id_text: {fileID: 2303088798413093039}
+  unMarkedColor: {r: 1, g: 1, b: 1, a: 0.11372549}
+  markedColor: {r: 0.18431373, g: 0.2522371, b: 0.32941177, a: 0.49019608}
+  image: {fileID: 8919205022613635188}
 --- !u!1 &7685923008395838669
 GameObject:
   m_ObjectHideFlags: 0

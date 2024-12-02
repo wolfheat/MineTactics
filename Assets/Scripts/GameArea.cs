@@ -806,12 +806,13 @@ public class GameArea : MonoBehaviour
         return flagged;
     }
 
-    public void ReplaceLevelToCollection(int index)
+    public bool ReplaceLevelToCollection(int index)
     {
         (int[,] charArray, string pre) = SavingLoadingConverter.LevelTo2DArray(mines, overlayBoxes);
         string compressed = SavingLoadingConverter.ComressToString(charArray, pre);
-        FirestoreManager.Instance.ReplaceItemInLocalCollection(compressed, index);
+        bool valid = FirestoreManager.Instance.ReplaceItemInLocalCollection(compressed, index);
         Debug.Log("Saved Level added to Collection");
+        return valid;
     }
     public void AddLevelToCollection()
     {

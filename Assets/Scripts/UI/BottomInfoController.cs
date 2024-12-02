@@ -23,7 +23,7 @@ public class BottomInfoController : MonoBehaviour
     }
 
 
-    public void UpdateCollectionSize()
+    public void UpdateCollectionSize(int itemToSelect = -1)
     {
         collectionSizeText.text = "" + FirestoreManager.Instance.LocalCollectionList.Count.ToString();
         levelAmtText.text = "" + FirestoreManager.Instance.LoadedAmount.ToString();

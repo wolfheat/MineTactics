@@ -64,7 +64,7 @@ public class FirestoreManager : MonoBehaviour
     public static Action<int> OnLevelCollectionLevelsDownloaded;
     public static Action<string> OnLevelCollectionLevelsDownloadedFail;
     public static Action OnLoadLevelStarted;
-    public static Action OnLevelCollectionListChange;
+    public static Action<int> OnLevelCollectionListChange;
 
     public bool ReplaceLevelInDownloadedCollection(LevelData data)
     {
@@ -160,7 +160,7 @@ public class FirestoreManager : MonoBehaviour
 
                         Debug.Log("Downloaded LEvels from the database: "+snapshot.Count);
                         OnSuccessfulLoadingOfLevels?.Invoke(true);
-                        OnLevelCollectionListChange?.Invoke();
+                        OnLevelCollectionListChange?.Invoke(-1);
                         USerInfo.Instance.Collection = null;
                     }
                     else
@@ -204,7 +204,7 @@ public class FirestoreManager : MonoBehaviour
                     Debug.Log("Downloaded Levels from the collectiondatabase: " + levels.Count);
 
                     OnSuccessfulLoadingOfLevels?.Invoke(true);
-                    OnLevelCollectionListChange?.Invoke();
+                    OnLevelCollectionListChange?.Invoke(-1);
                     USerInfo.Instance.Collection = id;
                 }
                 else
@@ -285,7 +285,7 @@ public class FirestoreManager : MonoBehaviour
 
         // Callback with the retrieved level data
         LoadComplete?.Invoke(LevelData.Level);
-        OnLevelCollectionListChange?.Invoke();
+        OnLevelCollectionListChange?.Invoke(-1);
     }
 
     public void UpdateLevelData(string levelId, float newDifficultyRating)
@@ -441,14 +441,15 @@ public class FirestoreManager : MonoBehaviour
         // Have levelName be random?
         Task task = StoreLevelWithUniqueId(levelData);
     }
-    public void ReplaceItemInLocalCollection(string val,int index)
+    public bool ReplaceItemInLocalCollection(string val,int index)
     {
         LevelData levelData = CreateLevelDataFromName(val);
         if (levelData == null)
-            return;
+            return false;
         Debug.Log("Replacing index "+index+" in LocalCollectionList "+ LocalCollectionList[index].LevelId + " with new LevelData: "+levelData.LevelId);
         LocalCollectionList[index] = levelData;
-        OnLevelCollectionListChange?.Invoke();
+        OnLevelCollectionListChange?.Invoke(index);
+        return true;
     }
     
     public void AddToLocalCollection(string val)
@@ -458,7 +459,7 @@ public class FirestoreManager : MonoBehaviour
             return;
 
         LocalCollectionList.Add(levelData);
-        OnLevelCollectionListChange?.Invoke();
+        OnLevelCollectionListChange?.Invoke(-1);
     }
 
     private LevelData CreateLevelDataFromName(string val)
@@ -523,6 +524,6 @@ public class FirestoreManager : MonoBehaviour
     internal void ClearLocalCollectionList()
     {
         LocalCollectionList.Clear();
-        OnLevelCollectionListChange?.Invoke();
+        OnLevelCollectionListChange?.Invoke(-1);
     }
 }

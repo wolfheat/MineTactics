@@ -128,13 +128,15 @@ Nov 2024
 		* Fixed issue with loading collections
 		* Collection loaded wont save to database
 		* Collection games save to Collection file
+2/12	* Active Loaded Level in Collection List is now marked darkbluegrey
+		* Fixed Selection issue for CollectionList
+
+
+		* Missing functionality Creating collections
 
 		* Make the collection file write to database after all levels are completed. Handle Eixt game? Store to file as well so players can continue?
-
 		* Make Loading / saving collection correctly close menu and fail to show correctly
 
-		* Make the active level marked in CollectionList
-		* Missing functionality Creating collections
 
 		- Add option to name the collection when sending it to the db, also have option to name the one downloaded
 		- Having checks for valid submissions? Maybe later for now allow any level? Maybe add so at least one box can be clicked
