@@ -35,6 +35,7 @@ public class LevelCompletionScreen : MonoBehaviour
             levelID.text = data.LevelId.ToString();
             status.text = data.Status.ToString();
             playCount.text = data.PlayCount.ToString();
+            // 
         }
         OnClickStar(3); // Sets to 3 star as default
     }
@@ -80,6 +81,11 @@ public class LevelCompletionScreen : MonoBehaviour
             // Dont send Updates for Collections for now
             Debug.Log("Wont send Update cause this is a collection");
 
+            // Sets players Vote and Adds Playcount
+            LoadedData.Upvotes = (vote > 3 ? 1 : 0);
+            LoadedData.Downvotes = (vote < 3 ? 1 : 0);
+            LoadedData.PlayCount = 1;
+
             // Find index of Loaded data and add to the DownloadedCollection
             bool updatedSuccess = FirestoreManager.Instance.ReplaceLevelInDownloadedCollection(LoadedData);
 
@@ -87,6 +93,13 @@ public class LevelCompletionScreen : MonoBehaviour
                 Debug.Log("Updated Level in Collection successfully");                   
             else
                 Debug.Log("Could not update Level in Collection.");
+
+            if(FirestoreManager.Instance.LoadedAmount == 0)
+            {
+                Debug.Log("Loaded Amount == 0 so this Save should save to DB Collection");
+                FirestoreManager.Instance.UpdateLevelCollection();
+            }
+
             return;
         }
 

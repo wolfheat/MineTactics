@@ -53,6 +53,7 @@ public class FirestoreManager : MonoBehaviour
     public int LoadedAmount => DownloadedLevels.Count;
 
     public List<LevelData> DownloadedCollection { get; private set; }
+    public List<LevelData> DownloadedCollectionForReupload { get; private set; }
 
     public static Action<string> SubmitLevelAttemptFailed;
     public static Action<string> SubmitNameFailed;
@@ -65,6 +66,7 @@ public class FirestoreManager : MonoBehaviour
     public static Action<string> OnLevelCollectionLevelsDownloadedFail;
     public static Action OnLoadLevelStarted;
     public static Action<int> OnLevelCollectionListChange;
+    private string latestCollectionName="";
 
     public bool ReplaceLevelInDownloadedCollection(LevelData data)
     {
@@ -104,6 +106,14 @@ public class FirestoreManager : MonoBehaviour
             LoadALevelFromDownloadedLevelsList();
             return;
         }
+        else if(USerInfo.Instance.Collection != null)
+        {
+            Debug.Log("** ALL Downloaded Levels have been completed - Send players updated data to collection here");
+        }
+        else
+        {
+            Debug.Log("** ALL Downloaded Levels have been completed - Was not using a Collection");
+        }
         SmileyButton.Instance.ShowNormal();
     }
 
@@ -115,6 +125,11 @@ public class FirestoreManager : MonoBehaviour
 
             return;
         }
+
+        Debug.Log("Get a random Level But none exists - go get one from the open database");
+        Debug.Log("Goeas and grabs levels from the database here");
+        return;
+
         float minDifficulty = 0;
         float maxDifficulty = playerRating+500;
 
@@ -176,6 +191,53 @@ public class FirestoreManager : MonoBehaviour
             });
     }
 
+    public void GetLevelCollectionLatestVersion(string id)
+    {
+        // Show LoadingPanel here
+        db.Collection("LevelCollections").Document(id).GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            Debug.Log("Tried to get snapshot for "+id);
+            if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
+            {
+                DocumentSnapshot document = task.Result;
+                if (document.Exists)
+                {
+                    LevelDataCollection levelCollection = document.ConvertTo<LevelDataCollection>();
+                    List<LevelData> levels = ConvertCollectionToLevels(levelCollection);
+
+                    DownloadedCollectionForReupload = levels;
+                    Debug.Log("Downloaded latest Levels from the collectiondatabase: " + levels.Count);
+
+                    UpdateAndReupploadCollection();
+                }
+                else
+                {
+                    OnLevelCollectionLevelsDownloadedFail?.Invoke("Could not find a Collection with this name!");    
+                }
+            }
+            else
+            {
+                Debug.LogError("Error retrieving levels: " + task.Exception);
+                OnLevelCollectionLevelsDownloadedFail?.Invoke("Unknown Error Loading the collection");    
+            }
+        });
+    }
+
+    private void UpdateAndReupploadCollection()
+    {
+        Debug.Log("UpdateAndReupploadCollection: new Collection size: "+DownloadedCollectionForReupload.Count+" local size: "+DownloadedCollection.Count);
+        for (int i = 0; i < DownloadedCollectionForReupload.Count; i++)
+        {
+            Debug.Log(i+" PlayCount " + DownloadedCollectionForReupload[i].PlayCount+" + " + DownloadedCollection[i].PlayCount+" Votes: " + DownloadedCollectionForReupload[i].Upvotes + "/" + DownloadedCollectionForReupload[i].Downvotes+" -> " + DownloadedCollection[i].Upvotes + "/" + DownloadedCollection[i].Downvotes);
+            DownloadedCollectionForReupload[i].PlayCount++;
+            DownloadedCollectionForReupload[i].Downvotes += DownloadedCollection[i].Downvotes;
+            DownloadedCollectionForReupload[i].Upvotes += DownloadedCollection[i].Upvotes;
+            // Rating etc also?
+        }
+        // Now send the levelCollection back to db
+        UpdateLevelCollection(latestCollectionName);
+    }
+
     public void GetLevelCollection(string id,bool forEditMode = false)
     {
         // Show LoadingPanel here
@@ -199,6 +261,7 @@ public class FirestoreManager : MonoBehaviour
                     }
                     DownloadedLevels.AddRange(levels);
                     DownloadedCollection = levels;
+                    latestCollectionName = id;
                     // Save all Recieved levels into the Downloaded List
 
                     Debug.Log("Downloaded Levels from the collectiondatabase: " + levels.Count);
@@ -247,6 +310,7 @@ public class FirestoreManager : MonoBehaviour
     
     private LevelDataCollection ConvertLevelsToCollection(List<LevelData> levels)
     {
+        Debug.Log("Converting Levels to LevelCollection");
         LevelDataCollection ans = new();
         int length = levels.Count;
 
@@ -390,11 +454,11 @@ public class FirestoreManager : MonoBehaviour
         SubmitLevelAttemptSuccess?.Invoke();
     }
 
-    public async Task StoreLevelCollectionWithUniqueId(LevelDataCollection levelDataCollection,string id)
+    public async Task StoreLevelCollectionByName(LevelDataCollection levelDataCollection,string id)
     {
         Debug.Log("Trying to store Level Collection");
         DocumentReference newDocRef = db.Collection("LevelCollections").Document(id);
-        
+            
         // Set data to Firestore
         try
         {
@@ -499,10 +563,20 @@ public class FirestoreManager : MonoBehaviour
         Task task = StoreUsernameById(v,id);
     }
 
+    internal void UpdateLevelCollection(string collectionName = "BasicCollection")
+    {
+        Debug.Log("** UpdateLevelCollection");
+        LevelDataCollection collection = ConvertLevelsToCollection(DownloadedCollectionForReupload);
+        Task task = StoreLevelCollectionByName(collection, collectionName);
+        
+        // Currently just write the Collection, later use update???
+        //StoreLevelCollection(collectionName);
+    }
+    
     internal void StoreLevelCollection(string collectionName = "BasicCollection")
     {
         LevelDataCollection collection = ConvertLevelsToCollection(LocalCollectionList);
-        Task task = StoreLevelCollectionWithUniqueId(collection, collectionName);
+        Task task = StoreLevelCollectionByName(collection, collectionName);
 
     }
     
@@ -525,5 +599,21 @@ public class FirestoreManager : MonoBehaviour
     {
         LocalCollectionList.Clear();
         OnLevelCollectionListChange?.Invoke(-1);
+    }
+
+    internal void UpdateLevelCollection()
+    {
+        Debug.Log("Updating Level Collection after player completed it all");
+        foreach (var item in DownloadedCollection)
+        {
+            Debug.Log("Item: "+item.LevelId+" stored with votes "+item.Upvotes+"/"+item.Downvotes+" Diff "+item.DifficultyRating+" playcount: "+item.PlayCount);
+        }
+
+        // Redownload the original Collection
+        GetLevelCollectionLatestVersion(latestCollectionName);
+
+        // Update its values
+
+        // Re-upload to Collection
     }
 }

@@ -130,11 +130,13 @@ Nov 2024
 		* Collection games save to Collection file
 2/12	* Active Loaded Level in Collection List is now marked darkbluegrey
 		* Fixed Selection issue for CollectionList
+		* Can now write to Collections by overwriting them. Reads the current Collection data and updates with local data.
+		* Adding Levels to Collection Opens panel and Selects that Level
 
 
 		* Missing functionality Creating collections
 
-		* Make the collection file write to database after all levels are completed. Handle Eixt game? Store to file as well so players can continue?
+		* Make the collection file write to database after all levels are completed. Handle Exit game? Store to file as well so players can continue?
 		* Make Loading / saving collection correctly close menu and fail to show correctly
 
 

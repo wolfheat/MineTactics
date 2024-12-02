@@ -48,6 +48,12 @@ public class LocalLevelsPanel : MonoBehaviour
         ActivateSelected();
     }
 
+    public void SelectRecentlyAdded()
+    {
+        SelectedIndex = FirestoreManager.Instance.LocalCollectionList.Count-1;
+        ActivateSelected();
+    }
+
     private void UpdateListIndexes(int i_start)
     {
         // Create New ListItems
