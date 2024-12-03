@@ -5570,7 +5570,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Confirm Replace
+  m_text: Delete?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 84dbb383ae1cf3140b9aa5999b1c178f, type: 2}
   m_sharedMaterial: {fileID: 7129148970830627335, guid: 84dbb383ae1cf3140b9aa5999b1c178f, type: 2}
@@ -19836,7 +19836,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Are you sure you want to replace this level?
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 84dbb383ae1cf3140b9aa5999b1c178f, type: 2}
   m_sharedMaterial: {fileID: 7129148970830627335, guid: 84dbb383ae1cf3140b9aa5999b1c178f, type: 2}
@@ -27611,6 +27611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947c429c9a38fea4eb8b730519a35bcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index_text: {fileID: 1508587772}
 --- !u!114 &2094371799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28079,7 +28080,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Confirm Replace
+  m_text: Replace?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 84dbb383ae1cf3140b9aa5999b1c178f, type: 2}
   m_sharedMaterial: {fileID: 7129148970830627335, guid: 84dbb383ae1cf3140b9aa5999b1c178f, type: 2}

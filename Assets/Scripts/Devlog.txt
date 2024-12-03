@@ -135,18 +135,12 @@ Nov 2024
 		* Added ConfirmationScreens for Deleting and Replacing Levels in Collection
 
 
+
 		* Missing functionality Creating collections
-
-		* Make the collection file write to database after all levels are completed. Handle Exit game? Store to file as well so players can continue?
-		* Make Loading / saving collection correctly close menu and fail to show correctly
-
-
-		- Add option to name the collection when sending it to the db, also have option to name the one downloaded
-		- Having checks for valid submissions? Maybe later for now allow any level? Maybe add so at least one box can be clicked
-
+		// Half completed Collection exit handeling
+		* collection file. Handle Exit game? Store to file as well so players can continue?
 		
 		* ISSUE - There is a list of created levels that prohibits same level to be created twice, but player can delete a level so it should be allowed again if done?
-
 
 		* Have each level knowing its collection? - Needed to know if game should be saved or not when completed. Can we write to the Collection?
 
