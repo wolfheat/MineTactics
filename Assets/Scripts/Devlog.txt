@@ -133,6 +133,32 @@ Nov 2024
 		* Can now write to Collections by overwriting them. Reads the current Collection data and updates with local data.
 		* Adding Levels to Collection Opens panel and Selects that Level
 		* Added ConfirmationScreens for Deleting and Replacing Levels in Collection
+3/12	* Added Remove Query Screen fror Collection
+		* Query now can remove selected levels, PlayerId, Upvotes, Downvotes, DifficultyRating, PlayCount
+
+		* Have the list sortable for downvotes? ANd able to remove that selection from the total list?
+
+
+
+
+
+
+
+
+
+
+		Minesweeper GO Pro Cons
+
+			TheOreh/Opex/0,12,46/220,180,140
+		-no ping or delay, game only loads to the server after you win it
+		-no cheaters usually (partly cuz of anticheat), or the dev, who has contacts with active players, bans cheaters in a short period of time
+		-no incidents when your board moves up and down like on wom mobile
+		-tournaments
+
+			Llama
+		 The main reason for playing it over different apps is that it has good stats and leaderboards, though WoM also has this. And the reason for playing minesweeper Go 
+		 over WoM would be that minesweeper Go is optimised for mobile so is a bit more responsive than WoM. Although this does depend on other factors like what device is used.
+
 
 
 

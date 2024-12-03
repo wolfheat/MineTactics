@@ -616,4 +616,11 @@ public class FirestoreManager : MonoBehaviour
 
         // Re-upload to Collection
     }
+
+    internal void RemoveLocalCollectionListQuery(List<LevelData> levelsToRemove)
+    {
+        List<LevelData> newLocalCollection = LocalCollectionList.Except(levelsToRemove).ToList();
+        Debug.Log("New Local List bocomes "+newLocalCollection.Count+" long after deleting "+levelsToRemove.Count);
+        LocalCollectionList = newLocalCollection;
+    }
 }

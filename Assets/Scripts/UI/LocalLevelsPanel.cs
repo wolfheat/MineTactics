@@ -48,6 +48,12 @@ public class LocalLevelsPanel : MonoBehaviour
         ActivateSelected();
     }
 
+    internal void RemoveQueryFromList(List<LevelData> levelsToRemove)
+    {
+        Debug.Log("** RemoveQueryFromList");
+        FirestoreManager.Instance.RemoveLocalCollectionListQuery(levelsToRemove);
+        UpdateCollectionSize();
+    }
     public void SelectRecentlyAdded()
     {
         SelectedIndex = FirestoreManager.Instance.LocalCollectionList.Count-1;
@@ -191,4 +197,5 @@ public class LocalLevelsPanel : MonoBehaviour
         gameObject.SetActive(false);
 
     }
+
 }
