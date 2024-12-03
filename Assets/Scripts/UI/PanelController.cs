@@ -1,8 +1,6 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class PanelController : MonoBehaviour
 {
 
@@ -28,6 +26,8 @@ public class PanelController : MonoBehaviour
 
     [SerializeField] LevelCompletionScreen levelCompleteNormal;
     [SerializeField] LevelCompletionScreen levelComplete;
+    [SerializeField] ConfirmReplaceScreen confirmReplacePanel;
+    [SerializeField] ConfirmDeleteScreen confirmDeletePanel;
 
     [SerializeField] LoadingPanel progressPanel;
     [SerializeField] InfoPanel infoPanel;
@@ -301,5 +301,16 @@ public class PanelController : MonoBehaviour
     {
         fadableInfo.gameObject.SetActive(true);
         fadableInfo.ShowInfo(info);
+    }
+
+    internal void ShowConfirmReplaceScreen(int index)
+    {
+        confirmReplacePanel.gameObject.SetActive(true);
+        confirmReplacePanel.SetActiveIndex(index);
+    }
+    internal void ShowDeleteReplaceScreen(int index)
+    {
+        confirmDeletePanel.gameObject.SetActive(true);
+        confirmDeletePanel.SetActiveIndex(index);
     }
 }

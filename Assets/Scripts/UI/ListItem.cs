@@ -24,9 +24,9 @@ public class ListItem : MonoBehaviour
         // CHeck here for valid Level
         bool isValid = GameArea.Instance.ValidateLevel();
 
-        if (isValid) { 
-            if(GameArea.Instance.ReplaceLevelToCollection(index))
-                LocalLevelsPanel.Instance.UpdateIndexFromCollection(index);
+        // Open Replace Confirmation screen
+        if (isValid) {
+            PanelController.Instance.ShowConfirmReplaceScreen(index);            
         }
         else
         {
@@ -39,7 +39,7 @@ public class ListItem : MonoBehaviour
     public void RequestDeleteLevel()
     {
         Debug.Log("Request Delete Level (ListItem)");
-        LocalLevelsPanel.Instance.RemoveIndexFromList(index);
+        PanelController.Instance.ShowDeleteReplaceScreen(index);
     }
     public void RequestLoadLevel()
     {

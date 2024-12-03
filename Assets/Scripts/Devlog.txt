@@ -132,6 +132,7 @@ Nov 2024
 		* Fixed Selection issue for CollectionList
 		* Can now write to Collections by overwriting them. Reads the current Collection data and updates with local data.
 		* Adding Levels to Collection Opens panel and Selects that Level
+		* Added ConfirmationScreens for Deleting and Replacing Levels in Collection
 
 
 		* Missing functionality Creating collections
