@@ -136,7 +136,14 @@ Nov 2024
 3/12	* Added Remove Query Screen fror Collection
 		* Query now can remove selected levels, PlayerId, Upvotes, Downvotes, DifficultyRating, PlayCount
 4/12	* Levels can now be selected in the Collection list and deleted together
+		* Added support for touch for selecting many
 
+		* Show Loading screen when doing task Loading from DB to Collection
+		* Clear - Clears directly, add confirmation screen?
+
+		* Player can swap mode during a play should this be possible? Maybe it exits a game the player wants to play to finish?
+
+		* Select many not working in Mobile due to no shift available, implement this by long click
 		
 		* Have the list sortable for downvotes? ANd able to remove that selection from the total list?
 

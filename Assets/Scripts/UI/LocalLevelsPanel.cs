@@ -10,7 +10,6 @@ public class LocalLevelsPanel : MonoBehaviour
     [SerializeField] ListItem listItemPrefab;
     [SerializeField] GameObject listItemHolder;
     [SerializeField] GameObject storeCollection;
-    [SerializeField] TextMeshProUGUI selectedAmtText;
     [SerializeField] TextMeshProUGUI selectedAmoutButton;
 
 
@@ -277,9 +276,5 @@ public class LocalLevelsPanel : MonoBehaviour
         UpdateSelectedAmt();
     }
 
-    private void UpdateSelectedAmt()
-    {
-        selectedAmtText.text = selectedIndexes.Count.ToString();
-        selectedAmoutButton.text = "Delete ("+selectedIndexes.Count.ToString()+")";
-    }
+    private void UpdateSelectedAmt() => selectedAmoutButton.text = "Delete (" + selectedIndexes.Count.ToString() + ")";
 }

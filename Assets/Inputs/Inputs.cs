@@ -47,16 +47,18 @@ public class Inputs : MonoBehaviour
         startTouch = Time.time;
         //Debug.Log("Started new Touch");
     }
+    public float TimeHeld { get; private set; } = 0;
     private void OnTouchEnd(InputAction.CallbackContext context)
     {
+
         //Debug.Log("Ended Touch");
-        float timeHeld = (Time.time - startTouch);
+        TimeHeld = (Time.time - startTouch);
         Vector2 pos = Controls.Main.TouchPosition.ReadValue<Vector2>();
-        TouchDebug.Instance.ShowText("Touch r-click at: "+ pos +" for "+timeHeld+"s");
+        TouchDebug.Instance.ShowText("Touch r-click at: "+ pos +" for "+TimeHeld+"s");
         //if(timeHeld > USerInfo.Instance.SensitivityMS)
         //    Debug.Log("R Click");
         //Debug.Log("TouchTime > Sensitivity "+timeHeld+"/"+USerInfo.Instance.SensitivityMS);
-        OnTouchClick(pos, timeHeld > USerInfo.Instance.SensitivityMS ? true : false);
+        OnTouchClick(pos, TimeHeld > USerInfo.Instance.SensitivityMS ? true : false);
     }
 
     public void OnTouchClick(Vector2 touchPos,bool rightClick = false)

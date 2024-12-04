@@ -55,6 +55,8 @@ public class LevelCompletionScreen : MonoBehaviour
             // Select a random level from the retrieved documents
             FirestoreManager.Instance.GetRandomLevel(1000);
             SendLevelUpdates();
+            // Start Next Level automatically
+            LevelCreator.Instance.LoadRandomLevel();
         }
         else if(USerInfo.Instance.currentType == GameType.Normal)
         {
