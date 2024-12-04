@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Collections.LowLevel.Unsafe;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LocalLevelsPanel : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class LocalLevelsPanel : MonoBehaviour
     [SerializeField] ListItem listItemPrefab;
     [SerializeField] GameObject listItemHolder;
     [SerializeField] GameObject storeCollection;
+    [SerializeField] TextMeshProUGUI selectedAmtText;
+    [SerializeField] TextMeshProUGUI selectedAmoutButton;
 
 
     public static LocalLevelsPanel Instance { get; private set; }
@@ -75,6 +78,14 @@ public class LocalLevelsPanel : MonoBehaviour
     {
         Debug.Log("Update localLevelPanel");
         UpdateList();
+        DeselectAll();
+    }
+
+    private void DeselectAll()
+    {
+        selectedIndexes.Clear();
+        selectedListItems.Clear();
+        UpdateSelectedAmt();
     }
 
     private void UpdateList(int itemToSelect = -1)
@@ -118,7 +129,45 @@ public class LocalLevelsPanel : MonoBehaviour
 
         FirestoreManager.Instance.ClearLocalCollectionList();
         DestroyOldListItems();
+        DeselectAll();
 
+    }
+
+    public void DeleteSelected()
+    {
+        Debug.Log("Delete Selection");
+
+        // removing index i
+        Debug.Log("List size before " + FirestoreManager.Instance.LocalCollectionList.Count);
+        selectedIndexes.Sort();
+        for (int i = selectedIndexes.Count - 1; i >= 0; i--)
+        {
+            FirestoreManager.Instance.LocalCollectionList.RemoveAt(selectedIndexes[i]);
+            ListItem itemToDestroy = listItems[selectedIndexes[i]];
+            listItems.RemoveAt(selectedIndexes[i]);
+            Destroy(itemToDestroy.gameObject);
+        }
+        Debug.Log("List size after " + FirestoreManager.Instance.LocalCollectionList.Count);
+
+        selectedIndexes.Clear();
+        selectedListItems.Clear();
+        UpdateSelectedAmt();
+
+        UpdateListIndexes(0);
+        ActivateSelected();
+    }
+    
+    public void RequestDeleteSelected()
+    {
+        Debug.Log("Request Delete Selected items in the Collection");
+
+        Debug.Log("Deleting "+selectedListItems.Count+" items.");
+        if(selectedListItems.Count == 0)
+        {
+            PanelController.Instance.ShowInfo("There is no Level selected. Can not delete!");
+            return;
+        }
+        PanelController.Instance.ShowConfirmRemoveManyConfirmationScreen(selectedListItems.Count);
     }
     public void StoreCollection(string collectionName)
     {
@@ -198,4 +247,39 @@ public class LocalLevelsPanel : MonoBehaviour
 
     }
 
+    List<int> selectedIndexes = new List<int>();
+    List<ListItem> selectedListItems = new List<ListItem>();
+    internal void AddSelectedLevelToList(ListItem item, bool keep = false)
+    {
+        if(selectedIndexes.Contains(item.Index))
+        {
+            int indexInList = selectedIndexes.IndexOf(item.Index);
+            item.DeMark();
+            selectedListItems.RemoveAt(indexInList);
+            selectedIndexes.Remove(item.Index);
+        }
+        else
+        {
+            if (!keep)
+            {
+                foreach(var listItem in selectedListItems)
+                    listItem.DeMark();
+                selectedListItems.Clear();
+                selectedIndexes.Clear();
+            }
+
+            // Remove if already marked = unmark
+            selectedIndexes.Add(item.Index);
+            selectedListItems.Add(item);
+            item.Mark();
+
+        }
+        UpdateSelectedAmt();
+    }
+
+    private void UpdateSelectedAmt()
+    {
+        selectedAmtText.text = selectedIndexes.Count.ToString();
+        selectedAmoutButton.text = "Delete ("+selectedIndexes.Count.ToString()+")";
+    }
 }

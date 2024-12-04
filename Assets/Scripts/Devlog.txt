@@ -135,17 +135,10 @@ Nov 2024
 		* Added ConfirmationScreens for Deleting and Replacing Levels in Collection
 3/12	* Added Remove Query Screen fror Collection
 		* Query now can remove selected levels, PlayerId, Upvotes, Downvotes, DifficultyRating, PlayCount
+4/12	* Levels can now be selected in the Collection list and deleted together
 
+		
 		* Have the list sortable for downvotes? ANd able to remove that selection from the total list?
-
-
-
-
-
-
-
-
-
 
 		Minesweeper GO Pro Cons
 

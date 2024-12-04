@@ -204,6 +204,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shift"",
+                    ""type"": ""Button"",
+                    ""id"": ""4d9bfdd0-f709-4f90-a61a-eb2da559b01d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -646,6 +655,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eeadd9c7-419f-42eb-9343-2bdf1d41394b"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -670,6 +690,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_TAB = m_UI.FindAction("TAB", throwIfNotFound: true);
         m_UI_Enter = m_UI.FindAction("Enter", throwIfNotFound: true);
+        m_UI_Shift = m_UI.FindAction("Shift", throwIfNotFound: true);
     }
 
     ~@Controls()
@@ -810,6 +831,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_TAB;
     private readonly InputAction m_UI_Enter;
+    private readonly InputAction m_UI_Shift;
     public struct UIActions
     {
         private @Controls m_Wrapper;
@@ -825,6 +847,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
         public InputAction @TAB => m_Wrapper.m_UI_TAB;
         public InputAction @Enter => m_Wrapper.m_UI_Enter;
+        public InputAction @Shift => m_Wrapper.m_UI_Shift;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -867,6 +890,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Enter.started += instance.OnEnter;
             @Enter.performed += instance.OnEnter;
             @Enter.canceled += instance.OnEnter;
+            @Shift.started += instance.OnShift;
+            @Shift.performed += instance.OnShift;
+            @Shift.canceled += instance.OnShift;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -904,6 +930,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Enter.started -= instance.OnEnter;
             @Enter.performed -= instance.OnEnter;
             @Enter.canceled -= instance.OnEnter;
+            @Shift.started -= instance.OnShift;
+            @Shift.performed -= instance.OnShift;
+            @Shift.canceled -= instance.OnShift;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -940,5 +969,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         void OnTAB(InputAction.CallbackContext context);
         void OnEnter(InputAction.CallbackContext context);
+        void OnShift(InputAction.CallbackContext context);
     }
 }

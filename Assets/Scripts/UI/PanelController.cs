@@ -32,6 +32,7 @@ public class PanelController : MonoBehaviour
     [SerializeField] ConfirmDeleteScreen confirmDeletePanel;
     [SerializeField] ConfirmRemoveManyScreen confirmRemoveManyScreen;
     [SerializeField] RemoveAllFromCollectionPanel removeAllFromCollection;
+    [SerializeField] ConfirmRemoveManySelectedScreen confirmConfirmRemoveManySelectedScreen;
 
     [SerializeField] LoadingPanel progressPanel;
     [SerializeField] InfoPanel infoPanel;
@@ -326,5 +327,11 @@ public class PanelController : MonoBehaviour
     {
         confirmRemoveManyScreen.gameObject.SetActive(true);
         confirmRemoveManyScreen.SetActiveQuery(query);
+    }
+
+    internal void ShowConfirmRemoveManyConfirmationScreen(int amt)
+    {
+        confirmConfirmRemoveManySelectedScreen.gameObject.SetActive(true);
+        confirmConfirmRemoveManySelectedScreen.SetAmt(amt);
     }
 }

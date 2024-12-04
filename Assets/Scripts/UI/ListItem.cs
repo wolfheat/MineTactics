@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,11 +9,21 @@ public class ListItem : MonoBehaviour
     [SerializeField] Color unMarkedColor;
     [SerializeField] Color markedColor;
     [SerializeField] Image image;
+    [SerializeField] GameObject marker;
 
     private int index = 0;
     private LevelData levelData;
 
     public int Index { get { return index; }}
+
+    public void OnClick()
+    {
+        Debug.Log("Clicking List Item "+index);
+        if (Inputs.Instance.Controls.UI.Shift.IsPressed())
+            LocalLevelsPanel.Instance.AddSelectedLevelToList(this,true);
+        else
+            LocalLevelsPanel.Instance.AddSelectedLevelToList(this);
+    }
 
     public void RequestReplaceLevel()
     {
@@ -59,5 +68,15 @@ public class ListItem : MonoBehaviour
     {
         index_text.text = i.ToString();
         index = i;
+    }
+
+    internal void DeMark()
+    {
+        marker.gameObject.SetActive(false);
+    }
+
+    internal void Mark()
+    {
+        marker.gameObject.SetActive(true);
     }
 }
