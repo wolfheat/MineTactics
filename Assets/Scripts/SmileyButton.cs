@@ -26,7 +26,7 @@ public class SmileyButton : MonoBehaviour
         spriteRenderer.sprite = sprites[1];
         if (USerInfo.Instance.currentType == GameType.Normal)
             LevelCreator.Instance.RestartGame();
-        else if (USerInfo.Instance.currentType == GameType.Loaded)
+        else if (USerInfo.Instance.currentType == GameType.Challenge)
             LevelCreator.Instance.LoadRandomLevel();
         else if (USerInfo.Instance.currentType == GameType.Create)
         {

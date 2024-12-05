@@ -25,7 +25,7 @@ public class LevelCompletionScreen : MonoBehaviour
     {
         levelID.text = USerInfo.Instance.levelID;
         time.text = Timer.TimeElapsed.ToString("F3") + "s";
-        if (USerInfo.Instance.currentType == GameType.Loaded) { 
+        if (USerInfo.Instance.currentType == GameType.Challenge) { 
             if (data == null)
                 return;
             LoadedData = data;
@@ -50,7 +50,7 @@ public class LevelCompletionScreen : MonoBehaviour
         Debug.Log("Level Completion Next clicked");
         gameObject.SetActive(false);
         // Send Update to the database for this level? / this will create a write...
-        if(USerInfo.Instance.currentType == GameType.Loaded)
+        if(USerInfo.Instance.currentType == GameType.Challenge)
         {
             // Select a random level from the retrieved documents
             FirestoreManager.Instance.GetRandomLevel(1000);
@@ -68,7 +68,7 @@ public class LevelCompletionScreen : MonoBehaviour
     {
         Debug.Log("Level Completion Back clicked");
         gameObject.SetActive(false);
-        if (USerInfo.Instance.currentType == GameType.Loaded)
+        if (USerInfo.Instance.currentType == GameType.Challenge)
         {
             // Sent Level Updates when closing resultscreen for loaded level
             SendLevelUpdates();

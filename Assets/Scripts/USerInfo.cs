@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 
-public enum GameType{Normal,Loaded,
+public enum GameType{Normal,Challenge,
     Create
 }
 public class USerInfo : MonoBehaviour

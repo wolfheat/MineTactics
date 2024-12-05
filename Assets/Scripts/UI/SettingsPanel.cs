@@ -35,6 +35,7 @@ public class SettingsPanel : MonoBehaviour
 
     public void ConfirmSettings()
     {
+        Debug.Log("** ConfirmSettings");
         USerInfo.Instance.BoardSize = (int)slider.value;
         USerInfo.Instance.UsePending = pendingToggle.isOn;
         // Update settings values

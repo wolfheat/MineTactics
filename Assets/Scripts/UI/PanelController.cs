@@ -92,13 +92,8 @@ public class PanelController : MonoBehaviour
 
     public void ToggleSettings()
     {
-        if (!settingsPanel.gameObject.activeSelf)
-        {
-            OpenSettings();
-            return;
-        }
-        ToggleMenuButtons(true);
-        settingsPanel.SetActive(false);
+        ChangeMode(0);
+        ButtonController.Instance.ShowButtons(MenuState.Normal);
     }
 
     public void UpdateModeShown()
@@ -109,7 +104,7 @@ public class PanelController : MonoBehaviour
                 modeText.text = "NORMAL";
 
                 break;
-            case GameType.Loaded:
+            case GameType.Challenge:
                 modeText.text = "CHALLENGE";
                 break;
             case GameType.Create:
@@ -123,18 +118,21 @@ public class PanelController : MonoBehaviour
 
     public void ChangeMode(int type)
     {
+        Debug.Log("CHANGE MODE +"+type);
         USerInfo.Instance.currentType = (GameType)type;
         if (type == 0)
         {
-            normalModeButtonPanel.gameObject.SetActive(true);
-            challengeModeButtonPanel.gameObject.SetActive(false);
+            ButtonController.Instance.ShowButtons(MenuState.Normal);
+            //normalModeButtonPanel.gameObject.SetActive(true);
+            //challengeModeButtonPanel.gameObject.SetActive(false);
             BackgroundController.Instance.SetColorNormal(); 
             LevelCreator.Instance.RestartGame();
         }
         else
         {
-            normalModeButtonPanel.gameObject.SetActive(false);
-            challengeModeButtonPanel.gameObject.SetActive(true);
+            ButtonController.Instance.ShowButtons(MenuState.Challenge);
+            //normalModeButtonPanel.gameObject.SetActive(false);
+            //challengeModeButtonPanel.gameObject.SetActive(true);
             //LevelCreator.Instance.RestartGame();
             // Set unstarted level here for challengemode where player needs to press smiley to access the gamearea
 
@@ -210,17 +208,19 @@ public class PanelController : MonoBehaviour
     }
     
     public void OpenSettings()
-    {
+    {        
         Debug.Log("Opening Settings");
-        ToggleMenuButtons(false);
-        settingsPanel.SetActive(true);
+        ButtonController.Instance.ShowButtons(MenuState.Settings);
+        //ToggleMenuButtons(false);
+        //settingsPanel.SetActive(true);
         Debug.Log("Settings Instance: "+ SettingsPanel.Instance);
         SettingsPanel.Instance.SetValuesFromLoadedSettings();
     }
 
     public void OpenCreateMenu()
     {
-        ToggleMenuButtons(false);
+        ButtonController.Instance.ShowButtons(MenuState.CreateA);
+        //ToggleMenuButtons(false);
         createPanel.SetActive(true);
         Clear();
     }
@@ -250,10 +250,12 @@ public class PanelController : MonoBehaviour
     public void Cancel()
     {
         USerInfo.Instance.currentType = GameType.Normal;
-        UpdateModeShown();
+        //UpdateModeShown();
+        //BaseMenu();
+        //ToggleMenuButtons(true);
 
-        BaseMenu();
-        ToggleMenuButtons(true);
+        ButtonController.Instance.ShowButtons(MenuState.Normal);
+
         LevelCreator.Instance.CancelEditMode();
         // Change this for going to Nothing loaded?
         LevelCreator.Instance.RestartGame();
@@ -266,9 +268,9 @@ public class PanelController : MonoBehaviour
     
     public void Random()
     {
-        if (USerInfo.Instance.currentType == GameType.Loaded)
+        if (USerInfo.Instance.currentType == GameType.Challenge)
             return;
-        ChangeMode((int)GameType.Loaded);
+        ChangeMode((int)GameType.Challenge);
     }
 
     private void ToggleMenuButtons(bool setActive)

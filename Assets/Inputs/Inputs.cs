@@ -81,7 +81,7 @@ public class Inputs : MonoBehaviour
                 return;
             if (rightClick && USerInfo.Instance.currentType != GameType.Create) // Only rightclick in non Edit{
             { 
-                if(USerInfo.Instance.currentType == GameType.Loaded && Timer.Instance.Paused)
+                if(USerInfo.Instance.currentType == GameType.Challenge && Timer.Instance.Paused)
                 {
                     Debug.Log("Challenge and Paused return");
                     return;

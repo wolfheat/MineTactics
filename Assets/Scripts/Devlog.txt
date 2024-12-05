@@ -137,6 +137,10 @@ Nov 2024
 		* Query now can remove selected levels, PlayerId, Upvotes, Downvotes, DifficultyRating, PlayCount
 4/12	* Levels can now be selected in the Collection list and deleted together
 		* Added support for touch for selecting many
+5/12	* Remade Buttons to showing icons
+		* Remade Menu system added ButtonController
+		* Fixed issue with mines showing when going from create to settings and closing, now starts Normal game
+
 
 		* Show Loading screen when doing task Loading from DB to Collection
 		* Clear - Clears directly, add confirmation screen?
