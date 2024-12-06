@@ -19,6 +19,7 @@ public class ButtonController : MonoBehaviour
     public static ButtonController Instance { get; private set; }
 
     private MenuState lastState = MenuState.Normal;
+    private MenuState stateBeforeSettings = MenuState.Normal;
 
     private void Start()
     {
@@ -34,6 +35,12 @@ public class ButtonController : MonoBehaviour
 
     public void ShowButtons(MenuState state)
     {
+        Debug.Log("** SHOW BUTTON CHAGNE TO "+state);
+        if(state == MenuState.Settings && lastState == MenuState.Settings)
+        {
+            //Close Settings here!
+            state = stateBeforeSettings;
+        }
         Debug.Log("Show buttons "+state);
         mainButtons[(int)lastState].SetSelected(false);
         switch (lastState)
@@ -48,11 +55,13 @@ public class ButtonController : MonoBehaviour
                 break;
             case MenuState.CreateA:
                 createAButtons.gameObject.SetActive(false);
-                createPanel.gameObject.SetActive(false);
+                if(state != MenuState.CreateB)
+                    createPanel.gameObject.SetActive(false);
                 break;
             case MenuState.CreateB:
                 createBButtons.gameObject.SetActive(false);
-                createPanel.gameObject.SetActive(false);
+                if (state != MenuState.CreateA)
+                    createPanel.gameObject.SetActive(false);
                 break;
             case MenuState.Challenge:
                 challengeButtons.gameObject.SetActive(false);
@@ -61,15 +70,17 @@ public class ButtonController : MonoBehaviour
 
         mainButtons[(int)state].SetSelected(true);
 
+        
         switch (state)
         {
             case MenuState.Settings:
-                settingsPanel.gameObject.SetActive(true); 
+                settingsPanel.gameObject.SetActive(true);
+                stateBeforeSettings = lastState;
                 break;
             case MenuState.Normal:
                 normalButtons.gameObject.SetActive(true);
                 break;
-            case MenuState.CreateA:
+            case MenuState.CreateA:                
                 createPanel.gameObject.SetActive(true);
                 createAButtons.gameObject.SetActive(true);
                 break;
@@ -82,5 +93,10 @@ public class ButtonController : MonoBehaviour
                 break;
         }
         lastState = state;
+    }
+
+    internal void ResetShowButtons()
+    {
+        ShowButtons(stateBeforeSettings);
     }
 }

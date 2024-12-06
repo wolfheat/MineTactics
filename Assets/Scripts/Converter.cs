@@ -1,11 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace WolfheatProductions
 {
     public class Converter
     {
+        // Takes an int array and scrambles it using FisherYates
+        public static string RemoveAllNonCharacters(string s)
+        {
+            char[] chars = s.ToCharArray();
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in chars)
+                if (char.IsLetter(c))
+                    sb.Append(c);
+            return sb.ToString();
+        }
         // Takes an int array and scrambles it using FisherYates
         public static int[] FisherYatesScramble(int[] allPos)
         {

@@ -14,10 +14,10 @@ public class CreatePanelController : MonoBehaviour
         // Initiate the Create With start of creat buttons and 
         Debug.Log("Create Panel Controller Enabled - Enables first Panel");
 
-        SetCreateButtonsToLevel(1);
+        //SetCreateButtonsToLevel(1);
         //UpdateCreateLevelSize();
-        SetSliderSize();
-        UpdateCreateLevelSize();
+        //SetSliderSize();
+        //UpdateCreateLevelSize();
     }
 
     public void AddToCollectionList()
@@ -41,13 +41,15 @@ public class CreatePanelController : MonoBehaviour
 
     public void Back()
     {
-        SetCreateButtonsToLevel(1);
+        //SetCreateButtonsToLevel(1);
         LevelCreator.Instance.OnCreateBack();
+        ButtonController.Instance.ShowButtons(MenuState.CreateA);
     }
     public void Next()
     {
-        SetCreateButtonsToLevel(2);
+        //SetCreateButtonsToLevel(2);
         LevelCreator.Instance.OnCreateNext();
+        ButtonController.Instance.ShowButtons(MenuState.CreateB);
     }
     
     public void Cancel()
@@ -60,6 +62,7 @@ public class CreatePanelController : MonoBehaviour
     {
         for (int i = 0; i < createPanels.Length; i++) 
             createPanels[i].SetActive(i==v?true:false);
+        
     }
 
     public void ConfirmSettings()

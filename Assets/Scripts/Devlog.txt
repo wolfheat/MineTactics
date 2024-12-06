@@ -140,7 +140,15 @@ Nov 2024
 5/12	* Remade Buttons to showing icons
 		* Remade Menu system added ButtonController
 		* Fixed issue with mines showing when going from create to settings and closing, now starts Normal game
+6/12	* Adjustem Menu - fixed issue exiting from CreateB
+		* Menu fully working - Removed Clear button - Smiley now resets CreateA and resets opened boxes in CreateB
+		* Settings panel and back to any mode will keep that mode going
 
+		* Maybe let the selected levels in collection stay colleccted after leaving the menu and laoding a level (maybe you just want to see how it looks?)		
+		* Having spaces in name when creating a Collection should not be possible?
+		* Add normal modes EAYS_INTERMEDIATE_EXPERT and pan possability?
+
+		* Issue with slow loading of levels in collections sometimes, fix?
 
 		* Show Loading screen when doing task Loading from DB to Collection
 		* Clear - Clears directly, add confirmation screen?

@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using WolfheatProductions;
 
 public class SaveCollectionPanel : MonoBehaviour
 {
@@ -7,9 +8,14 @@ public class SaveCollectionPanel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        inputField.onValueChanged.AddListener(delegate { InputFieldValueChanged(); });
     }
 
+    private void InputFieldValueChanged()
+    {
+        inputField.text = Converter.RemoveAllNonCharacters(inputField.text);
+        //inputField.text = inputField.text.Replace(" ","");
+    }
 
     public void OnRequestSendCollection()
     {

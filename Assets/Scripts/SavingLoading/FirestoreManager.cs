@@ -303,8 +303,9 @@ public class FirestoreManager : MonoBehaviour
                 Downvotes = levelCollection.Downvotes[i],
                 PlayCount = levelCollection.PlayCount[i]
             });
-            Debug.Log("Adding level " + levelCollection.Level[i]);
+            if(length<10)Debug.Log("Adding level " + levelCollection.Level[i]);
         }
+        if(length>=10) Debug.Log("Adding "+length+" levels.");
         return ans;
     }
     

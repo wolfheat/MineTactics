@@ -32,6 +32,11 @@ public class SmileyButton : MonoBehaviour
         {
             spriteRenderer.sprite = sprites[0];
             Debug.Log("No smiley in create mode");
+            // Make smiley cleat in Create Mode A and unselect all in Mode B
+            if (USerInfo.EditMode == 0)
+                PanelController.Instance.Clear();
+            else
+                GameArea.Instance.ResetAllNonMine();
             return;
         }
 

@@ -1,6 +1,7 @@
-using System;
+using System.Text;
 using TMPro;
 using UnityEngine;
+using WolfheatProductions;
 
 public class LoadCollectionPanel : MonoBehaviour
 {
@@ -10,8 +11,18 @@ public class LoadCollectionPanel : MonoBehaviour
     {
         FirestoreManager.OnLevelCollectionLevelsDownloaded += OnSuccessfulLoadLevels;
         FirestoreManager.OnLevelCollectionLevelsDownloadedFail += OnUnsuccessfulLoadLevels;
+        inputField.onValueChanged.AddListener(delegate { InputFieldValueChanged(); });
     }
 
+
+
+
+    private void InputFieldValueChanged()
+    {
+        inputField.text = Converter.RemoveAllNonCharacters(inputField.text);
+        //inputField.text = inputField.text.Replace(" ","");
+    }
+    
     private void OnSuccessfulLoadLevels(int amt)
     {
         gameObject.SetActive(false);
@@ -28,6 +39,8 @@ public class LoadCollectionPanel : MonoBehaviour
     public void OnRequestGetCollection()
     {
         Debug.Log("Get Collection "+inputField.text);
+        if (inputField.text.Length < 3)
+            return;
         LocalLevelsPanel.Instance.LoadCollection(inputField.text);
     }
 }

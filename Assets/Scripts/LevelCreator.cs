@@ -233,6 +233,21 @@ public class LevelCreator : MonoBehaviour
         GameArea.Instance.OnCreateBack(flagged);
 
     }
+    
+    public void OnUnselectAllClickedNonMine()
+    {
+        Debug.Log("OnUnselectAllClickedNonMine");
+
+        // Unload All but mines
+        int[,] flagged = GameArea.Instance.GetFlaggedArray();
+        // This keeps the mines
+        OnToggleCreate(false); 
+
+        totalmines = 0;
+        mineCountAmount = 0;
+        GameArea.Instance.OnCreateBack(flagged);
+
+    }
 
     public void OnCreateNext()
     {
@@ -273,6 +288,7 @@ public class LevelCreator : MonoBehaviour
         GameArea.Instance.DrawLevel();
         GameArea.Instance.ResetLevel();
 
+        USerInfo.EditMode = 0;
         totalmines = 0;
         mineCountAmount = 0;
         GameArea.Instance.AlignBoxesAnchor();

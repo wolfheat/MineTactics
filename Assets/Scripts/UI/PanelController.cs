@@ -81,19 +81,19 @@ public class PanelController : MonoBehaviour
         settingsPanel.SetActive(false);
         progressPanel.gameObject.SetActive(false);
 
-        ToggleMenuButtons(false);
+        //ToggleMenuButtons(false);
     }
 
     public void CloseMainMenuNoLogIn()
     {
-        ToggleMenuButtons(true);
+        //ToggleMenuButtons(true);
         startMenu.SetActive(false);
     }
 
     public void ToggleSettings()
     {
-        ChangeMode(0);
-        ButtonController.Instance.ShowButtons(MenuState.Normal);
+        //ChangeMode(0);
+        ButtonController.Instance.ResetShowButtons();
     }
 
     public void UpdateModeShown()
@@ -119,24 +119,22 @@ public class PanelController : MonoBehaviour
     public void ChangeMode(int type)
     {
         Debug.Log("CHANGE MODE +"+type);
+        bool sameMode = USerInfo.Instance.currentType == (GameType)type;
         USerInfo.Instance.currentType = (GameType)type;
         if (type == 0)
         {
             ButtonController.Instance.ShowButtons(MenuState.Normal);
-            //normalModeButtonPanel.gameObject.SetActive(true);
-            //challengeModeButtonPanel.gameObject.SetActive(false);
+
+            if(sameMode)
+                return;
             BackgroundController.Instance.SetColorNormal(); 
             LevelCreator.Instance.RestartGame();
         }
         else
         {
             ButtonController.Instance.ShowButtons(MenuState.Challenge);
-            //normalModeButtonPanel.gameObject.SetActive(false);
-            //challengeModeButtonPanel.gameObject.SetActive(true);
-            //LevelCreator.Instance.RestartGame();
-            // Set unstarted level here for challengemode where player needs to press smiley to access the gamearea
-
-
+            if (sameMode)
+                return;
             BackgroundController.Instance.SetColorTactics(); 
         }
         UpdateModeShown();
@@ -186,7 +184,7 @@ public class PanelController : MonoBehaviour
         
     public void LoginConfirmed()
     {
-        ToggleMenuButtons(true);
+        //ToggleMenuButtons(true);
         startMenu.SetActive(false);
         loginMenu.SetActive(false);
         registerMenu.SetActive(false);
@@ -219,6 +217,9 @@ public class PanelController : MonoBehaviour
 
     public void OpenCreateMenu()
     {
+        if (USerInfo.Instance.currentType == GameType.Create)
+            return;
+
         ButtonController.Instance.ShowButtons(MenuState.CreateA);
         //ToggleMenuButtons(false);
         createPanel.SetActive(true);
@@ -272,7 +273,7 @@ public class PanelController : MonoBehaviour
             return;
         ChangeMode((int)GameType.Challenge);
     }
-
+    /*
     private void ToggleMenuButtons(bool setActive)
     {
         // Disable all Buttons
@@ -286,7 +287,7 @@ public class PanelController : MonoBehaviour
 
         startMenuButton.SetActive(!Logged ? setActive : false);
         
-    }
+    }*/
 
     internal void ShowLevelComplete()
     {
@@ -335,5 +336,10 @@ public class PanelController : MonoBehaviour
     {
         confirmConfirmRemoveManySelectedScreen.gameObject.SetActive(true);
         confirmConfirmRemoveManySelectedScreen.SetAmt(amt);
+    }
+
+    internal void UnSelectAll()
+    {
+        Debug.Log("Unselect all here");
     }
 }

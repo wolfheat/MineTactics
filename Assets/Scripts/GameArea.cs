@@ -189,6 +189,22 @@ public class GameArea : MonoBehaviour
         TotalMines();
         UpdateMineCount();
     }
+    
+    public void ResetAllNonMine()
+    {
+        Debug.Log("Resetting under and over boxes in arrays");
+
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+                if (mines[i,j]!=-1)
+                    overlayBoxes[i, j].Reset();
+            }
+        }
+        TotalMines();
+        UpdateMineCount();
+    }
 
     internal void TotalMines()
     {
