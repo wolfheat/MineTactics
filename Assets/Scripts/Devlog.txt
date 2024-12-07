@@ -146,6 +146,7 @@ Nov 2024
 		* Added limits for Collection Names when storing and loading
 		* Moved Out the Panel from LocalLevels = Collections panel
 		* Cleared Confirmation panel so it can take any request and send a delegate Action back
+7/12	* made slider size update when entering create Mode
 
 
 		* Have a mini popup level show when hovering over a Level in the Collection? Also add votes rating and playcount to the list?

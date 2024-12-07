@@ -16,7 +16,7 @@ public class CreatePanelController : MonoBehaviour
 
         //SetCreateButtonsToLevel(1);
         //UpdateCreateLevelSize();
-        //SetSliderSize();
+        SetSliderSize();
         //UpdateCreateLevelSize();
     }
 
