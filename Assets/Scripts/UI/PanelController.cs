@@ -178,8 +178,8 @@ public class PanelController : MonoBehaviour
         
     public void ShowLocalLevelPanel()
     {
-        localLevelPanel.gameObject.SetActive(true);
-        localLevelPanel.UpdatePanel();
+        localLevelPanel.ShowPanel();
+        //localLevelPanel.UpdatePanel();
     }
         
     public void LoginConfirmed()
@@ -330,12 +330,6 @@ public class PanelController : MonoBehaviour
     {
         confirmRemoveManyScreen.gameObject.SetActive(true);
         confirmRemoveManyScreen.SetActiveQuery(query);
-    }
-
-    internal void ShowConfirmRemoveManyConfirmationScreen(int amt)
-    {
-        confirmConfirmRemoveManySelectedScreen.gameObject.SetActive(true);
-        confirmConfirmRemoveManySelectedScreen.SetAmt(amt);
     }
 
     internal void UnSelectAll()

@@ -140,14 +140,16 @@ Nov 2024
 5/12	* Remade Buttons to showing icons
 		* Remade Menu system added ButtonController
 		* Fixed issue with mines showing when going from create to settings and closing, now starts Normal game
-6/12	* Adjustem Menu - fixed issue exiting from CreateB
+6/12	* Adjusted Menu - fixed issue exiting from CreateB
 		* Menu fully working - Removed Clear button - Smiley now resets CreateA and resets opened boxes in CreateB
 		* Settings panel and back to any mode will keep that mode going
+		* Added limits for Collection Names when storing and loading
+		* Moved Out the Panel from LocalLevels = Collections panel
+		* Cleared Confirmation panel so it can take any request and send a delegate Action back
 
-		* Maybe let the selected levels in collection stay colleccted after leaving the menu and laoding a level (maybe you just want to see how it looks?)		
-		* Having spaces in name when creating a Collection should not be possible?
+
+		* Have a mini popup level show when hovering over a Level in the Collection? Also add votes rating and playcount to the list?
 		* Add normal modes EAYS_INTERMEDIATE_EXPERT and pan possability?
-
 		* Issue with slow loading of levels in collections sometimes, fix?
 
 		* Show Loading screen when doing task Loading from DB to Collection

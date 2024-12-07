@@ -28,28 +28,36 @@ public class ListItem : MonoBehaviour
     public void RequestReplaceLevel()
     {
         Debug.Log("Request Replace Level (ListItem)");
-
-
         // CHeck here for valid Level
         bool isValid = GameArea.Instance.ValidateLevel();
 
         // Open Replace Confirmation screen
-        if (isValid) {
-            PanelController.Instance.ShowConfirmReplaceScreen(index);            
-        }
+        if (isValid) 
+            ConfirmPanel.Instance.ShowConfirmationOption("Replace Level?", "Are you sure you want to replace level " + index, ReplaceSelected);
         else
-        {
             PanelController.Instance.ShowInfo("this level can not be replaced because the current one is not valid");            
-        }
-
     }
-
-    public void SetAsActive(bool set) => image.color = set ? markedColor : unMarkedColor;
     public void RequestDeleteLevel()
     {
         Debug.Log("Request Delete Level (ListItem)");
-        PanelController.Instance.ShowDeleteReplaceScreen(index);
+        ConfirmPanel.Instance.ShowConfirmationOption("Delete Level?", "Are you sure you want to delete level " + index+"?", DeleteSelected);
     }
+    public void DeleteSelected()
+    {
+        LocalLevelsPanel.Instance.RemoveIndexFromList(index);
+    }
+    public void ReplaceSelected()
+    {
+        if (GameArea.Instance.ReplaceLevelToCollection(index))
+        {
+            LocalLevelsPanel.Instance.UpdateIndexFromCollection(index);
+            PanelController.Instance.ShowFadableInfo("Level Replaced");
+        }
+        else
+            PanelController.Instance.ShowInfo("Could not replace this level");
+    }
+
+    public void SetAsActive(bool set) => image.color = set ? markedColor : unMarkedColor;
     public void RequestLoadLevel()
     {
         Debug.Log("Request Load Level (ListItem)");

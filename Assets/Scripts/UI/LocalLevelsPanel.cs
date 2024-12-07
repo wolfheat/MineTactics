@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LocalLevelsPanel : MonoBehaviour
 {
+    [SerializeField] GameObject panel;
     private List<ListItem> listItems = new List<ListItem>();
     [SerializeField] ListItem listItemPrefab;
     [SerializeField] GameObject listItemHolder;
@@ -26,6 +25,17 @@ public class LocalLevelsPanel : MonoBehaviour
         Instance = this;
 
         FirestoreManager.OnLevelCollectionListChange += UpdateCollectionSize;
+    }
+
+
+    public void HidePanel()
+    {
+        panel.SetActive(false);
+    }
+    
+    public void ShowPanel()
+    {
+        panel.SetActive(true);
     }
 
     private void UpdateCollectionSize(int itemToSelect = -1)
@@ -117,21 +127,18 @@ public class LocalLevelsPanel : MonoBehaviour
         listItems.Clear();
     }
 
-    public void ClosePanel()
-    {
-        gameObject.SetActive(false);
-    }
+    public void ClosePanel() => panel.SetActive(false);
 
+    public void RequestClearCollection() => ConfirmPanel.Instance.ShowConfirmationOption("Clear Levels?", "Do you want to remove all levels from the list?", ClearCollection);
     public void ClearCollection()
     {
-        Debug.Log("Request Clear Collection");
+        Debug.Log("Clear Collection");
 
         FirestoreManager.Instance.ClearLocalCollectionList();
         DestroyOldListItems();
         DeselectAll();
 
     }
-
     public void DeleteSelected()
     {
         Debug.Log("Delete Selection");
@@ -158,15 +165,12 @@ public class LocalLevelsPanel : MonoBehaviour
     
     public void RequestDeleteSelected()
     {
-        Debug.Log("Request Delete Selected items in the Collection");
-
-        Debug.Log("Deleting "+selectedListItems.Count+" items.");
         if(selectedListItems.Count == 0)
         {
-            PanelController.Instance.ShowInfo("There is no Level selected. Can not delete!");
+            PanelController.Instance.ShowInfo("No level selected. Can not delete!");
             return;
         }
-        PanelController.Instance.ShowConfirmRemoveManyConfirmationScreen(selectedListItems.Count);
+        ConfirmPanel.Instance.ShowConfirmationOption("Remove Levels?", "Do you want to remove the " + selectedListItems.Count + " selected levels from the list?", DeleteSelected);
     }
     public void StoreCollection(string collectionName)
     {
@@ -242,7 +246,7 @@ public class LocalLevelsPanel : MonoBehaviour
         PanelController.Instance.ShowFadableInfo("Level Loaded");
 
         ActivateSelected();
-        gameObject.SetActive(false);
+        ClosePanel();
 
     }
 
