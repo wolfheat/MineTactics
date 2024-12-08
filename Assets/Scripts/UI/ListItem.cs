@@ -1,8 +1,9 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ListItem : MonoBehaviour
+public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] TextMeshProUGUI index_text;
     [SerializeField] TextMeshProUGUI id_text;
@@ -13,6 +14,7 @@ public class ListItem : MonoBehaviour
 
     private int index = 0;
     private LevelData levelData;
+    public LevelData Data { get {return levelData; }}
 
     public int Index { get { return index; }}
 
@@ -24,7 +26,7 @@ public class ListItem : MonoBehaviour
         else
             LocalLevelsPanel.Instance.AddSelectedLevelToList(this);
     }
-
+    
     public void RequestReplaceLevel()
     {
         Debug.Log("Request Replace Level (ListItem)");
@@ -86,5 +88,17 @@ public class ListItem : MonoBehaviour
     internal void Mark()
     {
         marker.gameObject.SetActive(true);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("Entering ListIntem "+levelData.LevelId);
+        LocalLevelsPanel.Instance.ShowLevelInfo(levelData);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log("Exiting ListIntem "+levelData.LevelId);
+        LocalLevelsPanel.Instance.LeftLevelInfo();
     }
 }

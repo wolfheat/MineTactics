@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class LocalLevelsPanel : MonoBehaviour
     [SerializeField] GameObject listItemHolder;
     [SerializeField] GameObject storeCollection;
     [SerializeField] TextMeshProUGUI selectedAmoutButton;
+    [SerializeField] LevelInfoPanel levelInfoPanel;
 
 
     public static LocalLevelsPanel Instance { get; private set; }
@@ -28,6 +30,20 @@ public class LocalLevelsPanel : MonoBehaviour
     }
 
 
+    public void ShowLevelInfo(LevelData levelData)
+    {
+        levelInfoPanel.UpdateLevelInfo(levelData);
+    }
+
+    internal void LeftLevelInfo()
+    {
+        Debug.Log("Left ListItem with pointer, show last selected if any");
+        if (selectedListItems.Count > 0)
+            levelInfoPanel.UpdateLevelInfo(selectedListItems[selectedListItems.Count - 1].Data);
+        else
+            levelInfoPanel.HideLevelInfo();
+
+    }
     public void HidePanel()
     {
         panel.SetActive(false);
@@ -281,4 +297,5 @@ public class LocalLevelsPanel : MonoBehaviour
     }
 
     private void UpdateSelectedAmt() => selectedAmoutButton.text = "Delete (" + selectedIndexes.Count.ToString() + ")";
+
 }
