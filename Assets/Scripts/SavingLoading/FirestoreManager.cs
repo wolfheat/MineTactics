@@ -416,7 +416,7 @@ public class FirestoreManager : MonoBehaviour
         });
     }
 
-    internal void UpdateLevel(Dictionary<string,object> data,string levelId)
+    public void UpdateLevel(Dictionary<string,object> data,string levelId)
     {
         Debug.Log("Requesting to Update Level "+levelId+" with "+data.Count+" values");
         foreach (var item in data)
@@ -558,13 +558,13 @@ public class FirestoreManager : MonoBehaviour
         return levelData;
     }
 
-    internal void RegisterUserName(string v,string id)
+    public void RegisterUserName(string v,string id)
     {
         // Have levelName be random?
         Task task = StoreUsernameById(v,id);
     }
 
-    internal void UpdateLevelCollection(string collectionName = "BasicCollection")
+    public void UpdateLevelCollection(string collectionName = "BasicCollection")
     {
         Debug.Log("** UpdateLevelCollection");
         LevelDataCollection collection = ConvertLevelsToCollection(DownloadedCollectionForReupload);
@@ -574,7 +574,7 @@ public class FirestoreManager : MonoBehaviour
         //StoreLevelCollection(collectionName);
     }
     
-    internal void StoreLevelCollection(string collectionName = "BasicCollection")
+    public void StoreLevelCollection(string collectionName = "BasicCollection")
     {
         LevelDataCollection collection = ConvertLevelsToCollection(LocalCollectionList);
         Task task = StoreLevelCollectionByName(collection, collectionName);
@@ -596,13 +596,13 @@ public class FirestoreManager : MonoBehaviour
         GetLevelCollection("BasicCollection",editMode);
     }
 
-    internal void ClearLocalCollectionList()
+    public void ClearLocalCollectionList()
     {
         LocalCollectionList.Clear();
         OnLevelCollectionListChange?.Invoke(-1);
     }
 
-    internal void UpdateLevelCollection()
+    public void UpdateLevelCollection()
     {
         Debug.Log("Updating Level Collection after player completed it all");
         foreach (var item in DownloadedCollection)
@@ -618,7 +618,7 @@ public class FirestoreManager : MonoBehaviour
         // Re-upload to Collection
     }
 
-    internal void RemoveLocalCollectionListQuery(List<LevelData> levelsToRemove)
+    public void RemoveLocalCollectionListQuery(List<LevelData> levelsToRemove)
     {
         List<LevelData> newLocalCollection = LocalCollectionList.Except(levelsToRemove).ToList();
         Debug.Log("New Local List bocomes "+newLocalCollection.Count+" long after deleting "+levelsToRemove.Count);

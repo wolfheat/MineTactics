@@ -6,7 +6,7 @@ using UnityEngine;
 using WolfheatProductions;
 public class GameArea : MonoBehaviour  
 {
-
+    [SerializeField] private bool isOnlyView = false;
     [SerializeField] private GameBox unclearedBoxPrefab;
     [SerializeField] private GameBox underlayBoxPrefab;
     [SerializeField] private GameObject boxHolder;
@@ -33,8 +33,8 @@ public class GameArea : MonoBehaviour
 
 
     public static GameArea Instance { get; private set; }
-    public float GameWidth { get; internal set; }
-
+    public float GameWidth { get; set; }
+    /*
     private void Awake()
     {
         if (Instance != null)
@@ -44,7 +44,7 @@ public class GameArea : MonoBehaviour
         }
         Instance = this;
 
-    }
+    }*/
     private void Start()
     {
         RestartGame();
@@ -78,8 +78,10 @@ public class GameArea : MonoBehaviour
 
     [SerializeField] DigiDisplay mineDisplay;
     [SerializeField] DigiDisplay timeDisplay;
-    internal void RestartGame()
+    public void RestartGame()
     {
+        if (isOnlyView)
+            return;
         SizeGameArea();
 
         RandomizeMines();
@@ -122,7 +124,7 @@ public class GameArea : MonoBehaviour
         Debug.Log(sb.ToString());
     }
 
-    internal void LoadGame(int[,] gameLoaded,bool editorcreateMode = false)
+    public void LoadGame(int[,] gameLoaded,bool editorcreateMode = false)
     {
         // Define mines for this load?
         Debug.Log("LOADING GAME IN GAMEAREA");
@@ -134,6 +136,8 @@ public class GameArea : MonoBehaviour
         DrawLevel();
         // Pre open and flag
         PreOpenAndFlag(gameLoaded,editorcreateMode);
+        if (isOnlyView)
+            return;
         LevelBusted = false;
         LevelCreator.Instance.LoadedGameFinalizing(editorcreateMode);
         // Also Start the timer and reset the smiley
@@ -206,19 +210,21 @@ public class GameArea : MonoBehaviour
         UpdateMineCount();
     }
 
-    internal void TotalMines()
+    public void TotalMines()
     {
+        if (isOnlyView)
+            return;
         totalToOpen = gameWidth * gameHeight - totalmines;
         mineCountAmount = totalmines;
         opened = 0;
     }
-    internal void DecreaseMineCount()
+    public void DecreaseMineCount()
     {
         mineCountAmount--;
         UpdateMineCount();
     }
 
-    internal void IncreaseMineCount()
+    public void IncreaseMineCount()
     {
         mineCountAmount++;
         UpdateMineCount();
@@ -282,7 +288,7 @@ public class GameArea : MonoBehaviour
         UpdateMineCount();
     }
 
-    internal void Chord(Vector2Int pos)
+    public void Chord(Vector2Int pos)
     {
         //Debug.Log("Charding levelcreator at "+pos);
         if (Chordable(pos))
@@ -365,7 +371,7 @@ public class GameArea : MonoBehaviour
 
     }
 
-    internal void OpenBoxCreate(Vector2Int pos)
+    public void OpenBoxCreate(Vector2Int pos)
     {
         // Separate Create Clicks for ease
         //Debug.Log("Open Box "+pos);
@@ -564,8 +570,10 @@ public class GameArea : MonoBehaviour
         }
     }
 
-    internal void UpdateMineCount()
+    public void UpdateMineCount()
     {
+        if (isOnlyView)
+            return;
         if (USerInfo.Instance.currentType == GameType.Create)
         {
             Debug.Log("Edit Mode Update flagged Mines to show mine count");
@@ -578,7 +586,7 @@ public class GameArea : MonoBehaviour
         }
         //Debug.Log("Showing minecount "+mineCountAmount);
         // Set minecount
-        mineDisplay.ShowValue(mineCountAmount);
+        mineDisplay?.ShowValue(mineCountAmount);
     }
 
     private int TotalAllMines()
@@ -719,7 +727,7 @@ public class GameArea : MonoBehaviour
         FlagMinesForEditA(flagged);
     }
 
-    internal bool IsMine(Vector2Int pos)
+    public bool IsMine(Vector2Int pos)
     {
         return mines[pos.x, pos.y] == -1;
     }
@@ -805,9 +813,9 @@ public class GameArea : MonoBehaviour
 
     }
 
-    internal Vector2 BorderAreaRendererWidth() => new Vector2(gameWidth / 2f + borderAddon.x, gameHeight / 2f + borderAddon.y);
+    public Vector2 BorderAreaRendererWidth() => new Vector2(gameWidth / 2f + borderAddon.x, gameHeight / 2f + borderAddon.y);
 
-    internal int[,] GetFlaggedArray()
+    public int[,] GetFlaggedArray()
     {
         int[,] flagged = new int[gameWidth, gameHeight];
         for (int j = 0; j < gameHeight; j++)
@@ -846,10 +854,29 @@ public class GameArea : MonoBehaviour
         Debug.Log("Saved Level sent");
     }
 
-    internal bool UnSolved(Vector2Int pos) => overlayBoxes[pos.x, pos.y].UnSolved();
+    public bool UnSolved(Vector2Int pos) => overlayBoxes[pos.x, pos.y].UnSolved();
 
-    internal bool ValidateLevel()
+    public bool ValidateLevel()
     {
         return TotalClickable() > 0;
+    }
+
+    internal void ShowLevel(LevelData level)
+    {
+        Debug.Log("Show Level on Miniview");
+        string deCompressed = SavingLoadingConverter.UnComressString(level.Level);
+        (int[,] newMines, int[,] gameLoaded, int newgameWidth, int newgameHeight, int newtotalmines) = SavingLoadingConverter.StringLevelToGameArray(deCompressed, true);
+
+        gameHeight = newgameHeight;
+        gameWidth = newgameWidth;
+        totalmines = newtotalmines;
+        mines = newMines;
+
+        LoadGame(gameLoaded, true);
+
+        //SizeGameArea();
+        //DrawLevel();
+        //ResetLevel();
+        AlignBoxesAnchor();        
     }
 }

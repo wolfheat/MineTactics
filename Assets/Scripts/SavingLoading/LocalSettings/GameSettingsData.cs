@@ -24,11 +24,11 @@ public class GameSettingsData
     public int BoardSize { get; set; } = 6;
     public bool UsePending { get; set; } = true;
 
-    internal void AddUsageTimeMinutes(int v)
+    public void AddUsageTimeMinutes(int v)
     {
         UsageTime += v;
     }
-    internal void AddPlayTimeMinutes(float time)
+    public void AddPlayTimeMinutes(float time)
     {
         PlayTime += time;
     }

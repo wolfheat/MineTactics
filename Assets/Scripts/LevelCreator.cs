@@ -149,7 +149,7 @@ public class LevelCreator : MonoBehaviour
         CenterGameArea();
     }
 
-    private void ScaleGameAreaBorder() => borderAreaRenderer.size = GameArea.Instance.BorderAreaRendererWidth();
+    private void ScaleGameAreaBorder() => borderAreaRenderer.size = GameAreaMaster.Instance.MainGameArea.BorderAreaRendererWidth();
 
     private void CenterGameArea() => playArea.transform.position = new Vector3(-borderAreaRenderer.size.x / 2 * playArea.transform.localScale.x, borderAreaRenderer.size.y / 2 * playArea.transform.localScale.y, 0);
 
@@ -166,7 +166,7 @@ public class LevelCreator : MonoBehaviour
     {
         Debug.Log("Saving Level requested");
 
-        GameArea.Instance.SaveLevel();
+        GameAreaMaster.Instance.MainGameArea.SaveLevel();
     }
 
     public void UpdateLevel(LevelData data)
@@ -214,7 +214,7 @@ public class LevelCreator : MonoBehaviour
     public void OnSubmitLevel()
     {
         Debug.Log("Requests to Submit Level to Database");
-        GameArea.Instance.SaveLevel();
+        GameAreaMaster.Instance.MainGameArea.SaveLevel();
     }
 
     public void OnCreateBack()
@@ -224,13 +224,13 @@ public class LevelCreator : MonoBehaviour
         // Unload All but mines
 
 
-        int[,] flagged = GameArea.Instance.GetFlaggedArray();
+        int[,] flagged = GameAreaMaster.Instance.MainGameArea.GetFlaggedArray();
         // This keeps the mines
         OnToggleCreate(false); 
 
         totalmines = 0;
         mineCountAmount = 0;
-        GameArea.Instance.OnCreateBack(flagged);
+        GameAreaMaster.Instance.MainGameArea.OnCreateBack(flagged);
 
     }
     
@@ -239,20 +239,20 @@ public class LevelCreator : MonoBehaviour
         Debug.Log("OnUnselectAllClickedNonMine");
 
         // Unload All but mines
-        int[,] flagged = GameArea.Instance.GetFlaggedArray();
+        int[,] flagged = GameAreaMaster.Instance.MainGameArea.GetFlaggedArray();
         // This keeps the mines
         OnToggleCreate(false); 
 
         totalmines = 0;
         mineCountAmount = 0;
-        GameArea.Instance.OnCreateBack(flagged);
+        GameAreaMaster.Instance.MainGameArea.OnCreateBack(flagged);
 
     }
 
     public void OnCreateNext()
     {
         USerInfo.EditMode = 1;
-        GameArea.Instance.OnCreateNext();
+        GameAreaMaster.Instance.MainGameArea.OnCreateNext();
 
         // Generate numbers
         Debug.Log("Mines set to flagged positions, Numbers updated");
@@ -266,16 +266,14 @@ public class LevelCreator : MonoBehaviour
         Debug.Log("Changing Size Create");
         // Place flags and ghost mines
         
-        GameArea.Instance.OnCreateBack(flagged);
-        //GameArea.Instance.ApplyFlagged(flagged);
-        //GameArea.Instance.OnCreateBack(flagged);
+        GameAreaMaster.Instance.MainGameArea.OnCreateBack(flagged);
     }
     public void OnToggleCreate(bool resetMines = true)
     {
         Debug.Log("Create Toggle requested");
 
         // Create empty board
-        GameArea.Instance.SizeGameArea(true, resetMines); // Sizes and set empty game
+        GameAreaMaster.Instance.MainGameArea.SizeGameArea(true, resetMines); // Sizes and set empty game
 
         // Go into Edit mode here - no counter - No normal fail on click
         USerInfo.Instance.currentType = GameType.Create;
@@ -285,13 +283,13 @@ public class LevelCreator : MonoBehaviour
         // After clicking Next go to Opening tiles or flag(if mine)
         // After next Add Gold Squares if using them or send the level 
 
-        GameArea.Instance.DrawLevel();
-        GameArea.Instance.ResetLevel();
+        GameAreaMaster.Instance.MainGameArea.DrawLevel();
+        GameAreaMaster.Instance.MainGameArea.ResetLevel();
 
         USerInfo.EditMode = 0;
         totalmines = 0;
         mineCountAmount = 0;
-        GameArea.Instance.AlignBoxesAnchor();
+        GameAreaMaster.Instance.MainGameArea.AlignBoxesAnchor();
         SmileyButton.Instance.ShowNormal();
         Timer.Instance.ResetCounterAndPause();
         USerInfo.Instance.WaitForFirstMove = false;
@@ -311,7 +309,7 @@ public class LevelCreator : MonoBehaviour
         RestartGame();
     }
 
-    internal void RestartGame()
+    public void RestartGame()
     {
         Debug.Log("* RestartGame");
         gameArea.RestartGame();        
@@ -338,7 +336,7 @@ public class LevelCreator : MonoBehaviour
 
     }
 
-    internal void LoadedGameFinalizing(bool editorcreateMode = false)
+    public void LoadedGameFinalizing(bool editorcreateMode = false)
     {
         AlignGameArea();
         SmileyButton.Instance.ShowNormal();
@@ -346,7 +344,7 @@ public class LevelCreator : MonoBehaviour
             Timer.Instance.StartTimer();
     }
 
-    internal void ApplyFlagged(int[,] flagged)
+    public void ApplyFlagged(int[,] flagged)
     {
         Debug.Log("ApplyFlagged");
     }
@@ -424,7 +422,7 @@ public class LevelCreator : MonoBehaviour
 
 
 
-    internal void RestartGame()
+    public void RestartGame()
     {
         gameArea.RestartGame();
         return;
@@ -721,7 +719,7 @@ public class LevelCreator : MonoBehaviour
     }
 
 
-    internal void Chord(Vector2Int pos)
+    public void Chord(Vector2Int pos)
     {
         //Debug.Log("Charding levelcreator at "+pos);
         if (Chordable(pos))
@@ -780,25 +778,25 @@ public class LevelCreator : MonoBehaviour
         return amt;
     }
 
-    internal void TotalMines()
+    public void TotalMines()
     {
         totalToOpen = gameWidth * gameHeight - totalmines;
         mineCountAmount = totalmines;
         opened = 0;
     }
-    internal void DecreaseMineCount()
+    public void DecreaseMineCount()
     {
         mineCountAmount--;
         UpdateMineCount();
     }
     
-    internal void IncreaseMineCount()
+    public void IncreaseMineCount()
     {
         mineCountAmount++;
         UpdateMineCount();
     }
 
-    internal void UpdateMineCount()
+    public void UpdateMineCount()
     {
         if (EditMode)
         {
@@ -828,7 +826,7 @@ public class LevelCreator : MonoBehaviour
         return flagged;
     }
 
-    internal bool IsMine(Vector2Int pos)
+    public bool IsMine(Vector2Int pos)
     {
         return mines[pos.x, pos.y] == -1;
     }

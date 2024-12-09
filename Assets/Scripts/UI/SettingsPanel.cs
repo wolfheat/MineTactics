@@ -67,7 +67,7 @@ public class SettingsPanel : MonoBehaviour
         USerInfo.Instance.Sensitivity = nexValue;
 
     }
-    internal void SetValuesFromLoadedSettings()
+    public void SetValuesFromLoadedSettings()
     {
         GameSettingsData data = SavingUtility.gameSettingsData;
         sensitivitySlider.value = data.TouchSensitivity;

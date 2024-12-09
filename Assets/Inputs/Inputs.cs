@@ -86,7 +86,7 @@ public class Inputs : MonoBehaviour
                     Debug.Log("Challenge and Paused return");
                     return;
                 }
-                if(!GameArea.Instance.UnSolved(box.Pos))
+                if(!GameAreaMaster.Instance.MainGameArea.UnSolved(box.Pos))
                     box.Click();
                 else
                     box.RightClick();

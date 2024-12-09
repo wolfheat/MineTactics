@@ -11,21 +11,21 @@ public class USerInfo : MonoBehaviour
 	public string userName = "";
 	public string email = "";
 	public string uid = "00";
-    internal string levelID;
+    public string levelID;
 
 	public GameType currentType = GameType.Normal;
 	public static int EditMode { get; set; } = 0;
 
     public static USerInfo Instance { get; private set; }
 	public int BoardSize { get; set; } = 6;
-	public int Sensitivity { get; internal set; } = 15;
+	public int Sensitivity { get; set; } = 15;
 	public float SensitivityMS => Sensitivity / 100f;
 
-	public bool UsePending { get; internal set; } = false;
+	public bool UsePending { get; set; } = false;
 
-    public bool IsPlayerLoggedIn { get; internal set; } = false;
-    public bool WaitForFirstMove { get; internal set; }
-    public string Collection { get; internal set; }
+    public bool IsPlayerLoggedIn { get; set; } = false;
+    public bool WaitForFirstMove { get; set; }
+    public string Collection { get; set; }
 
     private void Awake()
 	{

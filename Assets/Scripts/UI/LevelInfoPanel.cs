@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class LevelInfoPanel : MonoBehaviour
     [SerializeField] TextMeshProUGUI playCount;
     [SerializeField] GameObject panel;
 
+    private LevelData Data;
     public void RequestUpdateLevelInfo() => UpdateLevelInfo(FirestoreManager.Instance.LevelData);
 
     public void HideLevelInfo()
@@ -21,6 +23,7 @@ public class LevelInfoPanel : MonoBehaviour
     
     public void UpdateLevelInfo(LevelData data)
     {
+        Data = data;
         if(!panel.activeSelf)
             panel.gameObject.SetActive(true);
         creatorId.text = data.CreatorId.ToString();
@@ -30,8 +33,14 @@ public class LevelInfoPanel : MonoBehaviour
         levelID.text = data.LevelId.ToString();
         status.text = data.Status.ToString();
         playCount.text = data.PlayCount.ToString();
+
+        // 
+        ShowMiniView();
     }
 
-
-
+    private void ShowMiniView()
+    {
+        Debug.Log("ShowMiniView");
+        GameAreaMaster.Instance.MiniViewGameArea.ShowLevel(Data);
+    }
 }

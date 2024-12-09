@@ -289,7 +289,7 @@ public class PanelController : MonoBehaviour
         
     }*/
 
-    internal void ShowLevelComplete()
+    public void ShowLevelComplete()
     {
         if (USerInfo.Instance.currentType == GameType.Normal)
         {
@@ -305,18 +305,18 @@ public class PanelController : MonoBehaviour
 
     }
 
-    internal void ShowFadableInfo(string info)
+    public void ShowFadableInfo(string info)
     {
         fadableInfo.gameObject.SetActive(true);
         fadableInfo.ShowInfo(info);
     }
 
-    internal void ShowConfirmReplaceScreen(int index)
+    public void ShowConfirmReplaceScreen(int index)
     {
         confirmReplacePanel.gameObject.SetActive(true);
         confirmReplacePanel.SetActiveIndex(index);
     }
-    internal void ShowDeleteReplaceScreen(int index)
+    public void ShowDeleteReplaceScreen(int index)
     {
         confirmDeletePanel.gameObject.SetActive(true);
         confirmDeletePanel.SetActiveIndex(index);
@@ -332,7 +332,7 @@ public class PanelController : MonoBehaviour
         confirmRemoveManyScreen.SetActiveQuery(query);
     }
 
-    internal void UnSelectAll()
+    public void UnSelectAll()
     {
         Debug.Log("Unselect all here");
     }

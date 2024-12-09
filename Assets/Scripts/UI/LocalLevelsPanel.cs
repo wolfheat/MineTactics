@@ -35,7 +35,7 @@ public class LocalLevelsPanel : MonoBehaviour
         levelInfoPanel.UpdateLevelInfo(levelData);
     }
 
-    internal void LeftLevelInfo()
+    public void LeftLevelInfo()
     {
         Debug.Log("Left ListItem with pointer, show last selected if any");
         if (selectedListItems.Count > 0)
@@ -60,7 +60,7 @@ public class LocalLevelsPanel : MonoBehaviour
         Debug.Log("Updating List of Collection "+FirestoreManager.Instance.LocalCollectionList.Count);
     }
 
-    internal void RemoveIndexFromList(int i)
+    public void RemoveIndexFromList(int i)
     {
         SelectedIndex = -1;
         Debug.Log("Remove index "+i+" from the LocalLevelsPanel list");
@@ -76,7 +76,7 @@ public class LocalLevelsPanel : MonoBehaviour
         ActivateSelected();
     }
 
-    internal void RemoveQueryFromList(List<LevelData> levelsToRemove)
+    public void RemoveQueryFromList(List<LevelData> levelsToRemove)
     {
         Debug.Log("** RemoveQueryFromList");
         FirestoreManager.Instance.RemoveLocalCollectionListQuery(levelsToRemove);
@@ -99,7 +99,7 @@ public class LocalLevelsPanel : MonoBehaviour
         }
     }
 
-    internal void UpdatePanel()
+    public void UpdatePanel()
     {
         Debug.Log("Update localLevelPanel");
         UpdateList();
@@ -214,7 +214,7 @@ public class LocalLevelsPanel : MonoBehaviour
         storeCollection.gameObject.SetActive(true);
     }
 
-    internal void UpdateIndexFromCollection(int index)
+    public void UpdateIndexFromCollection(int index)
     {
         // Unset The previous marked List item
         if(loadedLevelListItem != null)
@@ -245,7 +245,7 @@ public class LocalLevelsPanel : MonoBehaviour
     private ListItem loadedLevelListItem;
     private LevelData loadedLevelData;
 
-    internal void LoadLevel(LevelData levelData,ListItem listItem)
+    public void LoadLevel(LevelData levelData,ListItem listItem)
     {
         SelectedIndex = listItem.Index;
         if(loadedLevelListItem != null)
@@ -257,7 +257,7 @@ public class LocalLevelsPanel : MonoBehaviour
         Debug.Log("Setting loadedLevelListItem = "+ loadedLevelListItem?.Index);
         loadedLevelData = levelData;
 
-        GameArea.Instance.OnLoadLevelComplete(levelData.Level,true);
+        GameAreaMaster.Instance.MainGameArea.OnLoadLevelComplete(levelData.Level,true);
         // Close Panel and show Load message
         PanelController.Instance.ShowFadableInfo("Level Loaded");
 
@@ -268,7 +268,7 @@ public class LocalLevelsPanel : MonoBehaviour
 
     List<int> selectedIndexes = new List<int>();
     List<ListItem> selectedListItems = new List<ListItem>();
-    internal void AddSelectedLevelToList(ListItem item, bool keep = false)
+    public void AddSelectedLevelToList(ListItem item, bool keep = false)
     {
         if(selectedIndexes.Contains(item.Index))
         {

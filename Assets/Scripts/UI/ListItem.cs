@@ -31,7 +31,7 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         Debug.Log("Request Replace Level (ListItem)");
         // CHeck here for valid Level
-        bool isValid = GameArea.Instance.ValidateLevel();
+        bool isValid = GameAreaMaster.Instance.MainGameArea.ValidateLevel();
 
         // Open Replace Confirmation screen
         if (isValid) 
@@ -50,7 +50,7 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
     public void ReplaceSelected()
     {
-        if (GameArea.Instance.ReplaceLevelToCollection(index))
+        if (GameAreaMaster.Instance.MainGameArea.ReplaceLevelToCollection(index))
         {
             LocalLevelsPanel.Instance.UpdateIndexFromCollection(index);
             PanelController.Instance.ShowFadableInfo("Level Replaced");
@@ -66,7 +66,7 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         LocalLevelsPanel.Instance.LoadLevel(levelData,this);
     }
 
-    internal void UpdateData(int i, LevelData newlevelData)
+    public void UpdateData(int i, LevelData newlevelData)
     {
         levelData = newlevelData;
         index_text.text = i.ToString();
@@ -74,18 +74,18 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         index = i;
     }
 
-    internal void UpdateIndex(int i)
+    public void UpdateIndex(int i)
     {
         index_text.text = i.ToString();
         index = i;
     }
 
-    internal void DeMark()
+    public void DeMark()
     {
         marker.gameObject.SetActive(false);
     }
 
-    internal void Mark()
+    public void Mark()
     {
         marker.gameObject.SetActive(true);
     }

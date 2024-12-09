@@ -95,7 +95,7 @@ public class ButtonController : MonoBehaviour
         lastState = state;
     }
 
-    internal void ResetShowButtons()
+    public void ResetShowButtons()
     {
         ShowButtons(stateBeforeSettings);
     }

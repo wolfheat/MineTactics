@@ -13,7 +13,7 @@ public class ConfirmReplaceScreen : MonoBehaviour
 
     public void OnAcceptReplace()
     {
-        if (GameArea.Instance.ReplaceLevelToCollection(ActiveIndex))
+        if (GameAreaMaster.Instance.MainGameArea.ReplaceLevelToCollection(ActiveIndex))
         {
             LocalLevelsPanel.Instance.UpdateIndexFromCollection(ActiveIndex);
             PanelController.Instance.ShowFadableInfo("Level Replaced");

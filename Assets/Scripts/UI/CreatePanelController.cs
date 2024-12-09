@@ -25,11 +25,11 @@ public class CreatePanelController : MonoBehaviour
         Debug.Log("Add this Level to The Collection List");
 
         // CHeck here for valid Level
-        bool isValid = GameArea.Instance.ValidateLevel();
+        bool isValid = GameAreaMaster.Instance.MainGameArea.ValidateLevel();
 
         if (isValid)
         {
-            GameArea.Instance.AddLevelToCollection();
+            GameAreaMaster.Instance.MainGameArea.AddLevelToCollection();
             PanelController.Instance.ShowFadableInfo("Level Added!");
             // Set this new Level as avtive in list
             LocalLevelsPanel.Instance.SelectRecentlyAdded();
@@ -71,7 +71,7 @@ public class CreatePanelController : MonoBehaviour
 
         // SAVE THIS??? NO
 
-        int[,] flagged = GameArea.Instance.GetFlaggedArray();
+        int[,] flagged = GameAreaMaster.Instance.MainGameArea.GetFlaggedArray();
         
         Debug.Log("** Before OnChangeSizeCreate");   
         // Apply the size settings
@@ -80,7 +80,7 @@ public class CreatePanelController : MonoBehaviour
 
 
         //LevelCreator.Instance.ApplyFlagged(flagged);
-        GameArea.Instance.OnCreateBack(flagged);
+        GameAreaMaster.Instance.MainGameArea.OnCreateBack(flagged);
     }
 
     public void SetSliderSize() => slider.value = USerInfo.Instance.BoardSize;

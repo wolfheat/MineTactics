@@ -211,7 +211,7 @@ public class AuthManager : MonoBehaviour
                         break;
                     case AuthError.InvalidProviderId:
                         break;
-                    case AuthError.WebInternalError:
+                    case AuthError.WebpublicError:
                         break;
                     case AuthError.WebStorateUnsupported:
                         break;
@@ -388,7 +388,7 @@ public class AuthManager : MonoBehaviour
         }
     }
 
-    internal void LogOut() => auth?.SignOut();
+    public void LogOut() => auth?.SignOut();
 
     /*
     void InitializeFirebase()

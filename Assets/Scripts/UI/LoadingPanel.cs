@@ -69,7 +69,7 @@ public class LoadingPanel : MonoBehaviour
         headerText.text = "Logging in";
         subText.text = "Trying to Log in, please wait!";
     }
-    internal void OnLoadLevelsStarted()
+    public void OnLoadLevelsStarted()
     {
         currentState = LoadingState.LoadingLevels;
         ShowLoadingCircleAnimation(true);
@@ -100,7 +100,7 @@ public class LoadingPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    internal void OnSubmitLevelStarted()
+    public void OnSubmitLevelStarted()
     {
         currentState = LoadingState.SubmitLevel;
         ShowLoadingCircleAnimation(true);
@@ -109,7 +109,7 @@ public class LoadingPanel : MonoBehaviour
         headerText.text = "Submitting Level";
         subText.text = "Trying to Submit the Level, please wait!";
     }
-    internal void OnSuccessfulLoadLevels(bool success=true)
+    public void OnSuccessfulLoadLevels(bool success=true)
     {
         ShowLoadingCircleAnimation(false);
         Debug.Log("OnSuccessfulLoadLevels: "+success);
@@ -127,7 +127,7 @@ public class LoadingPanel : MonoBehaviour
             subText.text = "Sorry!";
         }
     }
-    internal void OnSubmitLevelSuccess()
+    public void OnSubmitLevelSuccess()
     {
         ShowLoadingCircleAnimation(false);
         Debug.Log("OnSubmitLevelSuccess");

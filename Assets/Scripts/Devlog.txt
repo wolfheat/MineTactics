@@ -149,7 +149,9 @@ Nov 2024
 7/12	* made slider size update when entering create Mode
 8/12	* Added InfoPanel in Collection screen that shows detail for selectged levels
 		* Infopanel now shows Level info for mouseover level, and if any is selected it shows lastly selected when not mouseover. (Does not work with simulate touch on)
-
+		* Messed with textmeshpro text style presets
+		* Made a second GameArea with separate Camera for showing a miniview popup in the collection panel
+		* Collection Now has a semi working miniview. 
 
 		* Have a mini popup level show when hovering over a Level in the Collection? Also add votes rating and playcount to the list?
 		* Add normal modes EAYS_INTERMEDIATE_EXPERT and pan possability?

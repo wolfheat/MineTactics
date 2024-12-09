@@ -158,7 +158,7 @@ public class SavingLoadingConverter : MonoBehaviour
         return (char)('a' + amt-1);
     }
 
-    internal static (int[,], int[,], int, int,int) StringLevelToGameArray(string deCompressed, bool editorcreateMode = false)
+    public static (int[,], int[,], int, int,int) StringLevelToGameArray(string deCompressed, bool editorcreateMode = false)
     {
         Debug.Log("Making game array from decompressed string: "+deCompressed);
         int totalSize = deCompressed.Length - 2;

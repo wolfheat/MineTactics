@@ -20,7 +20,7 @@ public class SmileyButton : MonoBehaviour
         Instance = this;
     }
 
-    internal void Click()
+    public void Click()
     {
         Debug.Log("Smiley?");
         spriteRenderer.sprite = sprites[1];
@@ -36,24 +36,24 @@ public class SmileyButton : MonoBehaviour
             if (USerInfo.EditMode == 0)
                 PanelController.Instance.Clear();
             else
-                GameArea.Instance.ResetAllNonMine();
+                GameAreaMaster.Instance.MainGameArea.ResetAllNonMine();
             return;
         }
 
     }
 
-    internal void ShowWin()
+    public void ShowWin()
     {
         spriteRenderer.sprite = sprites[3];
     }
     
-    internal void ShowBust()
+    public void ShowBust()
     {
         Debug.Log("Show Bust?");
         spriteRenderer.sprite = sprites[2];
     }
     
-    internal void ShowNormal()
+    public void ShowNormal()
     {
         Debug.Log("Show Normal");
         spriteRenderer.sprite = sprites[0];

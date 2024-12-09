@@ -46,15 +46,15 @@ public class GameBox : MonoBehaviour
         //Debug.Log("Mouse triggered");
     }
 
-    internal void Click()
+    public void Click()
     {
-        if (GameArea.Instance.LevelBusted)
+        if (GameAreaMaster.Instance.MainGameArea.LevelBusted)
             return;
         //Debug.Log("Clicking Box value = "+value);
 
         if (USerInfo.Instance.currentType == GameType.Create)
         {
-            GameArea.Instance.OpenBoxCreate(Pos);
+            GameAreaMaster.Instance.MainGameArea.OpenBoxCreate(Pos);
             return;
         }
         // If Busted Level disallow any click on Area
@@ -68,7 +68,7 @@ public class GameBox : MonoBehaviour
         if (Marked)
             return;
 
-        if (GameArea.Instance.OpenBox(Pos))
+        if (GameAreaMaster.Instance.MainGameArea.OpenBox(Pos))
         {
             //RemoveAndSetUnderActive();
         }
@@ -88,18 +88,18 @@ public class GameBox : MonoBehaviour
 
     private void Chord()
     {
-        GameArea.Instance.Chord(Pos);
+        GameAreaMaster.Instance.MainGameArea.Chord(Pos);
     }
 
-    internal void Mark()
+    public void Mark()
     {
         if (Marked) return;
         Marked = true;
         spriteRenderer.sprite = markedSprite;
-        GameArea.Instance.DecreaseMineCount();
+        GameAreaMaster.Instance.MainGameArea.DecreaseMineCount();
     }
 
-    internal void RightClick(bool hidden = false)
+    public void RightClick(bool hidden = false)
     {
         Debug.Log("Clicking this box at " + Pos + " mark or demark as mine value =" + value);
         if (value > 0) return;
@@ -118,42 +118,42 @@ public class GameBox : MonoBehaviour
 
         if (LevelCreator.Instance.EditMode)
         {
-            GameArea.Instance.UpdateMineCount();
+            GameAreaMaster.Instance.MainGameArea.UpdateMineCount();
             return; // Breaks if in edit mode and placing Mines
         }
         if (!Marked)
-            GameArea.Instance.IncreaseMineCount();
+            GameAreaMaster.Instance.MainGameArea.IncreaseMineCount();
         else
-            GameArea.Instance.DecreaseMineCount();
+            GameAreaMaster.Instance.MainGameArea.DecreaseMineCount();
     }
 
     public void SetAsHiddenMine() => spriteRenderer.sprite = hiddenMineSprite;
     public void SetAsFlaggedMine() => spriteRenderer.sprite = markedSprite;
     public void SetAsUnFlagged() => spriteRenderer.sprite = unmarkedSprite;
 
-    internal void Bust()
+    public void Bust()
     {
         Debug.Log("Show a busted mine here");
         spriteRenderer.sprite = bustedSprite;
         Busted = true;
     }
 
-    internal void ShowWrongFlag()
+    public void ShowWrongFlag()
     {
         spriteRenderer.sprite = wrongFlagSprite;
     }
 
-    internal void ShowMine()
+    public void ShowMine()
     {
         spriteRenderer.sprite = mineSprite;        
     }
 
-    internal bool UnSolved()
+    public bool UnSolved()
     {
         return boxCollider.enabled;
     }
 
-    internal void Reset()
+    public void Reset()
     {
         transform.gameObject.SetActive(true);
         Busted = false;
