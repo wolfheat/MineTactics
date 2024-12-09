@@ -8,6 +8,7 @@ public class LevelCreator : MonoBehaviour
 {
     [SerializeField] private GameArea gameArea;
 
+    [SerializeField] private Camera mainCamera;
     [SerializeField] private int gameWidth;
     [SerializeField] private int gameHeight;
     
@@ -159,7 +160,7 @@ public class LevelCreator : MonoBehaviour
         float screenRatio = (float)Screen.height / Screen.width;
         float targetWidthInWorldUnits = borderAreaRenderer.size.x;
         float orthographicSize = targetWidthInWorldUnits * screenRatio / 2;
-        Camera.main.orthographicSize = orthographicSize;
+        mainCamera.orthographicSize = orthographicSize;
     }
 
     public void OnRequestSaveLevel(InputAction.CallbackContext context)

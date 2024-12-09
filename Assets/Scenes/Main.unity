@@ -7595,7 +7595,7 @@ Transform:
   m_GameObject: {fileID: 442457648}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.14, y: 3.66, z: 0}
+  m_LocalPosition: {x: -11.95, y: 2.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19611,6 +19611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameArea: {fileID: 461548505}
+  mainCamera: {fileID: 1527150678}
   gameWidth: 10
   gameHeight: 13
   levelText: {fileID: 654245109}
@@ -26013,6 +26014,11 @@ PrefabInstance:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2693444666338538528, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
   m_PrefabInstance: {fileID: 1520199395}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1527150678 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 9078629431172506335, guid: b67818f7f4d6eee4f8de646a656e3bdc, type: 3}
+  m_PrefabInstance: {fileID: 2012938535}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1533708856
 GameObject:
@@ -37112,7 +37118,7 @@ GameObject:
   - component: {fileID: 4034028241769092701}
   m_Layer: 0
   m_Name: MiniViewCamera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

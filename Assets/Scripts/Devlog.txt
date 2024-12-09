@@ -152,8 +152,8 @@ Nov 2024
 		* Messed with textmeshpro text style presets
 		* Made a second GameArea with separate Camera for showing a miniview popup in the collection panel
 		* Collection Now has a semi working miniview. 
-
-		* Have a mini popup level show when hovering over a Level in the Collection? Also add votes rating and playcount to the list?
+		* Almost fixed new issues with scaling and positioning the miniview and main gameArea.
+		
 		* Add normal modes EAYS_INTERMEDIATE_EXPERT and pan possability?
 		* Issue with slow loading of levels in collections sometimes, fix?
 
