@@ -153,7 +153,8 @@ Nov 2024
 		* Made a second GameArea with separate Camera for showing a miniview popup in the collection panel
 		* Collection Now has a semi working miniview. 
 		* Almost fixed new issues with scaling and positioning the miniview and main gameArea.
-		
+		* Basic Positioning is working, needs a bit refining and to scale with changing box size
+
 		* Add normal modes EAYS_INTERMEDIATE_EXPERT and pan possability?
 		* Issue with slow loading of levels in collections sometimes, fix?
 

@@ -874,9 +874,18 @@ public class GameArea : MonoBehaviour
 
         LoadGame(gameLoaded, true);
 
+        //TODO FIx scaling of the miniView Here
+
         //SizeGameArea();
         //DrawLevel();
         //ResetLevel();
-        AlignBoxesAnchor();        
+        objects.transform.position = origo.transform.position;
+        // Set to fit 5x5 as base this means new size is width/5*0.5f?
+        objects.transform.localScale = Vector3.one * 0.5f * 5f/gameWidth;
+
+        // Set camera to correct position? Or move the gameArea
+        //X minus Y plus
+        //transform.localPosition = new Vector3(,,0);
+
     }
 }
