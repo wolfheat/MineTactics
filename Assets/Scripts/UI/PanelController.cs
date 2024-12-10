@@ -28,9 +28,6 @@ public class PanelController : MonoBehaviour
 
     [SerializeField] LevelCompletionScreen levelCompleteNormal;
     [SerializeField] LevelCompletionScreen levelComplete;
-    [SerializeField] ConfirmReplaceScreen confirmReplacePanel;
-    [SerializeField] ConfirmDeleteScreen confirmDeletePanel;
-    [SerializeField] ConfirmRemoveManyScreen confirmRemoveManyScreen;
     [SerializeField] RemoveAllFromCollectionPanel removeAllFromCollection;
     [SerializeField] ConfirmRemoveManySelectedScreen confirmConfirmRemoveManySelectedScreen;
 
@@ -311,25 +308,9 @@ public class PanelController : MonoBehaviour
         fadableInfo.ShowInfo(info);
     }
 
-    public void ShowConfirmReplaceScreen(int index)
-    {
-        confirmReplacePanel.gameObject.SetActive(true);
-        confirmReplacePanel.SetActiveIndex(index);
-    }
-    public void ShowDeleteReplaceScreen(int index)
-    {
-        confirmDeletePanel.gameObject.SetActive(true);
-        confirmDeletePanel.SetActiveIndex(index);
-    }
-
     public void ShowRemoveManyScreen()
     {
         removeAllFromCollection.gameObject.SetActive(true);
-    }
-    public void ShowConfirmRemoveManyScreen(List<LevelData> query)
-    {
-        confirmRemoveManyScreen.gameObject.SetActive(true);
-        confirmRemoveManyScreen.SetActiveQuery(query);
     }
 
     public void UnSelectAll()

@@ -164,9 +164,10 @@ Nov 2024
 		* Modded Collection Screen buttons
 		* Collections can now delete levels depending on the Collection it belonged to
 		* Collection section now show what collection is was downloaded from
+		* Deleting and clearing collection selections Unloads LevelInfoPanel
 
 
-		* Add normal modes EAYS_INTERMEDIATE_EXPERT and pan possability?
+		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
 		* Issue with slow loading of levels in collections sometimes, fix?
 
 		* Show Loading screen when doing task Loading from DB to Collection

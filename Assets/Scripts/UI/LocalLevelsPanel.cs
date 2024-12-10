@@ -113,6 +113,7 @@ public class LocalLevelsPanel : MonoBehaviour
         selectedIndexes.Clear();
         selectedListItems.Clear();
         UpdateSelectedAmt();
+        levelInfoPanel.HideLevelInfo();
     }
 
     private void UpdateList(int itemToSelect = -1)
@@ -147,7 +148,16 @@ public class LocalLevelsPanel : MonoBehaviour
 
     public void ClosePanel() => panel.SetActive(false);
 
-    public void RequestClearCollection() => ConfirmPanel.Instance.ShowConfirmationOption("Clear Levels?", "Do you want to remove all levels from the list?", ClearCollection);
+    public void RequestClearCollection()
+    {
+        if(listItems.Count == 0)
+        {
+            PanelController.Instance.ShowInfo("There is no levels in the Collection!");
+            return;
+        }
+        ConfirmPanel.Instance.ShowConfirmationOption("Clear Levels?", "Do you want to remove all levels from the list?", ClearCollection);
+    }
+
     public void ClearCollection(string info)
     {
         Debug.Log("Clear Collection");
@@ -155,7 +165,6 @@ public class LocalLevelsPanel : MonoBehaviour
         FirestoreManager.Instance.ClearLocalCollectionList();
         DestroyOldListItems();
         DeselectAll();
-
     }
     public void DeleteSelected(string info)
     {
@@ -179,6 +188,7 @@ public class LocalLevelsPanel : MonoBehaviour
 
         UpdateListIndexes(0);
         ActivateSelected();
+        levelInfoPanel.HideLevelInfo();
     }
     
     public void RequestDeleteSelected()
