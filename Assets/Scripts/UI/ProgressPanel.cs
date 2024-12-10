@@ -2,9 +2,9 @@
 using UnityEngine;
 
 public enum LoadingState{LogIn,Register,SubmitLevel,LoadingLevels,LoadingLevelsFailed}
-public class LoadingPanel : MonoBehaviour
+public class ProgressPanel : MonoBehaviour
 {
-    public static LoadingPanel Instance { get; private set; }
+    public static ProgressPanel Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI headerText;
     [SerializeField] private TextMeshProUGUI subText;
     [SerializeField] private GameObject loadingBar;
@@ -29,7 +29,8 @@ public class LoadingPanel : MonoBehaviour
         FirestoreManager.SubmitLevelAttemptSuccess += OnSubmitLevelSuccess;        
         FirestoreManager.SubmitLevelAttemptFailed += OnSubmitLevelFailed;        
 
-        FirestoreManager.OnSuccessfulLoadingOfLevels += OnSuccessfulLoadLevels;          
+        FirestoreManager.OnSuccessfulLoadingOfLevels += OnSuccessfulLoadLevels;
+        FirestoreManager.OnLevelCollectionLevelsDownloaded += OnSuccessfulLoadLevels;
 
         AuthManager.OnSuccessfulLogIn += OnSuccessfulLogIn;
     }
@@ -109,6 +110,15 @@ public class LoadingPanel : MonoBehaviour
         headerText.text = "Submitting Level";
         subText.text = "Trying to Submit the Level, please wait!";
     }
+
+    public void OnSuccessfulLoadLevels(int amt)
+    {
+        ShowLoadingCircleAnimation(false);
+        
+            // Set Name to Regitrating
+        subText.text = amt+" Levels Added Successfully";        
+    }
+    
     public void OnSuccessfulLoadLevels(bool success=true)
     {
         ShowLoadingCircleAnimation(false);
@@ -116,8 +126,7 @@ public class LoadingPanel : MonoBehaviour
         if (success)
         {
             // Set Name to Regitrating
-            headerText.text = FirestoreManager.Instance.LoadedAmount +" Levels Loaded Successfully";
-            subText.text = "Enjoy!";
+            subText.text = FirestoreManager.Instance.LoadedAmount +" Levels Loaded Successfully";
         }
         else
         {
@@ -127,12 +136,13 @@ public class LoadingPanel : MonoBehaviour
             subText.text = "Sorry!";
         }
     }
+
     public void OnSubmitLevelSuccess()
     {
         ShowLoadingCircleAnimation(false);
         Debug.Log("OnSubmitLevelSuccess");
         // Set Name to Regitrating
-        headerText.text = "Level Accepted";
+        headerText.text = "Accepted";
         subText.text = "Thanks!";
     }
     private void OnSubmitLevelFailed(string error)

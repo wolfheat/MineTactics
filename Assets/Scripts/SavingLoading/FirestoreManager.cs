@@ -241,7 +241,7 @@ public class FirestoreManager : MonoBehaviour
     public void GetLevelCollection(string id,bool forEditMode = false)
     {
         // Show LoadingPanel here
-        if(!forEditMode)
+        //if(!forEditMode)
             OnLoadLevelStarted?.Invoke();
 
         db.Collection("LevelCollections").Document(id).GetSnapshotAsync().ContinueWithOnMainThread(task =>
@@ -256,8 +256,12 @@ public class FirestoreManager : MonoBehaviour
                     List<LevelData> levels = ConvertCollectionToLevels(levelCollection);
                     if (forEditMode)
                     {
-                        LocalCollectionList = levels;
+                        LocalCollectionList.AddRange(levels);
                         OnLevelCollectionLevelsDownloaded?.Invoke(levels.Count);
+                    }
+                    else
+                    {
+                        OnSuccessfulLoadingOfLevels?.Invoke(true);
                     }
                     DownloadedLevels.AddRange(levels);
                     DownloadedCollection = levels;
@@ -266,7 +270,6 @@ public class FirestoreManager : MonoBehaviour
 
                     Debug.Log("Downloaded Levels from the collectiondatabase: " + levels.Count);
 
-                    OnSuccessfulLoadingOfLevels?.Invoke(true);
                     OnLevelCollectionListChange?.Invoke(-1);
                     USerInfo.Instance.Collection = id;
                 }
@@ -459,7 +462,8 @@ public class FirestoreManager : MonoBehaviour
     {
         Debug.Log("Trying to store Level Collection");
         DocumentReference newDocRef = db.Collection("LevelCollections").Document(id);
-            
+
+        OnSubmitLevelStarted?.Invoke();
         // Set data to Firestore
         try
         {
@@ -473,6 +477,7 @@ public class FirestoreManager : MonoBehaviour
         }
         Debug.Log("Submitting of the level success!");
         SubmitLevelAttemptSuccess?.Invoke();
+        
     }
 
     public async Task StoreUsernameById(string name, string UserID)

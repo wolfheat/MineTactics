@@ -34,7 +34,7 @@ public class PanelController : MonoBehaviour
     [SerializeField] RemoveAllFromCollectionPanel removeAllFromCollection;
     [SerializeField] ConfirmRemoveManySelectedScreen confirmConfirmRemoveManySelectedScreen;
 
-    [SerializeField] LoadingPanel progressPanel;
+    [SerializeField] ProgressPanel progressPanel;
     [SerializeField] InfoPanel infoPanel;
     [SerializeField] FadableInfo fadableInfo;
 

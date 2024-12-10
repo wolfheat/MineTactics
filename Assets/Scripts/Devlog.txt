@@ -159,6 +159,8 @@ Nov 2024
 		* Added button to save selection of collection to database
 		* Generic Menus for Confirm and ConfirmInput added and working
 
+		* Add loading screen when saving collection
+
 		* Add normal modes EAYS_INTERMEDIATE_EXPERT and pan possability?
 		* Issue with slow loading of levels in collections sometimes, fix?
 
