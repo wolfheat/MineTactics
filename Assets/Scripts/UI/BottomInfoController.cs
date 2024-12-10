@@ -16,7 +16,7 @@ public class BottomInfoController : MonoBehaviour
         if (Instance != null)
         {
             Destroy(gameObject);
-            return;
+            return; 
         }
         Instance = this;
 

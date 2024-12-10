@@ -78,12 +78,6 @@ public class LocalLevelsPanel : MonoBehaviour
         ActivateSelected();
     }
 
-    public void RemoveQueryFromList(List<LevelData> levelsToRemove)
-    {
-        Debug.Log("** RemoveQueryFromList");
-        FirestoreManager.Instance.RemoveLocalCollectionListQuery(levelsToRemove);
-        UpdateCollectionSize();
-    }
     public void SelectRecentlyAdded()
     {
         SelectedIndex = FirestoreManager.Instance.LocalCollectionList.Count-1;
@@ -324,6 +318,21 @@ public class LocalLevelsPanel : MonoBehaviour
             selectedListItems.Add(item);
             item.Mark();
 
+        }
+        UpdateSelectedAmt();
+    }
+
+    public void AddQueryToSelectedList(List<int> datas)
+    {
+        foreach (var item in datas)
+        {
+            if (selectedIndexes.Contains(item))
+                continue;
+            Debug.Log("Adding Index "+item+" to selected");
+            selectedIndexes.Add(item);            
+            ListItem listItem = listItems[item];
+            selectedListItems.Add(listItem);
+            listItem.Mark();
         }
         UpdateSelectedAmt();
     }

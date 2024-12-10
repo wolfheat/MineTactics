@@ -28,7 +28,7 @@ public class PanelController : MonoBehaviour
 
     [SerializeField] LevelCompletionScreen levelCompleteNormal;
     [SerializeField] LevelCompletionScreen levelComplete;
-    [SerializeField] RemoveAllFromCollectionPanel removeAllFromCollection;
+    [SerializeField] SelecetByConditionPanel selectByCondition;
     [SerializeField] ConfirmRemoveManySelectedScreen confirmConfirmRemoveManySelectedScreen;
 
     [SerializeField] ProgressPanel progressPanel;
@@ -308,9 +308,9 @@ public class PanelController : MonoBehaviour
         fadableInfo.ShowInfo(info);
     }
 
-    public void ShowRemoveManyScreen()
+    public void RequestSelectByConditionScreen()
     {
-        removeAllFromCollection.gameObject.SetActive(true);
+        selectByCondition.gameObject.SetActive(true);
     }
 
     public void UnSelectAll()

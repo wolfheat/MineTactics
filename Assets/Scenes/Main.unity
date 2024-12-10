@@ -6066,7 +6066,7 @@ PrefabInstance:
       objectReference: {fileID: 1682018765}
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ShowRemoveManyScreen
+      value: RequestSelectByConditionScreen
       objectReference: {fileID: 0}
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -6078,7 +6078,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 845975129365461220, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_Name
-      value: RemoveX
+      value: SelectX
       objectReference: {fileID: 0}
     - target: {fileID: 1050582071082587079, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_PixelsPerUnitMultiplier
@@ -6190,7 +6190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7481730600561889811, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_text
-      value: Remove By Condition
+      value: Select By Condition
       objectReference: {fileID: 0}
     - target: {fileID: 7982454820122498087, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_SizeDelta.x
@@ -27749,7 +27749,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Removes all levels  from the collection that satisfies the following conditions.
+  m_text: Select levels that satisfies the following conditions.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 84dbb383ae1cf3140b9aa5999b1c178f, type: 2}
   m_sharedMaterial: {fileID: 7129148970830627335, guid: 84dbb383ae1cf3140b9aa5999b1c178f, type: 2}
@@ -28369,7 +28369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnRemoveClicked
+      value: OnSelectClicked
       objectReference: {fileID: 0}
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -28377,7 +28377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: RemoveAllFromCollectionPanel, Assembly-CSharp
+      value: SelecetByConditionPanel, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 55807135522815826, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -28389,7 +28389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 845975129365461220, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_Name
-      value: Remove
+      value: Select
       objectReference: {fileID: 0}
     - target: {fileID: 1796569729126355415, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_Color.b
@@ -28497,7 +28497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7481730600561889811, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_text
-      value: Remove
+      value: Select
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -32752,10 +32752,7 @@ MonoBehaviour:
   submitMenu: {fileID: 1491734437}
   levelCompleteNormal: {fileID: 388685515}
   levelComplete: {fileID: 376346893}
-  confirmReplacePanel: {fileID: 0}
-  confirmDeletePanel: {fileID: 0}
-  confirmRemoveManyScreen: {fileID: 0}
-  removeAllFromCollection: {fileID: 2108727901}
+  selectByCondition: {fileID: 2108727901}
   confirmConfirmRemoveManySelectedScreen: {fileID: 0}
   progressPanel: {fileID: 7891106026351654751}
   infoPanel: {fileID: 1889130859}
@@ -38981,7 +38978,7 @@ GameObject:
   - component: {fileID: 2108727902}
   - component: {fileID: 2108727901}
   m_Layer: 5
-  m_Name: RemoveAllFromCollectionPanel
+  m_Name: SelectByConditionPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39285,7 +39282,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: REMOVE X
+  m_text: Select
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 84dbb383ae1cf3140b9aa5999b1c178f, type: 2}
   m_sharedMaterial: {fileID: 7129148970830627335, guid: 84dbb383ae1cf3140b9aa5999b1c178f, type: 2}
