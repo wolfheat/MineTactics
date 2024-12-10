@@ -200,9 +200,9 @@ public class LocalLevelsPanel : MonoBehaviour
             return;
         }
         if(entire)
-            ConfirmInputPanel.Instance.ShowConfirmationOption("Store Collection?", "Name your collection to store the entire Collection with " + FirestoreManager.Instance.LocalCollectionList.Count + " levels.", StoreCollection);        
+            ConfirmInputPanel.Instance.ShowConfirmationOption("Store Collection?", "Storing the entire collection with " + FirestoreManager.Instance.LocalCollectionList.Count + " levels.", StoreCollection);        
         else
-            ConfirmInputPanel.Instance.ShowConfirmationOption("Store Collection?", "Name your collection to store these " + selectedListItems.Count + " selected levels to!", StoreSelectionToCollection);        
+            ConfirmInputPanel.Instance.ShowConfirmationOption("Store Collection?", "Storing selected " + selectedListItems.Count + " levels as collection.", StoreSelectionToCollection);        
     }
     public void StoreCollection(string collectionName)
     {
@@ -262,15 +262,19 @@ public class LocalLevelsPanel : MonoBehaviour
     private ListItem loadedLevelListItem;
     private LevelData loadedLevelData;
 
-    public void LoadLevel(LevelData levelData,ListItem listItem)
+    public void LoadLevel(LevelData levelData, ListItem listItem)
     {
         SelectedIndex = listItem.Index;
-        if(loadedLevelListItem != null)
+        if (loadedLevelListItem != null)
         {
-            Debug.Log("Demark last ListItem "+loadedLevelListItem.Index);
+            Debug.Log("Demark last ListItem " + loadedLevelListItem.Index);
             loadedLevelListItem.SetAsActive(false);
         }
         loadedLevelListItem = listItem;
+        LoadLevel(levelData);
+    }
+    public void LoadLevel(LevelData levelData)
+    {
         Debug.Log("Setting loadedLevelListItem = "+ loadedLevelListItem?.Index);
         loadedLevelData = levelData;
 

@@ -16,6 +16,11 @@ public class LevelInfoPanel : MonoBehaviour
     private LevelData Data;
     public void RequestUpdateLevelInfo() => UpdateLevelInfo(FirestoreManager.Instance.LevelData);
 
+    public void LoadSelected()
+    {
+        LocalLevelsPanel.Instance.LoadLevel(Data);
+    }
+    
     public void HideLevelInfo()
     {
         panel.gameObject.SetActive(false);

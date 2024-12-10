@@ -6,6 +6,7 @@ public class BottomInfoController : MonoBehaviour
     [SerializeField] TextMeshProUGUI collectionSizeText;
     [SerializeField] TextMeshProUGUI levelAmtText;
     [SerializeField] TextMeshProUGUI levelText;
+    [SerializeField] TextMeshProUGUI debugText;
 
 
     public static BottomInfoController Instance { get; private set; }
@@ -23,6 +24,7 @@ public class BottomInfoController : MonoBehaviour
     }
 
 
+    public void ShowDebugText(string showText) => debugText.text = showText;
     public void UpdateCollectionSize(int itemToSelect = -1)
     {
         collectionSizeText.text = "" + FirestoreManager.Instance.LocalCollectionList.Count.ToString();

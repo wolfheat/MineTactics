@@ -235,6 +235,7 @@ public class GameArea : MonoBehaviour
         Debug.Log("Creating new under and over boxes in arrays ["+gameWidth+","+gameHeight+"] ");
         Debug.Log("OverlayBoxes size = ["+overlayBoxes.GetLength(0)+","+overlayBoxes.GetLength(1)+"] ");
         Debug.Log("Underlayboxes size = ["+underlayBoxes.GetLength(0)+","+underlayBoxes.GetLength(1)+"] ");
+        BottomInfoController.Instance.ShowDebugText("DrawLevel "+overlayBoxes.GetLength(0)+"x"+overlayBoxes.GetLength(1));
         for (int j = 0; j < gameHeight; j++)
         {
             for (int i = 0; i < gameWidth; i++)
