@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LocalLevelsPanel : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class LocalLevelsPanel : MonoBehaviour
     private List<ListItem> listItems = new List<ListItem>();
     [SerializeField] ListItem listItemPrefab;
     [SerializeField] GameObject listItemHolder;
-    [SerializeField] GameObject storeCollection;
+    [SerializeField] SaveCollectionPanel storeCollection;
     [SerializeField] TextMeshProUGUI selectedAmoutButton;
     [SerializeField] LevelInfoPanel levelInfoPanel;
 
@@ -146,7 +148,7 @@ public class LocalLevelsPanel : MonoBehaviour
     public void ClosePanel() => panel.SetActive(false);
 
     public void RequestClearCollection() => ConfirmPanel.Instance.ShowConfirmationOption("Clear Levels?", "Do you want to remove all levels from the list?", ClearCollection);
-    public void ClearCollection()
+    public void ClearCollection(string info)
     {
         Debug.Log("Clear Collection");
 
@@ -155,7 +157,7 @@ public class LocalLevelsPanel : MonoBehaviour
         DeselectAll();
 
     }
-    public void DeleteSelected()
+    public void DeleteSelected(string info)
     {
         Debug.Log("Delete Selection");
 
@@ -188,14 +190,38 @@ public class LocalLevelsPanel : MonoBehaviour
         }
         ConfirmPanel.Instance.ShowConfirmationOption("Remove Levels?", "Do you want to remove the " + selectedListItems.Count + " selected levels from the list?", DeleteSelected);
     }
+
+    public void RequestStoreCollection(bool entire)
+    {
+        Debug.Log("Store "+(entire?"Entire":"Selected"));
+        if (FirestoreManager.Instance.LocalCollectionList.Count == 0)
+        {
+            PanelController.Instance.ShowInfo("The Collection is Empty, can not save an empty Collection.");
+            return;
+        }
+        if(entire)
+            ConfirmInputPanel.Instance.ShowConfirmationOption("Store Collection?", "Name your collection to store the entire Collection with " + FirestoreManager.Instance.LocalCollectionList.Count + " levels.", StoreCollection);        
+        else
+            ConfirmInputPanel.Instance.ShowConfirmationOption("Store Collection?", "Name your collection to store these " + selectedListItems.Count + " selected levels to!", StoreSelectionToCollection);        
+    }
     public void StoreCollection(string collectionName)
     {
-        Debug.Log("Request Store COllection");
-
+        Debug.Log("StoreCollection");
         FirestoreManager.Instance.StoreLevelCollection(collectionName);
         //FirestoreManager.Instance.StoreLevelCollectionPreset();
     }
-
+        public void StoreSelectionToCollection(string collectionName)
+    {
+        Debug.Log("StoreSelectionToCollection");
+        List<LevelData> levelDataList = (List<LevelData>)selectedListItems.Select(x => x.Data).ToList();
+        FirestoreManager.Instance.StoreSelectedLevelCollection(collectionName, levelDataList);
+        //FirestoreManager.Instance.StoreLevelCollectionPreset();
+    }
+    public void RequestLoadCollection()
+    {
+        ConfirmInputPanel.Instance.ShowConfirmationOption("Load Collection?", "Name the collection you want to load!", LoadCollection);        
+    }
+    
     public void LoadCollection(string levelName)
     {
         SelectedIndex = -1;
@@ -204,15 +230,6 @@ public class LocalLevelsPanel : MonoBehaviour
         ActivateSelected();
     }
     
-    public void RequestStoreCollection()
-    {
-        if(FirestoreManager.Instance.LocalCollectionList.Count == 0)
-        {
-            PanelController.Instance.ShowInfo("The Collection is Empty, can not save an empty Collection.");
-            return;
-        }
-        storeCollection.gameObject.SetActive(true);
-    }
 
     public void UpdateIndexFromCollection(int index)
     {
@@ -282,7 +299,8 @@ public class LocalLevelsPanel : MonoBehaviour
             if (!keep)
             {
                 foreach(var listItem in selectedListItems)
-                    listItem.DeMark();
+                    if(listItem != null)
+                        listItem?.DeMark();
                 selectedListItems.Clear();
                 selectedIndexes.Clear();
             }

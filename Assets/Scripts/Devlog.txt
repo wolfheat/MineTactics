@@ -154,6 +154,10 @@ Nov 2024
 		* Collection Now has a semi working miniview. 
 		* Almost fixed new issues with scaling and positioning the miniview and main gameArea.
 		* Basic Positioning is working, needs a bit refining and to scale with changing box size
+9/12	* Fixed issue with positioning scaling of miniView
+		* Fixed issue with loading levels when having a collection active
+		* Added button to save selection of collection to database
+		* Generic Menus for Confirm and ConfirmInput added and working
 
 		* Add normal modes EAYS_INTERMEDIATE_EXPERT and pan possability?
 		* Issue with slow loading of levels in collections sometimes, fix?

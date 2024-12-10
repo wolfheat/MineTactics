@@ -10,7 +10,7 @@ public class ConfirmRemoveManySelectedScreen : MonoBehaviour
     public void OnAcceptDelete()
     {
         // remove Levels Here
-        LocalLevelsPanel.Instance.DeleteSelected();
+        LocalLevelsPanel.Instance.DeleteSelected("");
         PanelController.Instance.ShowFadableInfo(amount + " Levels Deleted");
         gameObject.SetActive(false);
     }

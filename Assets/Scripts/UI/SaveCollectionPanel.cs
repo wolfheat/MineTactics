@@ -5,6 +5,7 @@ using WolfheatProductions;
 public class SaveCollectionPanel : MonoBehaviour
 {
     [SerializeField] TMP_InputField inputField;
+    public bool SaveEntireCollection { get; set; } = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +27,12 @@ public class SaveCollectionPanel : MonoBehaviour
             return;
         }
         Debug.Log("Send Collection with name" + inputField.text);
-        LocalLevelsPanel.Instance.StoreCollection(inputField.text);
+        if(SaveEntireCollection)
+            LocalLevelsPanel.Instance.StoreCollection(inputField.text);
+        else
+            LocalLevelsPanel.Instance.StoreSelectionToCollection(inputField.text);
+        gameObject.SetActive(false);
+        // Show loading panel here?
+        Debug.Log("LOADING PANEL");
     }
 }

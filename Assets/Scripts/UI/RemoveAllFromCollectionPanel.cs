@@ -161,7 +161,7 @@ public class RemoveAllFromCollectionPanel : MonoBehaviour
         }
     }
 
-    public void OnAcceptDelete()
+    public void OnAcceptDelete(string info)
     {
         // remove Levels Here
         LocalLevelsPanel.Instance.RemoveQueryFromList(Query);

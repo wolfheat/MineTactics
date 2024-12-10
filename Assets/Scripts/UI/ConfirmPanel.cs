@@ -1,18 +1,8 @@
-using System;
-using TMPro;
-using UnityEngine;
-
-public class ConfirmPanel : MonoBehaviour
+﻿public class ConfirmPanel : ConfirmPanelBase
 {
-    [SerializeField] TextMeshProUGUI header_text;
-    [SerializeField] TextMeshProUGUI info_text;
-    [SerializeField] GameObject panel;
-
-    private Action Callback;
-
     public static ConfirmPanel Instance { get; private set; }
 
-    private void Awake()
+    protected void Awake()
     {
         if (Instance != null)
         {
@@ -22,18 +12,10 @@ public class ConfirmPanel : MonoBehaviour
         Instance = this;
     }
 
-
-    public void ShowConfirmationOption(string header, string info, Action CallbackSent)
+    public override void YesClicked()
     {
-        panel.SetActive(true);
-        Callback = CallbackSent;
-        header_text.text = header;
-        info_text.text = info;
-    }
-
-    public void YesClicked()
-    {
-        Callback?.Invoke();
+        Callback?.Invoke("");
         panel.SetActive(false);
     }
+
 }

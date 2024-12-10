@@ -581,6 +581,15 @@ public class FirestoreManager : MonoBehaviour
 
     }
     
+    public void StoreSelectedLevelCollection(string collectionName = "BasicCollection", List<LevelData> selectedListItems = null)
+    {
+        if (selectedListItems.Count == 0)
+            return;
+
+        LevelDataCollection collection = ConvertLevelsToCollection(selectedListItems);
+        Task task = StoreLevelCollectionByName(collection, collectionName);
+    }
+    
     public void LoadLevelCollection(string collectionName, bool editMode = false)
     {
         GetLevelCollection(collectionName,editMode);

@@ -9,6 +9,8 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] TextMeshProUGUI id_text;
     [SerializeField] Color unMarkedColor;
     [SerializeField] Color markedColor;
+    [SerializeField] Color normalTextColor;
+    [SerializeField] Color selectedManyTextColor;
     [SerializeField] Image image;
     [SerializeField] GameObject marker;
 
@@ -44,11 +46,11 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Debug.Log("Request Delete Level (ListItem)");
         ConfirmPanel.Instance.ShowConfirmationOption("Delete Level?", "Are you sure you want to delete level " + index+"?", DeleteSelected);
     }
-    public void DeleteSelected()
+    public void DeleteSelected(string info)
     {
         LocalLevelsPanel.Instance.RemoveIndexFromList(index);
     }
-    public void ReplaceSelected()
+    public void ReplaceSelected(string info)
     {
         if (GameAreaMaster.Instance.MainGameArea.ReplaceLevelToCollection(index))
         {
@@ -59,7 +61,11 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             PanelController.Instance.ShowInfo("Could not replace this level");
     }
 
-    public void SetAsActive(bool set) => image.color = set ? markedColor : unMarkedColor;
+    public void SetAsActive(bool set)
+    {
+        image.color = set ? markedColor : unMarkedColor;
+    }
+    
     public void RequestLoadLevel()
     {
         Debug.Log("Request Load Level (ListItem)");
@@ -83,11 +89,19 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void DeMark()
     {
         marker.gameObject.SetActive(false);
+        SetAsSelected(false);
     }
 
     public void Mark()
     {
         marker.gameObject.SetActive(true);
+        SetAsSelected(true);
+    }
+
+    public void SetAsSelected(bool set)
+    {
+        index_text.color = set ? selectedManyTextColor : normalTextColor;
+        id_text.color = set ? selectedManyTextColor : normalTextColor;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

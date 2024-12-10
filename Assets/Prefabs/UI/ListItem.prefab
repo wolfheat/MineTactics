@@ -669,7 +669,9 @@ MonoBehaviour:
   index_text: {fileID: 6640594097911515201}
   id_text: {fileID: 2303088798413093039}
   unMarkedColor: {r: 1, g: 1, b: 1, a: 0.11372549}
-  markedColor: {r: 0.18431373, g: 0.2522371, b: 0.32941177, a: 0.49019608}
+  markedColor: {r: 0.006274463, g: 0.4433962, b: 0.13333574, a: 0.49019608}
+  normalTextColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedManyTextColor: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 0.8666667}
   image: {fileID: 8919205022613635188}
   marker: {fileID: 971669598470500120}
 --- !u!114 &7102134417048880249
