@@ -77,7 +77,7 @@ public class PanelController : MonoBehaviour
         startMenu.SetActive(true);
         loginMenu.SetActive(false);
         registerMenu.SetActive(false);
-
+        localLevelPanel.HidePanel();
         settingsPanel.SetActive(false);
         progressPanel.gameObject.SetActive(false);
 

@@ -178,7 +178,7 @@ public class GameArea : MonoBehaviour
 
     public void ResetLevel()
     {
-        Debug.Log("Resetting under and over boxes in arrays");
+        //Debug.Log("Resetting under and over boxes in arrays");
 
         for (int j = 0; j < gameHeight; j++)
         {
@@ -232,9 +232,9 @@ public class GameArea : MonoBehaviour
 
     public void DrawLevel()
     {
-        Debug.Log("Creating new under and over boxes in arrays ["+gameWidth+","+gameHeight+"] ");
-        Debug.Log("OverlayBoxes size = ["+overlayBoxes.GetLength(0)+","+overlayBoxes.GetLength(1)+"] ");
-        Debug.Log("Underlayboxes size = ["+underlayBoxes.GetLength(0)+","+underlayBoxes.GetLength(1)+"] ");
+        //Debug.Log("Creating new under and over boxes in arrays ["+gameWidth+","+gameHeight+"] ");
+        //Debug.Log("OverlayBoxes size = ["+overlayBoxes.GetLength(0)+","+overlayBoxes.GetLength(1)+"] ");
+        //Debug.Log("Underlayboxes size = ["+underlayBoxes.GetLength(0)+","+underlayBoxes.GetLength(1)+"] ");
         BottomInfoController.Instance.ShowDebugText("DrawLevel "+overlayBoxes.GetLength(0)+"x"+overlayBoxes.GetLength(1));
         for (int j = 0; j < gameHeight; j++)
         {
@@ -254,8 +254,7 @@ public class GameArea : MonoBehaviour
                 underlayBox.Pos = new Vector2Int(i, j);
                 underlayBoxes[i, j] = underlayBox;
                 underlayBox.SetType(mines[i, j]);
-                if (i == 3 && j == 3)
-                    Debug.Log("Setting UnderLayBox to " + mines[i, j]);
+                
             }
         }
         Timer.Instance.Pause();
@@ -274,7 +273,7 @@ public class GameArea : MonoBehaviour
         int col = allPos[allPos.Length - 1] % gameWidth;
         swapBox = new Vector2Int(row, col);
 
-        Debug.Log("RandomizeMine is picked from row = "+row+" and col = "+col+" allpos size = "+ allPos.Length+" Total Mines = "+totalmines);
+        //Debug.Log("RandomizeMine is picked from row = "+row+" and col = "+col+" allpos size = "+ allPos.Length+" Total Mines = "+totalmines);
 
         for (int i = 0; i < totalmines; i++)
         {

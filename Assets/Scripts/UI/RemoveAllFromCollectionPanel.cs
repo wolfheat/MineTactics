@@ -11,7 +11,7 @@ public class RemoveAllFromCollectionPanel : MonoBehaviour
     [SerializeField] TMP_Dropdown DropDownField;
     [SerializeField] TMP_Dropdown DropDownExpression;
     [SerializeField] TMP_InputField inputFieldCompareAgainst;
-    private List<string> valueStringList = new List<string>{"CreatorId","Downvotes", "Upvotes", "DifficultyRating","PlayCount"};
+    private List<string> valueStringList = new List<string>{"CreatorId","Collection","Downvotes", "Upvotes", "DifficultyRating","PlayCount"};
     private List<LevelData> Query { get; set; }
 
     private void OnEnable()
@@ -47,6 +47,20 @@ public class RemoveAllFromCollectionPanel : MonoBehaviour
                 {
                     Debug.Log("Checking if Creator Id is " + against);
                     Query = FirestoreManager.Instance.LocalCollectionList?.Where(x => x.CreatorId == against).ToList();
+                }
+                else
+                    return; 
+                break;
+            case "Collection":
+                if(operatorType == "!=")
+                {
+                    Debug.Log("Checking if not colection " + against);
+                    Query = FirestoreManager.Instance.LocalCollectionList?.Where(x => x.Collection != against).ToList();
+                }
+                else if(operatorType == "==")
+                {
+                    Debug.Log("Checking if is colelction " + against);
+                    Query = FirestoreManager.Instance.LocalCollectionList?.Where(x => x.Collection == against).ToList();
                 }
                 else
                     return; 

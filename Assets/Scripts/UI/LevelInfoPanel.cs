@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelInfoPanel : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI creatorId;
+    [SerializeField] TextMeshProUGUI collection;
     [SerializeField] TextMeshProUGUI rating;
     [SerializeField] TextMeshProUGUI votes;
     [SerializeField] TextMeshProUGUI level;
@@ -32,6 +33,7 @@ public class LevelInfoPanel : MonoBehaviour
         if(!panel.activeSelf)
             panel.gameObject.SetActive(true);
         creatorId.text = data.CreatorId.ToString();
+        collection.text = data.Collection.ToString();
         rating.text = data.DifficultyRating.ToString();
         votes.text = data.Upvotes.ToString()+"/"+ data.Downvotes.ToString();
         level.text = data.Level.ToString();

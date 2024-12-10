@@ -25,6 +25,7 @@ public class LevelData
     [FirestoreProperty] public int Upvotes { get; set; } = 0;
     [FirestoreProperty] public int Downvotes { get; set; } = 0;
     [FirestoreProperty] public int PlayCount { get; set; } = 0;
+    public string Collection { get; set; } = "none";
 }
 
 [FirestoreData]
@@ -203,7 +204,7 @@ public class FirestoreManager : MonoBehaviour
                 if (document.Exists)
                 {
                     LevelDataCollection levelCollection = document.ConvertTo<LevelDataCollection>();
-                    List<LevelData> levels = ConvertCollectionToLevels(levelCollection);
+                    List<LevelData> levels = ConvertCollectionToLevels(levelCollection,id);
 
                     DownloadedCollectionForReupload = levels;
                     Debug.Log("Downloaded latest Levels from the collectiondatabase: " + levels.Count);
@@ -253,7 +254,7 @@ public class FirestoreManager : MonoBehaviour
                 if (document.Exists)
                 {
                     LevelDataCollection levelCollection = document.ConvertTo<LevelDataCollection>();
-                    List<LevelData> levels = ConvertCollectionToLevels(levelCollection);
+                    List<LevelData> levels = ConvertCollectionToLevels(levelCollection,id);
                     if (forEditMode)
                     {
                         LocalCollectionList.AddRange(levels);
@@ -288,7 +289,7 @@ public class FirestoreManager : MonoBehaviour
         });
     }
 
-    private List<LevelData> ConvertCollectionToLevels(LevelDataCollection levelCollection)
+    private List<LevelData> ConvertCollectionToLevels(LevelDataCollection levelCollection,string collectionName)
     {
         List<LevelData> ans = new List<LevelData>();
 
@@ -304,7 +305,8 @@ public class FirestoreManager : MonoBehaviour
                 DifficultyRating = levelCollection.DifficultyRating[i],
                 Upvotes = levelCollection.Upvotes[i],
                 Downvotes = levelCollection.Downvotes[i],
-                PlayCount = levelCollection.PlayCount[i]
+                PlayCount = levelCollection.PlayCount[i],
+                Collection = collectionName
             });
             if(length<10)Debug.Log("Adding level " + levelCollection.Level[i]);
         }
