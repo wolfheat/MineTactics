@@ -167,6 +167,9 @@ Nov 2024
 		* Deleting and clearing collection selections Unloads LevelInfoPanel
 		* Changed Delete by condition to Select by condition	
 		* Fixed LevelSize issue when moving "back" in creation mode
+11/12	* Moved Level Size slider to Normal Panel instead of settigns panel
+		* Added special smiley for Challenge Mode. Added popup if trying to load next level and none is loaded.
+
 
 		* Fix LevelSize selector for normal games, move from settings?
 

@@ -114,6 +114,7 @@ public class FirestoreManager : MonoBehaviour
         else
         {
             Debug.Log("** ALL Downloaded Levels have been completed - Was not using a Collection");
+            PanelController.Instance.ShowInfo("No downloaded levels available!");
         }
         SmileyButton.Instance.ShowNormal();
     }
@@ -262,17 +263,20 @@ public class FirestoreManager : MonoBehaviour
                     }
                     else
                     {
+                        DownloadedLevels.AddRange(levels);
+                        DownloadedCollection = levels;
                         OnSuccessfulLoadingOfLevels?.Invoke(levels.Count);
+                        OnLevelCollectionListChange?.Invoke(-1); // Select nothing = -1
                     }
-                    DownloadedLevels.AddRange(levels);
-                    DownloadedCollection = levels;
                     latestCollectionName = id;
                     // Save all Recieved levels into the Downloaded List
 
                     Debug.Log("Downloaded Levels from the collectiondatabase: " + levels.Count);
-
-                    OnLevelCollectionListChange?.Invoke(-1);
-                    USerInfo.Instance.Collection = id;
+                    if (forEditMode)
+                    {
+                        OnLevelCollectionListChange?.Invoke(-1);
+                        USerInfo.Instance.Collection = id;
+                    }
                 }
                 else
                 {

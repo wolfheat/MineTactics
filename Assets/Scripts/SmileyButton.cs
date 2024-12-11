@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SmileyButton : MonoBehaviour
@@ -18,6 +19,16 @@ public class SmileyButton : MonoBehaviour
             return;
         }
         Instance = this;
+        FirestoreManager.OnLevelCollectionListChange += UpdateCollectionSize;
+    }
+
+    private void UpdateCollectionSize(int select)
+    {
+        // Amount of loaded challenge levels changed - if there is levels set the smiley to evil?
+        if(FirestoreManager.Instance.LoadedAmount > 0)
+            spriteRenderer.sprite = sprites[4];
+        else
+            spriteRenderer.sprite = sprites[0];
     }
 
     public void Click()
@@ -55,8 +66,11 @@ public class SmileyButton : MonoBehaviour
     
     public void ShowNormal()
     {
-        Debug.Log("Show Normal");
+        Debug.Log("Show Normal Gametype:"+ USerInfo.Instance.currentType + " Loaded AMt: "+ FirestoreManager.Instance.LoadedAmount);
         spriteRenderer.sprite = sprites[0];
+        if(USerInfo.Instance.currentType==GameType.Challenge && FirestoreManager.Instance.LoadedAmount > 0)
+            spriteRenderer.sprite = sprites[4];
+
     }
 
 

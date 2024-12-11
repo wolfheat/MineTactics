@@ -133,6 +133,7 @@ public class PanelController : MonoBehaviour
             if (sameMode)
                 return;
             BackgroundController.Instance.SetColorTactics(); 
+            SmileyButton.Instance.ShowNormal();
         }
         UpdateModeShown();
     }
