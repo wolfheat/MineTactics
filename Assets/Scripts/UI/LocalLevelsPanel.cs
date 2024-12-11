@@ -124,6 +124,8 @@ public class LocalLevelsPanel : MonoBehaviour
             ListItem newListItem = Instantiate(listItemPrefab,listItemHolder.transform);
             newListItem.UpdateData(i,levelData);
             listItems.Add(newListItem);
+            if (selectedIndexes.Contains(i))
+                newListItem.Mark();
         }
 
         ActivateSelected();
