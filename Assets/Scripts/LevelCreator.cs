@@ -226,7 +226,7 @@ public class LevelCreator : MonoBehaviour
 
         int[,] flagged = GameAreaMaster.Instance.MainGameArea.GetFlaggedArray();
         // This keeps the mines
-        OnToggleCreate(false); 
+        OnToggleCreate(false,false); 
 
         totalmines = 0;
         mineCountAmount = 0;
@@ -241,7 +241,7 @@ public class LevelCreator : MonoBehaviour
         // Unload All but mines
         int[,] flagged = GameAreaMaster.Instance.MainGameArea.GetFlaggedArray();
         // This keeps the mines
-        OnToggleCreate(false); 
+        OnToggleCreate(false,false); 
 
         totalmines = 0;
         mineCountAmount = 0;
@@ -262,18 +262,18 @@ public class LevelCreator : MonoBehaviour
     public void OnChangeSizeCreate(int[,] flagged)
     {
         Debug.Log("OnChangeSizeCreate");
-        OnToggleCreate(false);
+        OnToggleCreate(false,true);
         Debug.Log("Changing Size Create");
         // Place flags and ghost mines
         
         GameAreaMaster.Instance.MainGameArea.OnCreateBack(flagged);
     }
-    public void OnToggleCreate(bool resetMines = true)
+    public void OnToggleCreate(bool resetMines = true,bool useGamesizeFromSettings = false)
     {
         Debug.Log("Create Toggle requested");
 
         // Create empty board
-        GameAreaMaster.Instance.MainGameArea.SizeGameArea(true, resetMines); // Sizes and set empty game
+        GameAreaMaster.Instance.MainGameArea.SizeGameArea(useGamesizeFromSettings, resetMines); // Sizes and set empty game
 
         // Go into Edit mode here - no counter - No normal fail on click
         USerInfo.Instance.currentType = GameType.Create;

@@ -62,7 +62,7 @@ public class FirestoreManager : MonoBehaviour
     public static Action SubmitNameAttemptSuccess;
     public static Action OnSubmitLevelStarted;
 
-    public static Action<bool> OnSuccessfulLoadingOfLevels;
+    public static Action<int> OnSuccessfulLoadingOfLevels;
     public static Action<int> OnLevelCollectionLevelsDownloaded;
     public static Action<string> OnLevelCollectionLevelsDownloadedFail;
     public static Action OnLoadLevelStarted;
@@ -175,14 +175,14 @@ public class FirestoreManager : MonoBehaviour
                         //DownloadedLevels = snapshot.Documents.Select(x=>x.ConvertTo<LevelData>()).ToList();
 
                         Debug.Log("Downloaded LEvels from the database: "+snapshot.Count);
-                        OnSuccessfulLoadingOfLevels?.Invoke(true);
+                        OnSuccessfulLoadingOfLevels?.Invoke(snapshot.Documents.Count());
                         OnLevelCollectionListChange?.Invoke(-1);
                         USerInfo.Instance.Collection = null;
                     }
                     else
                     {
                         Debug.Log("No levels found within the specified range.");
-                        OnSuccessfulLoadingOfLevels?.Invoke(false);
+                        OnSuccessfulLoadingOfLevels?.Invoke(0);
                     }
                 }
                 else
@@ -262,7 +262,7 @@ public class FirestoreManager : MonoBehaviour
                     }
                     else
                     {
-                        OnSuccessfulLoadingOfLevels?.Invoke(true);
+                        OnSuccessfulLoadingOfLevels?.Invoke(levels.Count);
                     }
                     DownloadedLevels.AddRange(levels);
                     DownloadedCollection = levels;
@@ -277,7 +277,7 @@ public class FirestoreManager : MonoBehaviour
                 else
                 {
                     if(!forEditMode)
-                        OnSuccessfulLoadingOfLevels?.Invoke(false);
+                        OnSuccessfulLoadingOfLevels?.Invoke(0);
                     OnLevelCollectionLevelsDownloadedFail?.Invoke("Could not find a Collection with this name!");    
                 }
             }

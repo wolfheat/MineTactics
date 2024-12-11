@@ -42,6 +42,7 @@ public class CreatePanelController : MonoBehaviour
     public void Back()
     {
         //SetCreateButtonsToLevel(1);
+        SetSliderSize();
         LevelCreator.Instance.OnCreateBack();
         ButtonController.Instance.ShowButtons(MenuState.CreateA);
     }

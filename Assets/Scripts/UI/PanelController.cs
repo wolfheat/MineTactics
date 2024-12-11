@@ -225,7 +225,7 @@ public class PanelController : MonoBehaviour
 
     public void Clear()
     {
-        LevelCreator.Instance.OnToggleCreate();
+        LevelCreator.Instance.OnToggleCreate(true,true);
     }
     public void LoadLevels()
     {

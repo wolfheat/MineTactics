@@ -115,8 +115,12 @@ public class ProgressPanel : MonoBehaviour
     {
         ShowLoadingCircleAnimation(false);
         
+        if(amt == 0)
+            subText.text = "No levels could be loaded!";        
+        else
+            subText.text = amt+" Levels Added Successfully";        
+
             // Set Name to Regitrating
-        subText.text = amt+" Levels Added Successfully";        
     }
     
     public void OnSuccessfulLoadLevels(bool success=true)

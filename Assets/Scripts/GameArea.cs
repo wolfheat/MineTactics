@@ -128,6 +128,13 @@ public class GameArea : MonoBehaviour
     {
         // Define mines for this load?
         Debug.Log("LOADING GAME IN GAMEAREA");
+        if(!editorcreateMode && isOnlyView)
+        {
+            Debug.Log("View Should not load the normal Challenge levels in challenge mode!");
+            return;
+        }
+
+        USerInfo.Instance.BoardSize = gameLoaded.GetLength(0);
         
         SizeGameArea(false);
         //mines = gameLoaded;
@@ -139,6 +146,7 @@ public class GameArea : MonoBehaviour
         if (isOnlyView)
             return;
         LevelBusted = false;
+
         LevelCreator.Instance.LoadedGameFinalizing(editorcreateMode);
         // Also Start the timer and reset the smiley
     }
