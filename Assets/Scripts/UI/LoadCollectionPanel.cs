@@ -1,5 +1,3 @@
-using System;
-using System.Text;
 using TMPro;
 using UnityEngine;
 using WolfheatProductions;
@@ -8,6 +6,7 @@ public class LoadCollectionPanel : MonoBehaviour
 {
     [SerializeField] TMP_InputField inputField;
     // Start is called before the first frame update
+
     void Start()
     {
         FirestoreManager.OnLevelCollectionLevelsDownloaded += OnSuccessfulLoadLevels;

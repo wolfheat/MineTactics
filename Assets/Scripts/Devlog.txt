@@ -174,25 +174,14 @@ Nov 2024
 		* Storing Levels to Collection should update their shown Collection to this
 		* SHIFT CLICK marks all levels from last marked up to current marked. CTRL click add another mark
 		* Added Invert button for selection
-
+12/12	* Added LoadCollectionPanel what loads collections from a list
+		
 		
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
+		* Decide on how to structure the Challenge section
+
 		* Issue with slow loading of levels in collections sometimes, fix?
 		* Player can swap mode during a play should this be possible? Maybe it exits a game the player wants to play to finish?
-
-		Minesweeper GO Pro Cons
-
-			TheOreh/Opex/0,12,46/220,180,140
-		-no ping or delay, game only loads to the server after you win it
-		-no cheaters usually (partly cuz of anticheat), or the dev, who has contacts with active players, bans cheaters in a short period of time
-		-no incidents when your board moves up and down like on wom mobile
-		-tournaments
-
-			Llama
-		 The main reason for playing it over different apps is that it has good stats and leaderboards, though WoM also has this. And the reason for playing minesweeper Go 
-		 over WoM would be that minesweeper Go is optimised for mobile so is a bit more responsive than WoM. Although this does depend on other factors like what device is used.
-
-
 
 
 		* Missing functionality Creating collections
@@ -202,34 +191,19 @@ Nov 2024
 		* ISSUE - There is a list of created levels that prohibits same level to be created twice, but player can delete a level so it should be allowed again if done?
 
 		* Have each level knowing its collection? - Needed to know if game should be saved or not when completed. Can we write to the Collection?
+			- C only when downloaded or stored a collection to database Sufficient?
 
-
-		* How about having new Pending levels in a pot where players can play and rate them and after 100 ratings it is ether approved or discarded?
-		* Approved goes into certain Collections? Maybe Monthly new or Weekly?
-
-		* Initially players get the basic collections maybe 1000 levels? Need to complete them to unlock rest?
-
+		
 		// Moderator Tools
-		* Add Special Creator Menu that can load a collection, remove specific elements, load them into edit etc?
-
+		* What Creation tools should be allowed for users, and when?
 
 		// Trouble with Id only unique inside each document not both
-
-		* Introduce Collections, that holds 100+ level? Group them by type or difficluty?
 
 		* Add page with statistics for the player?
 			* Total games cleared
 			* Practice levels completed?
 			* Rating?
 		
-
-		// PRO USERS
-		* Maybe only allow paying players to rate and play pending games?
-		* Make it possible to support as patriot, Buy Me a coffie or buying the game / unloading ads 5$?
-		* Make Submit button hide when submitted a level.
-		* Have creator guess a rating 1-10 which determines the levels start rating
-		* Make admin Log in that allowes approved levels directly
-		* Make admin Log in that allows upload of Collections?
 
 		// MODES
 		* Add find missflagged mine Game Mode??				
@@ -251,25 +225,24 @@ Nov 2024
 		* Have a limit for levels for them to count towards rating? How to set this range?
 		* HAve categories for levels depending on logic? How to handle this, how to handle multiple logics?
 		* Should player have different strengths in diffrent logics and unlocking new ones? Prob not. Just have harder levels not appear for new users
-
-		// LEVEL CREATION
-		* Decide where to go after a Level is submitted
-			* Have player be able to go back to placing mines (Edit Mode A) from Edit Mode B
-		* Change so placemnt of mines are tinted mines and not flags, rework this
-		* Make create mode that places mines and starts level and request send to database when satisfied
-
-		// UI
-		
-
 		// LEVEL CREATION SYSTEM
-		* Make a Collection sub database that holds many levels? Limits Reads. (writes? how to limit? collections does not need to be updated? Rating needs to?)
+		// USER CREATION ALLOWENCE
+		* How about having new Pending levels in a pot where players can play and rate them and after 100 ratings it is ether approved or discarded?
+		* Approved goes into certain Collections? Maybe Monthly new or Weekly?
+		* Initially players get the basic collections maybe 1000 levels? Need to complete them to unlock rest?		
+		// PRO USERS
+		* Maybe only allow paying players to rate and play pending games?
+		* Make it possible to support as patriot, Buy Me a coffie or buying the game / unloading ads 5$?
+		* Make Submit button hide when submitted a level.
+		* Have creator guess a rating 1-10 which determines the levels start rating
+		* Make admin Log in that allowes approved levels directly
+		* Make admin Log in that allows upload of Collections?
 
-		* Add Error message popup when loading unexisting level
+		// UI		
 		
 		// AUTHENTICATION
 		* Players need to be able to log in with Facebook/googleaccount
 		* Have Log out use Loadingpanel and show result?
-
 
 		// FIREBASE LIMITS
 		Monthly active users	50k/month 
@@ -280,14 +253,27 @@ Nov 2024
 		Outbound data transfer 	10 GiB per month
 		Maximum size for a document 	1 MiB (1,048,576 bytes)
 		Maximum size of a field value 	1 MiB - 89 bytes (1,048,487 bytes)
+		
+		******************************
+		Minesweeper GO Pro Cons
 
+			TheOreh/Opex/0,12,46/220,180,140
+		-no ping or delay, game only loads to the server after you win it
+		-no cheaters usually (partly cuz of anticheat), or the dev, who has contacts with active players, bans cheaters in a short period of time
+		-no incidents when your board moves up and down like on wom mobile
+		-tournaments
+
+			Llama
+		 The main reason for playing it over different apps is that it has good stats and leaderboards, though WoM also has this. And the reason for playing minesweeper Go 
+		 over WoM would be that minesweeper Go is optimised for mobile so is a bit more responsive than WoM. Although this does depend on other factors like what device is used.
+		******************************
+		
 		// DATABASE
-		* Figure out a way to not load to many Levels at a time
-		* Maybe have many levels per entry, makes reads a lot fewer if 100 levels are in one read?
-
-		// Cloud Firestore Rules
+		* Figure out a way to not load to many Levels at a time - Introduced Collections
+		
+		// Cloud Firestore Rules - Also needs in game correlating rules
 		* Allow writing if
-			- PLayer is power user = paying or playing a lot?
+			- Player is power user = paying or playing a lot?
 			- Level starts with number between 06-20
 			- Status == Pending (Players always place the level in Pending status) Might allow admin status to place as Approved?
 			- Upwotes == 0 && Downvotes == 0 - When level is uploaded it has to start at no Votes
@@ -300,9 +286,6 @@ Nov 2024
 				- UpVotes if newValue == OldValue +1 
 				- PlayCount if newValue == OldValue +1 
 				-- Do Not allow updating Level, LevelID, CreatorId
-
-
-
 
 		//ISSUES
 		* Changeing Size during a Create even breaks the level. Maybe have the level size set at the first creation step?
