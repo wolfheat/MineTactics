@@ -483,7 +483,6 @@ public class FirestoreManager : MonoBehaviour
         }
         Debug.Log("Submitting of the level success!");
         SubmitLevelAttemptSuccess?.Invoke();
-        
     }
 
     public async Task StoreUsernameById(string name, string UserID)
@@ -643,5 +642,20 @@ public class FirestoreManager : MonoBehaviour
         List<LevelData> newLocalCollection = LocalCollectionList.Except(levelsToRemove).ToList();
         Debug.Log("New Local List bocomes "+newLocalCollection.Count+" long after deleting "+levelsToRemove.Count);
         LocalCollectionList = newLocalCollection;
+    }
+
+    internal void SetLocalCollectionListAsFromCollection(string lastSavedCollectionName, List<int> selectedIndexes)
+    {
+        foreach (var index in selectedIndexes)
+        {
+            Debug.Log("Setting index "+index+" to bnelong to collection "+lastSavedCollectionName);
+            LocalCollectionList[index].Collection = lastSavedCollectionName;
+        }
+        Debug.Log("The Collection list is X long "+LocalCollectionList.Count);
+    }
+
+    internal void SetLocalCollectionListAsFromCollection(string lastSavedCollectionName)
+    {
+        foreach (var item in LocalCollectionList) { item.Collection = lastSavedCollectionName; }
     }
 }

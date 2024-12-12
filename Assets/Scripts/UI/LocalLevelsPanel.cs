@@ -29,8 +29,8 @@ public class LocalLevelsPanel : MonoBehaviour
         Instance = this;
 
         FirestoreManager.OnLevelCollectionListChange += UpdateCollectionSize;
+        FirestoreManager.SubmitLevelAttemptSuccess += OnSubmitLevelSuccess;
     }
-
 
     public void ShowLevelInfo(LevelData levelData)
     {
@@ -151,7 +151,7 @@ public class LocalLevelsPanel : MonoBehaviour
             PanelController.Instance.ShowInfo("There is no levels in the Collection!");
             return;
         }
-        ConfirmPanel.Instance.ShowConfirmationOption("Clear Levels?", "Do you want to remove all levels from the list?", ClearCollection);
+        ConfirmPanel.Instance.ShowConfirmationOption("Clear Level lists?", "Do you want to remove all levels from the list? (Only locally)", ClearCollection);
     }
 
     public void ClearCollection(string info)
@@ -194,11 +194,37 @@ public class LocalLevelsPanel : MonoBehaviour
             PanelController.Instance.ShowInfo("No level selected. Can not delete!");
             return;
         }
-        ConfirmPanel.Instance.ShowConfirmationOption("Remove Levels?", "Do you want to remove the " + selectedListItems.Count + " selected levels from the list?", DeleteSelected);
+        ConfirmPanel.Instance.ShowConfirmationOption("Remove Levels?", "Do you want to remove the " + selectedListItems.Count + " selected levels from the list? (Only locally)", DeleteSelected);
+    }
+
+    bool entireLast = true;
+    string lastSavedCollectionName = "";
+    private void OnSubmitLevelSuccess()
+    {
+        Debug.Log("Successfully submitted levels to Collection - Set these levels to this Collection");
+        if (entireLast)
+            SetEntireCollectionToBelongTo(lastSavedCollectionName);
+        else
+            SetSelectionOfCollectionToBelongTo(lastSavedCollectionName);
+        // Update the list
+        UpdateList();
+    }
+
+    private void SetSelectionOfCollectionToBelongTo(string lastSavedCollectionName)
+    {
+        Debug.Log("SELECTION OF COLLECTION");
+        FirestoreManager.Instance.SetLocalCollectionListAsFromCollection(lastSavedCollectionName,selectedIndexes);
+    }
+
+    private void SetEntireCollectionToBelongTo(string lastSavedCollectionName)
+    {
+        Debug.Log("ENTIRE COLLECTION");
+        FirestoreManager.Instance.SetLocalCollectionListAsFromCollection(lastSavedCollectionName);        
     }
 
     public void RequestStoreCollection(bool entire)
     {
+        entireLast = entire;
         Debug.Log("Store "+(entire?"Entire":"Selected"));
         if (FirestoreManager.Instance.LocalCollectionList.Count == 0)
         {
@@ -212,12 +238,14 @@ public class LocalLevelsPanel : MonoBehaviour
     }
     public void StoreCollection(string collectionName)
     {
+        lastSavedCollectionName = collectionName;
         Debug.Log("StoreCollection");
         FirestoreManager.Instance.StoreLevelCollection(collectionName);
         //FirestoreManager.Instance.StoreLevelCollectionPreset();
     }
-        public void StoreSelectionToCollection(string collectionName)
+    public void StoreSelectionToCollection(string collectionName)
     {
+        lastSavedCollectionName = collectionName;
         Debug.Log("StoreSelectionToCollection");
         List<LevelData> levelDataList = (List<LevelData>)selectedListItems.Select(x => x.Data).ToList();
         FirestoreManager.Instance.StoreSelectedLevelCollection(collectionName, levelDataList);

@@ -159,7 +159,7 @@ public class ProgressPanel : MonoBehaviour
     }
     public void OnCloseWindow()
     {
-        Debug.Log("Closing Loader Window: ");
+        Debug.Log("Closing Loader Window: "+currentState);
         // Load Main Menu if coming from log in or register else just close?
         if(currentState == LoadingState.LogIn || currentState == LoadingState.Register)
             startMenu.gameObject.SetActive(true);
@@ -167,7 +167,10 @@ public class ProgressPanel : MonoBehaviour
             // Select a random level from the retrieved documents
             FirestoreManager.Instance.GetRandomLevel(1000);
         else if (currentState == LoadingState.SubmitLevel)
-            PanelController.Instance.Back();
+        {
+            Debug.Log("Closing Window SubmitLevel mode - do nothing");
+            //PanelController.Instance.Back();
+        }
         else
             PanelController.Instance.ChangeMode(0);
 

@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -13,16 +14,13 @@ public class LoadCollectionPanel : MonoBehaviour
         FirestoreManager.OnLevelCollectionLevelsDownloadedFail += OnUnsuccessfulLoadLevels;
         inputField.onValueChanged.AddListener(delegate { InputFieldValueChanged(); });
     }
-
-
-
-
     private void InputFieldValueChanged()
     {
         inputField.text = Converter.RemoveAllNonCharacters(inputField.text);
         //inputField.text = inputField.text.Replace(" ","");
     }
-    
+
+
     private void OnSuccessfulLoadLevels(int amt)
     {
         gameObject.SetActive(false);
