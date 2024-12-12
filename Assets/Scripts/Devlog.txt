@@ -172,11 +172,10 @@ Nov 2024
 		* Fixed issue when loading a Level and listitems were selected
 		* Fixed Going to wrong Create Screen after submitting and closing menu
 		* Storing Levels to Collection should update their shown Collection to this
+		* SHIFT CLICK marks all levels from last marked up to current marked. CTRL click add another mark
+		* Added Invert button for selection
 
-		* SHIFT CLICK should mark all levels from last marked up to current marked
-		* Fix issue with storing collection and going to wrong createscreen
-
-
+		
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
 		* Issue with slow loading of levels in collections sometimes, fix?
 		* Player can swap mode during a play should this be possible? Maybe it exits a game the player wants to play to finish?

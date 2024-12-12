@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class LocalLevelsPanel : MonoBehaviour
 {
@@ -336,11 +337,7 @@ public class LocalLevelsPanel : MonoBehaviour
         {
             if (!keep)
             {
-                foreach(var listItem in selectedListItems)
-                    if(listItem != null)
-                        listItem?.DeMark();
-                selectedListItems.Clear();
-                selectedIndexes.Clear();
+                UnselectAllMarked();
             }
 
             // Remove if already marked = unmark
@@ -352,6 +349,42 @@ public class LocalLevelsPanel : MonoBehaviour
         UpdateSelectedAmt();
     }
 
+    private void UnselectAllMarked()
+    {
+        foreach (var listItem in selectedListItems)
+            if (listItem != null)
+                listItem?.DeMark();
+        selectedListItems.Clear();
+        selectedIndexes.Clear();
+    }
+
+    public void InvertSelection()
+    {
+        List<int> newSelectedIndexes = Enumerable.Range(0,listItems.Count).Where(x=>!selectedIndexes.Contains(x)).ToList();
+        UnselectAllMarked();
+        foreach (var selected in newSelectedIndexes)
+        {
+            ListItem selectedItem = listItems[selected];
+            selectedIndexes.Add(selectedItem.Index);
+            selectedListItems.Add(selectedItem);
+            selectedItem.Mark();
+        }
+    }
+
+    internal void AddSelectedLevelToListShift(ListItem listItem)
+    {
+        // Mark all items from index min to max
+        int minIndex = Math.Min(listItem.Index, selectedListItems[selectedListItems.Count - 1].Index);
+        int maxIndex = Math.Max(listItem.Index, selectedListItems[selectedListItems.Count - 1].Index);
+        for(int i = minIndex; i<=maxIndex; i++)
+        {
+            if (selectedIndexes.Contains(i))
+                continue;
+            selectedIndexes.Add(i);
+            selectedListItems.Add(listItems[i]);
+            listItems[i].Mark();
+        }   
+    }
     public void AddQueryToSelectedList(List<int> datas)
     {
         foreach (var item in datas)

@@ -213,6 +213,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ctrl"",
+                    ""type"": ""Button"",
+                    ""id"": ""225c51a1-9d44-4dda-b712-5496d8cfeb94"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -666,6 +675,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Shift"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3e0f3023-5483-4964-a679-085a330010db"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ctrl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -691,6 +711,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_UI_TAB = m_UI.FindAction("TAB", throwIfNotFound: true);
         m_UI_Enter = m_UI.FindAction("Enter", throwIfNotFound: true);
         m_UI_Shift = m_UI.FindAction("Shift", throwIfNotFound: true);
+        m_UI_Ctrl = m_UI.FindAction("Ctrl", throwIfNotFound: true);
     }
 
     ~@Controls()
@@ -832,6 +853,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_TAB;
     private readonly InputAction m_UI_Enter;
     private readonly InputAction m_UI_Shift;
+    private readonly InputAction m_UI_Ctrl;
     public struct UIActions
     {
         private @Controls m_Wrapper;
@@ -848,6 +870,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @TAB => m_Wrapper.m_UI_TAB;
         public InputAction @Enter => m_Wrapper.m_UI_Enter;
         public InputAction @Shift => m_Wrapper.m_UI_Shift;
+        public InputAction @Ctrl => m_Wrapper.m_UI_Ctrl;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -893,6 +916,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Shift.started += instance.OnShift;
             @Shift.performed += instance.OnShift;
             @Shift.canceled += instance.OnShift;
+            @Ctrl.started += instance.OnCtrl;
+            @Ctrl.performed += instance.OnCtrl;
+            @Ctrl.canceled += instance.OnCtrl;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -933,6 +959,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Shift.started -= instance.OnShift;
             @Shift.performed -= instance.OnShift;
             @Shift.canceled -= instance.OnShift;
+            @Ctrl.started -= instance.OnCtrl;
+            @Ctrl.performed -= instance.OnCtrl;
+            @Ctrl.canceled -= instance.OnCtrl;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -970,5 +999,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnTAB(InputAction.CallbackContext context);
         void OnEnter(InputAction.CallbackContext context);
         void OnShift(InputAction.CallbackContext context);
+        void OnCtrl(InputAction.CallbackContext context);
     }
 }

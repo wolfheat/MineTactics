@@ -23,8 +23,10 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnClick()
     {
         Debug.Log("Clicking List Item "+index);
-        if (Inputs.Instance.Controls.UI.Shift.IsPressed() || Inputs.Instance.TimeHeld > 0.15f)
+        if (Inputs.Instance.Controls.UI.Ctrl.IsPressed() || Inputs.Instance.TimeHeld > 0.15f)
             LocalLevelsPanel.Instance.AddSelectedLevelToList(this,true);
+        else if(Inputs.Instance.Controls.UI.Shift.IsPressed())
+            LocalLevelsPanel.Instance.AddSelectedLevelToListShift(this);
         else
             LocalLevelsPanel.Instance.AddSelectedLevelToList(this);
     }
