@@ -17,6 +17,7 @@ public class CollectionListItem : MonoBehaviour//, IPointerEnterHandler, IPointe
     private int index = 0;
     private LevelData levelData;
     public LevelData Data { get {return levelData; }}
+    public string CollectionName { get {return id_text.text; }}
 
     public int Index { get { return index; }}
 
@@ -32,15 +33,16 @@ public class CollectionListItem : MonoBehaviour//, IPointerEnterHandler, IPointe
             LocalLevelsPanel.Instance.AddSelectedLevelToList(this);
     }
     
+    */
     public void SetAsActive(bool set)
     {
         image.color = set ? markedColor : unMarkedColor;
     }
-    */
     public void RequestLoadLevel()
     {
-        Debug.Log("Request Load Collection (CollectionListItem)"+id_text.text);
-        LoadPanel.Instance.RequestLoadLevel(id_text.text);
+        Debug.Log("Request Update Collection Data (CollectionListItem)"+id_text.text);
+        LoadPanel.Instance.ClickingCollection(index);
+
         //LocalLevelsPanel.Instance.LoadLevel(levelData,this);
     }
 

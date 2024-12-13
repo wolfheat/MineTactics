@@ -175,8 +175,17 @@ Nov 2024
 		* SHIFT CLICK marks all levels from last marked up to current marked. CTRL click add another mark
 		* Added Invert button for selection
 12/12	* Added LoadCollectionPanel what loads collections from a list
+		* Added larger buttons for collections, turns green when selected
 		
-		
+		* Maybe just have buttons on the Collection page which player can enable/disable and then the levels they get are drawn from those collections
+		* Adding a collection that is not downloaded will download it automatically. If its locally get it from local. Have option to force re-download?
+		* Can still have these buttons in a list
+		* Add bottom info that shows the collection a loaded game belongs to?
+		* Have a List of each loaded collection (or one for all levels) that is reduced after completing a level so not same level is loaded twice until all levels are played
+		* After that reload all levels again to the list.
+		* When all levels of one collection is done upload the results to database
+
+
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
 		* Decide on how to structure the Challenge section
 
