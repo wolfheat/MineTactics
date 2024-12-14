@@ -68,6 +68,7 @@ public class FirestoreManager : MonoBehaviour
     public static Action<int> OnLevelCollectionLevelsDownloaded;
     public static Action<LevelDataCollection,string> OnSuccessfulLoadingOfCollection;
     public static Action<string> OnLevelCollectionLevelsDownloadedFail;
+    public static Action<string> OnLevelCollectionLevelsDownloadedFailSendCollection;
     public static Action OnLoadLevelStarted;
     public static Action<int> OnLevelCollectionListChange;
     private string latestCollectionName="";
@@ -255,7 +256,7 @@ public class FirestoreManager : MonoBehaviour
 
         db.Collection("LevelCollections").Document(id).GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
-            Debug.Log("Tried to get snapshot for "+id);
+            Debug.Log("Tried to get snapshot for "+id); 
             if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
             {
                 DocumentSnapshot document = task.Result;
@@ -293,6 +294,7 @@ public class FirestoreManager : MonoBehaviour
                     if(!forEditMode)
                         OnSuccessfulLoadingOfLevels?.Invoke(0);
                     OnLevelCollectionLevelsDownloadedFail?.Invoke("Could not find a Collection with this name!");    
+                    OnLevelCollectionLevelsDownloadedFailSendCollection?.Invoke(id);    
                 }
             }
             else
@@ -671,11 +673,21 @@ public class FirestoreManager : MonoBehaviour
 
     internal void ReactivateAllActiveCollectionsToChallengeList()
     {
-        foreach(var collectionsName in USerInfo.Instance.ActiveCollections) {
+        bool deletedUnavailablesFromList = false;
+        for (int i = USerInfo.Instance.ActiveCollections.Count - 1; i >= 0; i--) {
+            string collectionsName = USerInfo.Instance.ActiveCollections[i];
             // Read the collection from file
             LevelDataCollection data = SavingUtility.Instance.LoadCollectionDataFromFile(collectionsName);
-            ActivateAllLevelsFromCollection(data,collectionsName);
+            if(data == null)
+            {
+                deletedUnavailablesFromList = true;
+                USerInfo.Instance.ActiveCollections.RemoveAt(i);
+            }
+            else
+                ActivateAllLevelsFromCollection(data,collectionsName);
         }
+        if(deletedUnavailablesFromList)
+            SavingUtility.Instance.SaveAllDataToFile(); // Forces local Save of settings
         // Send UpdateNotice
         OnLevelCollectionListChange?.Invoke(-1);
     }

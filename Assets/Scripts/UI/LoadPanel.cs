@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class LoadPanel : MonoBehaviour
 {
@@ -23,6 +21,7 @@ public class LoadPanel : MonoBehaviour
         Instance = this;
 
         FirestoreManager.OnSuccessfulLoadingOfCollection += CollectionLoadedFromFirebase;
+        FirestoreManager.OnLevelCollectionLevelsDownloadedFailSendCollection += RecievedUnloadableCollectionNotice;
     }
 
     
@@ -50,8 +49,10 @@ public class LoadPanel : MonoBehaviour
             Debug.Log(" LOCALLY - File exists locally");
             LevelDataCollection collection = SavingUtility.Instance.LoadCollectionDataFromFile(collectionToLoad);
             if (collection != null)
+            {
                 Debug.Log("** Successfully loaded locally data with " + collection.Level.Length + " levels.");
-            FirestoreManager.Instance.AddCollectionToChallengeList(collection,collectionToLoad);
+                FirestoreManager.Instance.AddCollectionToChallengeList(collection,collectionToLoad);
+            }
         }
         else
         {
@@ -77,7 +78,19 @@ public class LoadPanel : MonoBehaviour
         Debug.Log("INFO PANEL - Updated to show "+collectionToLoad+" collection.");
         infoPanel.UpdateLevelInfo(collectionToLoad);
     }
-    
+
+    public void RecievedUnloadableCollectionNotice(string collectionName)
+    {
+        Debug.Log("Looking for Unavailable Collection in the list and setting it correctly in the list");
+        foreach (var item in selectedCollections)
+        {
+            if(item.CollectionName == collectionName)
+            {
+                item.SetAsUnavailable();
+                return;
+            }
+        }
+    }
     public void ClickingCollection(int index)
     {
         CollectionListItem listItem = collectionList[index];
@@ -98,6 +111,7 @@ public class LoadPanel : MonoBehaviour
             listItem.SetAsActive(true);
             RequestLoadCollection(listItem.CollectionName);
         }
+        listItem.ShowAsLocal(true);
 
 
         //FirestoreManager.Instance.LoadLevelCollection(levelToLoad);
@@ -123,7 +137,12 @@ public class LoadPanel : MonoBehaviour
             CollectionListItem item = Instantiate(listItemPrefab, listHolder.transform);
             item.UpdateData(i, collectionName);
             collectionList.Add(item);
-            item.SetAsActive(USerInfo.Instance.ActiveCollections.Contains(collectionName));
+            if (USerInfo.Instance.ActiveCollections.Contains(collectionName))
+            {
+                selectedCollections.Add(item);
+                item.SetAsActive(true);
+                item.ShowAsLocal(SavingUtility.Instance.FileExists(collectionName));
+            }
         }
     }
 
@@ -144,7 +163,7 @@ public class LoadPanel : MonoBehaviour
     public void GetCollectionsClicked()
     {
         Debug.Log("Get Collections Clicked");
-        List<string> collectionNames = new List<string>() {"Easy","Basic","Corners","BasicCollection","Selection"};
+        List<string> collectionNames = new List<string>() {"Easy","Basic","Corners","BasicCollection","Selection","Doesnt_Exist"};
         GenerateCollections(collectionNames);
     }
 }

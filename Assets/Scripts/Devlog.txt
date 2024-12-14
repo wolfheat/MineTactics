@@ -180,6 +180,7 @@ Nov 2024
 14/12	* Collection now can be downloaded and saved to local storage.
 		* Collections can be toggled in Loading Screen, if Toggled on but not found locally they are downloaded
 		* When Starting game, active collections are loaded from local storage
+		* Failing to load a level from the DB now turns red.
 
 
 

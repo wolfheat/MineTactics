@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;     
 using UnityEngine.UI;
@@ -9,10 +10,12 @@ public class CollectionListItem : MonoBehaviour//, IPointerEnterHandler, IPointe
     [SerializeField] TextMeshProUGUI id_text;
     [SerializeField] Color unMarkedColor;
     [SerializeField] Color markedColor;
+    [SerializeField] Color unavailableColor;
     [SerializeField] Color normalTextColor;
     [SerializeField] Color selectedManyTextColor;
     [SerializeField] Image image;
     [SerializeField] GameObject marker;
+    [SerializeField] GameObject downloadText;
 
     private int index = 0;
     private LevelData levelData;
@@ -38,6 +41,7 @@ public class CollectionListItem : MonoBehaviour//, IPointerEnterHandler, IPointe
     {
         image.color = set ? markedColor : unMarkedColor;
     }
+    public void ShowAsLocal(bool exists) => downloadText.SetActive(!exists); // Only visible if never downloaded
     public void RequestLoadLevel() => LoadPanel.Instance.ClickingCollection(index);
 
     public void UpdateData(int i, string collectionName)
@@ -51,5 +55,12 @@ public class CollectionListItem : MonoBehaviour//, IPointerEnterHandler, IPointe
     {
         index_text.text = i.ToString();
         index = i;
+    }
+
+    internal void SetAsUnavailable()
+    {
+        Debug.Log("** NOT AVAILABLE COLLECTION");
+        image.color = unavailableColor;
+        GetComponent<Button>().interactable = false;
     }
 }
