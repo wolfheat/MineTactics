@@ -10,7 +10,6 @@ public class NormalPanelController : MonoBehaviour
     private void OnEnable()
     {
         // Initiate the Create With start of creat buttons and 
-        Debug.Log("Create Panel Controller Enabled - Enables first Panel");
         SetSliderSize();
     }
 

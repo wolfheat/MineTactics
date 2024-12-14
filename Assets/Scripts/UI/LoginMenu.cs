@@ -20,7 +20,7 @@ public class LoginMenu : MonoBehaviour
     }
     private void OnEnable()
     {
-        Debug.Log("Register for Success Methods from "+this.name);
+        //Debug.Log("Register for Success Methods from "+this.name);
         AuthManager.OnSuccessfulLogIn += OnSuccessfulLogIn;
         AuthManager.OnSuccessfulCreation += OnSuccessfulCreation;
         AuthManager.RegisterAttemptFailed += OnRegisterFailed;
@@ -66,7 +66,7 @@ public class LoginMenu : MonoBehaviour
 
     private void OnDisable()
     {
-        Debug.Log("UN-Register for Success Methods from "+this.name);
+        //Debug.Log("UN-Register for Success Methods from "+this.name);
         AuthManager.OnSuccessfulLogIn -= OnSuccessfulLogIn;
         AuthManager.OnSuccessfulCreation -= OnSuccessfulCreation;
         AuthManager.RegisterAttemptFailed -= OnRegisterFailed;

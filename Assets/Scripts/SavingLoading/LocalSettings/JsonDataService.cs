@@ -15,7 +15,7 @@ public class JsonDataService : IDataService
     
     public T LoadData<T>(string RelativePath, bool Encrypted)
     {
-        string path = Application.persistentDataPath + RelativePath;
+        string path = Application.persistentDataPath +"/"+RelativePath+".txt";
         if (!File.Exists(path))
         {
             Debug.LogError("Cannot load file at "+path+". File does not exist.");
@@ -35,7 +35,7 @@ public class JsonDataService : IDataService
 
     public void RemoveData(string RelativePath)
     {
-        string path = Application.persistentDataPath + RelativePath;
+        string path = Application.persistentDataPath + "/" +RelativePath;
         try
         {
             if (File.Exists(path))
@@ -55,11 +55,15 @@ public class JsonDataService : IDataService
     }
     public bool SaveData<T>(string RelativePath, T Data, bool Encrypted)
     {
-        string path = Application.persistentDataPath + RelativePath;
+        Debug.Log("* JsonDataService Saving Data to "+RelativePath);
+        string path = Application.persistentDataPath + "/" + RelativePath+".txt";
         try
         {
-            Debug.Log("Data exists, delete old one");
-            if (File.Exists(path)) File.Delete(path);
+            if (File.Exists(path))
+            {
+                Debug.Log("  Data exists, delete old one");
+                File.Delete(path);
+            }
             using FileStream stream = File.Create(path);
             stream.Close();
             File.WriteAllText(path, JsonConvert.SerializeObject(Data));
@@ -71,4 +75,5 @@ public class JsonDataService : IDataService
             return false;
         }
     }
+    public static bool FileExists(string RelativePath) => File.Exists(Application.persistentDataPath +"/"+ RelativePath+".txt");
 }

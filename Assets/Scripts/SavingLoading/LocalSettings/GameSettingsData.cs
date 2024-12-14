@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 
 [Serializable]
@@ -23,6 +24,7 @@ public class GameSettingsData
     public int TouchSensitivity { get; set; } = 15;
     public int BoardSize { get; set; } = 6;
     public bool UsePending { get; set; } = true;
+    public List<string> ActiveCollections { get; set; } = new();
 
     public void AddUsageTimeMinutes(int v)
     {
@@ -33,17 +35,11 @@ public class GameSettingsData
         PlayTime += time;
     }
 
-
-
-    //public SoundSettings soundSettings = new SoundSettings();
-    /*
-     * // General Settings - methods
-    public void SetSoundSettings(float master, float music, float SFX,bool setFromFile=false)
+    [Serializable]
+    public class LocalCollectionsData
     {
-        soundSettings.MasterVolume = master;
-        soundSettings.MusicVolume = music;
-        soundSettings.SFXVolume = SFX;
-        if(!setFromFile)
-            GameSettingsUpdated?.Invoke();
-    }*/
+        // Downloaded Collections
+        public bool UsePending { get; set; } = true;
+
+    }
 }

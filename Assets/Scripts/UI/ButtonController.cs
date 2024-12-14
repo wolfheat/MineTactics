@@ -35,13 +35,11 @@ public class ButtonController : MonoBehaviour
 
     public void ShowButtons(MenuState state)
     {
-        Debug.Log("** SHOW BUTTON CHAGNE TO "+state);
         if(state == MenuState.Settings && lastState == MenuState.Settings)
         {
             //Close Settings here!
             state = stateBeforeSettings;
         }
-        Debug.Log("Show buttons "+state);
         mainButtons[(int)lastState].SetSelected(false);
         switch (lastState)
         {

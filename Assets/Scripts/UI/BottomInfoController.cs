@@ -29,7 +29,7 @@ public class BottomInfoController : MonoBehaviour
     public void ShowDebugText(string showText) => debugText.text = showText;
     public void UpdateCollectionSize(int itemToSelect = -1)
     {
-        Debug.Log("** Updating Bottom Info Controller");
+        Debug.Log("** Bottom Info - Currently have a total of "+ FirestoreManager.Instance.LoadedAmount+" loaded levels.");
         collectionSizeText.text = "" + FirestoreManager.Instance.LocalCollectionList.Count.ToString();
         levelAmtText.text = "" + FirestoreManager.Instance.LoadedAmount.ToString();
         collectionSizeTextB.text = "" + FirestoreManager.Instance.LoadedAmount.ToString();

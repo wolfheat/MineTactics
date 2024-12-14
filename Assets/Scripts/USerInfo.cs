@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -26,6 +27,7 @@ public class USerInfo : MonoBehaviour
     public bool IsPlayerLoggedIn { get; set; } = false;
 	public bool WaitForFirstMove { get; set; } = true;
     public string Collection { get; set; }
+	public List<string> ActiveCollections { get; set; } = new();
 
     private void Awake()
 	{
@@ -42,17 +44,30 @@ public class USerInfo : MonoBehaviour
 	public static Action BoardSizeChange;
     private void SetDataFromSaveFile()
     {
-		Debug.Log("** Setting data from Saved Settings File");
+		Debug.Log(" Setting data from Saved Settings File");
         Sensitivity = SavingUtility.gameSettingsData.TouchSensitivity;
 		BoardSize = SavingUtility.gameSettingsData.BoardSize;
 		UsePending = SavingUtility.gameSettingsData.UsePending;
-		Debug.Log("** UserInfo set Usepending to "+UsePending);
-		BoardSizeChange?.Invoke();
+		ActiveCollections = SavingUtility.gameSettingsData.ActiveCollections;
+
+        BoardSizeChange?.Invoke();
+		// Load Local Collections
+		LoadLocalCollections();
+    }
+
+    private void LoadLocalCollections()
+    {
+		Debug.Log("LOCALLY - Load Local Collections");
+		foreach (var collection in ActiveCollections)
+		{
+			Debug.Log("Loading Collection "+collection);
+        }
+		FirestoreManager.Instance.ReactivateAllActiveCollectionsToChallengeList();
     }
 
     public void SetUserInfoFromFirebaseUser(Firebase.Auth.FirebaseUser user)
 	{
-        Debug.Log("Setting data from Firebase User File: "+user.DisplayName);
+        Debug.Log(" Setting data from Firebase User File: "+user.DisplayName);
         userName = user.DisplayName;
 		email = user.Email;
 		uid = user.UserId;

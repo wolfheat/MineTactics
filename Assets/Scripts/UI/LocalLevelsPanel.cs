@@ -58,7 +58,7 @@ public class LocalLevelsPanel : MonoBehaviour
     private void UpdateCollectionSize(int itemToSelect = -1)
     {
         UpdateList(itemToSelect);
-        Debug.Log("Updating List of Collection "+FirestoreManager.Instance.LocalCollectionList.Count);
+        Debug.Log("LocalLevelsPanel - Updating List of Collection "+FirestoreManager.Instance.LocalCollectionList.Count);
     }
 
     public void RemoveIndexFromList(int i)
@@ -111,7 +111,7 @@ public class LocalLevelsPanel : MonoBehaviour
 
     private void UpdateList(int itemToSelect = -1)
     {
-        Debug.Log("Updating List");
+        Debug.Log("Updating List -  Should only be done in the LocalLevels Panel?");
         DestroyOldListItems();
 
         // Create New ListItems

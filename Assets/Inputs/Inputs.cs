@@ -13,7 +13,7 @@ public class Inputs : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Debug.Log("Created Inputs Controller");
+        Debug.Log("** Created Inputs Controller **");
         if (Instance != null)
         {
             Destroy(this.gameObject);

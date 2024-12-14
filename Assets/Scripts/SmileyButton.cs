@@ -33,7 +33,7 @@ public class SmileyButton : MonoBehaviour
 
     public void Click()
     {
-        Debug.Log("Smiley?");
+        Debug.Log("Clicking Smiley!");
         spriteRenderer.sprite = sprites[1];
         if (USerInfo.Instance.currentType == GameType.Normal)
             LevelCreator.Instance.RestartGame();
@@ -42,7 +42,6 @@ public class SmileyButton : MonoBehaviour
         else if (USerInfo.Instance.currentType == GameType.Create)
         {
             spriteRenderer.sprite = sprites[0];
-            Debug.Log("No smiley in create mode");
             // Make smiley cleat in Create Mode A and unselect all in Mode B
             if (USerInfo.EditMode == 0)
                 PanelController.Instance.Clear();
@@ -66,7 +65,7 @@ public class SmileyButton : MonoBehaviour
     
     public void ShowNormal()
     {
-        Debug.Log("Show Normal Gametype:"+ USerInfo.Instance.currentType + " Loaded AMt: "+ FirestoreManager.Instance.LoadedAmount);
+        //Debug.Log("SMILEY - Show Normal Gametype:"+ USerInfo.Instance.currentType + " Loaded AMt: "+ FirestoreManager.Instance.LoadedAmount);
         spriteRenderer.sprite = sprites[0];
         if(USerInfo.Instance.currentType==GameType.Challenge && FirestoreManager.Instance.LoadedAmount > 0)
             spriteRenderer.sprite = sprites[4];

@@ -132,6 +132,8 @@ public class PanelController : MonoBehaviour
             ButtonController.Instance.ShowButtons(MenuState.Challenge);
             if (sameMode)
                 return;
+            // If no levels are loaded reload all from the settings list
+
             BackgroundController.Instance.SetColorTactics(); 
             SmileyButton.Instance.ShowNormal();
         }

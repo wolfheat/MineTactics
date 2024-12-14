@@ -176,7 +176,13 @@ Nov 2024
 		* Added Invert button for selection
 12/12	* Added LoadCollectionPanel what loads collections from a list
 		* Added larger buttons for collections, turns green when selected
-		
+13/12	* Deciding on how to handle collections - Having them downloaded to local decided?
+14/12	* Collection now can be downloaded and saved to local storage.
+		* Collections can be toggled in Loading Screen, if Toggled on but not found locally they are downloaded
+		* When Starting game, active collections are loaded from local storage
+
+
+
 		* Maybe just have buttons on the Collection page which player can enable/disable and then the levels they get are drawn from those collections
 		* Adding a collection that is not downloaded will download it automatically. If its locally get it from local. Have option to force re-download?
 		* Can still have these buttons in a list
@@ -184,7 +190,7 @@ Nov 2024
 		* Have a List of each loaded collection (or one for all levels) that is reduced after completing a level so not same level is loaded twice until all levels are played
 		* After that reload all levels again to the list.
 		* When all levels of one collection is done upload the results to database
-
+		* Get Collection when already having a list of Collections should keep the current selected and mark accordingly
 
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
 		* Decide on how to structure the Challenge section
@@ -202,7 +208,28 @@ Nov 2024
 		* Have each level knowing its collection? - Needed to know if game should be saved or not when completed. Can we write to the Collection?
 			- C only when downloaded or stored a collection to database Sufficient?
 
-		
+		// LOOK INTO
+		Played your game, latest version got stuck here... https://imgur.com/MahzJjb
+		Got stock in wall behind ramiros house
+
+		When picking up stuff from crafters the notice text is under the output panel
+		Trying to pick up stuff with full inventory should make different sound and notice player better of failure to do so. Also makes axe sound hitting wood/rock if clicking anywhere
+		dragging from anywhere in the inventory+ drags the selected item out into the world to drop, maybe you should require the player to drag from the item.
+		Using a tool in a crowded area makes harvesting fail (instead check more than the closest item to see if any is harvestable with the tool)
+		spyglass I - is there a version II ?
+		consuming a blueberry drink with full inventory (having 2+ drinks) discards the glass - should keep it
+		blueberries at camp seems to spawn multiple times making stacks (also seems to happen to some clay and stone)
+		failing minigmae cutting wood should have another sound than hitting stone?
+		E- to interract and fixing cost does not show at the fireplace at the hilltop or the hill
+		maybe sitting should speed up recovery?
+		Right clicking a stack in inventory moves all stacks of same type, should only move all of the clicked stack
+		Shift clicking items in the inventory changes sprint on/off - which it prob shouldnt
+		Trying to fix ramiras farm - gets you unavalible notice but costs you BOUNCE each time
+		Minor - When fixing a torch you can light it before it is completed
+
+		Step Sounds are off in the town - wooden floor sound on grass areas a bit random
+
+
 		// Moderator Tools
 		* What Creation tools should be allowed for users, and when?
 

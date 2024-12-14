@@ -143,6 +143,7 @@ public class LevelCreator : MonoBehaviour
 
     public void AlignGameArea()
     {
+        Debug.Log("LevelCreator - Align Game Area");
         ScaleGameAreaBorder();
         AlignSmileyAndCounterIcons();
         SetCameraOrthographicSize();
@@ -155,7 +156,7 @@ public class LevelCreator : MonoBehaviour
 
     private void SetCameraOrthographicSize()
     {
-        Debug.Log("* SetCameraOrthographicSize");
+        //Debug.Log(" SetCameraOrthographicSize");
         float screenRatio = (float)Screen.height / Screen.width;
         float targetWidthInWorldUnits = borderAreaRenderer.size.x;
         float orthographicSize = targetWidthInWorldUnits * screenRatio / 2;
@@ -305,14 +306,14 @@ public class LevelCreator : MonoBehaviour
 
     public void OnPlaySizeChange()
     {
-        Debug.Log("* Play size changed, update game area");
+        Debug.Log("LevelCreator - Play size changed, restarting Game");
         BottomInfoController.Instance.ShowDebugText("Play Size Changing to "+USerInfo.Instance.BoardSize);
         RestartGame();
     }
 
     public void RestartGame()
     {
-        Debug.Log("* RestartGame");
+        Debug.Log("LevelCreator - RestartGame");
         gameArea.RestartGame();        
         AlignGameArea();
         return;

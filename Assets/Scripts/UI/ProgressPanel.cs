@@ -56,7 +56,7 @@ public class ProgressPanel : MonoBehaviour
     {
         currentState = LoadingState.Register;
         ShowLoadingCircleAnimation(true);
-        Debug.Log("OnRegisterStarted");
+        Debug.Log("Progress Panel - OnRegisterStarted");
         // Set Name to Regitrating
         headerText.text = "Registrating new Player";
         subText.text = "Trying to Register, please wait!";
@@ -65,7 +65,7 @@ public class ProgressPanel : MonoBehaviour
     {
         currentState = LoadingState.LogIn;
         ShowLoadingCircleAnimation(true);
-        Debug.Log("OnLoginStarted");
+        Debug.Log("Progress Panel - OnLoginStarted");
         // Set Name to Regitrating
         headerText.text = "Logging in";
         subText.text = "Trying to Log in, please wait!";
@@ -74,7 +74,7 @@ public class ProgressPanel : MonoBehaviour
     {
         currentState = LoadingState.LoadingLevels;
         ShowLoadingCircleAnimation(true);
-        Debug.Log("OnLoadLevelsStarted");
+        Debug.Log("Progress Panel - OnLoadLevelsStarted");
         // Set Name to Regitrating
         headerText.text = "Loading new Levels";
         subText.text = "Trying to Load new Levels, please wait!";

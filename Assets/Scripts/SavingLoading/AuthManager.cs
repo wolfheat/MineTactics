@@ -51,6 +51,9 @@ public class AuthManager : MonoBehaviour
                     db = FirebaseFirestore.DefaultInstance;
                     auth = FirebaseAuth.DefaultInstance;
                     Debug.Log("*** Fixed FirebaseApp Dependencies ***");
+                    Debug.Log("");
+                    Debug.Log("");
+
                     //LevelCreator.Instance.SetAppRef("OK!");
                     // Set a flag here to indicate whether Firebase is ready to use by your app.
                     OnDependenciesSuccess?.Invoke("Success");
@@ -332,9 +335,9 @@ public class AuthManager : MonoBehaviour
             }
 
             authResult = task;
-            Debug.Log("Player successfully Logged in!");
+            Debug.Log("** Player successfully Logged in! **");
+            Debug.Log("");
             //AuthResult result = task.Result;
-            Debug.Log("Result set");
             //Debug.LogFormat("User signed in successfully: {0} ({1})", result.User.DisplayName, result.User.UserId);
         });
 
@@ -343,8 +346,6 @@ public class AuthManager : MonoBehaviour
 
     private IEnumerator WaitForRegister(string email, string password)
     {
-        Debug.Log("Waiting for auth result to complete");
-        RegisterAttemptStarted?.Invoke();
         while ((authResult == null || !authResult.IsCompleted) && errorMessage == "")
             yield return new WaitForSeconds(0.1f);
 
@@ -370,8 +371,6 @@ public class AuthManager : MonoBehaviour
 
     private IEnumerator WaitForLogIn()
     {
-        Debug.Log("WaitForSignIn - Started");
-        LoginAttemptStarted?.Invoke();
         while ( (authResult == null || !authResult.IsCompleted) && errorMessage == "")
             yield return new WaitForSeconds(0.1f);
 

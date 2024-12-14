@@ -5,8 +5,8 @@ using System.Collections;
 public class SavingUtility : MonoBehaviour
 {
 
-    private const string PlayerDataSaveFile = "/player-data.txt";
-    private const string GameSettingsDataSaveFile = "/player-settings.txt";
+    private const string PlayerDataSaveFile = "player-data";
+    private const string GameSettingsDataSaveFile = "player-settings";
     public static SavingUtility Instance { get; private set; }
 
     public static Action LoadingComplete;  
@@ -15,7 +15,7 @@ public class SavingUtility : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("SavingUtility Started");
+        Debug.Log("** SavingUtility Initiated **");
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -45,13 +45,14 @@ public class SavingUtility : MonoBehaviour
         //SavePlayerDataToFile();
         SaveSettingsDataToFile();
     }    
+
     public void SaveSettingsDataToFile()
     {
         IDataService dataService = new JsonDataService();
         if (dataService.SaveData(GameSettingsDataSaveFile, gameSettingsData, false))
-            Debug.Log("Saved settings data in: " + GameSettingsDataSaveFile);
+            Debug.Log("  Saved settings data in: " + GameSettingsDataSaveFile);
         else
-            Debug.LogError("Could not save file: GameSettingsData");
+            Debug.LogError("  Could not save file: GameSettingsData");
     }
 
     public IEnumerator LoadFromFile()
@@ -82,8 +83,37 @@ public class SavingUtility : MonoBehaviour
         finally
         { 
             Debug.Log(" -- Loading From File Completed --");
+            Debug.Log("");
             LoadingComplete?.Invoke();
             //StartCoroutine(KeepTrackOfPlaytime());
+        }
+    }
+    
+    public void SaveCollectionDataToFile<T>(T Data, string collectionName)
+    {
+        IDataService dataService = new JsonDataService();
+        if (dataService.SaveData(collectionName, Data, false))
+            Debug.Log("Saved collection data for "+collectionName+": ");
+        else
+            Debug.LogError("Could not save file: "+collectionName);
+    }
+
+    public LevelDataCollection LoadCollectionDataFromFile(string collectionName)
+    {
+        // Hold the load so Game has time to load
+        //yield return new WaitForSeconds(0.4f);
+
+        IDataService dataService = new JsonDataService();
+        try
+        {
+            Debug.Log("** Trying To load data from file. **");
+            LevelDataCollection data = dataService.LoadData<LevelDataCollection>(collectionName, false);
+            return data;
+        }
+        catch   
+        {
+            Debug.Log("  Could not load data, set default: ");
+            return null;
         }
     }
 
@@ -105,4 +135,7 @@ public class SavingUtility : MonoBehaviour
         // After this clear the game data in game
         gameSettingsData = null;
     }
+
+    internal bool FileExists(string collectionToLoad) => JsonDataService.FileExists(collectionToLoad);
+    
 }

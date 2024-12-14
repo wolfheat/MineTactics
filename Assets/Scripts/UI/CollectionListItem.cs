@@ -38,13 +38,7 @@ public class CollectionListItem : MonoBehaviour//, IPointerEnterHandler, IPointe
     {
         image.color = set ? markedColor : unMarkedColor;
     }
-    public void RequestLoadLevel()
-    {
-        Debug.Log("Request Update Collection Data (CollectionListItem)"+id_text.text);
-        LoadPanel.Instance.ClickingCollection(index);
-
-        //LocalLevelsPanel.Instance.LoadLevel(levelData,this);
-    }
+    public void RequestLoadLevel() => LoadPanel.Instance.ClickingCollection(index);
 
     public void UpdateData(int i, string collectionName)
     {

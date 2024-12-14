@@ -127,12 +127,12 @@ public class GameArea : MonoBehaviour
     public void LoadGame(int[,] gameLoaded,bool editorcreateMode = false)
     {
         // Define mines for this load?
-        Debug.Log("LOADING GAME IN GAMEAREA");
         if(!editorcreateMode && isOnlyView)
         {
-            Debug.Log("View Should not load the normal Challenge levels in challenge mode!");
+            Debug.Log("MINI VIEW - View Should does not load the normal Challenge levels!");
             return;
         }
+        Debug.Log("LOADING GAME IN GAMEAREA");
 
         USerInfo.Instance.BoardSize = gameLoaded.GetLength(0);
         
@@ -670,7 +670,7 @@ public class GameArea : MonoBehaviour
         {
             int boardSize = USerInfo.Instance.BoardSize;
             
-            Debug.Log("Game Area - Load Game Size " + boardSize);
+            Debug.Log("Game Area - Load Game of Size [" + boardSize+"x" + boardSize+"]");
 
             // Load info of current size
             gameWidth = boardSize;

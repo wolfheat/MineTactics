@@ -42,16 +42,17 @@ public class SettingsPanel : MonoBehaviour
         SavingUtility.gameSettingsData.BoardSize = (int)slider.value;
         SavingUtility.gameSettingsData.TouchSensitivity = (int)sensitivitySlider.value;
         SavingUtility.gameSettingsData.UsePending = pendingToggle.isOn;
-
-        // Save to File here
-        SavingUtility.Instance.SaveAllDataToFile();
+        SaveSettingsToFile();
 
         // Apply the size settings
-        if(USerInfo.Instance.currentType == GameType.Normal)
+        if (USerInfo.Instance.currentType == GameType.Normal)
             PanelController.Instance.ChangeMode(0); // Forces Update if playing Normal game
 
 
     }
+
+    public void SaveSettingsToFile() => SavingUtility.Instance.SaveAllDataToFile();
+
     public void UpdateSizeText(Slider slider)
     {
         // Read value of slider and update
