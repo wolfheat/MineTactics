@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text;
+using System.Xml.Schema;
 using TMPro;
 using UnityEngine;
 using WolfheatProductions;
@@ -49,6 +50,17 @@ public class GameArea : MonoBehaviour
     {
         RestartGame();
         FirestoreManager.LoadComplete += OnLoadLevelComplete;
+        FirestoreManager.SubmitLevelAttemptSuccess += OnSubmitLevelSuccess;
+    }
+
+    private void OnSubmitLevelSuccess()
+    {
+        if (isOnlyView)
+            return;
+        if (USerInfo.Instance.currentType != GameType.Challenge)
+            return;
+        Debug.Log("Resetting board after sumbitting level success if i Challengemode");
+        ResetBoard();
     }
 
     public void OnLoadLevelComplete(string compressed) => OnLoadLevelComplete(compressed,false);
@@ -154,6 +166,7 @@ public class GameArea : MonoBehaviour
         DetermineNumbersFromNeighbors(); // Sets all numbers
         DrawLevel();
         Timer.Instance.ResetCounterAndPause();
+        SmileyButton.Instance.UpdateCollectionSize(FirestoreManager.Instance.ActiveChallengeLevels.Count);
     }
 
     private void PreOpenAndFlag(int[,] gameLoaded,bool editorcreateMode = false)

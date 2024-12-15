@@ -102,18 +102,9 @@ public class LevelCompletionScreen : MonoBehaviour
                 Debug.Log("Could not update Level in Collection.");
 
             string currentCollection = LoadedData.Collection;
-            // Dont send Updates for Collections for now
-            if (FirestoreManager.Instance.ActiveChallengeLevels.Where(x => x.Collection == currentCollection).Count() == 0)
-            {
-                Debug.Log("Completed last Level from the Collection "+currentCollection);
 
-                //FirestoreManager.Instance.UpdateLevelCollection(currentCollection);
-                //Send request to download latest version and update it before reuploading
-                FirestoreManager.Instance.UpdateLevelCollection(currentCollection);
-                return false;
-            }
-
-            return true;
+            return FirestoreManager.Instance.WasLastInCollectionANDSendUpdateToDatabase(currentCollection);
+            
         }
 
         // Generate Dictionary of changes to the Level

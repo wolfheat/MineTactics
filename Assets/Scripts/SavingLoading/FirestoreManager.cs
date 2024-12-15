@@ -110,18 +110,19 @@ public class FirestoreManager : MonoBehaviour
             LoadALevelFromDownloadedLevelsList();
             return;
         }
-        else if(USerInfo.Instance.Collection != null)
-        {
-            Debug.Log("** ALL Downloaded Levels have been completed - Send players updated data to collection here");
-        }
         else
         {
-            Debug.Log("** ALL Downloaded Levels have been completed - Was not using a Collection");
+            Debug.Log("** ALL Downloaded Levels have been completed - Was not using a Collection");            
+            WasLastInCollectionANDSendUpdateToDatabase(LevelData.Collection);
 
             // Reload all the active collections
             ReactivateAllActiveCollectionsToChallengeList();
+            /*
             if(USerInfo.Instance.ActiveCollections.Count > 0)
+            {
                 PanelController.Instance.ShowFadableInfo("Reactivating "+USerInfo.Instance.ActiveCollections+" levels!");
+                LoadALevelFromDownloadedLevelsList();
+            }*/
         }
         SmileyButton.Instance.ShowNormal();
     }
@@ -637,9 +638,17 @@ public class FirestoreManager : MonoBehaviour
         // Redownload the original Collection TODO Remove this, then name of the collection should be grabbed from the collection data
         GetLevelCollectionLatestVersion(collectionName);
 
-        // Update its values
+        // If Played Last Level reload all?
+        if(LoadedAmount == 0 && DownloadedCollection.Count > 0)
+        {
+            Debug.Log("*** NO LEVEL LOADED *** Reload all if available and set Smiley correctly");
+            Debug.Log("Re enable "+DownloadedCollection.Count+" levels");
 
-        // Re-upload to Collection
+            ReactivateAllActiveCollectionsToChallengeList();
+            //ActiveChallengeLevels = DownloadedCollection;
+            //OnLevelCollectionListChange.Invoke(-1);
+        }
+
     }
 
     public void RemoveLocalCollectionListQuery(List<LevelData> levelsToRemove)
@@ -735,5 +744,17 @@ public class FirestoreManager : MonoBehaviour
         // First Remove all Levels that are allready in this Level list?
         ActiveChallengeLevels = ActiveChallengeLevels.Where(level => level.Collection != collectionName).ToList(); // Removes all levels from this collection
         DownloadedCollection = DownloadedCollection.Where(level => level.Collection != collectionName).ToList(); // Removes all levels from this collection
+    }
+
+    internal bool WasLastInCollectionANDSendUpdateToDatabase(string currentCollection)
+    {
+        if (ActiveChallengeLevels.Where(x => x.Collection == currentCollection).Count() == 0)
+        {
+            Debug.Log("Completed last Level from the Collection " + currentCollection);
+            //Send request to download latest version and update it before reuploading
+            UpdateLevelCollection(currentCollection);
+            return false;
+        }
+        return true;
     }
 }

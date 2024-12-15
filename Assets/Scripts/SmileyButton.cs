@@ -22,8 +22,9 @@ public class SmileyButton : MonoBehaviour
         FirestoreManager.OnLevelCollectionListChange += UpdateCollectionSize;
     }
 
-    private void UpdateCollectionSize(int select)
+    public void UpdateCollectionSize(int select)
     {
+        Debug.Log("** UPDATING SMILEY");
         // Amount of loaded challenge levels changed - if there is levels set the smiley to evil?
         if(FirestoreManager.Instance.LoadedAmount > 0 && USerInfo.Instance.currentType == GameType.Challenge)
             spriteRenderer.sprite = sprites[4];
