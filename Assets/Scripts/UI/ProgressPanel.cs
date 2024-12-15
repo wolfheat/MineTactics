@@ -107,8 +107,8 @@ public class ProgressPanel : MonoBehaviour
         ShowLoadingCircleAnimation(true);
         Debug.Log("OnSubmitLevelStarted");
         // Set Name to Regitrating
-        headerText.text = "Submitting Level";
-        subText.text = "Trying to Submit the Level, please wait!";
+        headerText.text = "Submitting Levels";
+        subText.text = "Trying to Submit the Levels, please wait!";
     }
 
     public void OnSuccessfulLoadLevels(int amt)
@@ -146,8 +146,7 @@ public class ProgressPanel : MonoBehaviour
         ShowLoadingCircleAnimation(false);
         Debug.Log("OnSubmitLevelSuccess");
         // Set Name to Regitrating
-        headerText.text = "Accepted";
-        subText.text = "Thanks!";
+        subText.text = "Levels Accepted Thanks!";
     }
     private void OnSubmitLevelFailed(string error)
     {

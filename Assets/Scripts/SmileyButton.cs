@@ -25,7 +25,7 @@ public class SmileyButton : MonoBehaviour
     private void UpdateCollectionSize(int select)
     {
         // Amount of loaded challenge levels changed - if there is levels set the smiley to evil?
-        if(FirestoreManager.Instance.LoadedAmount > 0)
+        if(FirestoreManager.Instance.LoadedAmount > 0 && USerInfo.Instance.currentType == GameType.Challenge)
             spriteRenderer.sprite = sprites[4];
         else
             spriteRenderer.sprite = sprites[0];

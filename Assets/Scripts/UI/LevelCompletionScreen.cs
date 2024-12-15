@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 public class LevelCompletionScreen : MonoBehaviour
@@ -53,10 +54,13 @@ public class LevelCompletionScreen : MonoBehaviour
         if(USerInfo.Instance.currentType == GameType.Challenge)
         {
             // Select a random level from the retrieved documents
-            FirestoreManager.Instance.GetRandomLevel(1000);
-            SendLevelUpdates();
+            //FirestoreManager.Instance.GetRandomLevel(1000);
+
+            bool loadNext = SendLevelUpdates();
+
             // Start Next Level automatically
-            LevelCreator.Instance.LoadRandomLevel();
+            if(loadNext)
+                LevelCreator.Instance.LoadRandomLevel();
         }
         else if(USerInfo.Instance.currentType == GameType.Normal)
         {
@@ -75,12 +79,13 @@ public class LevelCompletionScreen : MonoBehaviour
         }
     }
 
-    private void SendLevelUpdates()
+    private bool SendLevelUpdates()
     {
-        // Only save if its a normal level not from collections
-        if(USerInfo.Instance.Collection != null)
+        // Check if last level in this collection was cleared
+        // If so Update the collcetion in the DB
+        if(USerInfo.Instance.currentType == GameType.Challenge)
         {
-            // Dont send Updates for Collections for now
+
             Debug.Log("Wont send Update cause this is a collection");
 
             // Sets players Vote and Adds Playcount
@@ -96,13 +101,19 @@ public class LevelCompletionScreen : MonoBehaviour
             else
                 Debug.Log("Could not update Level in Collection.");
 
-            if(FirestoreManager.Instance.LoadedAmount == 0)
+            string currentCollection = LoadedData.Collection;
+            // Dont send Updates for Collections for now
+            if (FirestoreManager.Instance.ActiveChallengeLevels.Where(x => x.Collection == currentCollection).Count() == 0)
             {
-                Debug.Log("Loaded Amount == 0 so this Save should save to DB Collection");
-                FirestoreManager.Instance.UpdateLevelCollection();
+                Debug.Log("Completed last Level from the Collection "+currentCollection);
+
+                //FirestoreManager.Instance.UpdateLevelCollection(currentCollection);
+                //Send request to download latest version and update it before reuploading
+                FirestoreManager.Instance.UpdateLevelCollection(currentCollection);
+                return false;
             }
 
-            return;
+            return true;
         }
 
         // Generate Dictionary of changes to the Level
@@ -136,6 +147,7 @@ public class LevelCompletionScreen : MonoBehaviour
         dict.Add("DifficultyRating", LoadedData.DifficultyRating + (bust?-1:1));
 
         FirestoreManager.Instance.UpdateLevel(dict,LoadedData.LevelId);
+        return true;
     }
 
     public void OnClickStar(int amt)

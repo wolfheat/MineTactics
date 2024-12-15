@@ -133,7 +133,7 @@ public class PanelController : MonoBehaviour
             if (sameMode)
                 return;
             // If no levels are loaded reload all from the settings list
-
+            GameAreaMaster.Instance.MainGameArea.ResetBoard();
             BackgroundController.Instance.SetColorTactics(); 
             SmileyButton.Instance.ShowNormal();
         }

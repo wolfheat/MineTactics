@@ -23,8 +23,8 @@ public class LoadPanel : MonoBehaviour
         FirestoreManager.OnSuccessfulLoadingOfCollection += CollectionLoadedFromFirebase;
         FirestoreManager.OnLevelCollectionLevelsDownloadedFailSendCollection += RecievedUnloadableCollectionNotice;
     }
+    private void OnEnable() => GetCollectionsClicked();
 
-    
 
     public void RequestUnloadCollection(string collectionToRemove)
     {

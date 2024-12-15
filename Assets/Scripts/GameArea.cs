@@ -127,7 +127,7 @@ public class GameArea : MonoBehaviour
     public void LoadGame(int[,] gameLoaded,bool editorcreateMode = false)
     {
         // Define mines for this load?
-        if(!editorcreateMode && isOnlyView)
+        if (!editorcreateMode && isOnlyView)
         {
             Debug.Log("MINI VIEW - View Should does not load the normal Challenge levels!");
             return;
@@ -135,20 +135,25 @@ public class GameArea : MonoBehaviour
         Debug.Log("LOADING GAME IN GAMEAREA");
 
         USerInfo.Instance.BoardSize = gameLoaded.GetLength(0);
-        
-        SizeGameArea(false);
-        //mines = gameLoaded;
-        DefineUnderAndOverBoxes(); // Restes the Boxes
-        DetermineNumbersFromNeighbors(); // Sets all numbers
-        DrawLevel();
+        ResetBoard();
         // Pre open and flag
-        PreOpenAndFlag(gameLoaded,editorcreateMode);
+        PreOpenAndFlag(gameLoaded, editorcreateMode);
         if (isOnlyView)
             return;
         LevelBusted = false;
 
         LevelCreator.Instance.LoadedGameFinalizing(editorcreateMode);
         // Also Start the timer and reset the smiley
+    }
+
+    public void ResetBoard()
+    {
+        SizeGameArea(false);
+        //mines = gameLoaded;
+        DefineUnderAndOverBoxes(); // Restes the Boxes
+        DetermineNumbersFromNeighbors(); // Sets all numbers
+        DrawLevel();
+        Timer.Instance.ResetCounterAndPause();
     }
 
     private void PreOpenAndFlag(int[,] gameLoaded,bool editorcreateMode = false)

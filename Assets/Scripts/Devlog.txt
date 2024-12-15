@@ -181,7 +181,12 @@ Nov 2024
 		* Collections can be toggled in Loading Screen, if Toggled on but not found locally they are downloaded
 		* When Starting game, active collections are loaded from local storage
 		* Failing to load a level from the DB now turns red.
+		* Fixed so Collections data are now sent to the db after full completion
+		* Fixed Smiley and timer issue on startup
 
+
+		* Fix so player dont get no levels popup when completed all levels from a collection
+		* Maybe Show a "Resetting Collections"  popup when all are done but dont automatically start next level?
 
 
 		* Maybe just have buttons on the Collection page which player can enable/disable and then the levels they get are drawn from those collections
