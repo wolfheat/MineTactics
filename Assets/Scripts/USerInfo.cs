@@ -26,6 +26,7 @@ public class USerInfo : MonoBehaviour
 	public bool WaitForFirstMove { get; set; } = true;
     public string Collection { get; set; }
 	public List<string> ActiveCollections { get; set; } = new();
+	public List<string> InactiveCollections { get; set; } = new();
 
     private void Awake()
 	{
@@ -47,6 +48,7 @@ public class USerInfo : MonoBehaviour
 		BoardSize = SavingUtility.gameSettingsData.BoardSize;
 		UsePending = SavingUtility.gameSettingsData.UsePending;
 		ActiveCollections = SavingUtility.gameSettingsData.ActiveCollections;
+		InactiveCollections = SavingUtility.gameSettingsData.InactiveCollections;
 
         BoardSizeChange?.Invoke();
 		// Load Local Collections

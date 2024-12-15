@@ -42,6 +42,16 @@ public class SavingUtility : MonoBehaviour
 
     public void SaveAllDataToFile()
     {
+        Debug.Log("ID in SaVe: "+USerInfo.Instance.GetInstanceID());
+        Debug.Log("USerInfo.Instance.ActiveCollections = " + USerInfo.Instance.ActiveCollections.Count);
+        gameSettingsData.ActiveCollections = USerInfo.Instance.ActiveCollections;
+        Debug.Log("gameSettingsData.ActiveCollections = "+ gameSettingsData.ActiveCollections.Count);
+
+        Debug.Log("USerInfo.Instance.InactiveCollections = " + USerInfo.Instance.InactiveCollections.Count);
+        gameSettingsData.InactiveCollections = USerInfo.Instance.InactiveCollections;
+        Debug.Log("gameSettingsData.InactiveCollections = " + gameSettingsData.InactiveCollections.Count);
+
+
         //SavePlayerDataToFile();
         SaveSettingsDataToFile();
     }    

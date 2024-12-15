@@ -688,13 +688,13 @@ public class FirestoreManager : MonoBehaviour
     internal void RemoveCollectionFromChallengeList(string collectionName)
     {
 
-        Debug.Log("Removing collection " + collectionName + " from Challenge Levels");
         DeactivateAllLevelsFromCollection(collectionName);
 
         // Add to the List of active collections
         if (USerInfo.Instance.ActiveCollections.Contains(collectionName))
         {
             USerInfo.Instance.ActiveCollections.Remove(collectionName);
+            USerInfo.Instance.InactiveCollections.Add(collectionName);
             SavingUtility.Instance.SaveAllDataToFile();
         }
         // Send UpdateNotice
@@ -704,15 +704,14 @@ public class FirestoreManager : MonoBehaviour
     internal void AddCollectionToChallengeList(LevelDataCollection collection,string collectionName)
     {
         // Adding a collection to the Active Challenge Levels
-        Debug.Log("Adding collection "+collectionName+" to Challenge Levels");
         ActivateAllLevelsFromCollection(collection, collectionName);
 
         // Add to the List of active collections
         if (!USerInfo.Instance.ActiveCollections.Contains(collectionName))
-        {
             USerInfo.Instance.ActiveCollections.Add(collectionName);
-            SavingUtility.Instance.SaveAllDataToFile();
-        }
+        if (USerInfo.Instance.InactiveCollections.Contains(collectionName))
+            USerInfo.Instance.InactiveCollections.Remove(collectionName);
+        SavingUtility.Instance.SaveAllDataToFile();
 
         OnLevelCollectionListChange?.Invoke(-1);// Invoke change of Level amount [-1 = select none]
     }

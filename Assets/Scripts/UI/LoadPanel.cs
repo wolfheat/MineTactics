@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -100,7 +101,7 @@ public class LoadPanel : MonoBehaviour
         if (selectedCollections.Contains(listItem))
         {
             Debug.Log("Deselect "+listItem.CollectionName);
-            selectedCollections.Remove(listItem);
+            selectedCollections.Remove(listItem);            
             listItem.SetAsActive(false);
             RequestUnloadCollection(listItem.CollectionName);
         }
@@ -134,14 +135,20 @@ public class LoadPanel : MonoBehaviour
         for (int i = 0; i < collectionNames.Count; i++)
         {
             string collectionName = collectionNames[i];
+            Debug.Log("Checking Collection name "+collectionName);
             CollectionListItem item = Instantiate(listItemPrefab, listHolder.transform);
             item.UpdateData(i, collectionName);
             collectionList.Add(item);
             if (USerInfo.Instance.ActiveCollections.Contains(collectionName))
             {
+                Debug.Log("IN ACTIVE");
                 selectedCollections.Add(item);
                 item.SetAsActive(true);
                 item.ShowAsLocal(SavingUtility.Instance.FileExists(collectionName));
+            }else if (USerInfo.Instance.InactiveCollections.Contains(collectionName))
+            {
+                Debug.Log("IN INACTIVE");
+                item.ShowAsLocal(true);
             }
         }
     }

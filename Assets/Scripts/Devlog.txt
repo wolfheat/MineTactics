@@ -183,7 +183,8 @@ Nov 2024
 		* Failing to load a level from the DB now turns red.
 		* Fixed so Collections data are now sent to the db after full completion
 		* Fixed Smiley and timer issue on startup
-
+		* Fixed issue with saving List of Loaded Collections
+		* Added lIst of unLoaded Collection to manage showing levels as downloaded but unloaded on opening challenge collection panel
 
 		* Fix so player dont get no levels popup when completed all levels from a collection
 		* Maybe Show a "Resetting Collections"  popup when all are done but dont automatically start next level?

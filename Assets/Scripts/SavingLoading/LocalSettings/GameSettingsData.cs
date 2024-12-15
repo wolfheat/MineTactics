@@ -25,6 +25,7 @@ public class GameSettingsData
     public int BoardSize { get; set; } = 6;
     public bool UsePending { get; set; } = true;
     public List<string> ActiveCollections { get; set; } = new();
+    public List<string> InactiveCollections { get; set; } = new();
 
     public void AddUsageTimeMinutes(int v)
     {

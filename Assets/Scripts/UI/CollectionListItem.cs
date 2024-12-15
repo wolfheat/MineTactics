@@ -63,4 +63,9 @@ public class CollectionListItem : MonoBehaviour//, IPointerEnterHandler, IPointe
         image.color = unavailableColor;
         GetComponent<Button>().interactable = false;
     }
+
+    internal void SetAsDownloaded()
+    {
+        throw new NotImplementedException();
+    }
 }

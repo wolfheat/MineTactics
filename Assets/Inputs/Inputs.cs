@@ -22,19 +22,18 @@ public class Inputs : MonoBehaviour
         Instance = this;
 
         Controls = new Controls();
-        Controls.Enable();
     }
+
 
     private float startTouch = 0;
 
     private void OnEnable()
     {
-        
-
+        Controls.Enable();
     }
     private void OnDisable()
     {
-        
+        Controls.Disable();
     }
     private void Start()
     {
