@@ -78,6 +78,7 @@ public class FirestoreManager : MonoBehaviour
 
     public bool ReplaceLevelInDownloadedCollection(LevelData data)
     {
+        //TODO Shange this to update the Collection instead and so the DownloadedCollection can be removed?
         for (int i = 0; i < DownloadedCollection.Count; i++)
         {
             if (DownloadedCollection[i].LevelId == data.LevelId)
