@@ -18,9 +18,10 @@ public class CollectionListItem : MonoBehaviour, IPointerClickHandler
     [SerializeField] GameObject downloadText;
 
     private int index = 0;
-    private LevelData levelData;
-    public LevelData Data { get {return levelData; }}
-    public string CollectionName { get {return id_text.text; }}
+    private bool interactable = true;
+    private LevelDataCollection collectionData;
+    public LevelDataCollection Data { get {return collectionData; }}
+    public string CollectionName { get { return Data?.CollectionName ?? id_text.text; } }
 
     public int Index { get { return index; }}
 
@@ -51,6 +52,15 @@ public class CollectionListItem : MonoBehaviour, IPointerClickHandler
         id_text.text    = collectionName;
         index = i;
     }
+    
+    public void UpdateData(int i, LevelDataCollection collection)
+    {
+        Debug.Log("*** UpdateData collection name: "+collection.CollectionName);
+        collectionData = collection;
+        index_text.text = i.ToString();
+        id_text.text    = collectionData.CollectionName+"[]";
+        index = i;
+    }
 
     public void UpdateIndex(int i)
     {
@@ -62,7 +72,7 @@ public class CollectionListItem : MonoBehaviour, IPointerClickHandler
     {
         Debug.Log("** NOT AVAILABLE COLLECTION");
         image.color = unavailableColor;
-        GetComponent<Button>().interactable = false;
+        interactable = false;
     }
 
     internal void SetAsDownloaded()
@@ -72,6 +82,8 @@ public class CollectionListItem : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (!interactable)
+            return;
         Debug.Log("* On Pointer Click");
         if(Inputs.Instance.TimeHeld > 0.2f)
             RequestLoadLevelInfoBar();

@@ -41,6 +41,8 @@ public class LevelDataCollection
     [FirestoreProperty] public int[] Upvotes { get; set; }
     [FirestoreProperty] public int[] Downvotes { get; set; }
     [FirestoreProperty] public int[] PlayCount { get; set; }
+    public DateTime LastDownload { get; set; }
+    public string CollectionName { get; set; } = "";
 }
 
 public class FirestoreManager : MonoBehaviour
@@ -56,6 +58,7 @@ public class FirestoreManager : MonoBehaviour
 
     public List<LevelData> DownloadedCollection { get; private set; } = new();
     public List<LevelData> DownloadedCollectionForReupload { get; private set; }
+    public Dictionary<string, LevelDataCollection> LevelDataCollections { get; set; } = new();
 
     public static Action<string> SubmitLevelAttemptFailed;
     public static Action<string> SubmitNameFailed;
@@ -68,6 +71,7 @@ public class FirestoreManager : MonoBehaviour
     public static Action<LevelDataCollection,string> OnSuccessfulLoadingOfCollection;
     public static Action<string> OnLevelCollectionLevelsDownloadedFail;
     public static Action<string> OnLevelCollectionLevelsDownloadedFailSendCollection;
+    public static Action<string> OnLevelCollectionListItemUpdatedItsCollection;
     public static Action OnLoadLevelStarted;
     public static Action<int> OnLevelCollectionListChange;
     private string latestCollectionName="";
@@ -271,6 +275,8 @@ public class FirestoreManager : MonoBehaviour
                 if (document.Exists)
                 {
                     LevelDataCollection levelCollection = document.ConvertTo<LevelDataCollection>();
+                    levelCollection.LastDownload = System.DateTime.Now;
+                    levelCollection.CollectionName = id;
                     OnSuccessfulLoadingOfCollection?.Invoke(levelCollection,id);
 
                     //
@@ -722,11 +728,14 @@ public class FirestoreManager : MonoBehaviour
             USerInfo.Instance.InactiveCollections.Remove(collectionName);
         SavingUtility.Instance.SaveAllDataToFile();
 
-        OnLevelCollectionListChange?.Invoke(-1);// Invoke change of Level amount [-1 = select none]
+        LevelDataCollections[collectionName] = collection;
+
+        OnLevelCollectionListItemUpdatedItsCollection?.Invoke(collectionName);// Invoke change of Level amount [-1 = select none]
     }
 
     private void ActivateAllLevelsFromCollection(LevelDataCollection collection, string collectionName)
     {
+        Debug.Log("*** ActivateAllLevelsFromCollection collection name = "+collection.CollectionName);
         // First Remove all Levels that are allready in this Level list?
         ActiveChallengeLevels = ActiveChallengeLevels.Where(level => level.Collection != collectionName).ToList(); // Removes all levels from this collection
         DownloadedCollection = DownloadedCollection.Where(level => level.Collection != collectionName).ToList(); // Removes all levels from this collection
@@ -738,6 +747,8 @@ public class FirestoreManager : MonoBehaviour
         ActiveChallengeLevels.AddRange(newLevels);
         DownloadedCollection.AddRange(newLevels);
 
+        // Also Add these so the ChallengeButtonList can be updated
+        LevelDataCollections[collectionName] = collection;
     }
     private void DeactivateAllLevelsFromCollection(string collectionName)
     {

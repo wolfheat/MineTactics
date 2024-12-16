@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,10 +22,17 @@ public class LoadPanel : MonoBehaviour
             return;
         }
         Instance = this;
-
+        FirestoreManager.OnLevelCollectionListItemUpdatedItsCollection += CollectionListChanged;
         FirestoreManager.OnSuccessfulLoadingOfCollection += CollectionLoadedFromFirebase;
         FirestoreManager.OnLevelCollectionLevelsDownloadedFailSendCollection += RecievedUnloadableCollectionNotice;
     }
+
+    private void CollectionListChanged(string collectionThatWasUpdated)
+    {
+        // Reload entire list to update Collection stored in listitems
+        SetCollectionToListItem(FirestoreManager.Instance.LevelDataCollections[collectionThatWasUpdated],collectionThatWasUpdated);
+    }
+
     private void OnEnable() => GetCollectionsClicked();
 
 
@@ -45,11 +53,12 @@ public class LoadPanel : MonoBehaviour
     
     public void RequestLoadCollection(string collectionToLoad,bool forceDownload = false)
     {
-        Debug.Log("** Requesting to Load a Collection - (from DB or Locally)");
+        Debug.Log("** Requesting to Load a Collection - (from DB or Locally) "+collectionToLoad);
         if (!forceDownload && SavingUtility.Instance.FileExists(collectionToLoad))
         {
             Debug.Log(" LOCALLY - File exists locally");
             LevelDataCollection collection = SavingUtility.Instance.LoadCollectionDataFromFile(collectionToLoad);
+            SetCollectionToListItem(collection,collectionToLoad);
             if (collection != null)
             {
                 Debug.Log("** Successfully loaded locally data with " + collection.Level.Length + " levels.");
@@ -62,7 +71,19 @@ public class LoadPanel : MonoBehaviour
             FirestoreManager.Instance.LoadLevelCollection(collectionToLoad);
         }
     }
-    
+
+    private void SetCollectionToListItem(LevelDataCollection collection, string collectionToLoad)
+    {
+        foreach (var item in collectionList) {
+            if(item != null && item.CollectionName == collectionToLoad)
+            {
+                item.UpdateData(item.Index, collection);
+                if (infoPanel.gameObject.activeSelf)
+                    UpdateCollectionInfoPanel(item);
+            }
+        }
+    }
+
     public void CollectionLoadedFromFirebase(LevelDataCollection collection, string collectionName)
     {
         Debug.Log("CollectionLoadedFromFirebase");
@@ -98,12 +119,18 @@ public class LoadPanel : MonoBehaviour
     public void RightClickingCollection(int index)
     {
         CollectionListItem listItem = collectionList[index];
+        if (listItem.Data == null)
+        {
+            Debug.Log("RightClickingCollection - NO DATA");
+            return;
+        }
+        Debug.Log("RightClickingCollection");
         UpdateCollectionInfoPanel(listItem);
     }
     public void ClickingCollection(int index)
     {
         CollectionListItem listItem = collectionList[index];
-        Debug.Log("Clicked collection " + listItem.CollectionName);
+        Debug.Log("Clicked collection " + listItem?.CollectionName);
 
         if (selectedCollections.Contains(listItem))
         {
@@ -144,7 +171,11 @@ public class LoadPanel : MonoBehaviour
             string collectionName = collectionNames[i];
             Debug.Log("Checking Collection name "+collectionName);
             CollectionListItem item = Instantiate(listItemPrefab, listHolder.transform);
-            item.UpdateData(i, collectionName);
+            if (FirestoreManager.Instance.LevelDataCollections.ContainsKey(collectionName))
+                item.UpdateData(i,FirestoreManager.Instance.LevelDataCollections[collectionName]);
+            else
+                item.UpdateData(i, collectionName);
+
             collectionList.Add(item);
             if (USerInfo.Instance.ActiveCollections.Contains(collectionName))
             {

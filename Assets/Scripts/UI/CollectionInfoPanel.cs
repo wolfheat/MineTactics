@@ -6,6 +6,7 @@ public class CollectionInfoPanel : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI creatorId;
     [SerializeField] TextMeshProUGUI collection;
+    [SerializeField] TextMeshProUGUI levels;
     [SerializeField] TextMeshProUGUI lastUpdate;
 
     private LevelData Data;
@@ -34,6 +35,10 @@ public class CollectionInfoPanel : MonoBehaviour
         if (activeCollection == null)
             return;
         collection.text = activeCollection.CollectionName;
+        creatorId.text = activeCollection.Data.CreatorId[0];
+        levels.text = activeCollection.Data.CreatorId.Length.ToString();
+        lastUpdate.text = activeCollection.Data.LastDownload.ToString("yyyy-MM-dd HH:mm:ss");
+
         /*Data = data;
         if(!panel.activeSelf)
             panel.gameObject.SetActive(true);

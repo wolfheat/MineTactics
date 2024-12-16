@@ -189,9 +189,9 @@ Nov 2024
 		* Fixed smaller issues with Loading Selection and Shift selecting in Collection
 		* Made Local Collection screen scale more correctly
 16/12	* Moved Info Panel from the Challenge screen to popup with download button
-		
+		* Updated challenge collection system. Now updates on re-download.
+		* Added DateTime to Collection data, updated on every download
 
-		* Add Download Date to the downloaded Collection
 
 		* Players will want to try playing the games from the LocalCollection while building them - make it happen
 		* Add option to force re-download Collections?

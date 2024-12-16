@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.ObjectModel;
 
 public class SavingUtility : MonoBehaviour
 {
@@ -118,6 +119,11 @@ public class SavingUtility : MonoBehaviour
         {
             Debug.Log("** Trying To load data from file. **");
             LevelDataCollection data = dataService.LoadData<LevelDataCollection>(collectionName, false);
+
+            // FoolProof Fixing Collection Name not set
+            if (data.CollectionName == null || data.CollectionName == "")
+                data.CollectionName = collectionName;
+
             return data;
         }
         catch   
