@@ -29,9 +29,14 @@ public class LevelInfoPanel : MonoBehaviour
     
     public void UpdateLevelInfo(LevelData data)
     {
-        Data = data;
+        // Shows panel
         if(!panel.activeSelf)
             panel.gameObject.SetActive(true);
+
+        // Updates if new data
+        if (Data?.LevelId == data.LevelId)
+            return;
+        Data = data;
         creatorId.text = data.CreatorId.ToString();
         collection.text = data.Collection.ToString();
         rating.text = data.DifficultyRating.ToString();
@@ -45,9 +50,5 @@ public class LevelInfoPanel : MonoBehaviour
         ShowMiniView();
     }
 
-    private void ShowMiniView()
-    {
-        Debug.Log("ShowMiniView");
-        GameAreaMaster.Instance.MiniViewGameArea.ShowLevel(Data);
-    }
+    private void ShowMiniView() => GameAreaMaster.Instance.MiniViewGameArea.ShowLevel(Data);
 }

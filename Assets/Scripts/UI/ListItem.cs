@@ -26,7 +26,7 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (Inputs.Instance.Controls.UI.Ctrl.IsPressed() || Inputs.Instance.TimeHeld > 0.15f)
             LocalLevelsPanel.Instance.AddSelectedLevelToList(this,true);
         else if(Inputs.Instance.Controls.UI.Shift.IsPressed())
-            LocalLevelsPanel.Instance.AddSelectedLevelToListShift(this);
+            LocalLevelsPanel.Instance.AddSelectedLevelsToCurrentMousePositionFromLast_UsingShift(this);
         else
             LocalLevelsPanel.Instance.AddSelectedLevelToList(this);
     }
@@ -63,7 +63,7 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             PanelController.Instance.ShowInfo("Could not replace this level");
     }
 
-    public void SetAsActive(bool set)
+    public void SetAsLastLoaded(bool set)
     {
         image.color = set ? markedColor : unMarkedColor;
     }
@@ -108,13 +108,13 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Entering ListIntem "+levelData.LevelId);
+        //Debug.Log("Entering ListIntem "+levelData.LevelId);
         LocalLevelsPanel.Instance.ShowLevelInfo(levelData);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Exiting ListIntem "+levelData.LevelId);
+        //Debug.Log("Exiting ListIntem "+levelData.LevelId);
         LocalLevelsPanel.Instance.LeftLevelInfo();
     }
 }

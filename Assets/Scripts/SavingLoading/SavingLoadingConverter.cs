@@ -45,22 +45,15 @@ public class SavingLoadingConverter : MonoBehaviour
 
         // Read string array from start to end
         string unCompressed = sb.ToString();
-
         Debug.Log("Uncompressed: "+unCompressed);
 
         // Insert test compressed here for testing purpose
         //unCompressed = "080000000000000000000000000000000000000000000000000000033122221222";
         //unCompressed = "  -----*****-----*****-----*****-----***40-----***50-----***60-----";
 
-
         // Compress
         string compressed = Compress(unCompressed);
         Debug.Log("Compressed:   " + compressed);
-
-        /*
-        string deCompressed = UnComressString(compressed);
-        Debug.Log("De-Compressed:" + deCompressed);
-        */
 
         return compressed;
     }
@@ -68,7 +61,7 @@ public class SavingLoadingConverter : MonoBehaviour
     public static string UnComressString(string compressed)
     {
         StringBuilder sb = new StringBuilder();
-        Debug.Log("Uncompressing starting with "+compressed);
+        //Debug.Log("Uncompressing starting with "+compressed);
         int amt = 1;
         // read the uncompressed and store the compressed version
         for (int i = 0; i < compressed.Length; i++)
@@ -160,7 +153,7 @@ public class SavingLoadingConverter : MonoBehaviour
 
     public static (int[,], int[,], int, int,int) StringLevelToGameArray(string deCompressed, bool editorcreateMode = false)
     {
-        Debug.Log("Making game array from decompressed string: "+deCompressed);
+        //Debug.Log("Making game array from decompressed string: "+deCompressed);
         int totalSize = deCompressed.Length - 2;
         string gameDeCompressed = deCompressed.Substring(2, totalSize);
         //Debug.Log("Decompressed: "+deCompressed);
@@ -168,7 +161,7 @@ public class SavingLoadingConverter : MonoBehaviour
         int height = totalSize / width;
         int totMines = 0;
 
-        Debug.Log("Width = "+width+" Height ="+height);
+        //Debug.Log("Width = "+width+" Height ="+height);
 
         if (totalSize % width != 0)
             Debug.Log("Loaded string is not correct length");

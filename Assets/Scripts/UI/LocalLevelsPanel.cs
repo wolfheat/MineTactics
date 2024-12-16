@@ -16,7 +16,7 @@ public class LocalLevelsPanel : MonoBehaviour
 
 
     public static LocalLevelsPanel Instance { get; private set; }
-    public int SelectedIndex { get; private set; }
+    public int LastLoadedIndex { get; private set; }
 
     private void Awake()
     {
@@ -38,7 +38,7 @@ public class LocalLevelsPanel : MonoBehaviour
 
     public void LeftLevelInfo()
     {
-        Debug.Log("Left ListItem with pointer, show last selected if any");
+        //Debug.Log("Left ListItem with pointer, show last selected if any");
         if (selectedListItems.Count > 0)
             levelInfoPanel.UpdateLevelInfo(selectedListItems[selectedListItems.Count - 1].Data);
         else
@@ -63,7 +63,7 @@ public class LocalLevelsPanel : MonoBehaviour
 
     public void RemoveIndexFromList(int i)
     {
-        SelectedIndex = -1;
+        LastLoadedIndex = -1;
         Debug.Log("Remove index "+i+" from the LocalLevelsPanel list");
         // removing index i
         Debug.Log("List size before " + FirestoreManager.Instance.LocalCollectionList.Count);
@@ -79,7 +79,7 @@ public class LocalLevelsPanel : MonoBehaviour
 
     public void SelectRecentlyAdded()
     {
-        SelectedIndex = FirestoreManager.Instance.LocalCollectionList.Count-1;
+        LastLoadedIndex = FirestoreManager.Instance.LocalCollectionList.Count-1;
         ActivateSelected();
     }
 
@@ -150,7 +150,7 @@ public class LocalLevelsPanel : MonoBehaviour
             PanelController.Instance.ShowInfo("There is no levels in the Collection!");
             return;
         }
-        ConfirmPanel.Instance.ShowConfirmationOption("Clear Level lists?", "Do you want to remove all levels from the list? (Only locally)", ClearCollection);
+        ConfirmPanel.Instance.ShowConfirmationOption("Clear Level lists?", "Do you want to remove all levels from the list? (This Only affects this local list!)", ClearCollection);
     }
 
     public void ClearCollection(string info)
@@ -193,7 +193,7 @@ public class LocalLevelsPanel : MonoBehaviour
             PanelController.Instance.ShowInfo("No level selected. Can not delete!");
             return;
         }
-        ConfirmPanel.Instance.ShowConfirmationOption("Remove Levels?", "Do you want to remove the " + selectedListItems.Count + " selected levels from the list? (Only locally)", DeleteSelected);
+        ConfirmPanel.Instance.ShowConfirmationOption("Remove Levels?", "Do you want to remove the " + selectedListItems.Count + " selected levels from the list? (This Only affects this local list!)", DeleteSelected);
     }
 
     bool entireLast = true;
@@ -231,9 +231,14 @@ public class LocalLevelsPanel : MonoBehaviour
             return;
         }
         if(entire)
-            ConfirmInputPanel.Instance.ShowConfirmationOption("Store Collection?", "Storing the entire collection with " + FirestoreManager.Instance.LocalCollectionList.Count + " levels.", StoreCollection);        
+            ConfirmInputPanel.Instance.ShowConfirmationOption("Store Collection?", "Storing the entire collection with " + FirestoreManager.Instance.LocalCollectionList.Count + " levels.", StoreCollection);
         else
-            ConfirmInputPanel.Instance.ShowConfirmationOption("Store Collection?", "Storing selected " + selectedListItems.Count + " levels as collection.", StoreSelectionToCollection);        
+        {
+            if(selectedListItems.Count == 0)
+                PanelController.Instance.ShowInfo("The Selection is Empty, can not save an empty Collection.");
+            else
+                ConfirmInputPanel.Instance.ShowConfirmationOption("Store Collection?", "Storing selected " + selectedListItems.Count + " levels as collection.", StoreSelectionToCollection);        
+        }
     }
     public void StoreCollection(string collectionName)
     {
@@ -257,7 +262,7 @@ public class LocalLevelsPanel : MonoBehaviour
     
     public void LoadCollection(string levelName)
     {
-        SelectedIndex = -1;
+        LastLoadedIndex = -1;
         Debug.Log("Request Load Collection");
         FirestoreManager.Instance.LoadLevelCollection(levelName,true);
         ActivateSelected();
@@ -270,9 +275,9 @@ public class LocalLevelsPanel : MonoBehaviour
         if(loadedLevelListItem != null)
         {
             Debug.Log("** DeMarking index "+loadedLevelListItem.Index);
-            loadedLevelListItem.SetAsActive(false);
+            loadedLevelListItem.SetAsLastLoaded(false);
         }
-        SelectedIndex = index;
+        LastLoadedIndex = index;
         Debug.Log("** UpdateIndexFromCollection");
         ListItem newListItem = listItems[index];
         LevelData levelData = FirestoreManager.Instance.LocalCollectionList[index];
@@ -288,7 +293,7 @@ public class LocalLevelsPanel : MonoBehaviour
     {
         for (int i = 0; i<listItems.Count; i++)
         {
-            listItems[i].SetAsActive(i==SelectedIndex?true:false);
+            listItems[i].SetAsLastLoaded(i==LastLoadedIndex?true:false);
         }
     }
 
@@ -297,11 +302,11 @@ public class LocalLevelsPanel : MonoBehaviour
 
     public void LoadLevel(LevelData levelData, ListItem listItem)
     {
-        SelectedIndex = listItem.Index;
+        LastLoadedIndex = listItem.Index;
         if (loadedLevelListItem != null)
         {
             Debug.Log("Demark last ListItem " + loadedLevelListItem.Index);
-            loadedLevelListItem.SetAsActive(false);
+            loadedLevelListItem.SetAsLastLoaded(false);
         }
         loadedLevelListItem = listItem;
         LoadLevel(levelData);
@@ -349,9 +354,11 @@ public class LocalLevelsPanel : MonoBehaviour
 
     private void UnselectAllMarked()
     {
-        foreach (var listItem in selectedListItems)
-            if (listItem != null)
+        foreach (var index in selectedIndexes)
+        {
+            ListItem listItem = listItems[index];
                 listItem?.DeMark();
+        }
         selectedListItems.Clear();
         selectedIndexes.Clear();
     }
@@ -367,9 +374,10 @@ public class LocalLevelsPanel : MonoBehaviour
             selectedListItems.Add(selectedItem);
             selectedItem.Mark();
         }
+        UpdateSelectedAmt();
     }
 
-    internal void AddSelectedLevelToListShift(ListItem listItem)
+    internal void AddSelectedLevelsToCurrentMousePositionFromLast_UsingShift(ListItem listItem)
     {
         // Mark all items from index min to max
         int minIndex = Math.Min(listItem.Index, selectedListItems[selectedListItems.Count - 1].Index);
@@ -382,6 +390,7 @@ public class LocalLevelsPanel : MonoBehaviour
             selectedListItems.Add(listItems[i]);
             listItems[i].Mark();
         }   
+        UpdateSelectedAmt();
     }
     public void AddQueryToSelectedList(List<int> datas)
     {
@@ -393,6 +402,7 @@ public class LocalLevelsPanel : MonoBehaviour
             selectedIndexes.Add(item);            
             ListItem listItem = listItems[item];
             selectedListItems.Add(listItem);
+            listItems.Add(listItem);
             listItem.Mark();
         }
         UpdateSelectedAmt();

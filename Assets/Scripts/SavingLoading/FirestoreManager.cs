@@ -110,8 +110,8 @@ public class FirestoreManager : MonoBehaviour
             LoadALevelFromDownloadedLevelsList();
             return;
         }
-        else
-        {
+        else if (LevelData != null) 
+        { 
             Debug.Log("** ALL Downloaded Levels have been completed - Was not using a Collection");            
             WasLastInCollectionANDSendUpdateToDatabase(LevelData.Collection);
 
@@ -748,7 +748,7 @@ public class FirestoreManager : MonoBehaviour
 
     internal bool WasLastInCollectionANDSendUpdateToDatabase(string currentCollection)
     {
-        if (ActiveChallengeLevels.Where(x => x.Collection == currentCollection).Count() == 0)
+        if (ActiveChallengeLevels?.Where(x => x.Collection == currentCollection).Count() == 0)
         {
             Debug.Log("Completed last Level from the Collection " + currentCollection);
             //Send request to download latest version and update it before reuploading

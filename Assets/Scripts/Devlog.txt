@@ -186,11 +186,13 @@ Nov 2024
 		* Fixed issue with saving List of Loaded Collections
 		* Added lIst of unLoaded Collection to manage showing levels as downloaded but unloaded on opening challenge collection panel
 15/12	* Fixed Re-Loading of Levels in Collections after all are completed
-		
+		* Fixed smaller issues with Loading Selection and Shift selecting in Collection
+		* Made Local Collection screen scale more correctly
 
-		* Fix so player dont get no levels popup when completed all levels from a collection
+		* Players will want to try playing the games from the LocalCollection while building them - make it happen
+
+		* Invert should recalculate number of marked Levels in delete button
 		* Maybe Show a "Resetting Collections"  popup when all are done but dont automatically start next level?
-
 
 		* Maybe just have buttons on the Collection page which player can enable/disable and then the levels they get are drawn from those collections
 		* Adding a collection that is not downloaded will download it automatically. If its locally get it from local. Have option to force re-download?

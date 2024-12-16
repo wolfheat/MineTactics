@@ -144,7 +144,7 @@ public class GameArea : MonoBehaviour
             Debug.Log("MINI VIEW - View Should does not load the normal Challenge levels!");
             return;
         }
-        Debug.Log("LOADING GAME IN GAMEAREA");
+        Debug.Log("LOADING GAME IN GAMEAREA View: "+isOnlyView);
 
         USerInfo.Instance.BoardSize = gameLoaded.GetLength(0);
         ResetBoard();
@@ -165,6 +165,8 @@ public class GameArea : MonoBehaviour
         DefineUnderAndOverBoxes(); // Restes the Boxes
         DetermineNumbersFromNeighbors(); // Sets all numbers
         DrawLevel();
+        if (isOnlyView)
+            return;
         Timer.Instance.ResetCounterAndPause();
         SmileyButton.Instance.UpdateCollectionSize(FirestoreManager.Instance.ActiveChallengeLevels.Count);
     }
@@ -355,7 +357,7 @@ public class GameArea : MonoBehaviour
         // Clicking mine in Edit Mode 1 - Toggle
         if (mines[pos.x, pos.y] == -1)
         {
-            Debug.Log("* MINE TOGGLE");
+            Debug.Log("* EDIT MODE B - MINE TOGGLE");
             // Handle mined position
             overlayBoxes[pos.x, pos.y].RightClick(true);
         }
@@ -363,12 +365,12 @@ public class GameArea : MonoBehaviour
         {
             if (overlayBoxes[pos.x, pos.y].gameObject.activeSelf)
             {
-                Debug.Log("* BASIC OPEN");
+                Debug.Log("* EDIT MODE B - NORMAL CLICK OPEN");
                 BasicOpeningBox(pos);
             }
             else
             {
-                Debug.Log("* CHORD");
+                Debug.Log("* EDIT MODE B - CHORD");
                 Chord(pos);
             }
         }
@@ -376,7 +378,7 @@ public class GameArea : MonoBehaviour
     
     private void BoxClickInEditA(Vector2Int pos)
     {
-        Debug.Log("Toggle Edit Mode Mine " + pos);
+        Debug.Log("Toggle Edit Mode Mine at " + pos);
         // Clicking mine in Edit Mode 1 - Toggle
         if (mines[pos.x, pos.y] != -1)
         {
@@ -430,6 +432,7 @@ public class GameArea : MonoBehaviour
         if (Timer.Instance.Paused && USerInfo.Instance.currentType != GameType.Create)
         {
             Debug.Log("Timer Paused skip");
+            PanelController.Instance.ShowFadableInfo("Start Challenge on Smiley!");
             return true;
         }
 
@@ -602,7 +605,6 @@ public class GameArea : MonoBehaviour
             return;
         if (USerInfo.Instance.currentType == GameType.Create)
         {
-            Debug.Log("Edit Mode Update flagged Mines to show mine count");
             //Show Mines Total
             if(USerInfo.EditMode == 0)
                 mineDisplay.ShowValue(TotalAllMines());
@@ -627,7 +629,6 @@ public class GameArea : MonoBehaviour
                     all++;
             }
         }
-        Debug.Log("All amount = " + all);
         return all;
     }
     
@@ -643,7 +644,6 @@ public class GameArea : MonoBehaviour
                     unFlagged++;
             }
         }
-        Debug.Log("Flagged amount = " + unFlagged);
         return unFlagged;
     }
     
@@ -659,7 +659,6 @@ public class GameArea : MonoBehaviour
                     clickable++;
             }
         }
-        Debug.Log("Clickable amount = " + clickable);
         return clickable;
     }
 
@@ -889,7 +888,7 @@ public class GameArea : MonoBehaviour
 
     internal void ShowLevel(LevelData level)
     {
-        Debug.Log("Show Level on Miniview");
+        //Debug.Log("Show Level on Miniview");
         string deCompressed = SavingLoadingConverter.UnComressString(level.Level);
         (int[,] newMines, int[,] gameLoaded, int newgameWidth, int newgameHeight, int newtotalmines) = SavingLoadingConverter.StringLevelToGameArray(deCompressed, true);
 
