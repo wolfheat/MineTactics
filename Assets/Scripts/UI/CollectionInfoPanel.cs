@@ -6,60 +6,43 @@ public class CollectionInfoPanel : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI creatorId;
     [SerializeField] TextMeshProUGUI collection;
-    [SerializeField] TextMeshProUGUI rating;
-    [SerializeField] TextMeshProUGUI votes;
-    [SerializeField] TextMeshProUGUI level;
-    [SerializeField] TextMeshProUGUI levelID;
-    [SerializeField] TextMeshProUGUI status;
-    [SerializeField] TextMeshProUGUI playCount;
-    [SerializeField] GameObject panel;
+    [SerializeField] TextMeshProUGUI lastUpdate;
 
     private LevelData Data;
-    public void RequestUpdateLevelInfo() => UpdateLevelInfo(FirestoreManager.Instance.LevelData);
+    public void RequestUpdateLevelInfo() => UpdateCollectionInfo();// FirestoreManager.Instance.LevelData);
 
     public void LoadSelected()
     {
         Debug.Log("Load Active Collection " + activeCollection);
         //LocalLevelsPanel.Instance.LoadLevel(Data);
     }
-    private string activeCollection = "";
+    private CollectionListItem activeCollection;
     public void UpdateSelected()
     {
-        Debug.Log("Update Active Collection "+activeCollection);
+        Debug.Log("Update Active Collection from Database: "+activeCollection.CollectionName);
+        LoadPanel.Instance.RequestLoadCollection(activeCollection.CollectionName,true);
     }
     
-    public void HideLevelInfo()
+    public void SetNewCollectionData(CollectionListItem collectionListItem)
     {
-        panel.gameObject.SetActive(false);
+        activeCollection = collectionListItem;
+        UpdateCollectionInfo();
     }
 
-    public void UpdateLevelInfo(CollectionListItem collectionListItem)
+    public void UpdateCollectionInfo()
     {
-        activeCollection = collectionListItem.CollectionName;
-        levelID.text = collectionListItem.CollectionName;
-    }
-
-    public void UpdateLevelInfo(LevelData data)
-    {
-        Data = data;
+        if (activeCollection == null)
+            return;
+        collection.text = activeCollection.CollectionName;
+        /*Data = data;
         if(!panel.activeSelf)
             panel.gameObject.SetActive(true);
         creatorId.text = data.CreatorId.ToString();
         collection.text = data.Collection.ToString();
-        rating.text = data.DifficultyRating.ToString();
-        votes.text = data.Upvotes.ToString()+"/"+ data.Downvotes.ToString();
-        level.text = data.Level.ToString();
-        levelID.text = data.LevelId.ToString();
-        status.text = data.Status.ToString();
-        playCount.text = data.PlayCount.ToString();
+        lastUpdate.text = data.DifficultyRating.ToString();
 
-        // 
-        ShowMiniView();
+        //
+        */
     }
 
-    private void ShowMiniView()
-    {
-        Debug.Log("ShowMiniView");
-        GameAreaMaster.Instance.MiniViewGameArea.ShowLevel(Data);
-    }
 }

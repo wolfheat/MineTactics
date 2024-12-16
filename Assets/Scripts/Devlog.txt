@@ -188,32 +188,24 @@ Nov 2024
 15/12	* Fixed Re-Loading of Levels in Collections after all are completed
 		* Fixed smaller issues with Loading Selection and Shift selecting in Collection
 		* Made Local Collection screen scale more correctly
+16/12	* Moved Info Panel from the Challenge screen to popup with download button
+		
+
+		* Add Download Date to the downloaded Collection
 
 		* Players will want to try playing the games from the LocalCollection while building them - make it happen
-
-		* Invert should recalculate number of marked Levels in delete button
-		* Maybe Show a "Resetting Collections"  popup when all are done but dont automatically start next level?
-
-		* Maybe just have buttons on the Collection page which player can enable/disable and then the levels they get are drawn from those collections
-		* Adding a collection that is not downloaded will download it automatically. If its locally get it from local. Have option to force re-download?
-		* Can still have these buttons in a list
+		* Add option to force re-download Collections?
+		* Add collection Information to bottom of Challenge Collection List? Remove it all together just have total collections and levels loaded shown?
 		* Add bottom info that shows the collection a loaded game belongs to?
-		* Have a List of each loaded collection (or one for all levels) that is reduced after completing a level so not same level is loaded twice until all levels are played
-		* After that reload all levels again to the list.
-		* When all levels of one collection is done upload the results to database
-		* Get Collection when already having a list of Collections should keep the current selected and mark accordingly
-
+		* Make Levels in Challenge load randomly
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
-		* Decide on how to structure the Challenge section
 
 		* Issue with slow loading of levels in collections sometimes, fix?
 		* Player can swap mode during a play should this be possible? Maybe it exits a game the player wants to play to finish?
 
-
 		* Missing functionality Creating collections
-		// Half completed Collection exit handeling
+		// Half completed Collection exit handeling -  Currently discarded progress
 		* collection file. Handle Exit game? Store to file as well so players can continue?
-		
 		* ISSUE - There is a list of created levels that prohibits same level to be created twice, but player can delete a level so it should be allowed again if done?
 
 		* Have each level knowing its collection? - Needed to know if game should be saved or not when completed. Can we write to the Collection?

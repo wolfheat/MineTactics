@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PanelController : MonoBehaviour
 {
 
+    [SerializeField] GameObject[] initDisableMenus;
     [SerializeField] GameObject settingsButton;
     [SerializeField] GameObject createButton;
     [SerializeField] GameObject randomButton;
@@ -71,14 +72,11 @@ public class PanelController : MonoBehaviour
     }
     private void InitStartMenu()
     {
-        startMenu.SetActive(true);
-        loginMenu.SetActive(false);
-        registerMenu.SetActive(false);
-        localLevelPanel.HidePanel();
-        settingsPanel.SetActive(false);
-        progressPanel.gameObject.SetActive(false);
-
-        //ToggleMenuButtons(false);
+        foreach (var item in initDisableMenus)
+        {
+            item.gameObject.SetActive(false);
+        }
+        startMenu.SetActive(true);        
     }
 
     public void CloseMainMenuNoLogIn()

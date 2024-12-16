@@ -6,7 +6,8 @@ public class LoadPanel : MonoBehaviour
 {
     [SerializeField] CollectionListItem listItemPrefab;
     [SerializeField] GameObject listHolder;
-    [SerializeField] CollectionInfoPanel infoPanel;
+    [SerializeField] CollectionInfoPanel collectionInfoPanel;
+    [SerializeField] GameObject infoPanel;
 
     private List<CollectionListItem> collectionList = new();
     private List<CollectionListItem> selectedCollections = new();
@@ -42,10 +43,10 @@ public class LoadPanel : MonoBehaviour
         }
     }
     
-    public void RequestLoadCollection(string collectionToLoad)
+    public void RequestLoadCollection(string collectionToLoad,bool forceDownload = false)
     {
         Debug.Log("** Requesting to Load a Collection - (from DB or Locally)");
-        if (SavingUtility.Instance.FileExists(collectionToLoad))
+        if (!forceDownload && SavingUtility.Instance.FileExists(collectionToLoad))
         {
             Debug.Log(" LOCALLY - File exists locally");
             LevelDataCollection collection = SavingUtility.Instance.LoadCollectionDataFromFile(collectionToLoad);
@@ -57,7 +58,7 @@ public class LoadPanel : MonoBehaviour
         }
         else
         {
-            Debug.Log(" FIREBASE - File does not exist locally, download it from the Firestore");
+            Debug.Log(" FIREBASE - "+(forceDownload?"Forced Download":"File does not exist locally")+", download it from the Firestore");
             FirestoreManager.Instance.LoadLevelCollection(collectionToLoad);
         }
     }
@@ -76,8 +77,9 @@ public class LoadPanel : MonoBehaviour
     
     public void UpdateCollectionInfoPanel(CollectionListItem collectionToLoad)
     {
+        infoPanel.gameObject.SetActive(true);
         Debug.Log("INFO PANEL - Updated to show "+collectionToLoad+" collection.");
-        infoPanel.UpdateLevelInfo(collectionToLoad);
+        collectionInfoPanel.SetNewCollectionData(collectionToLoad);
     }
 
     public void RecievedUnloadableCollectionNotice(string collectionName)
@@ -92,11 +94,16 @@ public class LoadPanel : MonoBehaviour
             }
         }
     }
+
+    public void RightClickingCollection(int index)
+    {
+        CollectionListItem listItem = collectionList[index];
+        UpdateCollectionInfoPanel(listItem);
+    }
     public void ClickingCollection(int index)
     {
         CollectionListItem listItem = collectionList[index];
         Debug.Log("Clicked collection " + listItem.CollectionName);
-        UpdateCollectionInfoPanel(listItem);
 
         if (selectedCollections.Contains(listItem))
         {

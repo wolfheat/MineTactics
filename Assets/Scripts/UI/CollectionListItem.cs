@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;     
 using UnityEngine.UI;
 
-public class CollectionListItem : MonoBehaviour//, IPointerEnterHandler, IPointerExitHandler
+public class CollectionListItem : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] TextMeshProUGUI index_text;
     [SerializeField] TextMeshProUGUI id_text;
@@ -43,6 +43,7 @@ public class CollectionListItem : MonoBehaviour//, IPointerEnterHandler, IPointe
     }
     public void ShowAsLocal(bool exists) => downloadText.SetActive(!exists); // Only visible if never downloaded
     public void RequestLoadLevel() => LoadPanel.Instance.ClickingCollection(index);
+    public void RequestLoadLevelInfoBar() => LoadPanel.Instance.RightClickingCollection(index);
 
     public void UpdateData(int i, string collectionName)
     {
@@ -67,5 +68,14 @@ public class CollectionListItem : MonoBehaviour//, IPointerEnterHandler, IPointe
     internal void SetAsDownloaded()
     {
         throw new NotImplementedException();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("* On Pointer Click");
+        if(Inputs.Instance.TimeHeld > 0.2f)
+            RequestLoadLevelInfoBar();
+        else
+            RequestLoadLevel();
     }
 }
