@@ -144,7 +144,7 @@ public class GameArea : MonoBehaviour
             Debug.Log("MINI VIEW - View Should does not load the normal Challenge levels!");
             return;
         }
-        Debug.Log("LOADING GAME IN GAMEAREA View: "+isOnlyView);
+        //Debug.Log("LOADING GAME IN GAMEAREA View: "+isOnlyView);
 
         USerInfo.Instance.BoardSize = gameLoaded.GetLength(0);
         ResetBoard();
@@ -174,7 +174,6 @@ public class GameArea : MonoBehaviour
     private void PreOpenAndFlag(int[,] gameLoaded,bool editorcreateMode = false)
     {
         TotalMines();
-        Debug.Log("Open correct Boxes");
         // Go through all mines and flagg all un-flagged 
         for (int j = 0; j < gameHeight; j++)
         {
@@ -720,9 +719,6 @@ public class GameArea : MonoBehaviour
                 mines = newMines;
             }
         }
-        else
-            Debug.Log("Sizing game Area from Loaded File instead of settings");
-
         DefineUnderAndOverBoxes();
 
     }
@@ -859,6 +855,9 @@ public class GameArea : MonoBehaviour
     {
         (int[,] charArray, string pre) = SavingLoadingConverter.LevelTo2DArray(mines, overlayBoxes);
         string compressed = SavingLoadingConverter.ComressToString(charArray, pre);
+        bool isInList = FirestoreManager.Instance.LocalCollectionListHasLevel(compressed);
+        if(isInList)
+            return false;
         bool valid = FirestoreManager.Instance.ReplaceItemInLocalCollection(compressed, index);
         Debug.Log("Saved Level added to Collection");
         return valid;

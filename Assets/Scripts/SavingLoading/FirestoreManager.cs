@@ -565,13 +565,7 @@ public class FirestoreManager : MonoBehaviour
     private LevelData CreateLevelDataFromName(string val)
     {
         // Check if Level has been sent to db allready
-        if (SentLevels.Contains(val))
-        {
-            Debug.Log("This Level has allready been sent to the database!");
-            PanelController.Instance.ShowInfo("This Level has allready been sent to the database!");
-            SubmitLevelAttemptFailed ?.Invoke("Level has allready been Submitted");
-            return null;
-        }
+        
         // Add this Level to the list of sent levels so it wont be sent again
         SentLevels.Add(val);
         
@@ -764,4 +758,6 @@ public class FirestoreManager : MonoBehaviour
         }
         return true;
     }
+
+    internal bool LocalCollectionListHasLevel(string compressed) => LocalCollectionList.Where(x => x.Level == compressed).Count() > 0;
 }

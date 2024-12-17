@@ -74,13 +74,13 @@ public class LocalLevelsPanel : MonoBehaviour
         listItems.RemoveAt(i);
         Destroy(itemToDestroy.gameObject);
         UpdateListIndexes(i);
-        ActivateSelected();
+        SetLastLoadedLevelColor();
     }
 
     public void SelectRecentlyAdded()
     {
         LastLoadedIndex = FirestoreManager.Instance.LocalCollectionList.Count-1;
-        ActivateSelected();
+        SetLastLoadedLevelColor();
     }
 
     private void UpdateListIndexes(int i_start)
@@ -127,7 +127,7 @@ public class LocalLevelsPanel : MonoBehaviour
                 newListItem.Mark();
         }
 
-        ActivateSelected();
+        SetLastLoadedLevelColor();
 
     }
 
@@ -182,7 +182,7 @@ public class LocalLevelsPanel : MonoBehaviour
         UpdateSelectedAmt();
 
         UpdateListIndexes(0);
-        ActivateSelected();
+        SetLastLoadedLevelColor();
         levelInfoPanel.HideLevelInfo();
     }
     
@@ -265,12 +265,13 @@ public class LocalLevelsPanel : MonoBehaviour
         LastLoadedIndex = -1;
         Debug.Log("Request Load Collection");
         FirestoreManager.Instance.LoadLevelCollection(levelName,true);
-        ActivateSelected();
+        SetLastLoadedLevelColor();
     }
     
 
     public void UpdateIndexFromCollection(int index)
     {
+        Debug.Log("** UpdateIndexFromCollection");
         // Unset The previous marked List item
         if(loadedLevelListItem != null)
         {
@@ -279,17 +280,16 @@ public class LocalLevelsPanel : MonoBehaviour
         }
         LastLoadedIndex = index;
         Debug.Log("** UpdateIndexFromCollection");
-        ListItem newListItem = listItems[index];
         LevelData levelData = FirestoreManager.Instance.LocalCollectionList[index];
+        listItems[index].UpdateData(index, levelData);
         loadedLevelData = levelData;
-        newListItem.UpdateData(index, levelData);
 
         // Set the new List item
-        ActivateSelected();
+        SetLastLoadedLevelColor();
         Debug.Log("** Marking index "+index);
     }
 
-    private void ActivateSelected()
+    private void SetLastLoadedLevelColor()
     {
         for (int i = 0; i<listItems.Count; i++)
         {
@@ -320,7 +320,7 @@ public class LocalLevelsPanel : MonoBehaviour
         // Close Panel and show Load message
         PanelController.Instance.ShowFadableInfo("Level Loaded");
 
-        ActivateSelected();
+        SetLastLoadedLevelColor();
         ClosePanel();
 
     }

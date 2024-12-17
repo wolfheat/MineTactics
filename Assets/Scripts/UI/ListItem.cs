@@ -39,7 +39,7 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         // Open Replace Confirmation screen
         if (isValid) 
-            ConfirmPanel.Instance.ShowConfirmationOption("Replace Level?", "Are you sure you want to replace level " + index, ReplaceSelected);
+            ConfirmPanel.Instance.ShowConfirmationOption("Replace Level?", "Are you sure you want to replace level " + index+" with the current layout?", ReplaceSelected);
         else
             PanelController.Instance.ShowInfo("this level can not be replaced because the current one is not valid");            
     }
@@ -60,7 +60,7 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             PanelController.Instance.ShowFadableInfo("Level Replaced");
         }
         else
-            PanelController.Instance.ShowInfo("Could not replace this level");
+            PanelController.Instance.ShowInfo("This Level has allready been saved once!");
     }
 
     public void SetAsLastLoaded(bool set)

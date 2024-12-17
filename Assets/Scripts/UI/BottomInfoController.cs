@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BottomInfoController : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI collectionSizeText;
+    [Header("TOP PART")]
     [SerializeField] TextMeshProUGUI collectionSizeTextB;
+    [Header("BOTTOM PART")]
+    [SerializeField] TextMeshProUGUI collectionSizeText;
     [SerializeField] TextMeshProUGUI collectionAmtText;
     [SerializeField] TextMeshProUGUI levelAmtText;
     [SerializeField] TextMeshProUGUI levelText;
