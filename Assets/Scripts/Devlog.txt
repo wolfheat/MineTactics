@@ -191,12 +191,14 @@ Nov 2024
 16/12	* Moved Info Panel from the Challenge screen to popup with download button
 		* Updated challenge collection system. Now updates on re-download.
 		* Added DateTime to Collection data, updated on every download
+		* Removed the duplicated List of LevelData, now only used the Dictionary of LevelDataCollections
+		* Separated to show Create levels amout separate, and added Collections loaded bottom info
+		* Fixed LevelInfo panel information
 
-
+		* ISSUE - Might have to handle unloading and reloading a collection when a level is active. This info is never sent to DB until all levels are cleared again.
 		* Players will want to try playing the games from the LocalCollection while building them - make it happen
-		* Add option to force re-download Collections?
-		* Add collection Information to bottom of Challenge Collection List? Remove it all together just have total collections and levels loaded shown?
 		* Add bottom info that shows the collection a loaded game belongs to?
+
 		* Make Levels in Challenge load randomly
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
 

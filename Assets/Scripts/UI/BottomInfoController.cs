@@ -6,6 +6,7 @@ public class BottomInfoController : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI collectionSizeText;
     [SerializeField] TextMeshProUGUI collectionSizeTextB;
+    [SerializeField] TextMeshProUGUI collectionAmtText;
     [SerializeField] TextMeshProUGUI levelAmtText;
     [SerializeField] TextMeshProUGUI levelText;
     [SerializeField] TextMeshProUGUI debugText;
@@ -30,9 +31,14 @@ public class BottomInfoController : MonoBehaviour
     public void UpdateCollectionSize(int itemToSelect = -1)
     {
         Debug.Log("** Bottom Info - Currently have a total of "+ FirestoreManager.Instance.LoadedAmount+" loaded levels.");
-        collectionSizeText.text = "" + FirestoreManager.Instance.LocalCollectionList.Count.ToString();
-        levelAmtText.text = "" + FirestoreManager.Instance.LoadedAmount.ToString();
-        collectionSizeTextB.text = "" + FirestoreManager.Instance.LoadedAmount.ToString();
-        levelText.text = FirestoreManager.Instance.LevelData?.LevelId ?? "";
+        // EDIT MODE
+        collectionSizeText.text = FirestoreManager.Instance.LocalCollectionList.Count.ToString();
+
+        // CHALLENGE MODE
+        collectionAmtText.text = USerInfo.Instance.ActiveCollections.Count.ToString();
+        levelAmtText.text = FirestoreManager.Instance.LoadedAmount.ToString();
+
+        collectionSizeTextB.text =FirestoreManager.Instance.LoadedAmount.ToString();
+        levelText.text = "" + FirestoreManager.Instance.LevelData?.LevelId ?? "";
     }
 }

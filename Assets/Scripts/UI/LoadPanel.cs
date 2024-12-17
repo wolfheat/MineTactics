@@ -54,6 +54,14 @@ public class LoadPanel : MonoBehaviour
     public void RequestLoadCollection(string collectionToLoad,bool forceDownload = false)
     {
         Debug.Log("** Requesting to Load a Collection - (from DB or Locally) "+collectionToLoad);
+
+        if (FirestoreManager.Instance.LevelDataCollections.ContainsKey(collectionToLoad))
+        {
+            Debug.Log(" LOADED - File exists loaded, dont nee to load from file or DB");
+            FirestoreManager.Instance.AddCollectionToChallengeList(FirestoreManager.Instance.LevelDataCollections[collectionToLoad], collectionToLoad);
+        }
+
+
         if (!forceDownload && SavingUtility.Instance.FileExists(collectionToLoad))
         {
             Debug.Log(" LOCALLY - File exists locally");

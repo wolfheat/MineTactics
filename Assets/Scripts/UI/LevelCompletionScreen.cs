@@ -93,8 +93,8 @@ public class LevelCompletionScreen : MonoBehaviour
             LoadedData.Downvotes = (vote < 3 ? 1 : 0);
             LoadedData.PlayCount = 1;
 
-            // Find index of Loaded data and add to the DownloadedCollection
-            bool updatedSuccess = FirestoreManager.Instance.ReplaceLevelInDownloadedCollection(LoadedData);
+            // Update the Collection in the Dictionary
+            bool updatedSuccess = FirestoreManager.Instance.ReplaceLevelInLevelDataCollections(LoadedData);
 
             if (updatedSuccess)
                 Debug.Log("Updated Level in Collection successfully");                   

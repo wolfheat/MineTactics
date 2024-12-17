@@ -58,7 +58,7 @@ public class CollectionListItem : MonoBehaviour, IPointerClickHandler
         Debug.Log("*** UpdateData collection name: "+collection.CollectionName);
         collectionData = collection;
         index_text.text = i.ToString();
-        id_text.text    = collectionData.CollectionName+"[]";
+        id_text.text    = "*"+collectionData.CollectionName+"*";
         index = i;
     }
 

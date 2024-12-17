@@ -53,7 +53,7 @@ public class Inputs : MonoBehaviour
         //Debug.Log("Ended Touch");
         TimeHeld = (Time.time - startTouch);
         Vector2 pos = Controls.Main.TouchPosition.ReadValue<Vector2>();
-        TouchDebug.Instance.ShowText("Touch r-click at: "+ pos +" for "+TimeHeld+"s");
+        TouchDebug.Instance.ShowText((TimeHeld > USerInfo.Instance.SensitivityMS)?"R: ":"L: "+ pos +" for "+TimeHeld+"s");
         //if(timeHeld > USerInfo.Instance.SensitivityMS)
         //    Debug.Log("R Click");
         //Debug.Log("TouchTime > Sensitivity "+timeHeld+"/"+USerInfo.Instance.SensitivityMS);
