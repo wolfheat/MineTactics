@@ -200,8 +200,8 @@ Nov 2024
 		* Select by condition now add the levels correctly
 		* Levels now load at random
 		* Fixed Resultscreen Collections showing and aligned items
+		* Fixed Right clicking mine on Editor B mode toggle ghostmine
 
-		* Make Levels in Challenge load randomly
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
 		* PLAYERSTATS - player will want to check his stats add stats page
 

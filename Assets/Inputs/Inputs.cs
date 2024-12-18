@@ -147,7 +147,7 @@ public class Inputs : MonoBehaviour
         if (!rayHit.collider) return;
         if (!context.started) return;
         GameBox box = rayHit.collider.GetComponent<GameBox>();
-        box.RightClick();
+        box.RightClick(USerInfo.Instance.currentType==GameType.Create);
 
     }
     
