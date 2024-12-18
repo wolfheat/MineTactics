@@ -394,15 +394,14 @@ public class LocalLevelsPanel : MonoBehaviour
     }
     public void AddQueryToSelectedList(List<int> datas)
     {
-        foreach (var item in datas)
+        foreach (var index in datas)
         {
-            if (selectedIndexes.Contains(item))
+            if (selectedIndexes.Contains(index))
                 continue;
-            Debug.Log("Adding Index "+item+" to selected");
-            selectedIndexes.Add(item);            
-            ListItem listItem = listItems[item];
+            Debug.Log("Adding Index "+index+" to selected");
+            selectedIndexes.Add(index);            
+            ListItem listItem = listItems[index];
             selectedListItems.Add(listItem);
-            listItems.Add(listItem);
             listItem.Mark();
         }
         UpdateSelectedAmt();

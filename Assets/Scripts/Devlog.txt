@@ -197,26 +197,18 @@ Nov 2024
 17/12	* Updated UI with larger buttons and text for mobile visibility
 		* Replace fixed - No longer checks for already sent, but checks the list for duplicates
 		* Added Test mode for levels under creation in Creation B Panel
+		* Select by condition now add the levels correctly
 
-		* Players will want to try playing the games from the LocalCollection while building them - make it happen
-		* Add bottom info that shows the collection a loaded game belongs to?
-		* PLAYERSTATS - player will want to check his stats add stats page
-
-		* ISSUE - Might have to handle unloading and reloading a collection when a level is active. This info is never sent to DB until all levels are cleared again.
 
 		* Make Levels in Challenge load randomly
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
+		* PLAYERSTATS - player will want to check his stats add stats page
 
-		* Issue with slow loading of levels in collections sometimes, fix?
+		* ISSUE - Might have to handle unloading and reloading a collection when a level is active. This info is never sent to DB until all levels are cleared again.
+		* Issue - with slow loading of levels in collections sometimes, fix?
+		* Issue - Half completed Collection exit handeling -  Currently discarded progress
 		* Player can swap mode during a play should this be possible? Maybe it exits a game the player wants to play to finish?
-
-		* Missing functionality Creating collections
-		// Half completed Collection exit handeling -  Currently discarded progress
-		* collection file. Handle Exit game? Store to file as well so players can continue?
-		* ISSUE - There is a list of created levels that prohibits same level to be created twice, but player can delete a level so it should be allowed again if done?
-
-		* Have each level knowing its collection? - Needed to know if game should be saved or not when completed. Can we write to the Collection?
-			- C only when downloaded or stored a collection to database Sufficient?
+		* Handle player exiting middle of a collection. Handle Exit game? Store to file as well so players can continue?
 
 		// LOOK INTO
 		Played your game, latest version got stuck here... https://imgur.com/MahzJjb
@@ -245,6 +237,7 @@ Nov 2024
 
 		// Trouble with Id only unique inside each document not both
 
+		// PLAYERSTATS
 		* Add page with statistics for the player?
 			* Total games cleared
 			* Practice levels completed?
@@ -269,8 +262,8 @@ Nov 2024
 		* Maybe - Make player unable to load same level again for 20 or 50 levels?
 		* Figure out more exactly how to deal with player ratings and levels ratings.
 		* Have a limit for levels for them to count towards rating? How to set this range?
-		* HAve categories for levels depending on logic? How to handle this, how to handle multiple logics?
-		* Should player have different strengths in diffrent logics and unlocking new ones? Prob not. Just have harder levels not appear for new users
+		* HAve logic categories for levels? How to handle this, how to handle multiple logics?
+		* Should player have different strengths in different logics and unlocking new ones? Prob not. Just have harder levels not appear for new users
 		// LEVEL CREATION SYSTEM
 		// USER CREATION ALLOWENCE
 		* How about having new Pending levels in a pot where players can play and rate them and after 100 ratings it is ether approved or discarded?
