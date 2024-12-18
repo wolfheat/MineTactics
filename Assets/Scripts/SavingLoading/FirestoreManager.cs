@@ -376,8 +376,10 @@ public class FirestoreManager : MonoBehaviour
     private void LoadALevelFromDownloadedLevelsList()
     {
         // Load one level
-        LevelData = ActiveChallengeLevels[0];
-        ActiveChallengeLevels.RemoveAt(0);
+        int loadIndex = USerInfo.Instance.LoadRandom?UnityEngine.Random.Range(0,ActiveChallengeLevels.Count):0;
+
+        LevelData = ActiveChallengeLevels[loadIndex];
+        ActiveChallengeLevels.RemoveAt(loadIndex);
         Debug.Log("Loaded the first Downloaded Level into LevelData");
         Debug.Log("Leveldata: "+LevelData.Level);
 

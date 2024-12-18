@@ -198,7 +198,8 @@ Nov 2024
 		* Replace fixed - No longer checks for already sent, but checks the list for duplicates
 		* Added Test mode for levels under creation in Creation B Panel
 		* Select by condition now add the levels correctly
-
+		* Levels now load at random
+		* Fixed Resultscreen Collections showing and aligned items
 
 		* Make Levels in Challenge load randomly
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?

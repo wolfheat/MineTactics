@@ -27,6 +27,7 @@ public class USerInfo : MonoBehaviour
     public string Collection { get; set; }
 	public List<string> ActiveCollections { get; set; } = new();
 	public List<string> InactiveCollections { get; set; } = new();
+	public bool LoadRandom { get; internal set; } = true;
 
     private void Awake()
 	{

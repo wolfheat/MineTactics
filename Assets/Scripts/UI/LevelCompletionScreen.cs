@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using TMPro;
 using UnityEngine;
 public class LevelCompletionScreen : MonoBehaviour
 {
+    [SerializeField] TextMeshProUGUI collection;
     [SerializeField] TextMeshProUGUI levelID;
     [SerializeField] TextMeshProUGUI rating;
     [SerializeField] TextMeshProUGUI creatorId;
@@ -34,6 +34,7 @@ public class LevelCompletionScreen : MonoBehaviour
             rating.text = data.DifficultyRating.ToString();
             votes.text = data.Upvotes.ToString()+"/"+ data.Downvotes.ToString();
             levelID.text = data.LevelId.ToString();
+            collection.text = data.Collection.ToString();
             status.text = data.Status.ToString();
             playCount.text = data.PlayCount.ToString();
             // 
