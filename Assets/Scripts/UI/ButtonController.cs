@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
 
-public enum MenuState{Settings,Normal,CreateA,CreateB,Challenge,Test}
+public enum MenuState{Settings,Normal,CreateA,CreateB,Challenge,Test,
+    Stats
+}
 
 public class ButtonController : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class ButtonController : MonoBehaviour
     [SerializeField] GameObject settingsPanel;
     [SerializeField] GameObject normalButtons;
     [SerializeField] GameObject challengeButtons;
+    [SerializeField] GameObject statsPanel;
+
     [SerializeField] GameObject testButtons;
 
     [SerializeField] GameObject createPanel;
@@ -36,7 +40,7 @@ public class ButtonController : MonoBehaviour
 
     public void ShowButtons(MenuState state)
     {
-        if(state == MenuState.Settings && lastState == MenuState.Settings)
+        if((state == MenuState.Settings && lastState == MenuState.Settings)|| (state == MenuState.Stats && lastState == MenuState.Stats))
         {
             //Close Settings here!
             state = stateBeforeSettings;
@@ -68,6 +72,9 @@ public class ButtonController : MonoBehaviour
             case MenuState.Test:
                 testButtons.gameObject.SetActive(false);
                 break;
+            case MenuState.Stats:
+                statsPanel.gameObject.SetActive(false);
+                break;
         }
 
         mainButtons[(int)state].SetSelected(true);
@@ -77,7 +84,8 @@ public class ButtonController : MonoBehaviour
         {
             case MenuState.Settings:
                 settingsPanel.gameObject.SetActive(true);
-                stateBeforeSettings = lastState;
+                if (lastState != MenuState.Settings && lastState != MenuState.Stats)
+                    stateBeforeSettings = lastState;
                 break;
             case MenuState.Normal:
                 normalButtons.gameObject.SetActive(true);
@@ -96,6 +104,11 @@ public class ButtonController : MonoBehaviour
             case MenuState.Test:
                 createPanel.gameObject.SetActive(true);
                 testButtons.gameObject.SetActive(true);
+                break;
+            case MenuState.Stats:
+                statsPanel.gameObject.SetActive(true);
+                if (lastState != MenuState.Settings && lastState != MenuState.Stats)
+                    stateBeforeSettings = lastState;
                 break;
         }
         lastState = state;

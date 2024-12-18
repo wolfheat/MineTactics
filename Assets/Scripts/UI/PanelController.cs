@@ -210,6 +210,12 @@ public class PanelController : MonoBehaviour
         InitStartMenu();
     }
     
+    public void OpenStats()
+    {        
+        Debug.Log("Opening Stats");
+        ButtonController.Instance.ShowButtons(MenuState.Stats);
+    }
+    
     public void OpenSettings()
     {        
         Debug.Log("Opening Settings");
@@ -222,9 +228,7 @@ public class PanelController : MonoBehaviour
 
     public void OpenCreateMenu()
     {
-        if (USerInfo.Instance.currentType == GameType.Create)
-            return;
-
+        
         ButtonController.Instance.ShowButtons(MenuState.CreateA);
         //ToggleMenuButtons(false);
         createPanel.SetActive(true);

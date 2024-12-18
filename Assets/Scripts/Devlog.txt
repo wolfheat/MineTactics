@@ -202,8 +202,8 @@ Nov 2024
 		* Fixed Resultscreen Collections showing and aligned items
 		* Fixed Right clicking mine on Editor B mode toggle ghostmine
 		* Fixed Right Clicking non mine in Editor B flagging
-
-		* Chording on Test triggers Start Challenge on Smiley text
+18/12	* Added player Stats Panel
+		* Fixed Navigation issue from Settings/Stats
 
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
 		* PLAYERSTATS - player will want to check his stats add stats page
