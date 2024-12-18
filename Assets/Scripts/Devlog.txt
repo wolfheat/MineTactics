@@ -196,18 +196,13 @@ Nov 2024
 		* Fixed LevelInfo panel information
 17/12	* Updated UI with larger buttons and text for mobile visibility
 		* Replace fixed - No longer checks for already sent, but checks the list for duplicates
-		
-		* Make Replace a level not unset the marked items in the list
+		* Added Test mode for levels under creation in Creation B Panel
 
-
-		* TODO
-		* Make buttons and general UI larger, to small on Mobile
-
-
-		* ISSUE - Might have to handle unloading and reloading a collection when a level is active. This info is never sent to DB until all levels are cleared again.
 		* Players will want to try playing the games from the LocalCollection while building them - make it happen
 		* Add bottom info that shows the collection a loaded game belongs to?
 		* PLAYERSTATS - player will want to check his stats add stats page
+
+		* ISSUE - Might have to handle unloading and reloading a collection when a level is active. This info is never sent to DB until all levels are cleared again.
 
 		* Make Levels in Challenge load randomly
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?

@@ -151,7 +151,7 @@ public class SavingLoadingConverter : MonoBehaviour
         return (char)('a' + amt-1);
     }
 
-    public static (int[,], int[,], int, int,int) StringLevelToGameArray(string deCompressed, bool editorcreateMode = false)
+    public static (int[,], int[,], int, int,int) StringLevelToGameArray(string deCompressed, bool editorcreateMode = false,bool useRotation = true)
     {
         //Debug.Log("Making game array from decompressed string: "+deCompressed);
         int totalSize = deCompressed.Length - 2;
@@ -195,25 +195,28 @@ public class SavingLoadingConverter : MonoBehaviour
             return (newMines, gameArray, width, height, totMines);
 
         // Rotate? 180
-        int rotate = Random.Range(0,4);
-        if (rotate>0)
+        if (useRotation)
         {
-            Debug.Log(" ROTATE "+(90*rotate)+"°! ");
-            for (int i = 0; i < rotate; i++)
+            int rotate = Random.Range(0,4);
+            if (rotate>0)
             {
-                newMines = Rotate(newMines);
-                gameArray = Rotate(gameArray);
+                Debug.Log(" ROTATE "+(90*rotate)+"°! ");
+                for (int i = 0; i < rotate; i++)
+                {
+                    newMines = Rotate(newMines);
+                    gameArray = Rotate(gameArray);
+                }
             }
-        }
 
 
 
-        // Transpose
-        bool transpose = Random.Range(0,2)==1?true:false;
-        if (transpose)
-        {
-            Debug.Log(" TRANSPOSED! ");
-            return (Transpose(newMines), Transpose(gameArray), height, width, totMines);
+            // Transpose
+            bool transpose = Random.Range(0,2)==1?true:false;
+            if (transpose)
+            {
+                Debug.Log(" TRANSPOSED! ");
+                return (Transpose(newMines), Transpose(gameArray), height, width, totMines);
+            }
         }
 
         // Send Basic Level

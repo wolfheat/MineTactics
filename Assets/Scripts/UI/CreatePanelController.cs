@@ -9,6 +9,18 @@ public class CreatePanelController : MonoBehaviour
     [SerializeField] Slider slider;
     [SerializeField] TextMeshProUGUI boardSizeText;
 
+    public static CreatePanelController Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
     private void OnEnable()
     {
         // Initiate the Create With start of creat buttons and 
@@ -20,6 +32,23 @@ public class CreatePanelController : MonoBehaviour
         //UpdateCreateLevelSize();
     }
 
+    string LastLevel = "";
+    public void TestCreatedLevel()
+    {
+        Debug.Log("Try to play this level!");
+
+        // Get gameLoaded int[,] array and Load it - Have a separate Create Test Mode
+        LastLevel = GameAreaMaster.Instance.MainGameArea.GetCompressedLevel();
+
+        Debug.Log("Set mode so Only level can be tested here for level :"+LastLevel);
+
+        // Change Mode?
+        PanelController.Instance.ChangeMode(3);
+
+
+        ResetTest();
+        // public void LoadGame(int[,] gameLoaded, bool editorcreateMode = false)
+    }
     public void AddToCollectionList()
     {
         Debug.Log("Add this Level to The Collection List");
@@ -37,6 +66,25 @@ public class CreatePanelController : MonoBehaviour
         }
         else
             PanelController.Instance.ShowInfo("not able to save level due to no clickable tiles");
+    }
+
+    public void ExitTest()
+    {
+        Debug.Log("Exiting Test mode");
+        ButtonController.Instance.ShowButtons(MenuState.CreateB);
+        BackgroundController.Instance.SetColorEditModeB();
+
+        // Reset the CreateB to latest settings
+        PanelController.Instance.ChangeMode(2);
+
+        // Load LastLevel
+        GameAreaMaster.Instance.MainGameArea.OnLoadLevelComplete(LastLevel, true);
+    }
+    public void ResetTest()
+    {
+        GameAreaMaster.Instance.MainGameArea.OnLoadLevelComplete(LastLevel, false,false);
+        LevelCreator.Instance.LoadedGameFinalizing(false); // makes it playable
+        SmileyButton.Instance.ShowNormal();
     }
 
     public void Back()

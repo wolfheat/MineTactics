@@ -4,6 +4,7 @@ public class BackgroundController : MonoBehaviour
 {
     [SerializeField] Color normal;
     [SerializeField] Color tactics;
+    [SerializeField] Color test;
     [SerializeField] Color editMode;
     [SerializeField] Color editModeB;
     [SerializeField] SpriteRenderer spriteRenderer;
@@ -24,6 +25,7 @@ public class BackgroundController : MonoBehaviour
 
     public void SetColorNormal() => spriteRenderer.color = normal;
     public void SetColorTactics() => spriteRenderer.color = tactics;
+    public void SetColorTest() => spriteRenderer.color = test;
     public void SetColorEditMode() => spriteRenderer.color = editMode;
     public void SetColorEditModeB() => spriteRenderer.color = editModeB;
 

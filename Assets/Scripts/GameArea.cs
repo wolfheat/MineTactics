@@ -64,12 +64,12 @@ public class GameArea : MonoBehaviour
     }
 
     public void OnLoadLevelComplete(string compressed) => OnLoadLevelComplete(compressed,false);
-    public void OnLoadLevelComplete(string compressed, bool editorcreateMode)
+    public void OnLoadLevelComplete(string compressed, bool editorcreateMode, bool useRotate = true)
     {
         Debug.Log("Recieved compressed level from database: " + compressed);
         string deCompressed = SavingLoadingConverter.UnComressString(compressed);
 
-        (int[,] newMines, int[,] gameLoaded, int newgameWidth, int newgameHeight, int newtotalmines) = SavingLoadingConverter.StringLevelToGameArray(deCompressed,editorcreateMode);
+        (int[,] newMines, int[,] gameLoaded, int newgameWidth, int newgameHeight, int newtotalmines) = SavingLoadingConverter.StringLevelToGameArray(deCompressed,editorcreateMode,useRotate);
 
         // I dont want the size to change from the loaded level only player can change this in settings
         //USerInfo.Instance.BoardSize = newgameWidth;
@@ -501,6 +501,7 @@ public class GameArea : MonoBehaviour
         LevelBusted = false;
 
         // Open Completion Panel - Pick correct one depending on level type
+        
         PanelController.Instance.ShowLevelComplete();
 
     }
@@ -862,12 +863,19 @@ public class GameArea : MonoBehaviour
         Debug.Log("Saved Level added to Collection");
         return valid;
     }
+
     public void AddLevelToCollection()
     {
         (int[,] charArray, string pre) = SavingLoadingConverter.LevelTo2DArray(mines, overlayBoxes);
         string compressed = SavingLoadingConverter.ComressToString(charArray, pre);
         FirestoreManager.Instance.AddToLocalCollection(compressed);
         Debug.Log("Saved Level added to Collection");
+    }
+    
+    public string GetCompressedLevel()
+    {
+        (int[,] charArray, string pre) = SavingLoadingConverter.LevelTo2DArray(mines, overlayBoxes);
+        return SavingLoadingConverter.ComressToString(charArray, pre);
     }
     public void SaveLevel(string levelName = "L01")
     {

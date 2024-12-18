@@ -125,7 +125,7 @@ public class PanelController : MonoBehaviour
             BackgroundController.Instance.SetColorNormal(); 
             LevelCreator.Instance.RestartGame();
         }
-        else
+        else if(type == 1)
         {
             ButtonController.Instance.ShowButtons(MenuState.Challenge);
             if (sameMode)
@@ -133,6 +133,13 @@ public class PanelController : MonoBehaviour
             // If no levels are loaded reload all from the settings list
             GameAreaMaster.Instance.MainGameArea.ResetBoard();
             BackgroundController.Instance.SetColorTactics(); 
+            SmileyButton.Instance.ShowNormal();
+        }else if(type == 3)
+        {
+            ButtonController.Instance.ShowButtons(MenuState.Test);
+            // If no levels are loaded reload all from the settings list
+            //GameAreaMaster.Instance.MainGameArea.ResetBoard();
+            BackgroundController.Instance.SetColorTest(); 
             SmileyButton.Instance.ShowNormal();
         }
         UpdateModeShown();
@@ -294,12 +301,12 @@ public class PanelController : MonoBehaviour
             levelCompleteNormal.gameObject.SetActive(true); 
             levelCompleteNormal.RequestUpdateLevelInfo();
         }
-        else
+        else if (USerInfo.Instance.currentType == GameType.Challenge)
         {
             levelComplete.gameObject.SetActive(true);
             levelComplete.RequestUpdateLevelInfo();
 
-        }
+        }// Else when in Create Test mode do nothing
 
     }
 

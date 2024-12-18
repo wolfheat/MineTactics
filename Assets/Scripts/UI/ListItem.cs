@@ -36,7 +36,7 @@ public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Debug.Log("Request Replace Level (ListItem)");
         // CHeck here for valid Level
         bool isValid = GameAreaMaster.Instance.MainGameArea.ValidateLevel();
-
+        
         // Open Replace Confirmation screen
         if (isValid) 
             ConfirmPanel.Instance.ShowConfirmationOption("Replace Level?", "Are you sure you want to replace level " + index+" with the current layout?", ReplaceSelected);

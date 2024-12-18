@@ -65,7 +65,6 @@ public class LevelCreator : MonoBehaviour
     public bool WaitForFirstMove { get; private set; } = true;
     public bool EditMode { get; set; } = false;
     public bool EditModeB { get; set; } = false;
-    public bool LevelBusted { get; private set; }
 
     int[,] mines;
     GameBox[,] underlayBoxes = new GameBox[0,0];

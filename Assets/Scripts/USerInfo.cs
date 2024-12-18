@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum GameType{Normal,Challenge,Create}
+public enum GameType{Normal,Challenge,Create,Test}
 public class USerInfo : MonoBehaviour
 {
 

@@ -46,10 +46,17 @@ public class SmileyButton : MonoBehaviour
             // Make smiley cleat in Create Mode A and unselect all in Mode B
             if (USerInfo.EditMode == 0)
                 PanelController.Instance.Clear();
+            
             else
                 GameAreaMaster.Instance.MainGameArea.ResetAllNonMine();
             return;
+        }else if (USerInfo.Instance.currentType == GameType.Test)
+        {
+            // Reset the game to startPosition
+            Debug.Log("Reset to startPosition");
+            CreatePanelController.Instance.ResetTest();
         }
+            
 
     }
 

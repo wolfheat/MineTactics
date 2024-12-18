@@ -129,13 +129,13 @@ public class LevelCompletionScreen : MonoBehaviour
         dict.Add("PlayCount", LoadedData.PlayCount + 1);
 
 
-        bool bust = LevelCreator.Instance.LevelBusted;
         // Rating - Depends on Players Rating and Game Result and Time
         // IF bust and Level is Higher than player lower its rating by a linear amount from diff with a max change
         // For now increase Level rating by 1 if busted, or lower it if completed
 
         // Level Rating (Temporatily +1 when cleared -1 when bust)
-        dict.Add("DifficultyRating", LoadedData.DifficultyRating + (bust?-1:1));
+        dict.Add("DifficultyRating", LoadedData.DifficultyRating);
+        //dict.Add("DifficultyRating", LoadedData.DifficultyRating + (bust?-1:1));
 
         FirestoreManager.Instance.UpdateLevel(dict,LoadedData.LevelId);
         return true;
