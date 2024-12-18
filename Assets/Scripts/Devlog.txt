@@ -201,6 +201,9 @@ Nov 2024
 		* Levels now load at random
 		* Fixed Resultscreen Collections showing and aligned items
 		* Fixed Right clicking mine on Editor B mode toggle ghostmine
+		* Fixed Right Clicking non mine in Editor B flagging
+
+		* Chording on Test triggers Start Challenge on Smiley text
 
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
 		* PLAYERSTATS - player will want to check his stats add stats page

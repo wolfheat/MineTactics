@@ -101,7 +101,15 @@ public class GameBox : MonoBehaviour
 
     public void RightClick(bool hidden = false)
     {
-        Debug.Log("Clicking this box at " + Pos + " mark or demark as mine value =" + value);
+
+        // Dont flag non mines in Create B
+        if (hidden && USerInfo.EditMode == 1 && !GameAreaMaster.Instance.MainGameArea.IsMine(Pos)) // Edit mode 1 == EDIT mode B
+        {
+            Click();
+            return;
+        }
+
+        Debug.Log("Clicking this box at " + Pos + " mark or demark as mine value =" + value+" ");
         if (value > 0) return;
         Marked = !Marked;
 
