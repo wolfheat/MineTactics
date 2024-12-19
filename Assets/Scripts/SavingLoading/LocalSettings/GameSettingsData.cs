@@ -37,12 +37,17 @@ public class GameSettingsData
     public List<float> Records { get; internal set; } = new();
     public List<float> OriginalRecords { get; internal set; } = new();
 
-    public void AddOriginalRecord(float completionTime, int index)
+    public bool AddOriginalRecord(float completionTime, int index)
     {
         if (OriginalRecords == null || OriginalRecords.Count == 0)
             OriginalRecords = new List<float> { 0, 0, 0};
-if (OriginalRecords[index]==0 || completionTime < OriginalRecords[index])
+
+        if (OriginalRecords[index]==0 || completionTime < OriginalRecords[index])
+        {
             OriginalRecords[index] = completionTime;
+            return true;
+        }
+        return false;
 
     }
     public bool AddIfRecord(float completionTime, int index)

@@ -305,7 +305,22 @@ public class PanelController : MonoBehaviour
             levelCompleteNormal.gameObject.SetActive(true); 
             levelCompleteNormal.RequestUpdateLevelInfo();
             // Add to record
-            bool record = SavingUtility.gameSettingsData.AddIfRecord(Timer.TimeElapsed,USerInfo.Instance.BoardSize-5);
+            bool record = false;
+            switch (USerInfo.Instance.BoardType)
+            {
+                case BoardTypes.Slider:
+                    record = SavingUtility.gameSettingsData.AddIfRecord(Timer.TimeElapsed,USerInfo.Instance.BoardSize-5);
+                    break;
+                case BoardTypes.Beginner:
+                    record = SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed,0);
+                    break;
+                case BoardTypes.Intermediate:
+                    record = SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed,1);
+                    break;
+                case BoardTypes.Expert:
+                    record = SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed,2);
+                    break;
+            }
             if (record)
                 SavingUtility.Instance.SaveAllDataToFile();
         }

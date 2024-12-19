@@ -292,20 +292,26 @@ public class GameArea : MonoBehaviour
         mineCountAmount = 0;
 
         // Place total Mines at random positions A (Get all positions and take one at random)
-
+        Debug.Log("***** Randomize Mines "+gameWidth+"*"+gameHeight);
         int[] allPos = Enumerable.Range(0, gameHeight * gameWidth).ToArray();
+        
         // Fisher-Yates scramble
         allPos = Converter.FisherYatesScramble(allPos);
-        int row = allPos[allPos.Length - 1] / gameWidth;
-        int col = allPos[allPos.Length - 1] % gameWidth;
+
+        // Set last position as a swapbox cause this is free unless all positons are mines
+        int row = allPos[allPos.Length - 1] % gameWidth;
+        int col = allPos[allPos.Length - 1] / gameWidth;
         swapBox = new Vector2Int(row, col);
+        Debug.Log("Game area size = "+mines.GetLength(0)+" "+mines.GetLength(1));
+        Debug.Log("Swap box at = " + ((allPos.Length - 1) % gameWidth) + ","+ ((allPos.Length - 1) / gameWidth));
 
         //Debug.Log("RandomizeMine is picked from row = "+row+" and col = "+col+" allpos size = "+ allPos.Length+" Total Mines = "+totalmines);
-
+        // allPos stores all positions 0-Size-1 of the game area
+        // Takes out a number representating a spot in the grid
         for (int i = 0; i < totalmines; i++)
         {
-            row = allPos[i] / gameWidth;
-            col = allPos[i] % gameWidth;
+            row = allPos[i] % gameWidth;
+            col = allPos[i] / gameWidth;
             mines[row, col] = -1;
         }
         mineCountAmount = totalmines;
@@ -700,18 +706,41 @@ public class GameArea : MonoBehaviour
         if (sizeFromSettings)
         {
             int boardSize = USerInfo.Instance.BoardSize;
-            
-            Debug.Log("Game Area - Load Game of Size [" + boardSize+"x" + boardSize+"]");
+            Debug.Log("**** Loading game of type "+ USerInfo.Instance.BoardType);
+            switch (USerInfo.Instance.BoardType)
+            {
+                case BoardTypes.Slider:
+                    // Load info of current size
+                    gameWidth = boardSize;
+                    gameHeight = boardSize;
+                    //float minePercent = (11 + boardSize * 0.5f) / 100;
+                    totalmines = (int)(boardSize * boardSize * (11 + boardSize * 0.5f)/100);
+                    break;
+                case BoardTypes.Beginner:
+                    Debug.Log("**** Loading beginner");
+                    gameWidth = 8;
+                    gameHeight = 8;
+                    totalmines = 10;
+                    break;
+                case BoardTypes.Intermediate:
+                    Debug.Log("**** Loading intermediate");
+                    gameWidth = 16;
+                    gameHeight = 16;
+                    totalmines = 40;
+                    break;
+                case BoardTypes.Expert:
+                    Debug.Log("**** Loading expert");
+                    gameWidth = 30;
+                    gameHeight = 16;
+                    totalmines = 99;
+                    break;
+            }
 
-            // Load info of current size
-            gameWidth = boardSize;
-            gameHeight = boardSize;
+            Debug.Log("Game Area - Load Game of Size [" + gameWidth + "x" + gameHeight + "]");
 
             // Use calculation instead of array to acomodate for any size
 
             // Mine% = 11 + size*0.5 => TotalMines = boardSize*boardSize*11 + size*0.5
-            float minePercent = (11 + boardSize * 0.5f) / 100;
-            totalmines = (int)(boardSize * boardSize * (11 + boardSize * 0.5f)/100);
 
             //totalmines = gameSizes[boardSize - 6]; // -6 since the lowest setting a gamearea can be is 6 and the index starsts at 0
 

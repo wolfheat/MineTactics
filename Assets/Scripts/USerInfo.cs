@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+public enum BoardTypes{Slider,Beginner,Intermediate,Expert}
 public enum GameType{Normal,Challenge,Create,Test}
 public class USerInfo : MonoBehaviour
 {
-
+	
 	public string userName = "";
 	public string email = "";
 	public string uid = "00";
@@ -16,6 +16,7 @@ public class USerInfo : MonoBehaviour
 	public static int EditMode { get; set; } = 0;
 
     public static USerInfo Instance { get; private set; }
+	public BoardTypes BoardType { get; set; } = BoardTypes.Slider;
 	public int BoardSize { get; set; } = 6;
 	public int Sensitivity { get; set; } = 15;
 	public float SensitivityMS => Sensitivity / 100f;

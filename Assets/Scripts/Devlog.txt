@@ -208,14 +208,14 @@ Nov 2024
 		* Local Savefile is now bound to the playername
 19/12	* Added Separate page for stats with size specific best times
 		* Best times added to stats stored
-		* Added Separate page for stats with size specific best times
-		* Best times added to stats stored
+		* Added normal modes EASY+INTERMEDIATE+EXPERT
 
-					
-		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
+		
+		* ADD pan for normal modes?
 
 		* PLAYERSTATS INFO 
-		 - EACH LEVEL SIZE -> 5x5 * Fastest Time * Fewest Clicks * 3BV/s * Separate Page?
+		 - EACH LEVEL SIZE -> Fewest Clicks * 3BV/s * Separate Page?
+
 		
 		* Issue - Settings is saved to file for all players using same device, fix so it loads correct savefile
 		* ISSUE - Might have to handle unloading and reloading a collection when a level is active. This info is never sent to DB until all levels are cleared again.
