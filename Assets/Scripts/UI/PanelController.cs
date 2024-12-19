@@ -304,11 +304,17 @@ public class PanelController : MonoBehaviour
         {
             levelCompleteNormal.gameObject.SetActive(true); 
             levelCompleteNormal.RequestUpdateLevelInfo();
+            // Add to record
+            bool record = SavingUtility.gameSettingsData.AddIfRecord(Timer.TimeElapsed,USerInfo.Instance.BoardSize-5);
+            if (record)
+                SavingUtility.Instance.SaveAllDataToFile();
         }
         else if (USerInfo.Instance.currentType == GameType.Challenge)
         {
             levelComplete.gameObject.SetActive(true);
             levelComplete.RequestUpdateLevelInfo();
+
+            //SavingUtility.gameSettingsData.AddIfRecord(Timer.TimeElapsed,USerInfo.Instance.BoardSize-6);
 
         }// Else when in Create Test mode do nothing
 

@@ -34,7 +34,28 @@ public class GameSettingsData
     
     public List<string> ActiveCollections { get; set; } = new();
     public List<string> InactiveCollections { get; set; } = new();
+    public List<float> Records { get; internal set; } = new();
+    public List<float> OriginalRecords { get; internal set; } = new();
 
+    public void AddOriginalRecord(float completionTime, int index)
+    {
+        if (OriginalRecords == null || OriginalRecords.Count == 0)
+            OriginalRecords = new List<float> { 0, 0, 0};
+if (OriginalRecords[index]==0 || completionTime < OriginalRecords[index])
+            OriginalRecords[index] = completionTime;
+
+    }
+    public bool AddIfRecord(float completionTime, int index)
+    {
+        if (Records == null || Records.Count == 0)
+            Records = new List<float> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        if (Records[index]==0 || completionTime < Records[index])
+        {
+            Records[index] = completionTime;
+            return true;
+        }
+        return false;
+    }
     public void AddUsageTimeMinutes(int v)
     {
         UsageTime += v;

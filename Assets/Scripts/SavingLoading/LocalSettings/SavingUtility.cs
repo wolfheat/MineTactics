@@ -87,7 +87,9 @@ public class SavingUtility : MonoBehaviour
             if (data != null)
             {
                 Debug.Log("  PlayerGameData loaded - Valid data!");
+                Debug.Log("Read data GameSettingsdata 6x6 ="+data.Records);
                 gameSettingsData = data;
+                Debug.Log("Set GameSettingsdata 6x6 to "+gameSettingsData.Records);
             }
             else
             {

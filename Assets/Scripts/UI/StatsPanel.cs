@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class StatsPanel : MonoBehaviour
@@ -18,6 +19,13 @@ public class StatsPanel : MonoBehaviour
     [Header("Final")]
     [SerializeField] TextMeshProUGUI status;
     [SerializeField] TextMeshProUGUI votes;
+    [Header("Specific")]
+    [SerializeField] TextMeshProUGUI[] specifics;
+    [SerializeField] TextMeshProUGUI[] originals;
+
+    [Header("Pages")]
+    [SerializeField] GameObject mainPage;
+    [SerializeField] GameObject specificPage;
 
     public static StatsPanel Instance { get; private set; }
 
@@ -33,7 +41,24 @@ public class StatsPanel : MonoBehaviour
     private void OnEnable()
     {
         UpdateStats();
+        mainPage.SetActive(true);
+        specificPage.SetActive(false);
     }
+    public void Next()
+    {
+        Debug.Log("Next!");
+        if (mainPage.activeSelf)
+        {
+            mainPage.SetActive(false);
+            specificPage.SetActive(true);
+        }
+        else
+        {
+            mainPage.SetActive(true);
+            specificPage.SetActive(false);
+        }
+    }
+
     public void UpdateStats()
     {
         Debug.Log("** ** Updating Stats Panel info, player: "+ SavingUtility.gameSettingsData.PlayerName);
@@ -57,6 +82,29 @@ public class StatsPanel : MonoBehaviour
         rating.text = SavingUtility.gameSettingsData.Rating.ToString();
         register.text = SavingUtility.gameSettingsData.Registration.ToString();
 
+        List<float> records = SavingUtility.gameSettingsData.Records;
+        Debug.Log("records size "+ records.Count);
+        Debug.Log("specifics size "+specifics.Length);
+        // Specifics
+        for (int i = 0; i < records.Count; i++)
+        {
+            Debug.Log("records "+i);
+            float record = records[i];
+            if (record == 0)
+                specifics[i].text = "-----";
+            else
+                specifics[i].text = record.ToString("F3");
+        }
+        List<float> originalRecords = SavingUtility.gameSettingsData.OriginalRecords;
+
+        for (int i = 0; i < originalRecords.Count; i++)
+        {
+            float record = originalRecords[i];
+            if (record == 0)
+                originals[i].text = "-----";
+            else
+                originals[i].text = record.ToString("F3");
+        }
 
     }
 

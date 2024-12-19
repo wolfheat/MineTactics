@@ -206,6 +206,10 @@ Nov 2024
 		* Fixed Navigation issue from Settings/Stats
 		* Added some of the info on Stats page
 		* Local Savefile is now bound to the playername
+19/12	* Added Separate page for stats with size specific best times
+		* Best times added to stats stored
+		* Added Separate page for stats with size specific best times
+		* Best times added to stats stored
 
 					
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
