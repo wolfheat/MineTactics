@@ -205,20 +205,15 @@ Nov 2024
 18/12	* Added player Stats Panel
 		* Fixed Navigation issue from Settings/Stats
 		* Added some of the info on Stats page
+		* Local Savefile is now bound to the playername
 
-
-		* Settings is saved to file for all players using same device, fix so it loads correct savefile
-
-		* PLAYERSTATS - player will want to check his stats add stats page
-		 - Fill with
-		 - Total Games started?
-		 - Total Games won
-		 - Total games lost
-		 - Win %
-		 - 5x5 * Fastest Time * Fewest Clicks * 3BV/s * 
-		
+					
 		* Add normal modes EASY_INTERMEDIATE_EXPERT and pan possability?
 
+		* PLAYERSTATS INFO 
+		 - EACH LEVEL SIZE -> 5x5 * Fastest Time * Fewest Clicks * 3BV/s * Separate Page?
+		
+		* Issue - Settings is saved to file for all players using same device, fix so it loads correct savefile
 		* ISSUE - Might have to handle unloading and reloading a collection when a level is active. This info is never sent to DB until all levels are cleared again.
 		* Issue - with slow loading of levels in collections sometimes, fix?
 		* Issue - Half completed Collection exit handeling -  Currently discarded progress

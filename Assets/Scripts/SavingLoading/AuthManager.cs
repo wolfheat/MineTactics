@@ -12,6 +12,7 @@ public class AuthManager : MonoBehaviour
 {
     FirebaseFirestore db;
     FirebaseAuth auth;
+    public FirebaseAuth Auth => auth;
     Firebase.FirebaseApp app;
     public static Action RegisterAttemptStarted;
     public static Action<string> RegisterAttemptFailed;
@@ -382,6 +383,11 @@ public class AuthManager : MonoBehaviour
         else
         {
             USerInfo.Instance.SetUserInfoFromFirebaseUser(auth.CurrentUser);
+
+            // Set the playerName in Stats and Save file
+            SavingUtility.gameSettingsData.PlayerName = auth.CurrentUser.DisplayName;
+            Debug.Log("** ** Setting Playername in gamesettingsdata to " + SavingUtility.gameSettingsData.PlayerName);
+
             Debug.Log("Display Players name");
             OnSuccessfulLogIn?.Invoke();
         }

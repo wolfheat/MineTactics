@@ -8,11 +8,12 @@ public class SavingUtility : MonoBehaviour
 
     private const string PlayerDataSaveFile = "player-data";
     private const string GameSettingsDataSaveFile = "player-settings";
+    private string PlayerName = "";
     public static SavingUtility Instance { get; private set; }
 
     public static Action LoadingComplete;  
 
-    public static GameSettingsData gameSettingsData;
+    public static GameSettingsData gameSettingsData = new();
 
     private void Start()
     {
@@ -25,7 +26,9 @@ public class SavingUtility : MonoBehaviour
         Instance = this;    
 
         
-        StartCoroutine(LoadFromFile());
+        //StartCoroutine(LoadFromFile());
+        // Waits for Firebase To log in before laoding a save file
+        AuthManager.OnSuccessfulLogIn += LoadFromFile;
     }
 
     public void ResetSaveFile()
@@ -60,22 +63,27 @@ public class SavingUtility : MonoBehaviour
     public void SaveSettingsDataToFile()
     {
         IDataService dataService = new JsonDataService();
-        if (dataService.SaveData(GameSettingsDataSaveFile, gameSettingsData, false))
+        if (dataService.SaveData(GameSettingsDataSaveFile + "-" + PlayerName, gameSettingsData, false))
             Debug.Log("  Saved settings data in: " + GameSettingsDataSaveFile);
         else
             Debug.LogError("  Could not save file: GameSettingsData");
     }
 
-    public IEnumerator LoadFromFile()
+    public void LoadFromFile()
     {
         // Hold the load so Game has time to load
-        yield return new WaitForSeconds(0.4f);
-
+        //yield return new WaitForSeconds(0.4f);
+        // Instead wait for Firebase Data to load? Logged in?
         IDataService dataService = new JsonDataService();
         try
         {
-            Debug.Log("** Trying To load data from file. **");
-            GameSettingsData data = dataService.LoadData<GameSettingsData>(GameSettingsDataSaveFile, false);
+            Debug.Log("** Trying To load data from file. ** ");
+            if (AuthManager.Instance.Auth.CurrentUser.IsValid())
+            {
+                PlayerName = AuthManager.Instance.Auth.CurrentUser.DisplayName;
+                Debug.Log("Player "+ PlayerName +" Logged in, load correct settings from file");
+            }
+            GameSettingsData data = dataService.LoadData<GameSettingsData>(GameSettingsDataSaveFile+"-"+PlayerName, false);
             if (data != null)
             {
                 Debug.Log("  PlayerGameData loaded - Valid data!");
@@ -83,13 +91,13 @@ public class SavingUtility : MonoBehaviour
             }
             else
             {
-                gameSettingsData = new GameSettingsData();
+                gameSettingsData = new GameSettingsData() { PlayerName = PlayerName };
             }            
         }
         catch   
         {
             Debug.Log("  Could not load data, set default: ");
-            gameSettingsData = new GameSettingsData();
+            gameSettingsData = new GameSettingsData() { PlayerName = PlayerName };
         }
         finally
         { 

@@ -36,7 +36,7 @@ public class StatsPanel : MonoBehaviour
     }
     public void UpdateStats()
     {
-        Debug.Log("Updating Stats Panel info");
+        Debug.Log("** ** Updating Stats Panel info, player: "+ SavingUtility.gameSettingsData.PlayerName);
 
         // WIN LOSS PERCENT - NORMAL
         int won = SavingUtility.gameSettingsData.NormalWon;
