@@ -24,6 +24,14 @@ public class GameSettingsData
     public int TouchSensitivity { get; set; } = 15;
     public int BoardSize { get; set; } = 6;
     public bool UsePending { get; set; } = true;
+    public int NormalWon { get; set; } = 0;
+    public int NormalLost { get; set; } = 0;    
+    public int ChallengeWon { get; set; } = 0;
+    public int ChallengeLost { get; set; } = 0;
+    public float Rating{ get; set; } = 999;
+    public string PlayerName { get; set; } = "None";
+    public DateTime Registration { get; set; } = DateTime.UtcNow;
+    
     public List<string> ActiveCollections { get; set; } = new();
     public List<string> InactiveCollections { get; set; } = new();
 

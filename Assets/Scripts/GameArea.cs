@@ -500,8 +500,15 @@ public class GameArea : MonoBehaviour
 
         LevelBusted = false;
 
+        // Add Stats
+        if(USerInfo.Instance.currentType == GameType.Normal)
+            SavingUtility.gameSettingsData.NormalWon++;
+        else if(USerInfo.Instance.currentType == GameType.Challenge)
+            SavingUtility.gameSettingsData.ChallengeWon++;
+        SavingUtility.Instance.SaveAllDataToFile();
+
         // Open Completion Panel - Pick correct one depending on level type
-        
+
         PanelController.Instance.ShowLevelComplete();
 
     }
@@ -547,6 +554,13 @@ public class GameArea : MonoBehaviour
             }
         }
         SmileyButton.Instance.ShowBust();
+
+        // Add Stats
+        if (USerInfo.Instance.currentType == GameType.Normal)
+            SavingUtility.gameSettingsData.NormalLost++;
+        else if (USerInfo.Instance.currentType == GameType.Challenge)
+            SavingUtility.gameSettingsData.ChallengeLost++;
+        SavingUtility.Instance.SaveAllDataToFile();
     }
 
     private void SwapAndRecalculateLevel(Vector2Int pos)
