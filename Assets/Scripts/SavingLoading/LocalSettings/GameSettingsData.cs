@@ -31,8 +31,10 @@ public class GameSettingsData
     public float Rating{ get; set; } = 999;
     public string PlayerName { get; set; } = "None";
     public DateTime Registration { get; set; } = DateTime.UtcNow;
-    
-    public List<string> ActiveCollections { get; set; } = new();
+
+    public List<string> CollectionNames { get; set; } = new();
+
+public List<string> ActiveCollections { get; set; } = new();
     public List<string> InactiveCollections { get; set; } = new();
     public List<float> Records { get; internal set; } = new();
     public List<float> Records3BV { get; internal set; } = new();

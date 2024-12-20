@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LoadPanel : MonoBehaviour
@@ -177,26 +178,33 @@ public class LoadPanel : MonoBehaviour
         for (int i = 0; i < collectionNames.Count; i++)
         {
             string collectionName = collectionNames[i];
-            Debug.Log("Checking Collection name "+collectionName);
-            CollectionListItem item = Instantiate(listItemPrefab, listHolder.transform);
-            if (FirestoreManager.Instance.LevelDataCollections.ContainsKey(collectionName))
-                item.UpdateData(i,FirestoreManager.Instance.LevelDataCollections[collectionName]);
-            else
-                item.UpdateData(i, collectionName);
-
-            collectionList.Add(item);
+            Debug.Log("Checking Collection name " + collectionName);
+            CollectionListItem item = CreateCollectionListItem(i, collectionName);
             if (USerInfo.Instance.ActiveCollections.Contains(collectionName))
             {
                 Debug.Log("IN ACTIVE");
                 selectedCollections.Add(item);
                 item.SetAsActive(true);
                 item.ShowAsLocal(SavingUtility.Instance.FileExists(collectionName));
-            }else if (USerInfo.Instance.InactiveCollections.Contains(collectionName))
+            }
+            else if (USerInfo.Instance.InactiveCollections.Contains(collectionName))
             {
                 Debug.Log("IN INACTIVE");
                 item.ShowAsLocal(true);
             }
         }
+    }
+
+    private CollectionListItem CreateCollectionListItem(int i, string collectionName)
+    {
+        CollectionListItem item = Instantiate(listItemPrefab, listHolder.transform);
+        if (FirestoreManager.Instance.LevelDataCollections.ContainsKey(collectionName))
+            item.UpdateData(i, FirestoreManager.Instance.LevelDataCollections[collectionName]);
+        else
+            item.UpdateData(i, collectionName);
+
+        collectionList.Add(item);
+        return item;
     }
 
     private void DeleteAllPresentCollectionListItems()
@@ -215,8 +223,53 @@ public class LoadPanel : MonoBehaviour
     public void Close() => Debug.Log("Close the Collection Panel");
     public void GetCollectionsClicked()
     {
+        if(SavingUtility.gameSettingsData.CollectionNames.Count == 0)
+            SavingUtility.gameSettingsData.CollectionNames = new List<string>{ "Easy","Basic","Corners","BasicCollection","Selection","Doesnt_Exist"};
         Debug.Log("Get Collections Clicked");
-        List<string> collectionNames = new List<string>() {"Easy","Basic","Corners","BasicCollection","Selection","Doesnt_Exist"};
-        GenerateCollections(collectionNames);
+        GenerateCollections(SavingUtility.gameSettingsData.CollectionNames);
     }
+    public void AddACollectionByText()
+    {
+        Debug.Log("Add a collection by text");
+        ConfirmInputPanel.Instance.ShowConfirmationOption("Add Collection?", "Type the name of the Collection you want to add to the list!", AddACollectionByText);
+    }
+    public void AddACollectionByText(string nameOfCollectionToAdd)
+    {
+        Debug.Log("Add a collection by text: "+nameOfCollectionToAdd);
+        if (SavingUtility.gameSettingsData.CollectionNames.Contains(nameOfCollectionToAdd))
+        {
+            PanelController.Instance.ShowInfo("This Collection name is allready in the list!");
+            return;
+        }
+        SavingUtility.gameSettingsData.CollectionNames.Add(nameOfCollectionToAdd);
+        CreateCollectionListItem(collectionList.Count, nameOfCollectionToAdd);
+    }
+    
+    public void RemoveACollectionByText()
+    {
+        Debug.Log("Remove a collection by text");
+        ConfirmInputPanel.Instance.ShowConfirmationOption("Remove Collection?", "Type the name of the Collection you want to remove from the list!", RemoveACollectionByText);
+    }
+    public void RemoveACollectionByText(string nameOfCollectionToRemove)
+    {
+        Debug.Log("Remove a collection by text: "+nameOfCollectionToRemove);
+        if (SavingUtility.gameSettingsData.CollectionNames.Contains(nameOfCollectionToRemove))
+        {
+            int index = collectionList.FindIndex(x => x.CollectionName == nameOfCollectionToRemove);
+            Debug.Log("index for findindex "+index);
+            if (index == -1)
+            {
+                PanelController.Instance.ShowInfo("This Collection could not be found in the list!");
+                return;
+            }
+            CollectionListItem item = collectionList[index];
+            collectionList.RemoveAt(index);
+            Destroy(item.gameObject);
+            SavingUtility.gameSettingsData.CollectionNames.Remove(nameOfCollectionToRemove);
+        }
+        else
+            PanelController.Instance.ShowInfo("This Collection could not be found in the list!");
+
+    }
+
 }

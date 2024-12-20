@@ -210,6 +210,9 @@ Nov 2024
 		* Best times added to stats stored
 		* Added normal modes EASY+INTERMEDIATE+EXPERT
 		* 3BV/s calculation added and added to Stats
+		* Added option to add and remove Collections in the Challenge LoadPanel
+		
+		* Player will want to get notice of getting record!
 
 		* Sometimes loading a level in collections and going into Test makes left click flag
 		* ADD pan for normal modes?
