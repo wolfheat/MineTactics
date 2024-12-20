@@ -21,7 +21,9 @@ public class StatsPanel : MonoBehaviour
     [SerializeField] TextMeshProUGUI votes;
     [Header("Specific")]
     [SerializeField] TextMeshProUGUI[] specifics;
+    [SerializeField] TextMeshProUGUI[] specifics3BV;
     [SerializeField] TextMeshProUGUI[] originals;
+    [SerializeField] TextMeshProUGUI[] originals3BV;
 
     [Header("Pages")]
     [SerializeField] GameObject mainPage;
@@ -83,6 +85,7 @@ public class StatsPanel : MonoBehaviour
         register.text = SavingUtility.gameSettingsData.Registration.ToString();
 
         List<float> records = SavingUtility.gameSettingsData.Records;
+        List<float> records3bv = SavingUtility.gameSettingsData.Records3BV;
         Debug.Log("records size "+ records.Count);
         Debug.Log("specifics size "+specifics.Length);
         // Specifics
@@ -90,20 +93,33 @@ public class StatsPanel : MonoBehaviour
         {
             Debug.Log("records "+i);
             float record = records[i];
+            float record3bv = records3bv[i];
             if (record == 0)
                 specifics[i].text = "-----";
             else
                 specifics[i].text = record.ToString("F3");
+            if (record3bv == 0)
+                specifics3BV[i].text = "-----";
+            else
+                specifics3BV[i].text = record3bv.ToString("F3");
         }
         List<float> originalRecords = SavingUtility.gameSettingsData.OriginalRecords;
+        List<float> originalRecords3bv = SavingUtility.gameSettingsData.OriginalRecords3BV;
 
         for (int i = 0; i < originalRecords.Count; i++)
         {
+            Debug.Log("records " + i);
             float record = originalRecords[i];
+            float record3bv = originalRecords3bv[i];
             if (record == 0)
                 originals[i].text = "-----";
             else
                 originals[i].text = record.ToString("F3");
+
+            if (record3bv == 0)
+                originals3BV[i].text = "-----";
+            else
+                originals3BV[i].text = record3bv.ToString("F3");
         }
 
     }

@@ -209,12 +209,13 @@ Nov 2024
 19/12	* Added Separate page for stats with size specific best times
 		* Best times added to stats stored
 		* Added normal modes EASY+INTERMEDIATE+EXPERT
+		* 3BV/s calculation added and added to Stats
 
-		
+		* Sometimes loading a level in collections and going into Test makes left click flag
 		* ADD pan for normal modes?
 
 		* PLAYERSTATS INFO 
-		 - EACH LEVEL SIZE -> Fewest Clicks * 3BV/s * Separate Page?
+		 - EACH LEVEL SIZE -> Fewest Clicks
 
 		
 		* Issue - Settings is saved to file for all players using same device, fix so it loads correct savefile

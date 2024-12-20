@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Schema;
@@ -31,6 +32,7 @@ public class GameArea : MonoBehaviour
     private int totalToOpen;
     private Vector2Int swapBox;
     public bool LevelBusted { get; private set; }
+    public int B3V { get; private set; }
 
 
     public static GameArea Instance { get; private set; }
@@ -506,6 +508,8 @@ public class GameArea : MonoBehaviour
 
         LevelBusted = false;
 
+        B3V = Calculate3BV();
+
         // Add Stats
         if(USerInfo.Instance.currentType == GameType.Normal)
             SavingUtility.gameSettingsData.NormalWon++;
@@ -518,6 +522,65 @@ public class GameArea : MonoBehaviour
         PanelController.Instance.ShowLevelComplete();
 
     }
+
+    private int Calculate3BV()
+    {
+        // Go through all tiles, when finding an opening not used expand and use surroundings
+        int[,] unused = new int[mines.GetLength(0),mines.GetLength(1)];
+        int bv3Count = 0;
+        for (int i = 0; i < mines.GetLength(0); i++)
+        {
+            for (int j = 0; j < mines.GetLength(1); j++)
+            {
+                if (unused[i, j] == 1)
+                    continue;
+                if (underlayBoxes[i,j].value == 0)
+                {
+                    // Found an unused opening = GROW
+                    unused[i, j] = 1; // use this
+                    bv3Count++;
+                    Grow(new List<Vector2Int>() { underlayBoxes[i,j].Pos});
+                }
+            }
+        }
+        // Now all nonmine unused are clicks
+        for (int i = 0; i < mines.GetLength(0); i++)
+        {
+            for (int j = 0; j < mines.GetLength(1); j++)
+            {
+                if (unused[i, j] == 0 && mines[i, j] != -1)
+                    bv3Count++;
+            }
+        }
+        return bv3Count;
+
+        // Local Grow Method
+        void Grow(List<Vector2Int> list)
+        {
+            Queue<Vector2Int> queue = new Queue<Vector2Int>(list);
+            while (queue.Count > 0)
+            {
+                Vector2Int pos = queue.Dequeue();  
+                foreach (var step in steps)
+                {
+                    Vector2Int neighbor = pos + step;
+                    if(neighbor.x<0|| neighbor.y<0||neighbor.x>=gameWidth||neighbor.y>=gameHeight)
+                        continue;
+                    if (underlayBoxes[neighbor.x, neighbor.y].value == 0 && unused[neighbor.x,neighbor.y]==0)
+                    {
+                        unused[neighbor.x, neighbor.y] = 1; // use it
+                        queue.Enqueue(neighbor);
+                    }
+                    else
+                    {
+                        // Has to be a number
+                        unused[neighbor.x, neighbor.y] = 1; // use it
+                    }
+                }
+            }
+        }
+    }
+    private Vector2Int[] steps = new Vector2Int[] { new Vector2Int(-1, -1), new Vector2Int(-1, 0), new Vector2Int(-1, 1), new Vector2Int(0, -1), new Vector2Int(0, 1), new Vector2Int(1, -1), new Vector2Int(1, 0), new Vector2Int(1, 1) };
 
     private void OpenAllNeighbors(Vector2Int pos)
     {
