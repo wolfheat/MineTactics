@@ -253,7 +253,10 @@ public class LoadPanel : MonoBehaviour
     public void RemoveACollectionByText(string nameOfCollectionToRemove)
     {
         Debug.Log("Remove a collection by text: "+nameOfCollectionToRemove);
-        if (SavingUtility.gameSettingsData.CollectionNames.Contains(nameOfCollectionToRemove))
+        if (SavingUtility.gameSettingsData.ActiveCollections.Contains(nameOfCollectionToRemove))
+        {
+            PanelController.Instance.ShowInfo("Can not remove active Collection from the list!");
+        }else if (SavingUtility.gameSettingsData.CollectionNames.Contains(nameOfCollectionToRemove))
         {
             int index = collectionList.FindIndex(x => x.CollectionName == nameOfCollectionToRemove);
             Debug.Log("index for findindex "+index);

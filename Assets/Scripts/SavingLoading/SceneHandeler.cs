@@ -40,6 +40,8 @@ public class SceneHandeler : MonoBehaviour
         ui.SetActive(false);
 
         Debug.Log("Dependencies success - Load Main");
+        // Unload Camera
+        Destroy(Camera.main.gameObject);
         SceneManager.LoadScene("Main",LoadSceneMode.Additive);
     }
 }

@@ -50,7 +50,8 @@ public class GameBox : MonoBehaviour
     {
         if (GameAreaMaster.Instance.MainGameArea.LevelBusted)
             return;
-        //Debug.Log("Clicking Box value = "+value);
+        
+        Debug.Log("Clicking Box value = "+value+" when Gametype 0 "+USerInfo.Instance.currentType);
 
         if (USerInfo.Instance.currentType == GameType.Create)
         {

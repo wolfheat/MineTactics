@@ -211,10 +211,12 @@ Nov 2024
 		* Added normal modes EASY+INTERMEDIATE+EXPERT
 		* 3BV/s calculation added and added to Stats
 		* Added option to add and remove Collections in the Challenge LoadPanel
-		
+20/12	* Fixed issue with wrong mode after leaving Test sometimes
+		* Player can not remove active Collections any longer fixing issue
+		* Tried to implement scaling and pan in games - started
+
 		* Player will want to get notice of getting record!
 
-		* Sometimes loading a level in collections and going into Test makes left click flag
 		* ADD pan for normal modes?
 
 		* PLAYERSTATS INFO 

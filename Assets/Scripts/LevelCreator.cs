@@ -160,6 +160,11 @@ public class LevelCreator : MonoBehaviour
         float targetWidthInWorldUnits = borderAreaRenderer.size.x;
         float orthographicSize = targetWidthInWorldUnits * screenRatio / 2;
         Camera.main.orthographicSize = orthographicSize;
+
+        // Set the camarecontroller limits
+        CameraController.Instance.OriginalOrthogonalSize = orthographicSize;
+        //CameraController.Instance.MaxZoomPosition = orthographicSize; // 3 seems good?
+
     }
 
     public void OnRequestSaveLevel(InputAction.CallbackContext context)
@@ -276,7 +281,7 @@ public class LevelCreator : MonoBehaviour
         GameAreaMaster.Instance.MainGameArea.SizeGameArea(useGamesizeFromSettings, resetMines); // Sizes and set empty game
 
         // Go into Edit mode here - no counter - No normal fail on click
-        USerInfo.Instance.currentType = GameType.Create;
+        //USerInfo.Instance.currentType = GameType.Create;
         AlignGameArea();
 
         // Clicks adds mines

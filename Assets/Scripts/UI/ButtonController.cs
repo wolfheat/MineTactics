@@ -58,13 +58,16 @@ public class ButtonController : MonoBehaviour
                 break;
             case MenuState.CreateA:
                 createAButtons.gameObject.SetActive(false);
-                if (state != MenuState.CreateB)
+                if (state != MenuState.CreateB || state != MenuState.Test)
                     createPanel.gameObject.SetActive(false);
                 break;
             case MenuState.CreateB:
                 createBButtons.gameObject.SetActive(false);
-                if (state != MenuState.CreateA)
+                if (state != MenuState.CreateA || state != MenuState.Test)
+                {
+                    Debug.Log("Closing Create B panel when state is not A or Test");
                     createPanel.gameObject.SetActive(false);
+                }
                 break;
             case MenuState.Challenge:
                 challengeButtons.gameObject.SetActive(false);
@@ -91,18 +94,19 @@ public class ButtonController : MonoBehaviour
                 normalButtons.gameObject.SetActive(true);
                 break;
             case MenuState.CreateA:
-                createPanel.gameObject.SetActive(true);
+                if (!createPanel.gameObject.activeSelf)
+                    createPanel.gameObject.SetActive(true);
                 createAButtons.gameObject.SetActive(true);
                 break;
             case MenuState.CreateB:
-                createPanel.gameObject.SetActive(true);
+                if (!createPanel.gameObject.activeSelf)
+                    createPanel.gameObject.SetActive(true);
                 createBButtons.gameObject.SetActive(true);
                 break;
             case MenuState.Challenge:
                 challengeButtons.gameObject.SetActive(true);
                 break;
             case MenuState.Test:
-                createPanel.gameObject.SetActive(true);
                 testButtons.gameObject.SetActive(true);
                 break;
             case MenuState.Stats:

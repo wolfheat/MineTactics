@@ -203,6 +203,8 @@ public class GameArea : MonoBehaviour
         // Align GameArea
         objects.transform.position = origo.transform.position;
         objects.transform.localScale = Vector3.one * 0.5f;
+        CameraController.Instance.ResetCamera();
+        //objects.transform.localScale = Vector3.one * 0.5f;
     }
 
     public void ResetLevel()
@@ -221,6 +223,7 @@ public class GameArea : MonoBehaviour
         }
         TotalMines();
         UpdateMineCount();
+        CameraController.Instance.ResetCamera();
     }
     
     public void ResetAllNonMine()
@@ -385,7 +388,7 @@ public class GameArea : MonoBehaviour
     
     private void BoxClickInEditA(Vector2Int pos)
     {
-        Debug.Log("Toggle Edit Mode Mine at " + pos);
+        Debug.Log("Toggle Edit Mode Mine at " + pos);   
         // Clicking mine in Edit Mode 1 - Toggle
         if (mines[pos.x, pos.y] != -1)
         {

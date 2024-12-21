@@ -115,7 +115,9 @@ public class PanelController : MonoBehaviour
     {
         Debug.Log("CHANGE MODE +"+type);
         bool sameMode = USerInfo.Instance.currentType == (GameType)type;
+        USerInfo.Instance.BoardType = BoardTypes.Slider;
         USerInfo.Instance.currentType = (GameType)type;
+
         if (type == 0)
         {
             ButtonController.Instance.ShowButtons(MenuState.Normal);
@@ -133,6 +135,22 @@ public class PanelController : MonoBehaviour
             // If no levels are loaded reload all from the settings list
             GameAreaMaster.Instance.MainGameArea.ResetBoard();
             BackgroundController.Instance.SetColorTactics(); 
+            SmileyButton.Instance.ShowNormal();
+        }else if(type ==2)
+        {
+            if(USerInfo.EditMode == 1)
+            {
+                ButtonController.Instance.ShowButtons(MenuState.CreateB);
+                BackgroundController.Instance.SetColorEditModeB(); 
+            }
+            else
+            {
+                ButtonController.Instance.ShowButtons(MenuState.CreateA);
+                BackgroundController.Instance.SetColorEditMode(); 
+            }
+
+            if (sameMode)
+                return;
             SmileyButton.Instance.ShowNormal();
         }else if(type == 3)
         {
@@ -228,7 +246,7 @@ public class PanelController : MonoBehaviour
 
     public void OpenCreateMenu()
     {
-        
+        USerInfo.Instance.BoardType = BoardTypes.Slider;
         ButtonController.Instance.ShowButtons(MenuState.CreateA);
         //ToggleMenuButtons(false);
         createPanel.SetActive(true);

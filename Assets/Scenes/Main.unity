@@ -2411,6 +2411,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 95767554}
   m_CullTransparentMesh: 1
+--- !u!1 &96646598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 96646600}
+  - component: {fileID: 96646599}
+  m_Layer: 0
+  m_Name: CameraController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &96646599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96646598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 136e18daa8cad9c4e83f1ff12110cc63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 2012938536}
+  spriteRenderer: {fileID: 62731361}
+  zoom: 3
+  OriginalOrthogonalSize: 5
+  MaxZoomOrthogonalSize: 3
+--- !u!4 &96646600
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96646598}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &106096035
 GameObject:
   m_ObjectHideFlags: 0
@@ -7532,7 +7581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2693444666338538528, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -27.999962
+      value: -27.999939
       objectReference: {fileID: 0}
     - target: {fileID: 2693444666338538528, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -21437,12 +21486,12 @@ RectTransform:
   m_Children:
   - {fileID: 1520740357}
   - {fileID: 1030684345}
-  m_Father: {fileID: 1251582680}
+  m_Father: {fileID: 1110237593}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -168}
-  m_SizeDelta: {x: 0, y: 140}
+  m_AnchoredPosition: {x: 0, y: -182.99974}
+  m_SizeDelta: {x: -30, y: 140}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &775187462
 GameObject:
@@ -30254,6 +30303,7 @@ RectTransform:
   - {fileID: 1969023793}
   - {fileID: 177611430}
   - {fileID: 1251582680}
+  - {fileID: 767529807}
   m_Father: {fileID: 1682018761}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -35127,7 +35177,6 @@ RectTransform:
   - {fileID: 185418771}
   - {fileID: 714580209}
   - {fileID: 1491734438}
-  - {fileID: 767529807}
   m_Father: {fileID: 1110237593}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -41768,7 +41817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2693444666338538528, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -27.999962
+      value: -27.999939
       objectReference: {fileID: 0}
     - target: {fileID: 2693444666338538528, guid: 8fe7a6496d4f7044eb69efb7ebb72125, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -46917,8 +46966,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 16777215
-  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -53030,6 +53079,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 4d9bfdd0-f709-4f90-a61a-eb2da559b01d
     m_ActionName: UI/Shift[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 225c51a1-9d44-4dda-b712-5496d8cfeb94
+    m_ActionName: UI/Ctrl[/Keyboard/ctrl]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Main
@@ -59157,8 +59210,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7743563337020936241, guid: b67818f7f4d6eee4f8de646a656e3bdc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2012938538}
   m_SourcePrefab: {fileID: 100100000, guid: b67818f7f4d6eee4f8de646a656e3bdc, type: 3}
+--- !u!20 &2012938536 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 9078629431172506335, guid: b67818f7f4d6eee4f8de646a656e3bdc, type: 3}
+  m_PrefabInstance: {fileID: 2012938535}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2012938537 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7743563337020936241, guid: b67818f7f4d6eee4f8de646a656e3bdc, type: 3}
+  m_PrefabInstance: {fileID: 2012938535}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2012938538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012938537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 136e18daa8cad9c4e83f1ff12110cc63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 2012938536}
+  spriteRenderer: {fileID: 62731361}
+  zoom: 3
+  OriginalOrthogonalSize: 5
+  MaxZoomOrthogonalSize: 3
 --- !u!1 &2017877131
 GameObject:
   m_ObjectHideFlags: 0
@@ -67086,6 +67169,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2012938535}
+  - {fileID: 96646600}
   - {fileID: 1049934080273782419}
   - {fileID: 619394802}
   - {fileID: 1172645819}

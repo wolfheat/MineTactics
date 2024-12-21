@@ -37,6 +37,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Touch2"",
+                    ""type"": ""Button"",
+                    ""id"": ""2a24fe81-a69a-42f0-b6fe-92157739985d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""RMouse"",
                     ""type"": ""Button"",
                     ""id"": ""a384c8e8-cb41-47d3-847c-9d246bd2b3a5"",
@@ -49,6 +58,24 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""TouchPosition"",
                     ""type"": ""Value"",
                     ""id"": ""2567ab95-0a7c-493c-a902-16b8b940c38b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TouchPosition1"",
+                    ""type"": ""Value"",
+                    ""id"": ""4a3c2670-4837-463d-b860-589f32b831b7"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TouchPosition2"",
+                    ""type"": ""Value"",
+                    ""id"": ""7f7068e6-bbc0-4fc0-8373-41fef57bef35"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -80,6 +107,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""f6468fb1-fdf6-40f6-91c1-82edbdab3695"",
+                    ""path"": ""<Touchscreen>/touch1/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Touch2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""e6f57c31-23ca-4d4b-8470-7b8ab1d2b1a5"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
@@ -97,6 +135,28 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TouchPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d47d8656-ce32-4604-9b92-beff5e922a57"",
+                    ""path"": ""<Touchscreen>/primaryTouch/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchPosition1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""31d2f600-4757-4473-bd77-c39e9929b7b2"",
+                    ""path"": ""<Touchscreen>/touch1/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchPosition2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -695,8 +755,11 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         // Main
         m_Main = asset.FindActionMap("Main", throwIfNotFound: true);
         m_Main_Mouse = m_Main.FindAction("Mouse", throwIfNotFound: true);
+        m_Main_Touch2 = m_Main.FindAction("Touch2", throwIfNotFound: true);
         m_Main_RMouse = m_Main.FindAction("RMouse", throwIfNotFound: true);
         m_Main_TouchPosition = m_Main.FindAction("TouchPosition", throwIfNotFound: true);
+        m_Main_TouchPosition1 = m_Main.FindAction("TouchPosition1", throwIfNotFound: true);
+        m_Main_TouchPosition2 = m_Main.FindAction("TouchPosition2", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -780,15 +843,21 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Main;
     private List<IMainActions> m_MainActionsCallbackInterfaces = new List<IMainActions>();
     private readonly InputAction m_Main_Mouse;
+    private readonly InputAction m_Main_Touch2;
     private readonly InputAction m_Main_RMouse;
     private readonly InputAction m_Main_TouchPosition;
+    private readonly InputAction m_Main_TouchPosition1;
+    private readonly InputAction m_Main_TouchPosition2;
     public struct MainActions
     {
         private @Controls m_Wrapper;
         public MainActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Mouse => m_Wrapper.m_Main_Mouse;
+        public InputAction @Touch2 => m_Wrapper.m_Main_Touch2;
         public InputAction @RMouse => m_Wrapper.m_Main_RMouse;
         public InputAction @TouchPosition => m_Wrapper.m_Main_TouchPosition;
+        public InputAction @TouchPosition1 => m_Wrapper.m_Main_TouchPosition1;
+        public InputAction @TouchPosition2 => m_Wrapper.m_Main_TouchPosition2;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -801,12 +870,21 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Mouse.started += instance.OnMouse;
             @Mouse.performed += instance.OnMouse;
             @Mouse.canceled += instance.OnMouse;
+            @Touch2.started += instance.OnTouch2;
+            @Touch2.performed += instance.OnTouch2;
+            @Touch2.canceled += instance.OnTouch2;
             @RMouse.started += instance.OnRMouse;
             @RMouse.performed += instance.OnRMouse;
             @RMouse.canceled += instance.OnRMouse;
             @TouchPosition.started += instance.OnTouchPosition;
             @TouchPosition.performed += instance.OnTouchPosition;
             @TouchPosition.canceled += instance.OnTouchPosition;
+            @TouchPosition1.started += instance.OnTouchPosition1;
+            @TouchPosition1.performed += instance.OnTouchPosition1;
+            @TouchPosition1.canceled += instance.OnTouchPosition1;
+            @TouchPosition2.started += instance.OnTouchPosition2;
+            @TouchPosition2.performed += instance.OnTouchPosition2;
+            @TouchPosition2.canceled += instance.OnTouchPosition2;
         }
 
         private void UnregisterCallbacks(IMainActions instance)
@@ -814,12 +892,21 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Mouse.started -= instance.OnMouse;
             @Mouse.performed -= instance.OnMouse;
             @Mouse.canceled -= instance.OnMouse;
+            @Touch2.started -= instance.OnTouch2;
+            @Touch2.performed -= instance.OnTouch2;
+            @Touch2.canceled -= instance.OnTouch2;
             @RMouse.started -= instance.OnRMouse;
             @RMouse.performed -= instance.OnRMouse;
             @RMouse.canceled -= instance.OnRMouse;
             @TouchPosition.started -= instance.OnTouchPosition;
             @TouchPosition.performed -= instance.OnTouchPosition;
             @TouchPosition.canceled -= instance.OnTouchPosition;
+            @TouchPosition1.started -= instance.OnTouchPosition1;
+            @TouchPosition1.performed -= instance.OnTouchPosition1;
+            @TouchPosition1.canceled -= instance.OnTouchPosition1;
+            @TouchPosition2.started -= instance.OnTouchPosition2;
+            @TouchPosition2.performed -= instance.OnTouchPosition2;
+            @TouchPosition2.canceled -= instance.OnTouchPosition2;
         }
 
         public void RemoveCallbacks(IMainActions instance)
@@ -982,8 +1069,11 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     public interface IMainActions
     {
         void OnMouse(InputAction.CallbackContext context);
+        void OnTouch2(InputAction.CallbackContext context);
         void OnRMouse(InputAction.CallbackContext context);
         void OnTouchPosition(InputAction.CallbackContext context);
+        void OnTouchPosition1(InputAction.CallbackContext context);
+        void OnTouchPosition2(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

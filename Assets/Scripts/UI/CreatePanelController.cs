@@ -74,6 +74,7 @@ public class CreatePanelController : MonoBehaviour
         ButtonController.Instance.ShowButtons(MenuState.CreateB);
         BackgroundController.Instance.SetColorEditModeB();
 
+        USerInfo.EditMode = 1;
         // Reset the CreateB to latest settings
         PanelController.Instance.ChangeMode(2);
 
