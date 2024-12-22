@@ -214,6 +214,12 @@ Nov 2024
 20/12	* Fixed issue with wrong mode after leaving Test sometimes
 		* Player can not remove active Collections any longer fixing issue
 		* Tried to implement scaling and pan in games - started
+21/12	* Fixed pinch zoom
+		* Kinda fixed move
+
+		* Disable move and zoom for non normal levels?
+		* Update Screen while moving
+		* Make Entire upper bar start a game.
 
 		* Player will want to get notice of getting record!
 

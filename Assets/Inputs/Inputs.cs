@@ -8,10 +8,11 @@ public class Inputs : MonoBehaviour
     public Controls Controls { get; set; }
     public InputAction Actions { get; set; }
     public Vector2 StartPos { get; set; }
+    public Vector2 LastPos { get; set; }
     public Vector2 EndPos { get; set; }
     public static Inputs Instance { get; private set; }
     public static InputAction touchAction { get; private set; }
-    public const float MoveDistaneLimit = 10f;
+    public const float MoveDistaneLimit = 16f;
     private const float MoveMinimalTime = 0.2f;
     private const float ZoomSpeed = 3f;
     private float startPinch = 0;
@@ -46,10 +47,41 @@ public class Inputs : MonoBehaviour
     }
     private void Start()
     {
+        Controls.Main.Mouse.performed += ctx => IsMousePressed = true;
+        Controls.Main.Mouse.canceled += ctx => IsMousePressed = false;
+
         Controls.Main.Mouse.started += OnTouchStart;
+            //Controls.Main.Mouse.performed += TouchMove;
         Controls.Main.Mouse.canceled += OnTouchEnd;
-        Controls.Main.TouchPosition1.performed += OnTouch2Performed;    
-        Controls.Main.TouchPosition1.canceled += OnTouch2Canceled;    
+        Controls.Main.TouchPosition2.performed += OnTouch2Performed;    
+        Controls.Main.TouchPosition2.canceled += OnTouch2Canceled;    
+    }
+    private void Update()
+    {
+        UpdateTouchCount();
+        if (IsMousePressed && BoxClickValidStart && ActiveTouchCount==1 && !DidZoom)
+            TouchMove();
+    }
+
+    private void UpdateTouchCount()
+    {
+        // Get active touches
+        var activeTouches = Touchscreen.current.touches;
+
+        // Count active touches in relevant phases
+        int activeTouchCount = 0;
+        foreach (var touch in activeTouches)
+        {
+            if (touch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Began ||
+                touch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Moved ||
+                touch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Stationary)
+            {
+                activeTouchCount++;
+            }
+        }
+        ActiveTouchCount=activeTouchCount;
+        if(ActiveTouchCount==0)
+            DidZoom = false;
     }
 
     private void OnTouch1Start(InputAction.CallbackContext context)
@@ -59,74 +91,105 @@ public class Inputs : MonoBehaviour
    private void OnTouch2Canceled(InputAction.CallbackContext context)
     {
         startPinch = 0;
+        Debug.Log("Pinch ended");   
     }
    private void OnTouch2Performed(InputAction.CallbackContext context)
     {
+        DidZoom = true;
         var touches = Touchscreen.current.touches;
         if (touches[1].position.ReadValue().x == 0 && touches[1].position.ReadValue().y == 0)
             return;
-        BottomInfoController.Instance.ShowDebugText("Works. Pos: "+touches[0].position.ReadValue()+"Pos: "+touches[1].position.ReadValue());
         Debug.Log("Touch performed");
-        float magnitude = TouchMagnitude();
+        float magnitude = TouchMagnitudeScreen();
+        BottomInfoController.Instance.ShowDebugText("Works. Pos: "+touches[0].position.ReadValue()+"Pos: "+touches[1].position.ReadValue()+" magnitude: "+magnitude+" magnScreen: "+TouchMagnitudeScreen());
+
+
         // Reading a second position so we know two fingers are used
         if (startPinch == 0)
         {
             startPinch = magnitude;
-            Debug.Log("Pinch start set");
+            Debug.Log("Pinch start set "+magnitude);
             return;
         }
-        float change = magnitude - startPinch;
-        Debug.Log("Cahnge "+change);
+        float changeFraction = magnitude /startPinch;
+        int sign = magnitude>startPinch ? 1 : -1;
+        //float changePercentofWidth = change/Camera.main.orthographicSize;
+        Debug.Log("Change "+changeFraction);
+        BottomInfoController.Instance.ShowDebugText("Works. Pos: "+touches[0].position.ReadValue()+"Pos: "+touches[1].position.ReadValue()+" magn: "+magnitude+" change: "+changeFraction);
         startPinch = magnitude;
-        float newZoom = change * ZoomSpeed;
-        BottomInfoController.Instance.ShowDebugText("Zoom By: "+(newZoom));
-        CameraController.Instance.SetZoom(newZoom);
+
+        //float newZoom = change * ZoomSpeed;
+        CameraController.Instance.SetZoom(sign*changeFraction);
     }
 
     private float TouchMagnitude() => (Controls.Main.TouchPosition1.ReadValue<Vector2>() - Controls.Main.TouchPosition1.ReadValue<Vector2>()).magnitude;
+    private float TouchMagnitudeScreen() => (Touchscreen.current.touches[0].position.ReadValue() - Touchscreen.current.touches[1].position.ReadValue()).magnitude;
 
     private void OnTouchStart(InputAction.CallbackContext context)
     {
+
+        var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Touchscreen.current.touches[0].position.ReadValue()));
+        //Debug.Log("Starting Touch on position "+ Touchscreen.current.touches[0].position.ReadValue() + " has collider "+(rayHit.collider!=null));
+        GameBox box = null;
+        if (rayHit.collider)
+        {
+            //Debug.Log("HItting collider "+rayHit.collider.name);
+            box = rayHit.collider.GetComponent<GameBox>();
+            //Debug.Log("HItting box "+box.name);
+        }
+        BoxClickValidStart = (box != null);
+        BottomInfoController.Instance.ShowDebugText("BoxClickValidStart: "+ BoxClickValidStart);
+        //Debug.Log("box"+box);
         startTouch = Time.time;
         StartPos = Controls.Main.TouchPosition.ReadValue<Vector2>();
+        LastPos = StartPos;
 
-        //BottomInfoController.Instance.ShowDebugText("Touch 1 started at "+Controls.Main.TouchPosition1.ReadValue<Vector2>());
-
-        //if()
-
-        //Debug.Log("Started new Touch");
     }
     public float TimeHeld { get; private set; } = 0;
+    public bool MoveEnabled { get; private set; }
+    public bool IsMousePressed { get; private set; }
+    public int ActiveTouchCount { get; private set; }
+    public bool DidZoom { get; private set; } = false;
+    public bool BoxClickValidStart { get; private set; } = false;
+
     private void OnTouchEnd(InputAction.CallbackContext context)
     {
+        BoxClickValidStart = false;
+        if (MoveEnabled)
+        {
+            MoveEnabled = false;
+            return; // Dont click if dragging
+        }
 
         //Debug.Log("Ended Touch");
         TimeHeld = (Time.time - startTouch);
-        EndPos = Controls.Main.TouchPosition.ReadValue<Vector2>();
-        if (TouchMove())
-            return;
-
-
+        
         Vector2 pos = Controls.Main.TouchPosition.ReadValue<Vector2>();
         TouchDebug.Instance.ShowText((TimeHeld > USerInfo.Instance.SensitivityMS)?"R: ":"L: ["+ (int)pos.x +","+(int)pos.y+"] "+TimeHeld.ToString("F2")+"s");
-        //if(timeHeld > USerInfo.Instance.SensitivityMS)
-        //    Debug.Log("R Click");
-        //Debug.Log("TouchTime > Sensitivity "+timeHeld+"/"+USerInfo.Instance.SensitivityMS);
-        OnTouchClick(pos, TimeHeld > USerInfo.Instance.SensitivityMS ? true : false);
+        if(!DidZoom)
+            OnTouchClick(pos, TimeHeld > USerInfo.Instance.SensitivityMS ? true : false);        
     }
 
-    private bool TouchMove()
+    private void TouchMove()
     {
-        if (StartPos == null || EndPos == null) return false;
+        if (StartPos == null) return;
+        
+        Vector2 CurrentPosition = Controls.Main.TouchPosition.ReadValue<Vector2>();
 
         // If moved screen do not execute click - Need at least a distance and a duration to execute
-        float dist = Vector2.Distance(StartPos, EndPos);
-        if (dist > MoveDistaneLimit*1.6f || (dist > MoveDistaneLimit && TimeHeld > MoveMinimalTime))
+        float dist = Vector2.Distance(StartPos, CurrentPosition);
+
+        // Enable Once while pressing down
+        if (!MoveEnabled && dist < MoveDistaneLimit)
         {
-            OnMoveCameraMovement.Invoke(StartPos-EndPos);
-            return true;
+            return; // No Move camera if not far away from startpress
         }
-        return false;
+        MoveEnabled = true;
+        //Debug.Log("move >");    
+
+
+        OnMoveCameraMovement.Invoke(LastPos-CurrentPosition);
+        LastPos = CurrentPosition;
     }
 
     public void OnTouchClick(Vector2 touchPos,bool rightClick = false)

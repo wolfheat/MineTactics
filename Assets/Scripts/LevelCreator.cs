@@ -140,12 +140,13 @@ public class LevelCreator : MonoBehaviour
         AlignGameArea();
     }*/
 
-    public void AlignGameArea()
+    public void AlignGameArea(bool keepZoom = false)
     {
         Debug.Log("LevelCreator - Align Game Area");
         ScaleGameAreaBorder();
         AlignSmileyAndCounterIcons();
-        SetCameraOrthographicSize();
+        if(!keepZoom)
+            SetCameraOrthographicSize();
         CenterGameArea();
     }
 
@@ -312,14 +313,14 @@ public class LevelCreator : MonoBehaviour
     {
         Debug.Log("LevelCreator - Play size changed, restarting Game");
         BottomInfoController.Instance.ShowDebugText("Play Size Changing to "+USerInfo.Instance.BoardSize);
-        RestartGame();
+        RestartGame(false);
     }
 
-    public void RestartGame()
+    public void RestartGame(bool keepZoom = false)
     {
         Debug.Log("LevelCreator - RestartGame");
         gameArea.RestartGame();        
-        AlignGameArea();
+        AlignGameArea(keepZoom);
         return;
     }
 

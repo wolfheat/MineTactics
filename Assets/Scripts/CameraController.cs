@@ -88,8 +88,16 @@ public class CameraController : MonoBehaviour
 
     public void SetZoom(float zoom)
     {
-        zoom = Mathf.Clamp(zoom, zoomMin, zoomMax);
-        UpdateCameraZoom(zoom);
+        Debug.Log("SET ZOOM "+zoom);
+        float percentOfWidht = zoom / Screen.width;
+        Debug.Log("percentOfWidht: " + percentOfWidht);
+        //float ortDiffPercent = percentOfWidht / Camera.main.orthographicSize;
+        //Debug.Log("ortDiffPercent: " + ortDiffPercent);
+        float newOrtho = Camera.main.orthographicSize - percentOfWidht*80;
+        Debug.Log("newOrtho: " + newOrtho);
+        newOrtho = Mathf.Clamp(newOrtho, 3, OriginalOrthogonalSize);
+        BottomInfoController.Instance.ShowDebugText("Zoom By: "+(newOrtho));
+        UpdateCameraZoom(newOrtho);
     }
 
     public void UpdateCameraZoom(float zoom)

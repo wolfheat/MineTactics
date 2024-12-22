@@ -125,7 +125,7 @@ public class PanelController : MonoBehaviour
             if(sameMode)
                 return;
             BackgroundController.Instance.SetColorNormal(); 
-            LevelCreator.Instance.RestartGame();
+            LevelCreator.Instance.RestartGame(true);
         }
         else if(type == 1)
         {
@@ -286,7 +286,7 @@ public class PanelController : MonoBehaviour
 
         LevelCreator.Instance.CancelEditMode();
         // Change this for going to Nothing loaded?
-        LevelCreator.Instance.RestartGame();
+        LevelCreator.Instance.RestartGame(true);
     }
     
     public void Submit()
