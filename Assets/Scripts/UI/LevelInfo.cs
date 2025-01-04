@@ -18,6 +18,7 @@ public class LevelInfo : MonoBehaviour
 
     public void UpdateLevelInfo(LevelData data)
     {
+        if (data == null) return;
         collection.text = data.Collection.ToString();
         creatorId.text = data.CreatorId.ToString();
         rating.text = data.DifficultyRating.ToString();

@@ -65,6 +65,8 @@ public class Inputs : MonoBehaviour
 
     private void UpdateTouchCount()
     {
+        if (Touchscreen.current == null)
+            return;
         // Get active touches
         var activeTouches = Touchscreen.current.touches;
 

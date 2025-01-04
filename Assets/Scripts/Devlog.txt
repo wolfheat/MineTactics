@@ -218,6 +218,8 @@ Nov 2024
 		* Kinda fixed move
 3/1		* Added CollectionCreator to each collection
 		* Limited non creators of collections to overwrite them.
+4/1		* Currently allowing update of collections by checking that the creator did not change in the document.
+
 
 		* Still needs to be able to update the collection after completing it. - FIX
 
