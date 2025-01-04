@@ -33,6 +33,7 @@ public class LevelDataCollection
 {
     // Collect 100 levels in each Collection or any amount?
     //[FirestoreProperty] public string[] Level { get; set; } // The actual Level string
+    [FirestoreProperty] public string CollectionCreator { get; set; } = "";
     [FirestoreProperty] public string[] Level { get; set; } // The actual Level string
     [FirestoreProperty] public string[] LevelId { get; set; }
     [FirestoreProperty] public string[] CreatorId { get; set; }
@@ -258,6 +259,9 @@ public class FirestoreManager : MonoBehaviour
     {
         Debug.Log("** ReUpploadLevelCollection");
         Task task = StoreLevelCollectionByName(ReuploadCollection, collectionName);
+
+        //TODO Change this to update of the collections, the creator should not be written to just the  data
+        // Voulnerble to abuse?
     }
 
     public void GetLevelCollection(string id,bool forEditMode = false)
@@ -594,20 +598,14 @@ public class FirestoreManager : MonoBehaviour
         // Have levelName be random?
         Task task = StoreUsernameById(v,id);
     }
-
-    public void StoreLevelCollection(string collectionName = "BasicCollection")
-    {
-        LevelDataCollection collection = ConvertLevelsToCollection(LocalCollectionList);
-        Task task = StoreLevelCollectionByName(collection, collectionName);
-
-    }
-    
+        
     public void StoreSelectedLevelCollection(string collectionName = "BasicCollection", List<LevelData> selectedListItems = null)
     {
         if (selectedListItems.Count == 0)
             return;
 
         LevelDataCollection collection = ConvertLevelsToCollection(selectedListItems);
+        collection.CollectionCreator = USerInfo.Instance.userName;
         Task task = StoreLevelCollectionByName(collection, collectionName);
     }
     

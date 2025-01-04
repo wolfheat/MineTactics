@@ -216,6 +216,13 @@ Nov 2024
 		* Tried to implement scaling and pan in games - started
 21/12	* Fixed pinch zoom
 		* Kinda fixed move
+3/1		* Added CollectionCreator to each collection
+		* Limited non creators of collections to overwrite them.
+
+		* Still needs to be able to update the collection after completing it. - FIX
+
+		// SERVERSIDE
+		* Make writing over over updating collections only valid for The creator of the Collection
 
 		* Disable move and zoom for non normal levels?
 		* Update Screen while moving

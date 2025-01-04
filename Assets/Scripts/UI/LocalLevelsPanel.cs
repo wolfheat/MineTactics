@@ -244,7 +244,7 @@ public class LocalLevelsPanel : MonoBehaviour
     {
         lastSavedCollectionName = collectionName;
         Debug.Log("StoreCollection");
-        FirestoreManager.Instance.StoreLevelCollection(collectionName);
+        FirestoreManager.Instance.StoreSelectedLevelCollection(collectionName, FirestoreManager.Instance.LocalCollectionList);
         //FirestoreManager.Instance.StoreLevelCollectionPreset();
     }
     public void StoreSelectionToCollection(string collectionName)

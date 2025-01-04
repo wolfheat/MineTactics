@@ -726,7 +726,7 @@ public class GameArea : MonoBehaviour
             for (int i = 0; i < gameWidth; i++)
             {
 
-                if (mines[i,j]==-1 && !overlayBoxes[i, j].Marked)
+                if (mines[i,j]==-1 && overlayBoxes[i, j] != null && !overlayBoxes[i, j].Marked)
                     unFlagged++;
             }
         }
