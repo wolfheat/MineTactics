@@ -316,10 +316,10 @@ public class LevelCreator : MonoBehaviour
         RestartGame(false);
     }
 
-    public void RestartGame(bool keepZoom = false)
+    public void RestartGame(bool keepZoom = false,bool resetPosition = false)
     {
         Debug.Log("LevelCreator - RestartGame");
-        gameArea.RestartGame();        
+        gameArea.RestartGame(resetPosition);        
         AlignGameArea(keepZoom);
         return;
     }

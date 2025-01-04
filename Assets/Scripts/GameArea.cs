@@ -92,7 +92,7 @@ public class GameArea : MonoBehaviour
 
     [SerializeField] DigiDisplay mineDisplay;
     [SerializeField] DigiDisplay timeDisplay;
-    public void RestartGame()
+    public void RestartGame(bool resetPosition = false)
     {
         if (isOnlyView)
             return;
@@ -101,8 +101,8 @@ public class GameArea : MonoBehaviour
         RandomizeMines();
 
         DrawLevel();
-        ResetLevel();
-        AlignBoxesAnchor();
+        ResetLevel(resetPosition);
+        AlignBoxesAnchor(resetPosition);
         SmileyButton.Instance.ShowNormal();
         Timer.Instance.ResetCounterAndPause();
         USerInfo.Instance.WaitForFirstMove = true;
@@ -198,16 +198,17 @@ public class GameArea : MonoBehaviour
         UpdateMineCount();
     }
 
-    public void AlignBoxesAnchor()
+    public void AlignBoxesAnchor(bool resetCamera = true)
     {
         // Align GameArea
         objects.transform.position = origo.transform.position;
         objects.transform.localScale = Vector3.one * 0.5f;
-        CameraController.Instance.ResetCamera();
+        if(resetCamera)
+            CameraController.Instance.ResetCamera();
         //objects.transform.localScale = Vector3.one * 0.5f;
     }
 
-    public void ResetLevel()
+    public void ResetLevel(bool resetCamera=true)
     {
         //Debug.Log("Resetting under and over boxes in arrays");
 
@@ -223,7 +224,8 @@ public class GameArea : MonoBehaviour
         }
         TotalMines();
         UpdateMineCount();
-        CameraController.Instance.ResetCamera();
+        if(resetCamera)
+            CameraController.Instance.ResetCamera();
     }
     
     public void ResetAllNonMine()

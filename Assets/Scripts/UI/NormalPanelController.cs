@@ -17,26 +17,26 @@ public class NormalPanelController : MonoBehaviour
     {
         USerInfo.Instance.BoardType = BoardTypes.Slider;
         USerInfo.Instance.BoardSize = (int)slider.value;
-        LevelCreator.Instance.RestartGame();
+        LevelCreator.Instance.RestartGame(false,true);
     }
 
     public void RequestStartBeginner()
     {
         Debug.Log("Beginner");
         USerInfo.Instance.BoardType = BoardTypes.Beginner;
-        LevelCreator.Instance.RestartGame();
+        LevelCreator.Instance.RestartGame(false,true);
     }
     public void RequestStartIntermediate()
     {
         Debug.Log("Intermediate");
         USerInfo.Instance.BoardType = BoardTypes.Intermediate;
-        LevelCreator.Instance.RestartGame();
+        LevelCreator.Instance.RestartGame(false, true);
     }
     public void RequestStartExpert()
     {
         Debug.Log("Expert");
         USerInfo.Instance.BoardType = BoardTypes.Expert;
-        LevelCreator.Instance.RestartGame();
+        LevelCreator.Instance.RestartGame(false, true);
     }
 
     public void UpdateCreateLevelSize()

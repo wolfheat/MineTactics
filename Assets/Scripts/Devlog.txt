@@ -219,15 +219,11 @@ Nov 2024
 3/1		* Added CollectionCreator to each collection
 		* Limited non creators of collections to overwrite them.
 4/1		* Currently allowing update of collections by checking that the creator did not change in the document.
+		* Fixed minor issues
+		* Made Normal games reset position when changing mode but keep position when restarting
 
-
-		* Still needs to be able to update the collection after completing it. - FIX
-
-		// SERVERSIDE
-		* Make writing over over updating collections only valid for The creator of the Collection
-
+		
 		* Disable move and zoom for non normal levels?
-		* Update Screen while moving
 		* Make Entire upper bar start a game.
 
 		* Player will want to get notice of getting record!
