@@ -221,14 +221,12 @@ Nov 2024
 4/1		* Currently allowing update of collections by checking that the creator did not change in the document.
 		* Fixed minor issues
 		* Made Normal games reset position when changing mode but keep position when restarting
-
+		* Smiley Collider now expands entire width of gameArea	
 		
 		* Disable move and zoom for non normal levels?
 		* Make Entire upper bar start a game.
 
 		* Player will want to get notice of getting record!
-
-		* ADD pan for normal modes?
 
 		* PLAYERSTATS INFO 
 		 - EACH LEVEL SIZE -> Fewest Clicks

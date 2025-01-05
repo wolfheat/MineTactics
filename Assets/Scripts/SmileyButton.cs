@@ -5,7 +5,7 @@ public class SmileyButton : MonoBehaviour
 {
     [SerializeField] Sprite[] sprites;
     [SerializeField] SpriteRenderer spriteRenderer;
-    
+    [SerializeField] BoxCollider2D boxCollider;
 
     // On mouse down show pressed button, on release start new game
 
@@ -22,6 +22,7 @@ public class SmileyButton : MonoBehaviour
         FirestoreManager.OnLevelCollectionListChange += UpdateCollectionSize;
     }
 
+    public void SetColliderWidth(float newWidth) => boxCollider.size = new Vector2(newWidth, boxCollider.size.y);
     public void UpdateCollectionSize(int select)
     {
         Debug.Log("** UPDATING SMILEY");

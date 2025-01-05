@@ -42,7 +42,8 @@ public class LevelCreator : MonoBehaviour
 
     //Vector3 boxScale = new Vector3(0.5882f, 0.5882f, 1f);
 
-    [SerializeField] private GameObject smiley;
+    [SerializeField] private SmileyButton smiley;
+    [SerializeField] private GameObject smileyHolder;
     [SerializeField] private GameObject mineCount;
     [SerializeField] private GameObject timeCount;
     private int mineCountAmount=0;
@@ -106,9 +107,10 @@ public class LevelCreator : MonoBehaviour
     {
 
         // Place smiley at half width of game area
-        mineCount.transform.localPosition = new Vector3(0.5f, smiley.transform.localPosition.y, 0);
-        smiley.transform.localPosition = new Vector3(borderAreaRenderer.size.x / 2, smiley.transform.localPosition.y, 0);
-        timeCount.transform.localPosition = new Vector3(borderAreaRenderer.size.x - 0.5f, smiley.transform.localPosition.y, 0);
+        mineCount.transform.localPosition = new Vector3(0.5f, smileyHolder.transform.localPosition.y, 0);
+        smileyHolder.transform.localPosition = new Vector3(borderAreaRenderer.size.x / 2, smileyHolder.transform.localPosition.y, 0);
+        smiley.SetColliderWidth(gameArea.SmileyColliderWidth());
+        timeCount.transform.localPosition = new Vector3(borderAreaRenderer.size.x - 0.5f, smileyHolder.transform.localPosition.y, 0);
     }
 
     /*

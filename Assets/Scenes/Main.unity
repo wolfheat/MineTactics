@@ -32055,6 +32055,7 @@ MonoBehaviour:
   objects: {fileID: 2127916641}
   origo: {fileID: 2104534494}
   alignPosition: {fileID: 2104534494}
+  smileyClass: {fileID: 1188491522}
   smiley: {fileID: 1657933178}
   mineCount: {fileID: 2047322410}
   timeCount: {fileID: 1907642207}
@@ -33270,6 +33271,7 @@ MonoBehaviour:
   - {fileID: -853867730, guid: b5bb3e91dc60e8240ae494baf06094ab, type: 3}
   - {fileID: 1180279041, guid: b5bb3e91dc60e8240ae494baf06094ab, type: 3}
   spriteRenderer: {fileID: 1188491520}
+  boxCollider: {fileID: 1188491521}
 --- !u!1 &1195369586
 GameObject:
   m_ObjectHideFlags: 0
@@ -63126,6 +63128,7 @@ MonoBehaviour:
   - {fileID: 665239716, guid: b5bb3e91dc60e8240ae494baf06094ab, type: 3}
   - {fileID: -853867730, guid: b5bb3e91dc60e8240ae494baf06094ab, type: 3}
   spriteRenderer: {fileID: 2143302853}
+  boxCollider: {fileID: 0}
 --- !u!212 &2143302853
 SpriteRenderer:
   m_ObjectHideFlags: 0

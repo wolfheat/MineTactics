@@ -947,6 +947,8 @@ public class GameArea : MonoBehaviour
     }
 
     public Vector2 BorderAreaRendererWidth() => new Vector2(gameWidth / 2f + borderAddon.x, gameHeight / 2f + borderAddon.y);
+    
+    public float SmileyColliderWidth() => gameWidth / 2f + borderAddon.x;
 
     public int[,] GetFlaggedArray()
     {
