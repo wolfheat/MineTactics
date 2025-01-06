@@ -222,10 +222,11 @@ Nov 2024
 		* Fixed minor issues
 		* Made Normal games reset position when changing mode but keep position when restarting
 		* Smiley Collider now expands entire width of gameArea	
-		
-		* Disable move and zoom for non normal levels?
-		* Make Entire upper bar start a game.
+6/1		* Made scale and pan only work for games larger than 10x10 
+		* Added Option to start Expert in vertical mode
 
+
+		* Disable move and zoom for non normal levels?
 		* Player will want to get notice of getting record!
 
 		* PLAYERSTATS INFO 

@@ -54,6 +54,7 @@ public class SavingUtility : MonoBehaviour
         Debug.Log("USerInfo.Instance.InactiveCollections = " + USerInfo.Instance.InactiveCollections.Count);
         gameSettingsData.InactiveCollections = USerInfo.Instance.InactiveCollections;
         Debug.Log("gameSettingsData.InactiveCollections = " + gameSettingsData.InactiveCollections.Count);
+        gameSettingsData.UseRotatedExpert = USerInfo.Instance.UseRotatedExpert;
 
 
         //SavePlayerDataToFile();

@@ -14,6 +14,7 @@ public class SettingsPanel : MonoBehaviour
     [SerializeField] TextMeshProUGUI mineDens;
     [SerializeField] TextMeshProUGUI winprob;
     [SerializeField] Toggle pendingToggle;
+    [SerializeField] Toggle expertRotatedToggle;
     [SerializeField] Slider slider;
     [SerializeField] Slider sensitivitySlider;
 
@@ -38,10 +39,13 @@ public class SettingsPanel : MonoBehaviour
         Debug.Log("** ConfirmSettings");
         USerInfo.Instance.BoardSize = (int)slider.value;
         USerInfo.Instance.UsePending = pendingToggle.isOn;
+        USerInfo.Instance.UseRotatedExpert = expertRotatedToggle.isOn;
+
         // Update settings values
         SavingUtility.gameSettingsData.BoardSize = (int)slider.value;
         SavingUtility.gameSettingsData.TouchSensitivity = (int)sensitivitySlider.value;
         SavingUtility.gameSettingsData.UsePending = pendingToggle.isOn;
+        SavingUtility.gameSettingsData.UseRotatedExpert = pendingToggle.isOn;
         SaveSettingsToFile();
 
         // Apply the size settings
@@ -74,6 +78,10 @@ public class SettingsPanel : MonoBehaviour
         sensitivitySlider.value = data.TouchSensitivity;
         slider.value = data.BoardSize;
         pendingToggle.isOn = data.UsePending;
+
+        Debug.Log("Settingspanel set expertRotatedToggle to " + data.UseRotatedExpert);
+        expertRotatedToggle.isOn = data.UseRotatedExpert;
+
         Debug.Log("Settingspanel set Usepending to " + data.UsePending);
         Debug.Log("Settingspanel set Usepending to " + pendingToggle.isOn);
     }

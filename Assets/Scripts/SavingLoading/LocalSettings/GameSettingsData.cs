@@ -24,6 +24,7 @@ public class GameSettingsData
     public int TouchSensitivity { get; set; } = 15;
     public int BoardSize { get; set; } = 6;
     public bool UsePending { get; set; } = true;
+    public bool UseRotatedExpert { get; set; } = false;
     public int NormalWon { get; set; } = 0;
     public int NormalLost { get; set; } = 0;    
     public int ChallengeWon { get; set; } = 0;
@@ -34,7 +35,7 @@ public class GameSettingsData
 
     public List<string> CollectionNames { get; set; } = new();
 
-public List<string> ActiveCollections { get; set; } = new();
+    public List<string> ActiveCollections { get; set; } = new();
     public List<string> InactiveCollections { get; set; } = new();
     public List<float> Records { get; internal set; } = new();
     public List<float> Records3BV { get; internal set; } = new();

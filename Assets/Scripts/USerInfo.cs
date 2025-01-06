@@ -22,7 +22,7 @@ public class USerInfo : MonoBehaviour
 	public float SensitivityMS => Sensitivity / 100f;
 
 	public bool UsePending { get; set; } = false;
-
+	public bool UseRotatedExpert { get; set; } = false;
     public bool IsPlayerLoggedIn { get; set; } = false;
 	public bool WaitForFirstMove { get; set; } = true;
     public string Collection { get; set; }

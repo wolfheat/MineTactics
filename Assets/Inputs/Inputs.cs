@@ -97,6 +97,10 @@ public class Inputs : MonoBehaviour
     }
    private void OnTouch2Performed(InputAction.CallbackContext context)
     {
+        // Limit Pan and Zoom for small Boards
+        if (DisAllowMoveAndZoom())
+            return;
+
         DidZoom = true;
         var touches = Touchscreen.current.touches;
         if (touches[1].position.ReadValue().x == 0 && touches[1].position.ReadValue().y == 0)
@@ -174,9 +178,18 @@ public class Inputs : MonoBehaviour
 
     private void TouchMove()
     {
+        // Disable Move and Scale for smaller levels than 10x10 ??
+        // Limit Pan and Zoom for small Boards
+
+        if (DisAllowMoveAndZoom())
+            return;
+
+
         if (StartPos == null) return;
         
         Vector2 CurrentPosition = Controls.Main.TouchPosition.ReadValue<Vector2>();
+
+        if (CurrentPosition == StartPos) return;
 
         // If moved screen do not execute click - Need at least a distance and a duration to execute
         float dist = Vector2.Distance(StartPos, CurrentPosition);
@@ -192,6 +205,15 @@ public class Inputs : MonoBehaviour
 
         OnMoveCameraMovement.Invoke(LastPos-CurrentPosition);
         LastPos = CurrentPosition;
+    }
+
+    private bool DisAllowMoveAndZoom()
+    {
+        if (USerInfo.Instance.BoardType != BoardTypes.Slider)
+        {
+            return USerInfo.Instance.BoardType == BoardTypes.Beginner; // All standard sizes except Beginner allows for zoom
+        }
+        return (USerInfo.Instance.BoardSize <= 10);
     }
 
     public void OnTouchClick(Vector2 touchPos,bool rightClick = false)

@@ -798,8 +798,8 @@ public class GameArea : MonoBehaviour
                     break;
                 case BoardTypes.Expert:
                     Debug.Log("**** Loading expert");
-                    gameWidth = 30;
-                    gameHeight = 16;
+                    gameWidth = USerInfo.Instance.UseRotatedExpert?16:30;
+                    gameHeight = USerInfo.Instance.UseRotatedExpert?30:16;
                     totalmines = 99;
                     break;
             }
