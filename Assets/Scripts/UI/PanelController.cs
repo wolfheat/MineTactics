@@ -320,32 +320,35 @@ public class PanelController : MonoBehaviour
     {
         if (USerInfo.Instance.currentType == GameType.Normal)
         {
-            levelCompleteNormal.gameObject.SetActive(true); 
-            levelCompleteNormal.RequestUpdateLevelInfo();
             // Add to record
             bool record = false;
+            bool recordB3V = false;
             switch (USerInfo.Instance.BoardType)
             {
                 case BoardTypes.Slider:
-                    record = SavingUtility.gameSettingsData.AddIfRecord(Timer.TimeElapsed,USerInfo.Instance.BoardSize-5,GameAreaMaster.Instance.MainGameArea.B3V);
+                    (record,recordB3V) = SavingUtility.gameSettingsData.AddIfRecord(Timer.TimeElapsed,USerInfo.Instance.BoardSize-5,GameAreaMaster.Instance.MainGameArea.B3V);
                     break;
                 case BoardTypes.Beginner:
-                    record = SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed,0, GameAreaMaster.Instance.MainGameArea.B3V);
+                    (record, recordB3V) = SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed,0, GameAreaMaster.Instance.MainGameArea.B3V);
                     break;
                 case BoardTypes.Intermediate:
-                    record = SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed,1, GameAreaMaster.Instance.MainGameArea.B3V);
+                    (record, recordB3V) = SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed,1, GameAreaMaster.Instance.MainGameArea.B3V);
                     break;
                 case BoardTypes.Expert:
-                    record = SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed,2, GameAreaMaster.Instance.MainGameArea.B3V);
+                    (record, recordB3V) = SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed,2, GameAreaMaster.Instance.MainGameArea.B3V);
                     break;
             }
-            if (record)
+
+            levelCompleteNormal.gameObject.SetActive(true);
+            levelCompleteNormal.UpdateLevelInfo(FirestoreManager.Instance.LevelData,record,recordB3V);
+
+            if (record || recordB3V)
                 SavingUtility.Instance.SaveAllDataToFile();
         }
         else if (USerInfo.Instance.currentType == GameType.Challenge)
         {
             levelComplete.gameObject.SetActive(true);
-            levelComplete.RequestUpdateLevelInfo();
+            levelComplete.UpdateLevelInfo(FirestoreManager.Instance.LevelData);
 
             //SavingUtility.gameSettingsData.AddIfRecord(Timer.TimeElapsed,USerInfo.Instance.BoardSize-6);
 

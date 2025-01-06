@@ -42,7 +42,7 @@ public class GameSettingsData
     public List<float> OriginalRecords { get; internal set; } = new();
     public List<float> OriginalRecords3BV { get; internal set; } = new();
 
-    public bool AddOriginalRecord(float completionTime, int index, int b3v)
+    public (bool,bool) AddOriginalRecord(float completionTime, int index, int b3v)
     {
         if (OriginalRecords == null || OriginalRecords.Count == 0)
             OriginalRecords = new List<float> { 0, 0, 0};        
@@ -51,6 +51,7 @@ public class GameSettingsData
 
         float B3Vs = b3v / completionTime;
         bool newRecord = false;
+        bool new3BVRecord = false;
         if (OriginalRecords[index] == 0 || completionTime < OriginalRecords[index])
         {
             OriginalRecords[index] = completionTime;
@@ -59,13 +60,13 @@ public class GameSettingsData
         if (OriginalRecords3BV[index] == 0 || B3Vs > OriginalRecords3BV[index])
         {
             OriginalRecords3BV[index] = B3Vs;
-            newRecord = true;
+            new3BVRecord = true;
         }
 
-        return newRecord;
+        return (newRecord,new3BVRecord);
 
     }
-    public bool AddIfRecord(float completionTime, int index,int b3v)
+    public (bool,bool)AddIfRecord(float completionTime, int index,int b3v)
     {
         float B3Vs = b3v / completionTime;
         if (Records == null || Records.Count == 0)
@@ -73,6 +74,7 @@ public class GameSettingsData
         if (Records3BV == null || Records3BV.Count == 0)
             Records3BV = new List<float> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         bool newRecord = false;
+        bool new3BVRecord = false;
         if (Records[index]==0 || completionTime < Records[index])
         {
             Records[index] = completionTime;
@@ -81,10 +83,10 @@ public class GameSettingsData
         if (Records3BV[index]==0 || B3Vs > Records3BV[index])
         {
             Records3BV[index] = B3Vs;
-            newRecord = true;
+            new3BVRecord = true;
         }
 
-        return newRecord;
+        return (newRecord, new3BVRecord);
     }
     public void AddUsageTimeMinutes(int v)
     {

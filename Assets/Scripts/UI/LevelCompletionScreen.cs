@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using TMPro;
 using UnityEngine;
 public class LevelCompletionScreen : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI collection;
     [SerializeField] TextMeshProUGUI levelID;
+    [SerializeField] TextMeshProUGUI B3V;
+    [SerializeField] GameObject B3VRecordText;
     [SerializeField] TextMeshProUGUI rating;
     [SerializeField] TextMeshProUGUI creatorId;
     [SerializeField] TextMeshProUGUI votes;
     [SerializeField] TextMeshProUGUI time;
+    [SerializeField] GameObject timeRecordText;
     [SerializeField] TextMeshProUGUI playerRatingChange;
     [SerializeField] TextMeshProUGUI levelRatingChange;
     [SerializeField] TextMeshProUGUI status;
@@ -22,10 +24,19 @@ public class LevelCompletionScreen : MonoBehaviour
     private void Start() => OnClickStar(vote);
     public void RequestUpdateLevelInfo() => UpdateLevelInfo(FirestoreManager.Instance.LevelData);
 
-    public void UpdateLevelInfo(LevelData data)
+    public void UpdateLevelInfo(LevelData data,bool record = false,bool record3BV = false)
     {
         levelID.text = USerInfo.Instance.levelID;
         time.text = Timer.TimeElapsed.ToString("F3") + "s";
+        if(timeRecordText != null)
+            timeRecordText.SetActive(record);
+
+        float B3Vs = GameAreaMaster.Instance.MainGameArea.B3V / Timer.TimeElapsed;
+
+        B3V.text = B3Vs.ToString("F3");
+        if (B3VRecordText != null)
+            B3VRecordText?.SetActive(record3BV);
+
         if (USerInfo.Instance.currentType == GameType.Challenge) { 
             if (data == null)
                 return;

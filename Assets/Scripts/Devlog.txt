@@ -224,9 +224,9 @@ Nov 2024
 		* Smiley Collider now expands entire width of gameArea	
 6/1		* Made scale and pan only work for games larger than 10x10 
 		* Added Option to start Expert in vertical mode
+		* Added 3BV/s for the resultscreens
+		* Added New Record text when completing a normal level at a personal best
 
-
-		* Disable move and zoom for non normal levels?
 		* Player will want to get notice of getting record!
 
 		* PLAYERSTATS INFO 
