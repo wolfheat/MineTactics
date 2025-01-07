@@ -50,7 +50,9 @@ public class GameBox : MonoBehaviour
     {
         if (GameAreaMaster.Instance.MainGameArea.LevelBusted)
             return;
-        
+
+
+
         Debug.Log("Clicking Box value = "+value+" when Gametype 0 "+USerInfo.Instance.currentType);
 
         if (USerInfo.Instance.currentType == GameType.Create)
@@ -59,6 +61,9 @@ public class GameBox : MonoBehaviour
             return;
         }
         // If Busted Level disallow any click on Area
+
+
+        GameAreaMaster.Instance.MainGameArea.AddClicks();
 
         // This workds for normal gameplay keep it
         if (value > 0)
@@ -130,6 +135,9 @@ public class GameBox : MonoBehaviour
             GameAreaMaster.Instance.MainGameArea.UpdateMineCount();
             return; // Breaks if in edit mode and placing Mines
         }
+
+
+        GameAreaMaster.Instance.MainGameArea.AddClicks();
         if (!Marked)
             GameAreaMaster.Instance.MainGameArea.IncreaseMineCount();
         else

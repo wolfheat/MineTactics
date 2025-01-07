@@ -33,7 +33,7 @@ public class GameArea : MonoBehaviour
     private Vector2Int swapBox;
     public bool LevelBusted { get; private set; }
     public int B3V { get; private set; }
-
+    public int Clicks { get; private set; }
 
     public static GameArea Instance { get; private set; }
     public float GameWidth { get; set; }
@@ -81,6 +81,8 @@ public class GameArea : MonoBehaviour
         totalmines = newtotalmines;
         mines = newMines;
 
+        Clicks = 0;
+
         LoadGame(gameLoaded, editorcreateMode);
     }
 
@@ -112,6 +114,7 @@ public class GameArea : MonoBehaviour
         levelText.text = USerInfo.Instance.levelID;
         amtText.text = "" + FirestoreManager.Instance.LoadedAmount;
 
+        Clicks = 0;
         LevelBusted = false;
         USerInfo.Instance.currentType = GameType.Normal;
 
@@ -328,6 +331,10 @@ public class GameArea : MonoBehaviour
         UpdateMineCount();
     }
 
+    public void AddClicks()
+    {
+        Clicks++;
+    }
     public void Chord(Vector2Int pos)
     {
         //Debug.Log("Charding levelcreator at "+pos);

@@ -226,12 +226,15 @@ Nov 2024
 		* Added Option to start Expert in vertical mode
 		* Added 3BV/s for the resultscreens
 		* Added New Record text when completing a normal level at a personal best
+7/1		* Made collections update from the reuploaded version = updated
+		
 
-		* Player will want to get notice of getting record!
+
+		* Only Allow a player to send Rating the first time they encounter a level?
+
 
 		* PLAYERSTATS INFO 
 		 - EACH LEVEL SIZE -> Fewest Clicks
-
 		
 		* Issue - Settings is saved to file for all players using same device, fix so it loads correct savefile
 		* ISSUE - Might have to handle unloading and reloading a collection when a level is active. This info is never sent to DB until all levels are cleared again.
@@ -261,6 +264,15 @@ Nov 2024
 
 		Step Sounds are off in the town - wooden floor sound on grass areas a bit random
 
+
+		- NEW
+
+		NOT AN ISSUE when placing stuff I get option above a stack say for soft wood 190 but when placing only the stack is placed
+		Did you spell turmeric wrong by mistake?
+		Piñjon adds only 1 bounce instead of 10
+		oRES AND mORES selling crystals for 0 sparks (seems that multiple buy screens pop up when there is several items on the table, like crystals		)
+		Would be nice to teb out from trade for sparks menu
+		Lots of duplicate items, my save ali file was 45.5Mb
 
 		// Moderator Tools
 		* What Creation tools should be allowed for users, and when?

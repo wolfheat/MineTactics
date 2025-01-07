@@ -5,7 +5,10 @@ public class LevelCompletionScreen : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI collection;
     [SerializeField] TextMeshProUGUI levelID;
+    [SerializeField] TextMeshProUGUI Clicks;
     [SerializeField] TextMeshProUGUI B3V;
+    [SerializeField] TextMeshProUGUI efficiency;
+    [SerializeField] TextMeshProUGUI B3Vs;
     [SerializeField] GameObject B3VRecordText;
     [SerializeField] TextMeshProUGUI rating;
     [SerializeField] TextMeshProUGUI creatorId;
@@ -31,24 +34,36 @@ public class LevelCompletionScreen : MonoBehaviour
         if(timeRecordText != null)
             timeRecordText.SetActive(record);
 
-        float B3Vs = GameAreaMaster.Instance.MainGameArea.B3V / Timer.TimeElapsed;
-
-        B3V.text = B3Vs.ToString("F3");
-        if (B3VRecordText != null)
-            B3VRecordText?.SetActive(record3BV);
+        B3V.text = GameAreaMaster.Instance.MainGameArea.B3V.ToString();
 
         if (USerInfo.Instance.currentType == GameType.Challenge) { 
             if (data == null)
                 return;
             LoadedData = data;
             creatorId.text = data.CreatorId.ToString();
-            rating.text = data.DifficultyRating.ToString();
+            //rating.text = data.DifficultyRating.ToString();
             votes.text = data.Upvotes.ToString()+"/"+ data.Downvotes.ToString();
             levelID.text = data.LevelId.ToString();
             collection.text = data.Collection.ToString();
             status.text = data.Status.ToString();
             playCount.text = data.PlayCount.ToString();
-            // 
+            Clicks.text = GameAreaMaster.Instance.MainGameArea.Clicks.ToString();
+
+            //  
+        }
+        else
+        {
+            int extraClicks = (GameAreaMaster.Instance.MainGameArea.Clicks - GameAreaMaster.Instance.MainGameArea.B3V);
+            string extraClicksText = (extraClicks >= 0 ? "+" : "") + extraClicks;
+            Clicks.text = GameAreaMaster.Instance.MainGameArea.Clicks + " (" + GameAreaMaster.Instance.MainGameArea.B3V + extraClicksText + ")";
+
+            float B3VsValue = GameAreaMaster.Instance.MainGameArea.B3V / Timer.TimeElapsed;
+            B3Vs.text = B3VsValue.ToString("F3");
+            float efficencyValue = (float)GameAreaMaster.Instance.MainGameArea.B3V / GameAreaMaster.Instance.MainGameArea.Clicks;
+            efficiency.text = (efficencyValue*100).ToString("F0")+"%";
+            if (B3VRecordText != null)
+                B3VRecordText?.SetActive(record3BV);
+
         }
         OnClickStar(3); // Sets to 3 star as default
     }
@@ -68,7 +83,7 @@ public class LevelCompletionScreen : MonoBehaviour
             // Select a random level from the retrieved documents
             //FirestoreManager.Instance.GetRandomLevel(1000);
 
-            bool loadNext = SendLevelUpdates();
+            bool loadNext = SendLevelUpdatesOrStoreForLaterCollectionUpdate();
 
             // Start Next Level automatically
             if(loadNext)
@@ -87,11 +102,11 @@ public class LevelCompletionScreen : MonoBehaviour
         if (USerInfo.Instance.currentType == GameType.Challenge)
         {
             // Sent Level Updates when closing resultscreen for loaded level
-            SendLevelUpdates();
+            SendLevelUpdatesOrStoreForLaterCollectionUpdate();
         }
     }
 
-    private bool SendLevelUpdates()
+    private bool SendLevelUpdatesOrStoreForLaterCollectionUpdate()
     {
         // Check if last level in this collection was cleared
         // If so Update the collcetion in the DB
@@ -101,9 +116,15 @@ public class LevelCompletionScreen : MonoBehaviour
             Debug.Log("Wont send Update cause this is a collection");
 
             // Sets players Vote and Adds Playcount
+
+            LoadedData.vote = vote;
+            Debug.Log("Voting "+vote+" place in LoadedData");
+
+            /* OLD VOTE SYSTEM
             LoadedData.Upvotes = (vote > 3 ? 1 : 0);
             LoadedData.Downvotes = (vote < 3 ? 1 : 0);
             LoadedData.PlayCount = 1;
+            */
 
             // Update the Collection in the Dictionary
             bool updatedSuccess = FirestoreManager.Instance.ReplaceLevelInLevelDataCollections(LoadedData);
@@ -115,7 +136,7 @@ public class LevelCompletionScreen : MonoBehaviour
 
             string currentCollection = LoadedData.Collection;
 
-            return FirestoreManager.Instance.WasLastInCollectionANDSendUpdateToDatabase(currentCollection);
+            return FirestoreManager.Instance.SendCollectionToDatabase_IfLastLevelWasCompleted(currentCollection);
             
         }
 
