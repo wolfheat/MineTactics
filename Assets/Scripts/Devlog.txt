@@ -227,8 +227,11 @@ Nov 2024
 		* Added 3BV/s for the resultscreens
 		* Added New Record text when completing a normal level at a personal best
 7/1		* Made collections update from the reuploaded version = updated
-		
+8/1		* Added a ThemePickerClass that allowes different themes to be loaded, all boxes use this exclusevly		
 
+
+		* Add themes ? Scriptable Objects?
+		* Also save down Theme for the player
 
 		* Only Allow a player to send Rating the first time they encounter a level?
 
@@ -236,7 +239,6 @@ Nov 2024
 		* PLAYERSTATS INFO 
 		 - EACH LEVEL SIZE -> Fewest Clicks
 		
-		* Issue - Settings is saved to file for all players using same device, fix so it loads correct savefile
 		* ISSUE - Might have to handle unloading and reloading a collection when a level is active. This info is never sent to DB until all levels are cleared again.
 		* Issue - with slow loading of levels in collections sometimes, fix?
 		* Issue - Half completed Collection exit handeling -  Currently discarded progress

@@ -29,9 +29,10 @@ public class GameBox : MonoBehaviour
     {
         value = type;
         if(value == -1)
-            spriteRenderer.sprite = bustedSprite;
+            spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Busted];
         else
-            spriteRenderer.sprite = cleared[type];
+            spriteRenderer.sprite = ThemePicker.Instance.current.numbers[type];
+            //spriteRenderer.sprite = cleared[type];
 
         boxCollider.enabled = false;
     }
@@ -81,7 +82,7 @@ public class GameBox : MonoBehaviour
         else
         {
             Debug.Log("Show a busted mine here");
-            spriteRenderer.sprite = bustedSprite;
+            spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Busted];
         }
     }
 
@@ -101,7 +102,7 @@ public class GameBox : MonoBehaviour
     {
         if (Marked) return;
         Marked = true;
-        spriteRenderer.sprite = markedSprite;
+        spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Flagged];
         GameAreaMaster.Instance.MainGameArea.DecreaseMineCount();
     }
 
@@ -144,25 +145,25 @@ public class GameBox : MonoBehaviour
             GameAreaMaster.Instance.MainGameArea.DecreaseMineCount();
     }
 
-    public void SetAsHiddenMine() => spriteRenderer.sprite = hiddenMineSprite;
-    public void SetAsFlaggedMine() => spriteRenderer.sprite = markedSprite;
-    public void SetAsUnFlagged() => spriteRenderer.sprite = unmarkedSprite;
+    public void SetAsHiddenMine() => spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.HiddenMine];
+    public void SetAsFlaggedMine() => spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Flagged];
+    public void SetAsUnFlagged() => spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Unflagged];
 
     public void Bust()
     {
         Debug.Log("Show a busted mine here");
-        spriteRenderer.sprite = bustedSprite;
+        spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Busted];
         Busted = true;
     }
 
     public void ShowWrongFlag()
     {
-        spriteRenderer.sprite = wrongFlagSprite;
+        spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.WrongFlag];
     }
 
     public void ShowMine()
     {
-        spriteRenderer.sprite = mineSprite;        
+        spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Mine];
     }
 
     public bool UnSolved()
@@ -175,7 +176,7 @@ public class GameBox : MonoBehaviour
         transform.gameObject.SetActive(true);
         Busted = false;
         Marked = false;
-        spriteRenderer.sprite = unmarkedSprite;
+        spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Unflagged];
         boxCollider.enabled = true;
     }
 }
