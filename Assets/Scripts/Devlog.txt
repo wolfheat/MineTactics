@@ -233,6 +233,7 @@ Nov 2024
 		* Fixed resetting game zoom and position at change mode
 		* Saving Theme to player file
 9/1		* Added saving for partial Collections completed. Votes and active is now saved to file to keep track of this
+		* Fixed issue with chord not working after changing theme
 
 		* Only Allow a player to send Rating the first time they encounter a level?
 		* Issue - with slow loading of levels in collections sometimes, fix?
@@ -247,11 +248,7 @@ Nov 2024
 			* Total games cleared
 			* Practice levels completed?
 			* Rating?
-		
-		
-		// PLAYERSTATS INFO 
-		 - EACH LEVEL SIZE -> Fewest Clicks
-		
+				
 		// MODES
 		* Add find missflagged mine Game Mode??				
 		* Have some as Optional - Reasonable - Wishful?

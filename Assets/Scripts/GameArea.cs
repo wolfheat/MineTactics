@@ -937,7 +937,7 @@ public class GameArea : MonoBehaviour
             }
         }
     }
-    private void UpdateNumbers()
+    private void UpdateNumbers(bool keepCollidersActive = false)
     {
         for (int j = 0; j < gameHeight; j++)
         {
@@ -946,7 +946,7 @@ public class GameArea : MonoBehaviour
                 // Make uncleared
                 if (mines[i, j] != -1)
                 {
-                    underlayBoxes[i, j].SetType(mines[i, j]);
+                    underlayBoxes[i, j].SetType(mines[i, j],keepCollidersActive);
                 }
             }
         }
@@ -1043,7 +1043,7 @@ public class GameArea : MonoBehaviour
 
     internal void UpdateTheme()
     {
-        UpdateNumbers();
+        UpdateNumbers(true);
                         
         for (int j = 0; j < gameHeight; j++)
         {

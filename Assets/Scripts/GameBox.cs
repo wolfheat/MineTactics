@@ -22,7 +22,7 @@ public class GameBox : MonoBehaviour
         Inputs.Instance.Controls.Main.Mouse.started += MouseDown;
     }
 
-    public void SetType(int type)
+    public void SetType(int type,bool keepColliderEnable = false)
     {
         value = type;
         if(value == -1)
@@ -37,7 +37,8 @@ public class GameBox : MonoBehaviour
         }
             //spriteRenderer.sprite = cleared[type];
 
-        boxCollider.enabled = false;
+        if(!keepColliderEnable)
+            boxCollider.enabled = false;
     }
 
     public void MakeInteractable(bool doSet = true)
