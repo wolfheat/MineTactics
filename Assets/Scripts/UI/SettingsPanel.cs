@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+//using UnityEngine.UIElements;
 
 public enum GameSize {S,M,L}
 
@@ -17,10 +18,12 @@ public class SettingsPanel : MonoBehaviour
     [SerializeField] Toggle expertRotatedToggle;
     [SerializeField] Slider slider;
     [SerializeField] Slider sensitivitySlider;
+    [SerializeField] TMP_Dropdown dropDown;
 
     private float[] winProbs = {30.2f, 1.08f, 1.56f};
     private float[] densities = {15f, 34.38f, 30.02f};
 
+    private bool themeChanged = false;
     public static SettingsPanel Instance { get; private set; }
 
     private void Awake()
@@ -32,6 +35,14 @@ public class SettingsPanel : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    private void OnEnable()
+    {
+        // Occupy the dropDown
+        dropDown.options.Clear();
+        foreach (string t in ThemePicker.Instance.GetThemes())
+            dropDown.options.Add(new TMP_Dropdown.OptionData() { text = t });
     }
 
     public void ConfirmSettings()
@@ -49,9 +60,13 @@ public class SettingsPanel : MonoBehaviour
         SaveSettingsToFile();
 
         // Apply the size settings
+        /*
         if (USerInfo.Instance.currentType == GameType.Normal)
             PanelController.Instance.ChangeMode(0); // Forces Update if playing Normal game
-
+        */
+        // Update theme on current screen 
+        if (themeChanged)
+            GameAreaMaster.Instance.MainGameArea.UpdateTheme();
 
     }
 
@@ -72,6 +87,13 @@ public class SettingsPanel : MonoBehaviour
         USerInfo.Instance.Sensitivity = nexValue;
 
     }
+    public void UpdateThemeChoice(TMP_Dropdown dropdown)
+    {
+        Debug.Log("Drop down picked "+dropdown.value);
+        ThemePicker.Instance.SetTheme(dropdown.value);
+        themeChanged = true;
+    }
+
     public void SetValuesFromLoadedSettings()
     {
         GameSettingsData data = SavingUtility.gameSettingsData;

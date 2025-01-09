@@ -17,11 +17,11 @@ public class LevelCreator : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerIDText2;
     [SerializeField] private TextMeshProUGUI appRef;
 
-    [SerializeField] private GameBox mineBoxPrefab;
-    [SerializeField] private GameBox unclearedBoxPrefab;
-    [SerializeField] private GameBox underlayBoxPrefab;
+    //[SerializeField] private GameBox mineBoxPrefab;
+    //[SerializeField] private GameBox unclearedBoxPrefab;
+    //[SerializeField] private GameBox underlayBoxPrefab;
 
-    [SerializeField] private GameBox[] numberPrefabs;
+    //[SerializeField] private GameBox[] numberPrefabs;
 
     [SerializeField] private LevelCompletionScreen levelCompletionPanel;
     [SerializeField] private GameObject boxHolder;
@@ -29,6 +29,7 @@ public class LevelCreator : MonoBehaviour
     [SerializeField] private GameObject borderArea;
     [SerializeField] private GameObject playArea;
     [SerializeField] private SpriteRenderer borderAreaRenderer;
+    [SerializeField] private BoxCollider2D borderAreaCollider;
     [SerializeField] private GameObject objects;
     [SerializeField] private GameObject origo;
     [SerializeField] private GameObject alignPosition;
@@ -163,6 +164,9 @@ public class LevelCreator : MonoBehaviour
         float targetWidthInWorldUnits = borderAreaRenderer.size.x;
         float orthographicSize = targetWidthInWorldUnits * screenRatio / 2;
         Camera.main.orthographicSize = orthographicSize;
+
+        borderAreaCollider.size = borderAreaRenderer.size;
+        borderAreaCollider.offset = new Vector2(borderAreaRenderer.size.x/2, -borderAreaRenderer.size.y / 2);
 
         // Set the camarecontroller limits
         CameraController.Instance.OriginalOrthogonalSize = orthographicSize;

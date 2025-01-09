@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class ThemePicker : MonoBehaviour
@@ -17,6 +18,11 @@ public class ThemePicker : MonoBehaviour
         Instance = this;
     }
 
+    public string[] GetThemes()
+    {
+        return themes.Select(x => x.name).ToArray();
+        //return themes.Select(x => x.ThemeName).ToArray();
+    }
     public void SetTheme(int index)
     {
         if (index >= themes.Length) return;

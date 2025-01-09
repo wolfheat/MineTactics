@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml.Schema;
 using TMPro;
 using UnityEngine;
 using WolfheatProductions;
@@ -285,7 +284,8 @@ public class GameArea : MonoBehaviour
                 overlayBoxes[i, j] = box;
 
                 // Make underlaying
-                GameBox underlayBox = Instantiate(underlayBoxPrefab, underLaying.transform);
+                GameBox underlayBox = Instantiate(unclearedBoxPrefab, underLaying.transform);
+                underlayBox.SetOrderingLeyer(0);
                 underlayBox.transform.localPosition = new Vector3(i, -j, 0) + align;
                 underlayBox.transform.localScale = boxScale;
                 underlayBox.Pos = new Vector2Int(i, j);
@@ -1039,5 +1039,20 @@ public class GameArea : MonoBehaviour
         //X minus Y plus
         //transform.localPosition = new Vector3(,,0);
 
+    }
+
+    internal void UpdateTheme()
+    {
+        UpdateNumbers();
+                        
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+                
+                overlayBoxes[i, j].UpdateSprite();
+                
+            }
+        }
     }
 }

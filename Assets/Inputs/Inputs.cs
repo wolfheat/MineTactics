@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using static UnityEditor.PlayerSettings;
 
 public class Inputs : MonoBehaviour
 {
@@ -133,22 +134,43 @@ public class Inputs : MonoBehaviour
 
     private void OnTouchStart(InputAction.CallbackContext context)
     {
-
-        var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Touchscreen.current.touches[0].position.ReadValue()));
+        Vector2 pos = Controls.Main.TouchPosition.ReadValue<Vector2>(); 
+        //Vector2 pos = Touchscreen.current.touches[0].position.ReadValue();
+            
+        Debug.Log("OnTouchStart "+pos   );
+        var rayHit = Physics2D.GetRayIntersectionAll(Camera.main.ScreenPointToRay(pos));
+        //var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Touchscreen.current.touches[0].position.ReadValue()),100f,LayerMask.NameToLayer("GameAreaLayer"));
         //Debug.Log("Starting Touch on position "+ Touchscreen.current.touches[0].position.ReadValue() + " has collider "+(rayHit.collider!=null));
-        GameBox box = null;
-        if (rayHit.collider)
+        GameArea gameArea= null;
+        GameBox box= null;
+        if (rayHit.Length > 0)
         {
             //Debug.Log("HItting collider "+rayHit.collider.name);
-            box = rayHit.collider.GetComponent<GameBox>();
+            gameArea = rayHit[0].collider.GetComponent<GameArea>();
+            box = rayHit[0].collider.GetComponent<GameBox>();
             //Debug.Log("HItting box "+box.name);
+            //Debug.Log("Touch Start on "+(rayHit.collider == null ? "null": rayHit.collider?.name));
+            //BoxClickValidStart = gameArea != null;
+            BoxClickValidStart = true;
+
+            //Debug.Log("box"+box);
+            startTouch = Time.time;
+            StartPos = Controls.Main.TouchPosition.ReadValue<Vector2>();
+            LastPos = StartPos;
         }
-        BoxClickValidStart = (box != null);
-        BottomInfoController.Instance.ShowDebugText("BoxClickValidStart: "+ BoxClickValidStart);
-        //Debug.Log("box"+box);
-        startTouch = Time.time;
-        StartPos = Controls.Main.TouchPosition.ReadValue<Vector2>();
-        LastPos = StartPos;
+        else
+        {
+            Debug.Log("OnTouchStart - Disable");
+            if (MoveEnabled)
+            {
+                MoveEnabled = false;
+                return; // Dont click if dragging
+            }
+            BoxClickValidStart = false;
+
+        }
+            BottomInfoController.Instance.ShowDebugText("BoxClickValidStart: "+ BoxClickValidStart);
+
 
     }
     public float TimeHeld { get; private set; } = 0;
@@ -167,7 +189,7 @@ public class Inputs : MonoBehaviour
             return; // Dont click if dragging
         }
 
-        //Debug.Log("Ended Touch");
+        Debug.Log("Ended Touch "+DidZoom);
         TimeHeld = (Time.time - startTouch);
         
         Vector2 pos = Controls.Main.TouchPosition.ReadValue<Vector2>();
@@ -218,17 +240,30 @@ public class Inputs : MonoBehaviour
 
     public void OnTouchClick(Vector2 touchPos,bool rightClick = false)
     {
-        //Debug.Log("TOUCH! Rightclick ="+rightClick);
         if (EventSystem.current.IsPointerOverGameObject())
         {
             //Debug.Log("Pointer is hitting UI discard touch");
             return;
         }
 
-        var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(touchPos));
+        var rayHits = Physics2D.GetRayIntersectionAll(Camera.main.ScreenPointToRay(touchPos));
+        RaycastHit2D rayHit = new();
+        foreach (var hit in rayHits)
+        {
+            Debug.Log("Hitting "+hit.collider?.name);
+            if(hit.collider.GetComponent<GameBox>() != null || hit.collider.GetComponent<SmileyButton>() != null)
+            {
+                rayHit = hit;
+                break;
+            }
+        }
+        //var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(touchPos),100f,LayerMask.NameToLayer("Default"));
+        Debug.Log("Ray Hit "+(rayHit.collider != null));
         if (!rayHit.collider) return;
         
+        Debug.Log("TOUCH! Rightclick ="+rightClick);
         GameBox box = rayHit.collider.GetComponent<GameBox>();
+        Debug.Log("box ="+box?.name);
         if (box != null)
         {
             // Do not allow any clicks if game is Paused, unless you are in normal mode and waiting for the first click

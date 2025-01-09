@@ -228,9 +228,15 @@ Nov 2024
 		* Added New Record text when completing a normal level at a personal best
 7/1		* Made collections update from the reuploaded version = updated
 8/1		* Added a ThemePickerClass that allowes different themes to be loaded, all boxes use this exclusevly		
+		* Solved issue with clciking not working after implementing collider for gameArea.
+		* Fixed the issue with Clamping gamearea excluding buttonpanels
 
 
-		* Add themes ? Scriptable Objects?
+		* Got issue with moving larger boards at different aspects
+
+		* Touch is getting the last position not the current why???
+
+		* Changing theme breaks move/scale for the game
 		* Also save down Theme for the player
 
 		* Only Allow a player to send Rating the first time they encounter a level?

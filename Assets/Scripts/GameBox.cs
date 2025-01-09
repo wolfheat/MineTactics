@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameBox : MonoBehaviour
@@ -7,19 +8,15 @@ public class GameBox : MonoBehaviour
     public Vector2Int Pos { get; set; }
     public int value { get; set; }
     [SerializeField] SpriteRenderer spriteRenderer;
-    [SerializeField] Sprite bustedSprite;
-    [SerializeField] Sprite mineSprite;
-    [SerializeField] Sprite markedSprite;
-    [SerializeField] Sprite unmarkedSprite;
-    [SerializeField] Sprite wrongFlagSprite;
-    [SerializeField] Sprite hiddenMineSprite;
-    [SerializeField] Sprite[] cleared;
     [SerializeField] Collider2D boxCollider;
 
 
     public bool Active => boxCollider.enabled;
     public bool Marked { get; set; } = false;
     public bool Busted { get; set; } = false;
+
+    private MineBoxType boxType = MineBoxType.Unflagged;
+
     private void Start()
     {
         Inputs.Instance.Controls.Main.Mouse.started += MouseDown;
@@ -29,9 +26,15 @@ public class GameBox : MonoBehaviour
     {
         value = type;
         if(value == -1)
-            spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Busted];
+        {
+            boxType = MineBoxType.Busted;
+            UpdateSprite();
+        }
         else
+        {
             spriteRenderer.sprite = ThemePicker.Instance.current.numbers[type];
+            //return;
+        }
             //spriteRenderer.sprite = cleared[type];
 
         boxCollider.enabled = false;
@@ -82,7 +85,8 @@ public class GameBox : MonoBehaviour
         else
         {
             Debug.Log("Show a busted mine here");
-            spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Busted];
+            boxType = MineBoxType.Busted;
+            UpdateSprite();            
         }
     }
 
@@ -102,7 +106,8 @@ public class GameBox : MonoBehaviour
     {
         if (Marked) return;
         Marked = true;
-        spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Flagged];
+        boxType = MineBoxType.Flagged;
+        UpdateSprite(); 
         GameAreaMaster.Instance.MainGameArea.DecreaseMineCount();
     }
 
@@ -145,25 +150,41 @@ public class GameBox : MonoBehaviour
             GameAreaMaster.Instance.MainGameArea.DecreaseMineCount();
     }
 
-    public void SetAsHiddenMine() => spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.HiddenMine];
-    public void SetAsFlaggedMine() => spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Flagged];
-    public void SetAsUnFlagged() => spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Unflagged];
+    public void SetAsHiddenMine()
+    {
+        boxType = MineBoxType.HiddenMine;
+        UpdateSprite();
+    }
+
+    public void SetAsFlaggedMine()
+    {
+        boxType = MineBoxType.Flagged;
+        UpdateSprite();
+    }
+
+    public void SetAsUnFlagged()
+    {
+        boxType = MineBoxType.Unflagged;
+        UpdateSprite();
+    }
 
     public void Bust()
     {
-        Debug.Log("Show a busted mine here");
-        spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Busted];
+        boxType = MineBoxType.Busted;
+        UpdateSprite();
         Busted = true;
     }
 
     public void ShowWrongFlag()
     {
-        spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.WrongFlag];
+        boxType = MineBoxType.WrongFlag;
+        UpdateSprite();
     }
 
     public void ShowMine()
     {
-        spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Mine];
+        boxType = MineBoxType.Mine;
+        UpdateSprite();        
     }
 
     public bool UnSolved()
@@ -179,4 +200,8 @@ public class GameBox : MonoBehaviour
         spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)MineBoxType.Unflagged];
         boxCollider.enabled = true;
     }
+
+    internal void SetOrderingLeyer(int v) => spriteRenderer.sortingOrder = v;
+
+    internal void UpdateSprite() => spriteRenderer.sprite = ThemePicker.Instance.current.flags[(int)boxType];
 }

@@ -12,9 +12,10 @@ public class BottomInfoController : MonoBehaviour
     [SerializeField] TextMeshProUGUI levelAmtText;
     [SerializeField] TextMeshProUGUI levelText;
     [SerializeField] TextMeshProUGUI debugText;
-
+    [SerializeField] RectTransform rect;
 
     public static BottomInfoController Instance { get; private set; }
+
 
     private void Awake()
     {
@@ -42,5 +43,11 @@ public class BottomInfoController : MonoBehaviour
 
         collectionSizeTextB.text =FirestoreManager.Instance.LoadedAmount.ToString();
         levelText.text = "" + FirestoreManager.Instance.LevelData?.LevelId ?? "";
+    }
+
+    internal float Height()
+    {
+        return rect.sizeDelta.y;
+
     }
 }

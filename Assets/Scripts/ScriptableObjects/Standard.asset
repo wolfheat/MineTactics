@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e5e8f816c1eadd499172c2de73d9b57, type: 3}
-  m_Name: Normal_Theme
+  m_Name: Standard
   m_EditorClassIdentifier: 
   flags:
   - {fileID: -1335274878, guid: bacfa614e2371ed42b6ff2c9b48e5469, type: 3}
@@ -22,7 +22,7 @@ MonoBehaviour:
   - {fileID: -1917983664, guid: bacfa614e2371ed42b6ff2c9b48e5469, type: 3}
   - {fileID: 507705811, guid: bacfa614e2371ed42b6ff2c9b48e5469, type: 3}
   numbers:
-  - {fileID: -1335274878, guid: bacfa614e2371ed42b6ff2c9b48e5469, type: 3}
+  - {fileID: -212853508, guid: bacfa614e2371ed42b6ff2c9b48e5469, type: 3}
   - {fileID: -1578330648, guid: bacfa614e2371ed42b6ff2c9b48e5469, type: 3}
   - {fileID: -1957227011, guid: bacfa614e2371ed42b6ff2c9b48e5469, type: 3}
   - {fileID: -1824179414, guid: bacfa614e2371ed42b6ff2c9b48e5469, type: 3}

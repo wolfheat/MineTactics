@@ -64,21 +64,53 @@ public class CameraController : MonoBehaviour
 
     private void ClampToGameArea()
     {
-        // How wide the camera can go depends on camera orthogonal size and Game size
-        // Total widht
-        float totalWidthHalf = Camera.main.orthographicSize/2;
-//            spriteRenderer.size.x;
+        // World Game Size
+        float totalHeightHalf = Camera.main.orthographicSize;
+        float totalWidthHalf = Camera.main.aspect*totalHeightHalf;
 
-        float Xpos = Mathf.Clamp(transform.position.x, -spriteRenderer.size.x / 2 + totalWidthHalf, spriteRenderer.size.x / 2- totalWidthHalf);
-        float Ypos = Mathf.Clamp(transform.position.y, -spriteRenderer.size.y / 2, spriteRenderer.size.y / 2);
+        // From top ButtonController size
+        float buttonControllerHeight = ButtonController.Instance.Height() / Camera.main.pixelHeight * Camera.main.orthographicSize*2;
+        float bottomControllerHeight = BottomInfoController.Instance.Height() / Camera.main.pixelHeight * Camera.main.orthographicSize * 2;
+
+        bool boardIsLargerThanCameraX = spriteRenderer.size.x > totalWidthHalf*2;
+        bool boardIsLargerThanCameraY = spriteRenderer.size.y > (totalHeightHalf*2-buttonControllerHeight- bottomControllerHeight);
+
+        // When board is smaller than camera more to edges
+        float Xpos = CalculateXpos();
+        float Ypos = CalculateYpos();
 
         transform.position = new Vector3(Xpos, Ypos, transform.position.z);
+
+        float CalculateXpos()
+        {
+            if (boardIsLargerThanCameraX)
+            {
+                // When larger move to other edges
+                return Mathf.Clamp(transform.position.x, totalWidthHalf - spriteRenderer.size.x / 2, spriteRenderer.size.x / 2 - totalWidthHalf);
+            }
+            return Mathf.Clamp(transform.position.x, -spriteRenderer.size.x / 2 + totalWidthHalf, spriteRenderer.size.x / 2 - totalWidthHalf);
+        }
+        
+        float CalculateYpos()
+        {
+            if (boardIsLargerThanCameraY)
+            {
+                Debug.Log("boardLargerThanCameraY");
+                // When larger move to other edges
+                return Mathf.Clamp(transform.position.y, -bottomControllerHeight - spriteRenderer.size.y / 2 + totalHeightHalf, buttonControllerHeight + spriteRenderer.size.y / 2 - totalHeightHalf);
+                //Ypos = Mathf.Clamp(transform.position.y, -buttonControllerHeight - spriteRenderer.size.y / 2 + totalHeightHalf, buttonControllerHeight + spriteRenderer.size.y / 2 - totalHeightHalf);
+            }
+            return Mathf.Clamp(transform.position.y, buttonControllerHeight + spriteRenderer.size.y / 2 - totalHeightHalf, totalHeightHalf - bottomControllerHeight - spriteRenderer.size.y / 2);
+        }
+
+
     }
+
 
     public void TouchMoveCamera(Vector2 cameraChange)
     {
-        Debug.Log("Touch move camera movment "+cameraChange);
-        Debug.Log("X movement = "+cameraChange.x+" Total Screen is "+Camera.main.pixelWidth);        
+        //Debug.Log("Touch move camera movment "+cameraChange);
+        //Debug.Log("X movement = "+cameraChange.x+" Total Screen is "+Camera.main.pixelWidth);        
         // Scaling? WHy this number
         Vector2 cameraChangeScaled = cameraChange / Camera.main.pixelWidth * Camera.main.orthographicSize;
         transform.position += (Vector3)cameraChangeScaled;

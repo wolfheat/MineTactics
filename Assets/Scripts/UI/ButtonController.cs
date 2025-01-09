@@ -19,6 +19,7 @@ public class ButtonController : MonoBehaviour
     [SerializeField] GameObject createPanel;
     [SerializeField] GameObject createAButtons;
     [SerializeField] GameObject createBButtons;
+    [SerializeField] RectTransform rect;
 
 
     public static ButtonController Instance { get; private set; }
@@ -121,5 +122,11 @@ public class ButtonController : MonoBehaviour
     public void ResetShowButtons()
     {
         ShowButtons(stateBeforeSettings);
+    }
+
+    internal float Height()
+    {
+        return rect.sizeDelta.y;
+
     }
 }
