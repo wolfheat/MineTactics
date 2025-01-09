@@ -25,6 +25,7 @@ public class GameSettingsData
     public int BoardSize { get; set; } = 6;
     public bool UsePending { get; set; } = true;
     public bool UseRotatedExpert { get; set; } = false;
+    public int Theme { get; set; } = 0;
     public int NormalWon { get; set; } = 0;
     public int NormalLost { get; set; } = 0;    
     public int ChallengeWon { get; set; } = 0;

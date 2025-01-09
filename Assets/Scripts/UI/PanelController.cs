@@ -125,7 +125,7 @@ public class PanelController : MonoBehaviour
             if(sameMode)
                 return;
             BackgroundController.Instance.SetColorNormal(); 
-            LevelCreator.Instance.RestartGame(true);
+            LevelCreator.Instance.RestartGame(false,true);
         }
         else if(type == 1)
         {

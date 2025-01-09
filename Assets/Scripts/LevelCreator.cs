@@ -319,7 +319,7 @@ public class LevelCreator : MonoBehaviour
     {
         Debug.Log("LevelCreator - Play size changed, restarting Game");
         BottomInfoController.Instance.ShowDebugText("Play Size Changing to "+USerInfo.Instance.BoardSize);
-        RestartGame(false);
+        RestartGame(false,true);
     }
 
     public void RestartGame(bool keepZoom = false,bool resetPosition = false)

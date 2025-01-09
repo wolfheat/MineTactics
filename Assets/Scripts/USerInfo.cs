@@ -22,6 +22,7 @@ public class USerInfo : MonoBehaviour
 	public float SensitivityMS => Sensitivity / 100f;
 
 	public bool UsePending { get; set; } = false;
+	public int Theme { get; set; } = 0;
 	public bool UseRotatedExpert { get; set; } = false;
     public bool IsPlayerLoggedIn { get; set; } = false;
 	public bool WaitForFirstMove { get; set; } = true;
@@ -49,8 +50,12 @@ public class USerInfo : MonoBehaviour
         Sensitivity = SavingUtility.gameSettingsData.TouchSensitivity;
 		BoardSize = SavingUtility.gameSettingsData.BoardSize;
 		UsePending = SavingUtility.gameSettingsData.UsePending;
+		Theme = SavingUtility.gameSettingsData.Theme;
 		ActiveCollections = SavingUtility.gameSettingsData.ActiveCollections;
 		InactiveCollections = SavingUtility.gameSettingsData.InactiveCollections;
+
+		ThemePicker.Instance.SetTheme(Theme);
+
 
         BoardSizeChange?.Invoke();
 		// Load Local Collections

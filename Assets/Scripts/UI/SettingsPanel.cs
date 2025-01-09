@@ -57,6 +57,8 @@ public class SettingsPanel : MonoBehaviour
         SavingUtility.gameSettingsData.TouchSensitivity = (int)sensitivitySlider.value;
         SavingUtility.gameSettingsData.UsePending = pendingToggle.isOn;
         SavingUtility.gameSettingsData.UseRotatedExpert = pendingToggle.isOn;
+        SavingUtility.gameSettingsData.Theme = dropDown.value;
+
         SaveSettingsToFile();
 
         // Apply the size settings
@@ -100,6 +102,7 @@ public class SettingsPanel : MonoBehaviour
         sensitivitySlider.value = data.TouchSensitivity;
         slider.value = data.BoardSize;
         pendingToggle.isOn = data.UsePending;
+        dropDown.value = data.Theme;
 
         Debug.Log("Settingspanel set expertRotatedToggle to " + data.UseRotatedExpert);
         expertRotatedToggle.isOn = data.UseRotatedExpert;
