@@ -6,12 +6,30 @@ public class NormalPanelController : MonoBehaviour
 {
     [SerializeField] Slider slider;
     [SerializeField] TextMeshProUGUI boardSizeText;
+    private bool expanded = false;
+    private float heigth;
 
     private void OnEnable()
     {
         // Initiate the Create With start of creat buttons and 
         SetSliderSize();
+        heigth = transform.GetComponent<RectTransform>().rect.height;
     }
+
+    public void ExpandMenu()
+    {
+        Debug.Log("Expand");
+        if (expanded)
+        {
+            transform.localPosition = new Vector3(transform.localPosition.x,transform.localPosition.y - heigth,transform.localPosition.z);
+        }
+        else
+        {
+            transform.localPosition = new Vector3(transform.localPosition.x,transform.localPosition.y + heigth,transform.localPosition.z);
+        }
+        expanded = !expanded;
+    }
+
 
     public void ConfirmSettings()
     {

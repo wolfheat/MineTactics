@@ -234,9 +234,16 @@ Nov 2024
 		* Saving Theme to player file
 9/1		* Added saving for partial Collections completed. Votes and active is now saved to file to keep track of this
 		* Fixed issue with chord not working after changing theme
+		* Fixed unsquare boxes for sprites issue - Added Blind Theme
+		* Background increased to always fill
+		* Added DropDown Sub Menu for Normal games that can be minimized during play
+		* Made exper vertical mode load initially if set in settings
 
+		
 		* Only Allow a player to send Rating the first time they encounter a level?
 		* Issue - with slow loading of levels in collections sometimes, fix?
+		* Buttons hide gameArea during play, manage better
+
 
 		// Moderator Tools
 		* What Creation tools should be allowed for users, and when?

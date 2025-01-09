@@ -50,6 +50,7 @@ public class USerInfo : MonoBehaviour
         Sensitivity = SavingUtility.gameSettingsData.TouchSensitivity;
 		BoardSize = SavingUtility.gameSettingsData.BoardSize;
 		UsePending = SavingUtility.gameSettingsData.UsePending;
+		UseRotatedExpert = SavingUtility.gameSettingsData.UseRotatedExpert;
 		Theme = SavingUtility.gameSettingsData.Theme;
 		ActiveCollections = SavingUtility.gameSettingsData.ActiveCollections;
 		InactiveCollections = SavingUtility.gameSettingsData.InactiveCollections;
