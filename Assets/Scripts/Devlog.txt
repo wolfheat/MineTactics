@@ -232,13 +232,9 @@ Nov 2024
 		* Fixed the issue with Clamping gamearea excluding buttonpanels
 		* Fixed resetting game zoom and position at change mode
 		* Saving Theme to player file
+9/1		* Added saving for partial Collections completed. Votes and active is now saved to file to keep track of this
 
 		* Only Allow a player to send Rating the first time they encounter a level?
-
-		* ISSUE - Might have to handle unloading and reloading a collection when a level is active. This info is never sent to DB until all levels are cleared again.
-		* Issue - Half completed Collection exit handeling -  Currently discarded progress
-		* Handle player exiting middle of a collection. Handle Exit game? Store to file as well so players can continue?
-
 		* Issue - with slow loading of levels in collections sometimes, fix?
 
 		// Moderator Tools

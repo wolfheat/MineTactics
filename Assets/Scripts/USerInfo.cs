@@ -69,7 +69,7 @@ public class USerInfo : MonoBehaviour
 		{
 			Debug.Log("Loading Collection "+collection);
         }
-		FirestoreManager.Instance.ReactivateAllActiveCollectionsToChallengeList();
+		FirestoreManager.Instance.ReactivateAllActiveCollectionsToChallengeList(true);
     }
 
     public void SetUserInfoFromFirebaseUser(Firebase.Auth.FirebaseUser user)

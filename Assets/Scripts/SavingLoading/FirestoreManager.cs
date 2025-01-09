@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Collections;
+using System.Text;
 
 
 [FirestoreData]
@@ -46,6 +47,7 @@ public class LevelDataCollection
     [FirestoreProperty] public int[] Downvotes { get; set; }
     [FirestoreProperty] public int[] PlayCount { get; set; }
     public int[] vote { get; set; }
+    public bool[] active { get; set; }
     public DateTime LastDownload { get; set; }
     public string CollectionName { get; set; } = "";
 }
@@ -96,17 +98,25 @@ public class FirestoreManager : MonoBehaviour
         Debug.Log("");
         Debug.Log("Trying to replace index "+levelIndex+" in collection "+data.Collection+" with "+data?.vote+" collection vote is null: "+(collection.vote==null));
         if(collection.vote == null)
+        {
+            Debug.Log("OBS had to create Collection");
             collection.vote = new int[collection.Level.Length];
+        }
+        if(collection.active == null)
+        {
+            Debug.Log("OBS had to create Collection");
+            collection.active = Enumerable.Repeat(true,collection.Level.Length).ToArray();
+        }
 
         collection.vote[levelIndex] = data.vote;
-        Debug.Log("<-- 1 --> Collection: "+collection.CollectionName+"["+levelIndex+"].vote = "+data.vote);
-        // AUTO ADD ONE PLAYCOUNT WHEN SENDING IN??
 
-        /* OLD SYSTEM
-        collection.Upvotes[levelIndex] =data.Upvotes;
-        collection.Downvotes[levelIndex] =data.Downvotes;
-        collection.PlayCount[levelIndex] =data.PlayCount;
-        */
+        collection.active[levelIndex] = false;
+
+        Debug.Log("<-- 1 --> Collection: "+collection.CollectionName+"["+levelIndex+"].vote = "+data.vote+" Array = "+ArrayToString(collection.vote));
+
+        // Save Collections to file?
+        SavingUtility.Instance.SaveCollectionDataToFile(collection, collection.CollectionName);
+
         return true;
     } 
 
@@ -371,7 +381,7 @@ public class FirestoreManager : MonoBehaviour
         });
     }
 
-    private List<LevelData> ConvertCollectionToLevels(LevelDataCollection levelCollection,string collectionName)
+    private List<LevelData> ConvertCollectionToLevels(LevelDataCollection levelCollection,string collectionName,bool onlyActives = false)
     {
         List<LevelData> ans = new List<LevelData>();
 
@@ -379,6 +389,9 @@ public class FirestoreManager : MonoBehaviour
         // Separate collection into List
         for (int i = 0; i < length; i++)
         {
+            // Skips to add this Level if inactive and requesting only active levels
+            if(onlyActives && ( levelCollection.active!=null && !levelCollection.active[i]))
+                continue;
             ans.Add(new LevelData() { 
                 Level = levelCollection.Level[i],
                 LevelId = levelCollection.LevelId[i],
@@ -724,7 +737,7 @@ public class FirestoreManager : MonoBehaviour
         foreach (var item in LocalCollectionList) { item.Collection = lastSavedCollectionName; }
     }
 
-    internal void ReactivateAllActiveCollectionsToChallengeList()
+    internal void ReactivateAllActiveCollectionsToChallengeList(bool onlyActives = false)
     {
         Debug.Log("** Reactivating Collections from local");
         bool deletedUnavailablesFromList = false;
@@ -735,7 +748,6 @@ public class FirestoreManager : MonoBehaviour
             LevelDataCollection data = LevelDataCollections.ContainsKey(collectionsName)? LevelDataCollections[collectionsName]:SavingUtility.Instance.LoadCollectionDataFromFile(collectionsName);
             
             // If data is not present make a new array for it
-            if(data.vote == null || data.vote.Length == 0) data.vote = new int[data.Level.Length];
 
             if(data == null)
             {
@@ -743,13 +755,30 @@ public class FirestoreManager : MonoBehaviour
                 USerInfo.Instance.ActiveCollections.RemoveAt(i);
             }
             else
-                ActivateAllLevelsFromCollection(data,collectionsName);
+            {
+                if(data.vote == null || data.vote.Length == 0) data.vote = new int[data.Level.Length];
+                else Debug.Log("Reactivating Collection "+collectionsName+" which had vote array defined: "+ArrayToString(data.vote)+" active: "+ ArrayToString(data.active));
+
+                ActivateAllLevelsFromCollection(data,collectionsName,onlyActives);
+            }
         }
         if(deletedUnavailablesFromList)
             SavingUtility.Instance.SaveAllDataToFile(); // Forces local Save of settings
         // Send UpdateNotice
         OnLevelCollectionListChange?.Invoke(-1);
     }
+
+    private string ArrayToString<T>(T[] vote)
+    {
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < vote.Length-1; i++)
+        {
+            sb.Append(vote[i]+",");
+        }
+        sb.Append(vote[vote.Length-1] + "]");
+        return sb.ToString();
+    }
+
     internal void RemoveCollectionFromChallengeList(string collectionName)
     {
 
@@ -785,21 +814,30 @@ public class FirestoreManager : MonoBehaviour
         OnLevelCollectionListItemUpdatedItsCollection?.Invoke(collectionName);// Invoke change of Level amount [-1 = select none]
     }
 
-    private void ActivateAllLevelsFromCollection(LevelDataCollection collection, string collectionName)
+    private void ActivateAllLevelsFromCollection(LevelDataCollection collection, string collectionName,bool onlyActives = false)
     {
-        Debug.Log("*** ActivateAllLevelsFromCollection collection name = "+collection.CollectionName);
+        Debug.Log("*** ActivateAllLevelsFromCollection collection name = "+collection.CollectionName+" onlyactives: "+onlyActives);
         // First Remove all Levels that are allready in this Level list?
         ActiveChallengeLevels = ActiveChallengeLevels.Where(level => level.Collection != collectionName).ToList(); // Removes all levels from this collection
         
         // Convert to Levels
-        List<LevelData> newLevels = ConvertCollectionToLevels(collection, collectionName);
+        List<LevelData> newLevels = ConvertCollectionToLevels(collection, collectionName,onlyActives);
 
         // Add Levels to the list
         ActiveChallengeLevels.AddRange(newLevels);
 
+        if (!onlyActives)
+            collection.active = Enumerable.Repeat(true, collection.Level.Length).ToArray();
+
         // Also Add these so the ChallengeButtonList can be updated
         LevelDataCollections[collectionName] = collection;
-        LevelDataCollections[collectionName].vote = new int[LevelDataCollections[collectionName].Level.Length];        
+
+        if (LevelDataCollections[collectionName].vote == null)
+            LevelDataCollections[collectionName].vote = new int[LevelDataCollections[collectionName].Level.Length];
+
+        // Also Save to file if reactivated all
+        if (!onlyActives)
+            SavingUtility.Instance.SaveCollectionDataToFile(collection, collectionName);
 
     }
     private void DeactivateAllLevelsFromCollection(string collectionName)
