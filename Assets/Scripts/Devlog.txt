@@ -241,10 +241,13 @@ Nov 2024
 		* Added fast Close of menu when new mode is loaded, unless its custom slider
 11/1	* Tried to make build work for 64Bit newer androids
 		* Tried to make UI more responsive to different resolutions
+12/1	* Adjusted boundaries for pan
+		* MOre UI adjustments for responsiveness
 
+		* Issue with OK in register entering game... without any input
+
+		* Issue with moving screen, not stopping at correct positions	
 		
-		* Make sure the game runs on newer mobiles
-
 		* Make it so releasing touch on another box than started still opens that box
 		* Mode where there are guesses but the highest prob are always the mines?
 		

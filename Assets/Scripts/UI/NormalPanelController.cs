@@ -22,7 +22,8 @@ public class NormalPanelController : MonoBehaviour
     {
         // Initiate the Create With start of creat buttons and 
         SetSliderSize();
-    
+        autoClose = StartCoroutine(AutoClose(true));
+
     }
     private void Start()
     {

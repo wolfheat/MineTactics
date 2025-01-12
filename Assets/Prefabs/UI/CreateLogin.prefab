@@ -226,10 +226,10 @@ RectTransform:
   - {fileID: 2146071823190962187}
   m_Father: {fileID: 5180155284351811715}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00026927274, y: -27.174511}
-  m_SizeDelta: {x: 371.651, y: 344.548}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 344.548}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2931994003312912636
 CanvasRenderer:
@@ -693,16 +693,16 @@ RectTransform:
   m_GameObject: {fileID: 4755614136492554027}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.68, y: 0.68, z: 0.68}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1333123667380615242}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00018310547, y: 0}
-  m_SizeDelta: {x: 159.39053, y: 275.0321}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4103126145420558719
 CanvasRenderer:
@@ -755,9 +755,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username_field: {fileID: 7905320585462707770}
+  email_field: {fileID: 0}
   password_field: {fileID: 950888064487596491}
   errorMessage: {fileID: 5725541432947739735}
   submitButton: {fileID: 792154944424466008}
+  adam: {fileID: 0}
 --- !u!1 &4980653891095146674
 GameObject:
   m_ObjectHideFlags: 0

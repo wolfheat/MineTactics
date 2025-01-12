@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] Camera cam;
     [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] float adjust = 0;
 
     [Range(3, 5)]
     [SerializeField] float zoom;
@@ -69,8 +70,10 @@ public class CameraController : MonoBehaviour
         float totalWidthHalf = Camera.main.aspect*totalHeightHalf;
 
         // From top ButtonController size
-        float buttonControllerHeight = ButtonController.Instance.Height() / Camera.main.pixelHeight * Camera.main.orthographicSize*2;
-        float bottomControllerHeight = BottomInfoController.Instance.Height() / Camera.main.pixelHeight * Camera.main.orthographicSize * 2;
+        float buttonControllerHeight = ButtonController.Instance.Height() / Camera.main.pixelHeight * Camera.main.orthographicSize- adjust;
+        //float buttonControllerHeight = ButtonController.Instance.Height() / Camera.main.pixelHeight * Camera.main.orthographicSize*2;
+        float bottomControllerHeight = BottomInfoController.Instance.Height() / Camera.main.pixelHeight * Camera.main.orthographicSize- adjust;
+        //float bottomControllerHeight = BottomInfoController.Instance.Height() / Camera.main.pixelHeight * Camera.main.orthographicSize * 2;
 
         bool boardIsLargerThanCameraX = spriteRenderer.size.x > totalWidthHalf*2;
         bool boardIsLargerThanCameraY = spriteRenderer.size.y > (totalHeightHalf*2-buttonControllerHeight- bottomControllerHeight);
