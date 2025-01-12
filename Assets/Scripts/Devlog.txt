@@ -237,14 +237,70 @@ Nov 2024
 		* Fixed unsquare boxes for sprites issue - Added Blind Theme
 		* Background increased to always fill
 		* Added DropDown Sub Menu for Normal games that can be minimized during play
-		* Made exper vertical mode load initially if set in settings
+		* Made expert vertical mode load initially if set in settings
+		* Added fast Close of menu when new mode is loaded, unless its custom slider
+11/1	* Tried to make build work for 64Bit newer androids
+		* Tried to make UI more responsive to different resolutions
 
+		
+		* Make sure the game runs on newer mobiles
+
+		* Make it so releasing touch on another box than started still opens that box
+		* Mode where there are guesses but the highest prob are always the mines?
 		
 		* Only Allow a player to send Rating the first time they encounter a level?
 		* Issue - with slow loading of levels in collections sometimes, fix?
-		* Buttons hide gameArea during play, manage better
 
+		
+		// Look Into Playtest
 
+		// Minor things
+		* Drinking bounce giving things whouldnt be allowed if full bounce?
+		* The additional clay/stone generated when getting a full success minigame isnt clear. Have it be 100%? Have it given to player directly better or somehow more visual.
+
+		* Have someone directing you to the camp by town to sleep until you get the house sorted?
+		* Have the Bed craftable but only placable inside your house
+		* Sleeping in bed might give a certain benefit
+
+		* At researchtable unlocking platinum shown twice
+
+		* Would be nice with quests that increase players inventory - or getting a backpack etc
+		* Sperrylite mining starts at 3 per hit to much also easy minigame
+
+		// Inputs
+		* Allow TAB out from Town Hall Build Menu	
+		* Purple rain should have a F to show requrements
+		* Would like to add stack with coal etc to smelter by right click
+
+		// Tweaks
+		* Rope and Burlap could take longer to craft
+		* Iron Axe/ Pickaxe should require more than 5 iron	
+		* Bit to low agency requirement for unlocking valley exit
+			
+		// Additional Content
+		* Sheets for Large Chest recipe?
+		* Missing Platinum Axe/Pickaxe recipe	
+
+		// Bugs
+		* Exiting the menu with ESC when the chose amount window is visible, won't close it.
+		* Ramiro and Manuela are not in the valley like ever
+		* Game crashed - after fixing the museum and getting the fix broken pillar quest
+
+		* Ball person Notice of "Manuaela and Ramiros house" - typo? inThimbleton one word
+
+		// Mechanics
+		* Fast double click in mini game should be valid, now a delay is needed
+		* Maybe unlocking stuff in research should be based on amount of total items gathered of a type over time not the amound you got on you?	
+		* Drinking an item (or filling it) if no space for empty bowl/glass should not be allowed rather than sending it to lost and found?
+		* Maybe unlocking a map part should open the map menu automatically?
+		
+
+		// Visuals
+		* Deer keeps moonwalking backwards
+		
+		
+		
+		
 		// Moderator Tools
 		* What Creation tools should be allowed for users, and when?
 
