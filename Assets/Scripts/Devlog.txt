@@ -242,7 +242,8 @@ Nov 2024
 11/1	* Tried to make build work for 64Bit newer androids
 		* Tried to make UI more responsive to different resolutions
 12/1	* Adjusted boundaries for pan
-		* MOre UI adjustments for responsiveness
+		* More UI adjustments for responsiveness
+		* Fixed issue with register panel not showing loader screen or failing
 
 		* Issue with OK in register entering game... without any input
 
