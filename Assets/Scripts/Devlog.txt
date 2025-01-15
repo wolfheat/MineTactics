@@ -244,16 +244,91 @@ Nov 2024
 12/1	* Adjusted boundaries for pan
 		* More UI adjustments for responsiveness
 		* Fixed issue with register panel not showing loader screen or failing
+		* Fixed issue with moving screen, not stopping at correct positions	
+		* Fixes issue with completion texts missaligning
+15/1	* Tried to add Google login to project
 
-		* Issue with OK in register entering game... without any input
 
-		* Issue with moving screen, not stopping at correct positions	
-		
-		* Make it so releasing touch on another box than started still opens that box
-		* Mode where there are guesses but the highest prob are always the mines?
+		-- Makes most sense to have X amount of standard diff level collections which player can pick from as the standard Challenge mode
+
+
+
+		// Responsiveness
+		* Issue with responsive result screens fix later		
+			Result Screens
+			Settings
 		
 		* Only Allow a player to send Rating the first time they encounter a level?
-		* Issue - with slow loading of levels in collections sometimes, fix?
+		* Issue - with slow loading of levels in collections sometimes, fix? Still issue?
+
+		// Moderator Tools
+		* What Creation tools should be allowed for users, and when?
+
+		// Trouble with Id only unique inside each document not both
+
+		// PLAYERSTATS
+		* Add page with statistics for the player?
+			* Total games cleared
+			* Practice levels completed?
+			* Rating?
+				
+		// MODES
+		* Add find missflagged mine Game Mode??				
+		* Have some as Optional - Reasonable - Wishful?
+		* Mode where there are guesses but the highest prob are always the mines?
+		
+		
+		// PAPER
+		* Create Paper on Expected features for the game and Steps to get there?
+
+		// TODO
+		* Fix the error handeling of submitting levels
+
+		// MONITIZATION
+		* How to monitize? Have unlock fee / buying game remove all ads and for rest have x amount of free games before require ad for continueation / or wait.
+
+		// USER EXPERIENCE
+		* Have player be able to favour some levels they want to practice and keep them locally? Have an option to run only favourite levels?
+
+		// RATING
+		* Figure out more exactly how to deal with player ratings and levels ratings.
+		* Have a limit for levels for them to count towards rating? How to set this range?
+
+		// LEVEL COLLECTIONS
+		* Have logic categories for levels? How to handle this, how to handle multiple logics?
+		* Should player have different strengths in different logics and unlocking new ones? Prob not. Just have harder levels not appear for new users
+		
+		// LEVEL CREATION SYSTEM
+		// USER CREATION ALLOWENCE
+		* How about having new Pending levels in a pot where players can play and rate them and after 100 ratings it is ether approved or discarded?
+		* Approved goes into certain Collections? Maybe Monthly new or Weekly?
+		* Initially players get the basic collections maybe 1000 levels? Need to complete them to unlock rest?		
+		
+		// PRO USERS
+		* Maybe only allow paying players to rate and play pending games?
+		* Make it possible to support as patriot, Buy Me a coffie or buying the game / unloading ads 5$?
+		* Make Submit button hide when submitted a level.
+		* Have creator guess a rating 1-10 which determines the levels start rating
+		* Make admin Log in that allowes approved levels directly
+		* Make admin Log in that allows upload of Collections?
+
+		// UI		
+		
+		// AUTHENTICATION
+		* Players need to be able to log in with Facebook/googleaccount
+		* Have Log out use Loadingpanel and show result?
+
+		// FIREBASE LIMITS
+		Monthly active users	50k/month 
+		Stored data 			1 GiB total 
+		Document writes 		20K writes/day 	No-cost up to 20K writes/day Then Google Cloud pricing
+		Document reads 			50K reads/day 	No-cost up to 50K reads/day Then Google Cloud pricing
+		Document deletes 		20K deletes/day No-cost up to 20K deletes/day Then Google Cloud pricing https://firebase.google.com/pricing
+		Outbound data transfer 	10 GiB per month
+		Maximum size for a document 	1 MiB (1,048,576 bytes)
+		Maximum size of a field value 	1 MiB - 89 bytes (1,048,487 bytes)
+		
+
 
 		
 		// Look Into Playtest
@@ -301,74 +376,6 @@ Nov 2024
 
 		// Visuals
 		* Deer keeps moonwalking backwards
-		
-		
-		
-		
-		// Moderator Tools
-		* What Creation tools should be allowed for users, and when?
-
-		// Trouble with Id only unique inside each document not both
-
-		// PLAYERSTATS
-		* Add page with statistics for the player?
-			* Total games cleared
-			* Practice levels completed?
-			* Rating?
-				
-		// MODES
-		* Add find missflagged mine Game Mode??				
-		* Have some as Optional - Reasonable - Wishful?
-		
-		// PAPER
-		* Create Paper on Expected features for the game and Steps to get there?
-
-		// TODO
-		* Fix the error handeling of submitting levels
-
-		// MONITIZATION
-		* How to monitize? Have unlock fee / buying game remove all ads and for rest have x amount of free games before require ad for continueation / or wait.
-
-		// USER EXPERIENCE
-		* Have player be able to favour some levels they want to practice and keep them locally? Have an option to run only favourite levels?
-		* Maybe - Make player unable to load same level again for 20 or 50 levels?
-		* Figure out more exactly how to deal with player ratings and levels ratings.
-		* Have a limit for levels for them to count towards rating? How to set this range?
-		* HAve logic categories for levels? How to handle this, how to handle multiple logics?
-		* Should player have different strengths in different logics and unlocking new ones? Prob not. Just have harder levels not appear for new users
-		
-		// LEVEL CREATION SYSTEM
-		// USER CREATION ALLOWENCE
-		* How about having new Pending levels in a pot where players can play and rate them and after 100 ratings it is ether approved or discarded?
-		* Approved goes into certain Collections? Maybe Monthly new or Weekly?
-		* Initially players get the basic collections maybe 1000 levels? Need to complete them to unlock rest?		
-		
-		// PRO USERS
-		* Maybe only allow paying players to rate and play pending games?
-		* Make it possible to support as patriot, Buy Me a coffie or buying the game / unloading ads 5$?
-		* Make Submit button hide when submitted a level.
-		* Have creator guess a rating 1-10 which determines the levels start rating
-		* Make admin Log in that allowes approved levels directly
-		* Make admin Log in that allows upload of Collections?
-
-		// UI		
-		
-		// AUTHENTICATION
-		* Players need to be able to log in with Facebook/googleaccount
-		* Have Log out use Loadingpanel and show result?
-
-		// FIREBASE LIMITS
-		Monthly active users	50k/month 
-		Stored data 			1 GiB total 
-		Document writes 		20K writes/day 	No-cost up to 20K writes/day Then Google Cloud pricing
-		Document reads 			50K reads/day 	No-cost up to 50K reads/day Then Google Cloud pricing
-		Document deletes 		20K deletes/day No-cost up to 20K deletes/day Then Google Cloud pricing https://firebase.google.com/pricing
-		Outbound data transfer 	10 GiB per month
-		Maximum size for a document 	1 MiB (1,048,576 bytes)
-		Maximum size of a field value 	1 MiB - 89 bytes (1,048,487 bytes)
-		
-
-
 		
 		// LOOK INTO
 		Played your game, latest version got stuck here... https://imgur.com/MahzJjb
@@ -482,6 +489,15 @@ Nov 2024
 		REJECTED
 		
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 		
+
+		CHECKLIST BEFORE RELEASING ON GOOGLE PLAY STORE
+		* Dashboard Updates
+			* Update the Privacy Policy page							- https://wolfheat.github.io/privacyPolicy.html
+			* Update the Instructions for deleting account/data page	- https://wolfheat.github.io/deleteAccount.html
+			* Update the 
+			* Update the Cost for app
+			* Content rating - should
+			* Developer account - contact information
 
 		CHECKLIST FOR BETTER PLAYER EXPERIENCE
 

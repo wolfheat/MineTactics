@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Data.Common;
+using System.Text;
 using TMPro;
 using UnityEngine;
 
@@ -30,7 +33,28 @@ public class BottomInfoController : MonoBehaviour
     }
 
 
-    public void ShowDebugText(string showText) => debugText.text = showText;
+    private const int AmountDebugMessages = 10;
+    private Queue<string> messages = new();
+    public void ShowDebugText(string showText)
+    {
+        if (messages.Count >= AmountDebugMessages)
+            messages.Dequeue();
+
+        messages.Enqueue(showText);
+        // Add messages and show last 10 messages
+        debugText.text = MessagesAsList();
+    }
+
+    private string MessagesAsList()
+    {
+        StringBuilder sb = new();
+        foreach (var message in messages)
+        {
+            sb.AppendLine(message+"\n");
+        }
+        return sb.ToString();
+    }
+
     public void UpdateCollectionSize(int itemToSelect = -1)
     {
         Debug.Log("** Bottom Info - Currently have a total of "+ FirestoreManager.Instance.LoadedAmount+" loaded levels.");

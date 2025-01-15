@@ -94,7 +94,7 @@ public class LoginMenu : MonoBehaviour
     public void OnTryLogin()
     {
         Debug.Log("Name length = "+username_field.text.Length+ "Pass length = " + password_field.text.Length);
-        Debug.Log("Player is trying to log in with name: "+username_field.text+" password: "+password_field.text);
+        Debug.Log("Player is trying to log in with name: "+username_field.text+" password: "+password_field.text);  
         //AuthManager.Instance.SignInPlayerWithUserNameAndPassword(username_field.text,password_field.text);
         errorMessage.text = "Trying to Log In";
         AuthManager.Instance.SignInPlayerEmailAndPassword(email_field.text,password_field.text);
