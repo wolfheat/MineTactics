@@ -269,8 +269,8 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: E:/Unity Projects/#keystore/user.keystore
-  AndroidKeyaliasName: user
+  AndroidKeystoreName: E:/Unity Projects/#keystore/minesweeperTactics.keystore
+  AndroidKeyaliasName: minesweepertactics
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidBuildApkPerCpuArchitecture: 1
   AndroidTVCompatibility: 0

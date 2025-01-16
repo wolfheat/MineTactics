@@ -247,11 +247,28 @@ Nov 2024
 		* Fixed issue with moving screen, not stopping at correct positions	
 		* Fixes issue with completion texts missaligning
 15/1	* Tried to add Google login to project
+		* Fixed so Normal Game button is highlighted when leaving Log in menu
+		* Updated fingerprint
 
 
 		-- Makes most sense to have X amount of standard diff level collections which player can pick from as the standard Challenge mode
 
+		* Implement the new key 
 
+***** KEYSTORE ********************************************************************************************************************************
+		C:\Program Files\Java\jre1.8.0_431\bin>keytool -list -keystore "E:\Unity Projects\#keystore\minesweeperTactics.keystore"
+	Enter keystore password:
+	Keystore type: PKCS12
+	Keystore provider: SunJSSE
+
+	Your keystore contains 1 entry
+
+	minesweepertactics, Jan 15, 2025, PrivateKeyEntry,
+	Certificate fingerprint (SHA-256): 29:1D:FE:9A:50:FA:13:15:CB:FF:3F:BD:9E:39:4B:A0:59:7D:BC:29:F2:A7:F3:B8:4F:B8:D3:AB:A3:9B:73:AB
+
+	Warning:
+	<minesweepertactics> uses the SHA1withRSA signature algorithm which is considered a security risk. This algorithm will be disabled in a future update.
+*************************************************************************************************************************************
 
 		// Responsiveness
 		* Issue with responsive result screens fix later		

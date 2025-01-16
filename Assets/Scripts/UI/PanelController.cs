@@ -211,6 +211,8 @@ public class PanelController : MonoBehaviour
         startMenu.SetActive(false);
         loginMenu.SetActive(false);
         registerMenu.SetActive(false);
+        // Initiate Normal Game Button
+        ButtonController.Instance.ShowButtons(MenuState.Normal);
     }
 
     public void RequestLogOutInitMainMenu()
