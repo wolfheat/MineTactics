@@ -168,7 +168,7 @@ public class Inputs : MonoBehaviour
             BoxClickValidStart = false;
 
         }
-            BottomInfoController.Instance.ShowDebugText("BoxClickValidStart: "+ BoxClickValidStart);
+        //BottomInfoController.Instance.ShowDebugText("BoxClickValidStart: "+ BoxClickValidStart);
 
 
     }

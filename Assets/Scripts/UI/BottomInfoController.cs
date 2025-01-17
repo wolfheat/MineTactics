@@ -17,6 +17,8 @@ public class BottomInfoController : MonoBehaviour
     [SerializeField] TextMeshProUGUI debugText;
     [SerializeField] RectTransform rect;
 
+    private const int AmountDebugMessages = 15;
+    private Queue<string> messages = new();
     public static BottomInfoController Instance { get; private set; }
 
 
@@ -33,8 +35,6 @@ public class BottomInfoController : MonoBehaviour
     }
 
 
-    private const int AmountDebugMessages = 10;
-    private Queue<string> messages = new();
     public void ShowDebugText(string showText)
     {
         if (messages.Count >= AmountDebugMessages)
@@ -50,7 +50,7 @@ public class BottomInfoController : MonoBehaviour
         StringBuilder sb = new();
         foreach (var message in messages)
         {
-            sb.AppendLine(message+"\n");
+            sb.AppendLine(message);
         }
         return sb.ToString();
     }

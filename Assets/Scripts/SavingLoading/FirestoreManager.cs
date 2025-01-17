@@ -128,10 +128,12 @@ public class FirestoreManager : MonoBehaviour
             return;
         }
         Instance = this;
+        BottomInfoController.Instance.ShowDebugText("FireStoreManager - Awake");
     }
 
     private void Start()
     {
+        BottomInfoController.Instance.ShowDebugText("FireStoreManager - Start");
         Debug.Log("** Initiated FireStoreManager **");
         db = FirebaseFirestore.DefaultInstance;
         //Inputs.Instance.Controls.Main.S.performed += SaveToFile;

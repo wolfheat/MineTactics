@@ -38,6 +38,7 @@ public class AuthManager : MonoBehaviour
     }
         private void Start()
         {
+        BottomInfoController.Instance?.ShowDebugText("AuthManager - Start");
             //LevelCreator.Instance.SetAppRef("Run Fix!");
             OnShowInfo?.Invoke("Init A");
             //LevelCreator.Instance.SetAppRef("Run Fix!!");
