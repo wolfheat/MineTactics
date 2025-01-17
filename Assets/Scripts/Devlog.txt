@@ -351,31 +351,6 @@ Nov 2024
 
 
 
-***** KEYSTORE ********************************************************************************************************************************
-		C:\Program Files\Java\jre1.8.0_431\bin>keytool -list -keystore "E:\Unity Projects\#keystore\minesweeperTactics.keystore"
-	Your keystore contains 1 entry
-
-Alias name: minesweepertactics
-Creation date: Jan 15, 2025
-Entry type: PrivateKeyEntry
-Certificate chain length: 1
-Certificate[1]:
-Owner: C=SE, O=WolfheatProduction
-Issuer: C=SE, O=WolfheatProduction
-Serial number: 5640752b
-Valid from: Wed Jan 15 23:11:37 CET 2025 until: Thu Jan 03 23:11:37 CET 2075
-Certificate fingerprints:
-         SHA1: FC:54:07:A2:F8:DE:EF:BE:53:7C:28:1D:5C:A7:72:9E:3D:19:B6:74
-         SHA256: 29:1D:FE:9A:50:FA:13:15:CB:FF:3F:BD:9E:39:4B:A0:59:7D:BC:29:F2:A7:F3:B8:4F:B8:D3:AB:A3:9B:73:AB
-Signature algorithm name: SHA1withRSA (weak)
-Subject Public Key Algorithm: 2048-bit RSA key
-Version: 3
-
-	Warning:
-	<minesweepertactics> uses the SHA1withRSA signature algorithm which is considered a security risk. This algorithm will be disabled in a future update.
-*************************************************************************************************************************************
-		
-
 
 		
 		// Look Into Playtest
