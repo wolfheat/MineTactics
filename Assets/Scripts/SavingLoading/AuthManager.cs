@@ -56,6 +56,8 @@ public class AuthManager : MonoBehaviour
                     Debug.Log("");
                     Debug.Log("");
 
+
+
                     //LevelCreator.Instance.SetAppRef("OK!");
                     // Set a flag here to indicate whether Firebase is ready to use by your app.
                     OnDependenciesSuccess?.Invoke("Success");
@@ -78,7 +80,7 @@ public class AuthManager : MonoBehaviour
         Debug.Log("Register player: "+email+" pass: "+password);
         //password = "TEST123test";
         auth = FirebaseAuth.DefaultInstance;
-        auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
+        auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task => {
             if (task.IsCanceled)
             {
                 //Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
@@ -279,7 +281,7 @@ public class AuthManager : MonoBehaviour
                     DisplayName = userName
                     //PhotoUrl = new System.Uri("https://example.com/jane-q-user/profile.jpg"),
                 };
-                user.UpdateUserProfileAsync(profile).ContinueWith(task => {
+                user.UpdateUserProfileAsync(profile).ContinueWithOnMainThread(task => {
                     if (task.IsCanceled)
                     {
                         Debug.LogError("UpdateUserProfileAsync was canceled.");
@@ -314,7 +316,7 @@ public class AuthManager : MonoBehaviour
         logInEmail = email;
         StartCoroutine(WaitForLogIn());
         auth = FirebaseAuth.DefaultInstance;
-        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
+        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task => {
             if (task.IsCanceled)
             {
                 //Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");

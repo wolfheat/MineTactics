@@ -253,7 +253,26 @@ Nov 2024
 		* got client secret for Oauth
 		* Google Play Logon no longer activates not sure why
 
+		"Exception: Unable to load DLL 'native-googlesignin' Tried to load the following dynamic libraries: Unable to load dynamic library (0x06000000) dlerror() = dlopen failed: library "native-googlesignin' not found"
+
 		
+
+
+		Accepting licenses Android SDK
+		C:\Users\Micael10\AppData\Local\Android\Sdk\cmdline-tools\latest\bin
+		C:\Users\Micael10\AppData\Local\Android\Sdk\tools\bin
+		sdkmanager --licenses
+
+		installed Java v23
+
+		changing environment variables from
+		E:\Unity Projects\#Editors\2022.3.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK
+		to C:\Program Files\Java\jdk-23
+		E:\Unity Projects\#Editors\2022.3.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK
+
+		C:\Program Files\Java\jre1.8.0_431
+
+
 		TODO
 		Start by filling out the needed info in the Google Play Console page
 		https://play.google.com/console/u/0/developers/8419211252620831558/app/4973714629124742289/games/publication

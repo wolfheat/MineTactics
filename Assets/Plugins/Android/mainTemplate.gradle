@@ -1,22 +1,6 @@
 apply plugin: 'com.android.library'
 **APPLY_PLUGINS**
 
-// Google - Add this repositories block at the beginning of the file
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-// Google - Add this repositories block inside or before the `dependencies` block
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 // Android Resolver Dependencies Start
