@@ -68,6 +68,7 @@ public class GoogleSignInManager : MonoBehaviour
         Debug.Log("GoogleSignInManager InitFirebase");
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
+        Debug.Log(" ****** CheckAndFixDependenciesAsync - GoogleSignInManager");
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             if (task.Result == Firebase.DependencyStatus.Available)

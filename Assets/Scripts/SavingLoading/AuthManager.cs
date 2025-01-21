@@ -13,6 +13,8 @@ public class AuthManager : MonoBehaviour
     FirebaseFirestore db;
     FirebaseAuth auth;
     public FirebaseAuth Auth => auth;
+    public bool AuthResolved { get; private set; } = false;
+
     Firebase.FirebaseApp app;
     public static Action RegisterAttemptStarted;
     public static Action<string> RegisterAttemptFailed;
@@ -23,7 +25,6 @@ public class AuthManager : MonoBehaviour
 
     public static Action<string> OnDependenciesSuccess;
     public static Action<string> OnShowInfo;
-
 
     public static AuthManager Instance { get; private set; }
 
@@ -36,40 +37,44 @@ public class AuthManager : MonoBehaviour
         }
         Instance = this;
     }
-        private void Start()
-        {
+    private void Start()
+    {
         BottomInfoController.Instance?.ShowDebugText("AuthManager - Start");
             //LevelCreator.Instance.SetAppRef("Run Fix!");
             OnShowInfo?.Invoke("Init A");
-            //LevelCreator.Instance.SetAppRef("Run Fix!!");
-            Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
-                OnShowInfo?.Invoke("Init B");
-                var dependencyStatus = task.Result;
-                if (dependencyStatus == Firebase.DependencyStatus.Available)
-                {
-                    // Create and hold a reference to your FirebaseApp,
-                    // where app is a Firebase.FirebaseApp property of your application class.
-                    app = Firebase.FirebaseApp.DefaultInstance;
-                    db = FirebaseFirestore.DefaultInstance;
-                    auth = FirebaseAuth.DefaultInstance;
-                    Debug.Log("*** Fixed FirebaseApp Dependencies ***");
-                    Debug.Log("");
-                    Debug.Log("");
+        //LevelCreator.Instance.SetAppRef("Run Fix!!");GoogleSignInManager
+        Debug.Log(" ****** CheckAndFixDependenciesAsync - AuthManager");
+
+        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
+            Firebase.DependencyStatus dependencyStatus = task.Result;
+            OnShowInfo?.Invoke("Init B");
+            if (dependencyStatus == Firebase.DependencyStatus.Available)
+            {
+                // Create and hold a reference to your FirebaseApp,
+                // where app is a Firebase.FirebaseApp property of your application class.
+                app = Firebase.FirebaseApp.DefaultInstance;
+                db = FirebaseFirestore.DefaultInstance;
+                auth = FirebaseAuth.DefaultInstance;
+                AuthResolved = true;
+                Debug.Log("*** Fixed FirebaseApp Dependencies ***");
+                Debug.Log("");
+                Debug.Log("");
 
 
 
-                    //LevelCreator.Instance.SetAppRef("OK!");
-                    // Set a flag here to indicate whether Firebase is ready to use by your app.
-                    OnDependenciesSuccess?.Invoke("Success");
-                }
-                else
-                {
-                    OnDependenciesSuccess?.Invoke("Failed");
-                    //LevelCreator.Instance.SetAppRef("FAIL!");
-                    // Firebase Unity SDK is not safe to use here.
-                }
-            });
-        }
+                //LevelCreator.Instance.SetAppRef("OK!");
+                // Set a flag here to indicate whether Firebase is ready to use by your app.
+                OnDependenciesSuccess?.Invoke("Success");
+            }
+            else
+            {
+                OnDependenciesSuccess?.Invoke("Failed");
+                //LevelCreator.Instance.SetAppRef("FAIL!");
+                // Firebase Unity SDK is not safe to use here.
+            }
+        });
+            
+    }
 
     private string logInEmail = "none@none.com";
     public void RegisterPlayerWithEmailAndPassword(string userName,string email, string password, TextMeshProUGUI resultTextfield = null)

@@ -252,6 +252,10 @@ Nov 2024
 		* Added Oauth for Google Cloud 
 		* got client secret for Oauth
 		* Google Play Logon no longer activates not sure why
+20/1	* Reinstalled Unity Editor to version 2022.3.56f and reset all gradle files.
+		* Fixed small issue with script executing order messing up a call to BottomInfoController from Friebase class
+
+
 
 		"Exception: Unable to load DLL 'native-googlesignin' Tried to load the following dynamic libraries: Unable to load dynamic library (0x06000000) dlerror() = dlopen failed: library "native-googlesignin' not found"
 

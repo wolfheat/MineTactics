@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Firebase.Auth;
 using Firebase.Extensions;
 using Google;
@@ -9,34 +10,55 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
 
-    void Start()
+    public static FirebaseGoogleSignInManager Instance { get; private set; }
+
+    private void Start()
     {
-        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+        if (Instance != null)
         {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
 
-            // Initialize Firebase Auth
-            auth = FirebaseAuth.DefaultInstance;
+        Debug.Log("FirebaseGoogleSignInManager - Start");
+        Debug.Log(" ****** SKIP CheckAndFixDependenciesAsync - FirebaseGoogleSignInManager");
 
-            // Check for an already signed-in user
-            if (auth.CurrentUser != null)
-            {
-                firebaseUser = auth.CurrentUser;
-                Debug.Log($"    Already signed in with Firebase. User: {firebaseUser.DisplayName}");
-                BottomInfoController.Instance.ShowDebugText($"Already signed in with Firebase. User: {firebaseUser.DisplayName}");
-            }
-            else
-            {
-                Debug.Log("No user is signed in.");
-                BottomInfoController.Instance.ShowDebugText("Google - No user is signed in.");
-            }
-            SignInWithGoogle();
-        });
+        StartCoroutine(WaitForAuth());
+
+    }
+
+    private IEnumerator WaitForAuth()
+    {
+        while (AuthManager.Instance == null || !AuthManager.Instance.AuthResolved)
+        {
+            yield return new WaitForSeconds(0.1f);
+            Debug.Log("FirebaseGoogleSignInManager - WaitForAuth");
+        }
+
+        // Initialize Firebase Auth
+        auth = FirebaseAuth.DefaultInstance;
+
+        Debug.Log("FirebaseGoogleSignInManager - Dependencies");
+        // Check for an already signed-in user
+        if (auth.CurrentUser != null)
+        {
+            firebaseUser = auth.CurrentUser;
+            Debug.Log($"    Already signed in with Firebase. User: {firebaseUser.DisplayName}");
+            BottomInfoController.Instance?.ShowDebugText($"Already signed in with Firebase. User: {firebaseUser.DisplayName}");
+        }
+        else
+        {
+            Debug.Log("No user is signed in.");
+            BottomInfoController.Instance?.ShowDebugText("Google - No user is signed in.");
+        }
+        SignInWithGoogle();
     }
 
     public void SignInWithGoogle()
     {
         Debug.Log("Starting Google Sign-In...");
-        BottomInfoController.Instance.ShowDebugText("Google - SignInWithGoogle");
+        BottomInfoController.Instance?.ShowDebugText("Google - SignInWithGoogle");
         GoogleSignInWithFirebase();
     }
 
@@ -55,61 +77,34 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
 
         GoogleSignIn.Configuration = configuration;
 
-
-
-        /*
-
-
-        // Need Google Signin Token here and Access Token to be able to sing into Firebase
-        try
-        {
-            Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(googleIdToken, googleAccessToken);
-            auth.SignInAndRetrieveDataWithCredentialAsync(credential).ContinueWith(task => {
-                if (task.IsCanceled)
-                {
-                    Debug.LogError("SignInAndRetrieveDataWithCredentialAsync was canceled.");
-                    return;
-                }
-                if (task.IsFaulted)
-                {
-                    Debug.LogError("SignInAndRetrieveDataWithCredentialAsync encountered an error: " + task.Exception);
-                    return;
-                }
-
-                Firebase.Auth.AuthResult result = task.Result;
-                Debug.LogFormat("User signed in successfully: {0} ({1})",
-                    result.User.DisplayName, result.User.UserId);
-            });
-        }*/ 
-
-
         // Trigger Google Sign-In
         
         try
         {
-            BottomInfoController.Instance.ShowDebugText("Google - ContinueWith");
-            _ = FirebaseAuth.DefaultInstance;
+            BottomInfoController.Instance?.ShowDebugText("Google - ContinueWith");
+            Debug.Log("GoogleSignIn.DefaultInstance = null ? ="+(GoogleSignIn.DefaultInstance == null));
+
             //GoogleSignIn.DefaultInstance.SignInSilently().ContinueWithOnMainThread(OnGoogleAuthFinished);
             GoogleSignIn.DefaultInstance.SignIn().ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
                 {
-                    BottomInfoController.Instance.ShowDebugText("Google - IsFaulted");
+                    //BottomInfoController.Instance?.ShowDebugText("Google - IsFaulted");
                     Debug.LogError("Google Sign-In failed: " + task.Exception);
                     return;
                 }
 
                 if (task.IsCanceled)
                 {
-                    BottomInfoController.Instance.ShowDebugText("Google - IsCanceled");
+                    //BottomInfoController.Instance?.ShowDebugText("Google - IsCanceled");
                     Debug.Log("Google Sign-In was canceled.");
                     return;
                 }
 
-                BottomInfoController.Instance.ShowDebugText("Google - Successful sign-in, get the ID Token");
+                //BottomInfoController.Instance?.ShowDebugText("Google - Successful sign-in, get the ID Token");
                 // Successful sign-in, get the ID Token
                 Debug.Log("Google Sign-In successful. Authenticating with Firebase...");
-                Debug.Log("Google Sign-In was canceled.");
+                //Debug.Log("Google Sign-In was canceled.");
                 string idToken = task.Result.IdToken;
 
                 // Use ID Token to authenticate with Firebase
@@ -131,7 +126,7 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
         catch (Exception ex)
         {
             Debug.LogError($"SignIn Exception: {ex.Message}");
-            BottomInfoController.Instance.ShowDebugText($"SignIn Exception: {ex.Message}");
+            BottomInfoController.Instance?.ShowDebugText($"SignIn Exception: {ex.Message}");
         }
         
     }

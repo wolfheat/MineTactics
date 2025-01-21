@@ -20730,7 +20730,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 736520035}
-  - component: {fileID: 736520036}
   - component: {fileID: 736520037}
   m_Layer: 0
   m_Name: GoogleManager
@@ -20754,18 +20753,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 489567321}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &736520036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 736520034}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b41a79b52bc14b64089af48616a39ec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &736520037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54590,6 +54577,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 225c51a1-9d44-4dda-b712-5496d8cfeb94
     m_ActionName: UI/Ctrl[/Keyboard/ctrl]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2a24fe81-a69a-42f0-b6fe-92157739985d
+    m_ActionName: Main/Touch2[/Simulated Touchscreen/touch1/press]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4a3c2670-4837-463d-b860-589f32b831b7
+    m_ActionName: Main/TouchPosition1[/Simulated Touchscreen/primaryTouch/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7f7068e6-bbc0-4fc0-8373-41fef57bef35
+    m_ActionName: Main/TouchPosition2[/Simulated Touchscreen/touch1/position]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Main
