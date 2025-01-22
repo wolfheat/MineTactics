@@ -20,12 +20,12 @@ public class Inputs : MonoBehaviour
     public static Action<Vector2> OnMoveCameraMovement;
     
     // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         Debug.Log("** Created Inputs Controller **");
         if (Instance != null)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             return;
         }
         Instance = this;
@@ -40,22 +40,31 @@ public class Inputs : MonoBehaviour
     private void OnEnable()
     {
         Controls.Enable();
-    }
-    private void OnDisable()
-    {
-        Controls.Disable();
-    }
-    private void Start()
-    {
+
         Controls.Main.Mouse.performed += ctx => IsMousePressed = true;
         Controls.Main.Mouse.canceled += ctx => IsMousePressed = false;
 
         Controls.Main.Mouse.started += OnTouchStart;
-            //Controls.Main.Mouse.performed += TouchMove;
+        //Controls.Main.Mouse.performed += TouchMove;
         Controls.Main.Mouse.canceled += OnTouchEnd;
-        Controls.Main.TouchPosition2.performed += OnTouch2Performed;    
-        Controls.Main.TouchPosition2.canceled += OnTouch2Canceled;    
+        Controls.Main.TouchPosition2.performed += OnTouch2Performed;
+        Controls.Main.TouchPosition2.canceled += OnTouch2Canceled;
     }
+    private void OnDisable()
+    {
+        Controls.Disable();
+
+        Controls.Main.Mouse.performed -= ctx => IsMousePressed = true;
+        Controls.Main.Mouse.canceled -= ctx => IsMousePressed = false;
+
+        Controls.Main.Mouse.started -= OnTouchStart;
+        //Controls.Main.Mouse.performed += TouchMove;
+        Controls.Main.Mouse.canceled -= OnTouchEnd;
+        Controls.Main.TouchPosition2.performed -= OnTouch2Performed;
+        Controls.Main.TouchPosition2.canceled -= OnTouch2Canceled;
+    }
+
+
     private void Update()
     {
         UpdateTouchCount();

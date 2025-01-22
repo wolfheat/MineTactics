@@ -20,6 +20,7 @@ public class PanelController : MonoBehaviour
     [SerializeField] TextMeshProUGUI modeText;
 
     [SerializeField] GameObject startMenu;
+    [SerializeField] GameObject loginSelectMenu;
     [SerializeField] GameObject loginMenu;
     [SerializeField] GameObject registerMenu;
     [SerializeField] LocalLevelsPanel localLevelPanel;
@@ -204,9 +205,17 @@ public class PanelController : MonoBehaviour
         localLevelPanel.ShowPanel();
         //localLevelPanel.UpdatePanel();
     }
+       
+    public void RequestSignInWithGoogle()
+    {
+        Debug.Log("RequestSignInWithGoogle");
+        FindFirstObjectByType<FirebaseGoogleSignInManager>().RequestSignInWithGoogle();
+    }
         
     public void LoginConfirmed()
     {
+        Debug.Log("** Recieve Invoked OnSuccessfulLogIn - in PanelController");
+
         //ToggleMenuButtons(true);
         startMenu.SetActive(false);
         loginMenu.SetActive(false);

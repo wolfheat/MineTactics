@@ -479,6 +479,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1072298793}
   - component: {fileID: 1072298794}
+  - component: {fileID: 1072298795}
   m_Layer: 0
   m_Name: GoogleManager (1)
   m_TagString: Untagged
@@ -513,6 +514,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 942bc80297802424d9e7989cdf271818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1072298795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072298791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8233e2c0b41aed4b8d5f3c07673f7bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  googleClientDataObject: {fileID: 11400000, guid: da446a30567cbc746b37d772e109aef5, type: 2}
+  googleClientDataObjectEditorOnly: {fileID: 11400000, guid: 692a2e9c9df4e8b418e430d5e5f1216a, type: 2}
 --- !u!1 &1828193695
 GameObject:
   m_ObjectHideFlags: 0

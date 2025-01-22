@@ -85,6 +85,8 @@ public class LoginMenu : MonoBehaviour
     
     private void OnSuccessfulLogIn()
     {
+        Debug.Log("** Recieve Invoked OnSuccessfulLogIn - in LoginMenu");
+
         Debug.Log("Successfully Logged in User from " + this.name);
         CloseMenu();
         // PLayer is logged in just close the menues

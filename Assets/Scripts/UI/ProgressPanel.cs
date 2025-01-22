@@ -1,4 +1,6 @@
-﻿using TMPro;
+﻿using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public enum LoadingState{LogIn,Register,SubmitLevel,LoadingLevels,LoadingLevelsFailed}
@@ -96,9 +98,17 @@ public class ProgressPanel : MonoBehaviour
 
     private void OnSuccessfulLogIn()
     {
+        Debug.Log("** Recieve Invoked OnSuccessfulLogIn - in ProgressPanel");
+
         Debug.Log("Signed In success - Close the Loader Menu");
         LevelCreator.Instance.OnPlayerSignedInSuccess();
-        gameObject.SetActive(false);
+        StartCoroutine(DelayedDisable());
+    }
+
+    private IEnumerator DelayedDisable()
+    {
+        yield return new WaitForSeconds(1);
+        gameObject.SetActive(false);        
     }
 
     public void OnSubmitLevelStarted()

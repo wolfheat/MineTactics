@@ -1,14 +1,18 @@
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Extensions;
 using Google;
+using i5.Toolkit.Core.OpenIDConnectClient;
+using i5.Toolkit.Core.ServiceCore;
 using UnityEngine;
 
 public class FirebaseGoogleSignInManager : MonoBehaviour
 {
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
+    [SerializeField] private GoogleSignInOAuth googleSignInOAuth;
 
     public static FirebaseGoogleSignInManager Instance { get; private set; }
 
@@ -24,8 +28,7 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
         Debug.Log("FirebaseGoogleSignInManager - Start");
         Debug.Log(" ****** SKIP CheckAndFixDependenciesAsync - FirebaseGoogleSignInManager");
 
-        StartCoroutine(WaitForAuth());
-
+        StartCoroutine(WaitForAuth());        
     }
 
     private IEnumerator WaitForAuth()
@@ -40,6 +43,9 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
         auth = FirebaseAuth.DefaultInstance;
 
         Debug.Log("FirebaseGoogleSignInManager - Dependencies");
+        Debug.Log(" **  Google - check Firebase Aut ID: "+auth.CurrentUser?.UserId);
+
+
         // Check for an already signed-in user
         if (auth.CurrentUser != null)
         {
@@ -52,18 +58,96 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
             Debug.Log("No user is signed in.");
             BottomInfoController.Instance?.ShowDebugText("Google - No user is signed in.");
         }
-        SignInWithGoogle();
+        Debug.Log(" ---- RUN SignInWithGoogle ----");
+        AuthResolved = true;
     }
 
-    public void SignInWithGoogle()
+    public bool AuthResolved = false;
+    public void RequestSignInWithGoogle()
     {
-        Debug.Log("Starting Google Sign-In...");
-        BottomInfoController.Instance?.ShowDebugText("Google - SignInWithGoogle");
-        GoogleSignInWithFirebase();
+        _ = SignInWithGoogle();
+    }
+
+    public async Task SignInWithGoogle()
+    {
+        ServiceManager.GetService<OpenIDConnectService>().LoginCompleted += OnLoginCompleted;
+
+        await ServiceManager.GetService<OpenIDConnectService>().OpenLoginPageAsync();
+    }
+    AuthResult result = null;
+    private void LoginComplete(AuthResult result)
+    {
+        Debug.Log(" - Login Complete -");
+        Debug.Log(" ... User Signed in as: " + result.User.DisplayName + " | " + result.User.UserId);
+        if (FindFirstObjectByType<AuthManager>() == null) Debug.Log("AuthManger = Null");
+        FindFirstObjectByType<AuthManager>().SetCredentialsAndLoadMainGame(result);
+
+        Debug.Log(" ... Calling AutManager OnSuccessfulLogIn");
+        // HAve the progress show the result from the login attempt now
+        AuthManager.OnSuccessfulLogIn?.Invoke();
+    }
+
+
+
+    private void OnLoginCompleted(object sender, EventArgs e)
+    {
+        Debug.Log(" ---- Login Completed ----");
+        string accessToken = ServiceManager.GetService<OpenIDConnectService>().AccessToken;
+        Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(null, accessToken);
+        auth.SignInAndRetrieveDataWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled)
+            {
+
+                Debug.Log("Sign-in was canceled");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+
+                Debug.Log("Sign-in was faulted "+task.Exception);
+                return;
+            }
+            LoginComplete(task.Result);
+
+        });
+    }
+
+    /// <summary>
+    /// OLD VERSIONS OF THE SIGN IN
+    /// </summary>
+    /// <param name="task"></param>
+    private void GoogleAuthProviderSignInWithFirebase(Task<GoogleSignInUser> task)
+    {
+        Debug.Log("** Start of new GoogleAuthProviderSignInWithFirebase method");
+        string googleIdToken = task.Result.IdToken;
+        string googleAccessToken = "";
+
+        Debug.Log("* ID token and ResultToken aquired: "+googleIdToken);
+
+            
+        Credential credential = GoogleAuthProvider.GetCredential(googleIdToken, googleAccessToken);
+        auth.SignInAndRetrieveDataWithCredentialAsync(credential).ContinueWith(task => {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInAndRetrieveDataWithCredentialAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInAndRetrieveDataWithCredentialAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            Firebase.Auth.AuthResult result = task.Result;
+            Debug.LogFormat("User signed in successfully: {0} ({1})",
+                result.User.DisplayName, result.User.UserId);
+        });
     }
 
     private void GoogleSignInWithFirebase()
     {
+        Debug.Log("** Start of old GoogleSignInWithFirebase method");
         // Replace with your Web Client ID
         string webClientId = "623452355834-4o5t6qte51usb4a1epa4f83i1vnv3afh.apps.googleusercontent.com";
 
@@ -76,17 +160,21 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
         };
 
         GoogleSignIn.Configuration = configuration;
+        Debug.Log("Created Google Signin Configuration");
 
+        Debug.Log("GoogleSignIn.DefaultInstance=null? " + GoogleSignIn.DefaultInstance == null);
+
+        /*
         // Trigger Google Sign-In
-        
         try
         {
-            BottomInfoController.Instance?.ShowDebugText("Google - ContinueWith");
-            Debug.Log("GoogleSignIn.DefaultInstance = null ? ="+(GoogleSignIn.DefaultInstance == null));
+            //BottomInfoController.Instance?.ShowDebugText("Google - ContinueWith");
+            Debug.Log(" *** GoogleSignIn.DefaultInstance = null ? ="+(GoogleSignIn.DefaultInstance == null));
 
             //GoogleSignIn.DefaultInstance.SignInSilently().ContinueWithOnMainThread(OnGoogleAuthFinished);
             GoogleSignIn.DefaultInstance.SignIn().ContinueWithOnMainThread(task =>
             {
+                Debug.Log(" * Google Sign-In complete.");
                 if (task.IsFaulted)
                 {
                     //BottomInfoController.Instance?.ShowDebugText("Google - IsFaulted");
@@ -128,7 +216,7 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
             Debug.LogError($"SignIn Exception: {ex.Message}");
             BottomInfoController.Instance?.ShowDebugText($"SignIn Exception: {ex.Message}");
         }
-        
+        */
     }
 
 }

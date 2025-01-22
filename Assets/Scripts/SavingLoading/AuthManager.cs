@@ -43,7 +43,7 @@ public class AuthManager : MonoBehaviour
             //LevelCreator.Instance.SetAppRef("Run Fix!");
             OnShowInfo?.Invoke("Init A");
         //LevelCreator.Instance.SetAppRef("Run Fix!!");GoogleSignInManager
-        Debug.Log(" ****** CheckAndFixDependenciesAsync - AuthManager");
+        Debug.Log(" ****** CheckAndFixDependenciesAsync - AuthManager "+gameObject.GetInstanceID(),this);
 
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
             Firebase.DependencyStatus dependencyStatus = task.Result;
@@ -390,15 +390,35 @@ public class AuthManager : MonoBehaviour
         }
         else
         {
-            USerInfo.Instance.SetUserInfoFromFirebaseUser(auth.CurrentUser);
-
-            // Set the playerName in Stats and Save file
-            SavingUtility.gameSettingsData.PlayerName = auth.CurrentUser.DisplayName;
-            Debug.Log("** ** Setting Playername in gamesettingsdata to " + SavingUtility.gameSettingsData.PlayerName);
-
-            Debug.Log("Display Players name");
-            OnSuccessfulLogIn?.Invoke();
+            SetCredentialsAndLoadMainGame();
         }
+    }
+
+    public void SetCredentialsAndLoadMainGame(AuthResult result)
+    {
+        Debug.Log("-- SetCredentialsAndLoadMainGame (with google auth result) for UID:"+gameObject.GetInstanceID());
+
+        USerInfo.Instance.SetUserInfoFromFirebaseUser(result.User);
+
+        // Set the playerName in Stats and Save file
+        SavingUtility.gameSettingsData.PlayerName = result.User.DisplayName;
+        Debug.Log("** ** Setting Playername in gamesettingsdata to " + SavingUtility.gameSettingsData.PlayerName);
+
+        LevelCreator.Instance.OnPlayerSignedInSuccess();
+        OnSuccessfulLogIn?.Invoke();
+    }
+    public void SetCredentialsAndLoadMainGame()
+    {
+        Debug.Log("-- SetCredentialsAndLoadMainGame");
+        USerInfo.Instance.SetUserInfoFromFirebaseUser(auth.CurrentUser);
+
+        // Set the playerName in Stats and Save file
+        SavingUtility.gameSettingsData.PlayerName = auth.CurrentUser.DisplayName;
+        Debug.Log("** ** Setting Playername in gamesettingsdata to " + SavingUtility.gameSettingsData.PlayerName);
+
+
+        LevelCreator.Instance.OnPlayerSignedInSuccess();
+        OnSuccessfulLogIn?.Invoke();
     }
 
     public void LogOut() => auth?.SignOut();

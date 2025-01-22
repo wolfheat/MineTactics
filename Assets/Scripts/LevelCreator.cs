@@ -14,7 +14,6 @@ public class LevelCreator : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI amtText;
     [SerializeField] private TextMeshProUGUI playerIDText;
-    [SerializeField] private TextMeshProUGUI playerIDText2;
     [SerializeField] private TextMeshProUGUI appRef;
 
     //[SerializeField] private GameBox mineBoxPrefab;
@@ -90,10 +89,19 @@ public class LevelCreator : MonoBehaviour
         //gameArea.RestartGame();
 
         // Add size change listener
-        
+        Debug.Log(" -- Registrating OnPlayerSignedInSuccess -- In Level Creator -- " + gameObject.GetInstanceID(), this);
         //FirestoreManager.LoadComplete += OnLoadLevelComplete;
         AuthManager.OnSuccessfulLogIn += OnPlayerSignedInSuccess;
+        FirestoreManager.SubmitLevelAttemptSuccess += OnPlayerSignedInSuccess;
         USerInfo.BoardSizeChange += OnPlaySizeChange;
+    }
+    private void OnDisable()
+    {
+        Debug.Log(" -- OnDisable Level Creator -- ");
+
+        AuthManager.OnSuccessfulLogIn -= OnPlayerSignedInSuccess;
+        FirestoreManager.SubmitLevelAttemptSuccess -= OnPlayerSignedInSuccess;
+        USerInfo.BoardSizeChange -= OnPlaySizeChange;
     }
 
     public void SetAppRef(string s) => appRef.text = s;
@@ -206,19 +214,24 @@ public class LevelCreator : MonoBehaviour
         FirestoreManager.Instance.LoadDownloadedLevel();
     }
 
-
-    public void PrintPlayerID(string playerID)
+    public void OnPlayerSignedInSuccessTest()
     {
-        playerIDText2.text = playerID;
+        Debug.Log("** Running OnPlayerSignedInSuccessTest - in LevelCreator");
     }
     
     public void OnPlayerSignedInSuccess()
     {
-        playerIDText.text = USerInfo.Instance.userName;        
+        Debug.Log("** Running directly OnSuccessfulLogIn - in LevelCreator");
+
+        Debug.Log("Display Players name "+ USerInfo.Instance.userName);
+        playerIDText.text = USerInfo.Instance.userName;      
+        Debug.Log("Display name: "+ playerIDText.text);
+        
     }
     
     public void OnPlayerSignedOut()
     {
+        Debug.Log("** Anonymous - in LevelCreator");
         playerIDText.text = "Anonymous";        
     }
 

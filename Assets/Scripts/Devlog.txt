@@ -253,13 +253,39 @@ Nov 2024
 		* got client secret for Oauth
 		* Google Play Logon no longer activates not sure why
 20/1	* Reinstalled Unity Editor to version 2022.3.56f and reset all gradle files.
-		* Fixed small issue with script executing order messing up a call to BottomInfoController from Friebase class
+		* Fixed small issue with script executing order messing up a call to BottomInfoController from Firebase class
+21/1	* Reimported google-signin-plugin-1.0.4 - stopped crashing
+22/1	* Got OAuth to work as login
+		* Made error where not able to reach Auth from within google login work, added ContinueOnMainThread
 
 
+		* Setting the E:\Unity Projects\GitHub\MineTacticsB\Assets\GoogleSignIn\Editor\m2repository\com\google\signin\google-signin-support\1.0.4
+		google-signin-support-1.0.4 setting to be used on Android crashes it again
+
+		* removed the aar extensions only no change
+		* only keeping the aar extensions -crash
+
+		* Game crashes when ticking the box for Android use in the aar file
+		* If its not ticked I can read the DLL error and the game keeps working. When ticked it crashes before I can read any error
+
+		 - GoogleSignInSupportDependencies.xml from folder E:\Unity Projects\GitHub\MineTacticsB\Assets\GoogleSignIn\Editor
+		* Trying to remove the GoogleSignInSupportDependencies.xml file and moving the aar fie to the main Plugins folder
 
 		"Exception: Unable to load DLL 'native-googlesignin' Tried to load the following dynamic libraries: Unable to load dynamic library (0x06000000) dlerror() = dlopen failed: library "native-googlesignin' not found"
 
-		
+		** || ** Using OAUTH 2.0
+
+		Making a OAuth Consent Screen
+		Adding Credential
+
+		Used video https://www.youtube.com/watch?v=OCCe1TXDEq8
+
+		Getting Unsupported request when opening OAuth page for logon
+
+
+
+		Webpage
+		https://wolfheat.github.io/privacyPolicy.html
 
 
 		Accepting licenses Android SDK
