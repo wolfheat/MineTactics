@@ -212,6 +212,11 @@ public class PanelController : MonoBehaviour
         FindFirstObjectByType<FirebaseGoogleSignInManager>().RequestSignInWithGoogle();
     }
         
+    public void RequestSignInWithFacebook()
+    {
+        Debug.Log("RequestSignInWithFaceBook");        
+    }
+        
     public void LoginConfirmed()
     {
         Debug.Log("** Recieve Invoked OnSuccessfulLogIn - in PanelController");

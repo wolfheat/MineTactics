@@ -257,6 +257,8 @@ Nov 2024
 21/1	* Reimported google-signin-plugin-1.0.4 - stopped crashing
 22/1	* Got OAuth to work as login
 		* Made error where not able to reach Auth from within google login work, added ContinueOnMainThread
+		* Added Facebook APK and a facebook button
+		* Fixed some functionality in the Login Menus
 
 
 		* Setting the E:\Unity Projects\GitHub\MineTacticsB\Assets\GoogleSignIn\Editor\m2repository\com\google\signin\google-signin-support\1.0.4

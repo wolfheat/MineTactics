@@ -39,6 +39,7 @@ public class AuthManager : MonoBehaviour
     }
     private void Start()
     {
+        Firebase.FirebaseApp.Create();
         BottomInfoController.Instance?.ShowDebugText("AuthManager - Start");
             //LevelCreator.Instance.SetAppRef("Run Fix!");
             OnShowInfo?.Invoke("Init A");
