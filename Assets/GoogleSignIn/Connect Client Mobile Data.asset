@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Connect Client Mobile Data
   m_EditorClassIdentifier: 
   clientData:
-    clientId: '623452355834-fge32okc3tm6hkdg7a8mpljei9hn00mv.apps.googleusercontent.com '
+    clientId: 623452355834-fge32okc3tm6hkdg7a8mpljei9hn00mv.apps.googleusercontent.com
     clientSecret: 

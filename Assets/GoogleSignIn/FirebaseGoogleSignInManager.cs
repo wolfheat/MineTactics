@@ -12,7 +12,6 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
 {
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
-    [SerializeField] private GoogleSignInOAuth googleSignInOAuth;
 
     public static FirebaseGoogleSignInManager Instance { get; private set; }
 
@@ -59,10 +58,8 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
             BottomInfoController.Instance?.ShowDebugText("Google - No user is signed in.");
         }
         Debug.Log(" ---- RUN SignInWithGoogle ----");
-        AuthResolved = true;
     }
 
-    public bool AuthResolved = false;
     public void RequestSignInWithGoogle()
     {
         _ = SignInWithGoogle();

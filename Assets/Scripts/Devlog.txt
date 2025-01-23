@@ -259,8 +259,18 @@ Nov 2024
 		* Made error where not able to reach Auth from within google login work, added ContinueOnMainThread
 		* Added Facebook APK and a facebook button
 		* Fixed some functionality in the Login Menus
+23/1	* Disabled Jetifier in Android Resolve settings
 
 
+		// TODO
+		* Implement Facebook login
+
+		* Figure out Account linking?
+
+
+
+
+		// Google signin issues //
 		* Setting the E:\Unity Projects\GitHub\MineTacticsB\Assets\GoogleSignIn\Editor\m2repository\com\google\signin\google-signin-support\1.0.4
 		google-signin-support-1.0.4 setting to be used on Android crashes it again
 
