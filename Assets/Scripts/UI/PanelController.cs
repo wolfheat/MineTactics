@@ -214,7 +214,8 @@ public class PanelController : MonoBehaviour
         
     public void RequestSignInWithFacebook()
     {
-        Debug.Log("RequestSignInWithFaceBook");        
+        Debug.Log("RequestSignInWithFaceBook");     
+        FindFirstObjectByType<FirebaseFacebookSignInManager>().RequestSignInWithFacebook();
     }
         
     public void LoginConfirmed()

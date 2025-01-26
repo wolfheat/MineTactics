@@ -260,7 +260,14 @@ Nov 2024
 		* Added Facebook APK and a facebook button
 		* Fixed some functionality in the Login Menus
 23/1	* Disabled Jetifier in Android Resolve settings
+25/1	* Implemented Facebook log-in
 
+
+		* Make player able to log in and pick a username - dont have to use their main name from Facebook or Google!
+
+
+
+		Changing teh com.WolfheatProduction.MineTactics to i5 makes the login blocked auth access
 
 		// TODO
 		* Implement Facebook login
@@ -268,9 +275,39 @@ Nov 2024
 		* Figure out Account linking?
 
 
+		* Generating ssl developement code
+
+		E:\Unity Projects\#Assets\FacebookTools\openssl-0.9.8k_X64
+
+		E:\Unity Projects\#Assets\FacebookTools\openssl-0.9.8k_X64\bin\openssl
+		E:\Unity Projects\#keystore\user.keystore
+
+Windows
+You will need the following:
+Key and Certificate Management Tool (keytool) from the Java Development Kit
+openssl-for-windows openssl library for Windows from the Google Code Archive
+To generate a development key hash, run the following command in a command prompt in the Java SDK folder: 
+
+keytool -exportcert -alias androiddebugkey -keystore "E:\Unity Projects\#keystore\user.keystore" | "E:\Unity Projects\#Assets\FacebookTools\openssl-0.9.8k_X64\bin\openssl" sha1 -binary | "E:\Unity Projects\#Assets\FacebookTools\openssl-0.9.8k_X64\bin\openssl" base64
 
 
-		// Google signin issues //
+		Facebook Access Token - EAAHYxUcklsYBO86pPRZB8ttzrUqfM7DlzFXZAxssPZAKVxli1hZCE7kp59ALLsII8wxMHa3MQYdZBjr5vKoIX4YgRKX1wf1O9gHBGVzFjeAMt1rGr86fA9CuV22MyFlC2sV7GOa3Y6bBbZAnek1wVrTTjmjW3ZAAvRj6aHt2Ewkq7LAk1Px6VMZAZCs0GQEq3XsU0dIGvVPGJEkGhfUZB7ZBzK8tiHyW5ynJntcAg7as4QLF2GwTnuQGXqm3wZAfZB31PoEkFFQJAgbxp
+
+
+		Development key
+keytool -exportcert -alias androiddebugkey -keystore "C:\Users\USERNAME\.android\debug.keystore" | "PATH_TO_OPENSSL_LIBRARY\bin\openssl" sha1 -binary | "PATH_TO_OPENSSL_LIBRARY\bin\openssl" base64
+
+
+
+		Release Key
+		      
+keytool -exportcert -alias YOUR_RELEASE_KEY_ALIAS -keystore YOUR_RELEASE_KEY_PATH | openssl sha1 -binary | openssl base64
+
+Copy Code
+This will generate a 28-character string that you should copy and paste into the field below. Also, see the Android documentation for signing your apps. 
+
+
+		// Google signin issues - OLD //
 		* Setting the E:\Unity Projects\GitHub\MineTacticsB\Assets\GoogleSignIn\Editor\m2repository\com\google\signin\google-signin-support\1.0.4
 		google-signin-support-1.0.4 setting to be used on Android crashes it again
 
@@ -284,6 +321,7 @@ Nov 2024
 		* Trying to remove the GoogleSignInSupportDependencies.xml file and moving the aar fie to the main Plugins folder
 
 		"Exception: Unable to load DLL 'native-googlesignin' Tried to load the following dynamic libraries: Unable to load dynamic library (0x06000000) dlerror() = dlopen failed: library "native-googlesignin' not found"
+		// Google signin issues - OLD END //
 
 		** || ** Using OAUTH 2.0
 

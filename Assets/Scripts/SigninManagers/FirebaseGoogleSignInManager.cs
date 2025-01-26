@@ -7,7 +7,6 @@ using Google;
 using i5.Toolkit.Core.OpenIDConnectClient;
 using i5.Toolkit.Core.ServiceCore;
 using UnityEngine;
-
 public class FirebaseGoogleSignInManager : MonoBehaviour
 {
     private FirebaseAuth auth;
@@ -27,7 +26,8 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
         Debug.Log("FirebaseGoogleSignInManager - Start");
         Debug.Log(" ****** SKIP CheckAndFixDependenciesAsync - FirebaseGoogleSignInManager");
 
-        StartCoroutine(WaitForAuth());        
+        StartCoroutine(WaitForAuth());
+
     }
 
     private IEnumerator WaitForAuth()
@@ -85,6 +85,27 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
     }
 
 
+    private void GoogleLoginCompleteCreateFirebaseUser()
+    {
+        Firebase.Auth.Credential credential =
+        Firebase.Auth.GoogleAuthProvider.GetCredential("googleIdToken", "googleAccessToken");
+        auth.SignInAndRetrieveDataWithCredentialAsync(credential).ContinueWith(task => {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInAndRetrieveDataWithCredentialAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInAndRetrieveDataWithCredentialAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            Firebase.Auth.AuthResult result = task.Result;
+            Debug.LogFormat("User signed in successfully: {0} ({1})",
+                result.User.DisplayName, result.User.UserId);
+        });
+    }
 
     private void OnLoginCompleted(object sender, EventArgs e)
     {

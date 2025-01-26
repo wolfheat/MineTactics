@@ -20,28 +20,36 @@ public class GoogleSignInOAuth : BaseServiceBootstrapper
     {
         OpenIDConnectService oidc = new OpenIDConnectService();
 
+        
         // Deep Linking
         DeepLinkingService service = new DeepLinkingService();
         service.AddDeepLinkListener(this);
         ServiceManager.RegisterService(service);
         
+        
         oidc.OidcProvider = new GoogleOidcProvider();
 
+        // Unity Activate of Deep Link?
+        Debug.Log("Deep Link URL (Application.absoluteURL) = "+ Application.absoluteURL);
+        
 
 #if !UNITY_EDITOR
         oidc.OidcProvider.ClientData = googleClientDataObject.clientData;
-        // Deep linking
-        // If App is installed Take to specific app content - else - Take to store to download app
-        oidc.RedirectURI = "com.WolfheatProduction.MineTactics:/returnLink";
-
+        oidc.RedirectURI = "com.WolfheatProduction.MineTactics:/";        
 #else
         oidc.OidcProvider.ClientData = googleClientDataObjectEditorOnly.clientData;
         oidc.RedirectURI = "";
         //oidc.RedirectURI = "https://wolfheat.github.io/privacyPolicy.html";
-        oidc.ServerListener.ListeningUri = "http://127.0.0.1:65192/";
 #endif
+        oidc.ServerListener.ListeningUri = "http://127.0.0.1:65192/";
         ServiceManager.RegisterService(oidc);
 
+    }
+
+    private void OnDeepLinkActivated(string url)
+    {
+        Debug.Log(" ***** On Deep Link Activated *****");
+        Debug.Log(" ***** URL = "+url);
     }
 
     protected override void UnRegisterServices()

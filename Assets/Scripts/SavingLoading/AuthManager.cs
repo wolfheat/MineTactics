@@ -395,19 +395,21 @@ public class AuthManager : MonoBehaviour
         }
     }
 
-    public void SetCredentialsAndLoadMainGame(AuthResult result)
+    public void SetCredentialsAndLoadMainGame(FirebaseUser user)
     {
         Debug.Log("-- SetCredentialsAndLoadMainGame (with google auth result) for UID:"+gameObject.GetInstanceID());
 
-        USerInfo.Instance.SetUserInfoFromFirebaseUser(result.User);
+        USerInfo.Instance.SetUserInfoFromFirebaseUser(user);
 
         // Set the playerName in Stats and Save file
-        SavingUtility.gameSettingsData.PlayerName = result.User.DisplayName;
+        SavingUtility.gameSettingsData.PlayerName = user.DisplayName;
         Debug.Log("** ** Setting Playername in gamesettingsdata to " + SavingUtility.gameSettingsData.PlayerName);
 
         LevelCreator.Instance.OnPlayerSignedInSuccess();
         OnSuccessfulLogIn?.Invoke();
     }
+    public void SetCredentialsAndLoadMainGame(AuthResult result) => SetCredentialsAndLoadMainGame(result.User);
+
     public void SetCredentialsAndLoadMainGame()
     {
         Debug.Log("-- SetCredentialsAndLoadMainGame");
