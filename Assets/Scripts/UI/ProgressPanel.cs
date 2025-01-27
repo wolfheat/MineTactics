@@ -54,6 +54,14 @@ public class ProgressPanel : MonoBehaviour
         subText.text = "Failed to log in!";
     }
 
+    public void OnGooglePlayGamesError()
+    {
+        ShowLoadingCircleAnimation(false);
+        Debug.Log("Progress Panel - OnGooglePLayGamesError");
+        // Set Name to Regitrating
+        headerText.text = "Login Failed";
+        subText.text = "Could not log in with Google Play Games.";
+    }
     public void OnRegisterStarted()
     {
         currentState = LoadingState.Register;

@@ -212,6 +212,14 @@ public class PanelController : MonoBehaviour
         FindFirstObjectByType<FirebaseGoogleSignInManager>().RequestSignInWithGoogle();
     }
         
+    public void RequestSignInWithGooglePlay()
+    {
+        Debug.Log("RequestSignInWithGoogle-Play");
+        //FindFirstObjectByType<FirebaseGoogleSignInManager>().RequestSignInWithGoogle();
+
+        FindFirstObjectByType<FirebaseGooglePlaySignInManager>().Authenticate();
+    }
+        
     public void RequestSignInWithFacebook()
     {
         Debug.Log("RequestSignInWithFaceBook");     
