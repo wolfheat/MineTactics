@@ -24,9 +24,6 @@ dependencyResolutionManagement {
         maven {
             url (unityProjectPath + "/Assets/GoogleSignIn/Editor/m2repository") // Assets/GoogleSignIn/Editor/GoogleSignInSupportDependencies.xml:9
         }
-	maven {
-            url (unityProjectPath + "/Assets/GeneratedLocalRepo/GoogleSignIn/Editor/m2repository") // Assets/GoogleSignIn/Editor/GoogleSignInSupportDependencies.xml:9
-        }
         mavenLocal()
 // Android Resolver Repos End
         flatDir {

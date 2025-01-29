@@ -261,8 +261,13 @@ Nov 2024
 		* Fixed some functionality in the Login Menus
 23/1	* Disabled Jetifier in Android Resolve settings
 25/1	* Implemented Facebook log-in
+28/1	* Added custom pro guard file with info: -keep class com.facebook.** { *; }"
+		* Made Facebook Login Work again - needed to add email as request data for my project and update Hash to XXX
 
 
+
+
+		
 		* Make player able to log in and pick a username - dont have to use their main name from Facebook or Google!
 
 was not using Gradle installed with unity but this: E:\Unity Projects\#Plugins\gradle-8.11.1-all\gradle-8.11.1

@@ -10,8 +10,8 @@ public class SetPasswords
     static SetPasswords()
     {
 
-        PlayerSettings.keystorePass = "beatles1";
-        PlayerSettings.keyaliasPass = "beatles1";
+        PlayerSettings.Android.keystorePass = "beatles1";
+        PlayerSettings.Android.keyaliasPass = "beatles1";
     }
 
 #endif

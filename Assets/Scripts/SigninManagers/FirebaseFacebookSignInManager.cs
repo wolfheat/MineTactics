@@ -21,15 +21,21 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
         }
         Instance = this;
 
-        auth = Firebase.Auth.FirebaseAuth.DefaultInstance; ;
+        Debug.Log(" ** ** FirebaseFacebookSignInManager Awake ** ** ");   
+
+        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        if(auth==null)
+            Debug.Log(" ** ** FirebaseFacebookSignInManager Auth == null ** ** ");
 
         if (!FB.IsInitialized)
         {
+            Debug.Log(" ** ** FirebaseFacebookSignInManager IsInitialized ** ** ");
             // Initialize the Facebook SDK
             FB.Init(InitCallback, OnHideUnity);
         }
         else
         {
+            Debug.Log(" ** ** FirebaseFacebookSignInManager NOT IsInitialized ** ** ");
             // Already initialized, signal an app activation App Event
             FB.ActivateApp();
         }
@@ -37,6 +43,7 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
 
     public void RequestSignInWithFacebook()
     {
+        Debug.Log(" ** ** FirebaseFacebookSignInManager RequestSignInWithFacebook ** ** ");
         var perms = new List<string>() { "public_profile", "email" };
         FB.LogInWithReadPermissions(perms, AuthCallback);
 
@@ -44,6 +51,8 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
 
     private void AuthCallback(ILoginResult result)
     {
+        Debug.Log(" ** ** FirebaseFacebookSignInManager AuthCallback ** ** ");
+
         if (FB.IsLoggedIn)
         {
             // AccessToken class will have session details
@@ -66,6 +75,7 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
 
     private void FirebaseFacebookAuth(string accessToken)
     {
+        Debug.Log(" ** ** FirebaseFacebookSignInManager FirebaseFacebookAuth ** ** ");
         Firebase.Auth.Credential credential =
     Firebase.Auth.FacebookAuthProvider.GetCredential(accessToken);
         auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task => {
@@ -94,6 +104,7 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
     {
         if (FB.IsInitialized)
         {
+            Debug.Log(" ** ** FirebaseFacebookSignInManager ActivateApp ** ** ");
             // Signal an app activation App Event
             FB.ActivateApp();
             // Continue with Facebook SDK

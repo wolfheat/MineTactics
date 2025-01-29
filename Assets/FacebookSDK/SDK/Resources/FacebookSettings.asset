@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedAppIndex: 0
   clientTokens:
-  - 
+  - 6263f56b43a22d1d33b02b8548ba628f
   appIds:
   - 519816790447814
   appLabels:
@@ -24,7 +24,7 @@ MonoBehaviour:
   status: 1
   xfbml: 0
   frictionlessRequests: 1
-  androidKeystorePath: 
+  androidKeystorePath: F:\Unity Projects\#keystore\minesweeperTactics.keystore
   iosURLSuffix: 
   appLinkSchemes:
   - list: []
