@@ -7,6 +7,8 @@ public class LoadCollectionPanel : MonoBehaviour
     [SerializeField] TMP_InputField inputField;
     // Start is called before the first frame update
 
+    private const int Number = 2;
+
     void Start()
     {
         FirestoreManager.OnLevelCollectionLevelsDownloaded += OnSuccessfulLoadLevels;

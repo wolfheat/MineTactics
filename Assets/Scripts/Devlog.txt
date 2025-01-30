@@ -264,9 +264,13 @@ Nov 2024
 28/1	* Added custom pro guard file with info: -keep class com.facebook.** { *; }"
 		* Made Facebook Login Work again - needed to add email as request data for my project and update Hash to XXX
 29/1	* Added name change panel for Changing names from Facebook Name
+30/1	* Adjusted New Record positions		
+		* Implemented Monokai correctly
 		
 
-
+		* Fix log in panel change name interaction correctly
+		* Auto Log in player if allready logged in at Firebase with credentials?
+		
 
 		
 		* Make player able to log in and pick a username - dont have to use their main name from Facebook or Google!

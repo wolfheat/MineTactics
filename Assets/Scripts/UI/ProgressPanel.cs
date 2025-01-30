@@ -90,7 +90,16 @@ public class ProgressPanel : MonoBehaviour
         // Set Name to Regitrating
         headerText.text = "Changing Display Name";
         subText.text = "Name changed successfully!";
+        StartCoroutine(DelayedLoadGame());
     }
+
+    private IEnumerator DelayedLoadGame()
+    {
+        yield return new WaitForSeconds(2f);
+
+        AuthManager.Instance.SetCredentialsAndLoadMainGame();
+    }
+
     public void OnNameChangeFailed()
     {
         ShowLoadingCircleAnimation(false);

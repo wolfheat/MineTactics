@@ -1488,6 +1488,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1421051004}
     m_Modifications:
+    - target: {fileID: 3182773542655414732, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 264.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3545813174664177688, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
       propertyPath: m_text
       value: Clicks
@@ -10198,7 +10202,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '(deeplink service) v 0.01.01 '
+  m_text: (deeplink service) v 0.01.02
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 84dbb383ae1cf3140b9aa5999b1c178f, type: 2}
   m_sharedMaterial: {fileID: 7129148970830627335, guid: 84dbb383ae1cf3140b9aa5999b1c178f, type: 2}
@@ -10225,8 +10229,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 47.08
-  m_fontSizeBase: 47.08
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
@@ -18669,7 +18673,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -27009,6 +27013,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1421051004}
     m_Modifications:
+    - target: {fileID: 3182773542655414732, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 264.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3545813174664177688, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
       propertyPath: m_text
       value: Time
@@ -44056,6 +44064,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1421051004}
     m_Modifications:
+    - target: {fileID: 3182773542655414732, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 264.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3545813174664177688, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
       propertyPath: m_text
       value: 'Eff
@@ -49755,6 +49767,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1421051004}
     m_Modifications:
+    - target: {fileID: 3182773542655414732, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 264.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3545813174664177688, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
       propertyPath: m_text
       value: 3BV/s
@@ -72255,6 +72271,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1421051004}
     m_Modifications:
+    - target: {fileID: 3182773542655414732, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 264.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6911113444573650385, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
