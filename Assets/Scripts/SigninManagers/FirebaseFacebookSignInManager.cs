@@ -76,8 +76,8 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
     private void FirebaseFacebookAuth(string accessToken)
     {
         Debug.Log(" ** ** FirebaseFacebookSignInManager FirebaseFacebookAuth ** ** ");
-        Firebase.Auth.Credential credential =
-    Firebase.Auth.FacebookAuthProvider.GetCredential(accessToken);
+        Firebase.Auth.Credential credential = Firebase.Auth.FacebookAuthProvider.GetCredential(accessToken);
+
         auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task => {
         //auth.SignInAndRetrieveDataWithCredentialAsync(credential).ContinueWith(task => {
             if (task.IsCanceled)
@@ -94,11 +94,20 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
             Firebase.Auth.FirebaseUser user = task.Result;
             Debug.Log("Facebook - Player Logged in as: "+user.DisplayName+" ID:"+user.UserId);
 
-            AuthManager.Instance.SetCredentialsAndLoadMainGame(user);
+            // If This is not first time this user logs in load game
+            // AuthManager.Instance.SetCredentialsAndLoadMainGame(user);
+            // 
+            // Else Have him select User name first
+            PanelController.Instance.ShowChangeDisplayNamePanel(user);
 
+            FirebaseSignInFacebookCredentials(user);
         });
     }
 
+    private void FirebaseSignInFacebookCredentials(Firebase.Auth.FirebaseUser user)
+    {
+        Debug.Log("Signing into Firebase with Facebook Credentials: "+user.DisplayName+" "+user.UserId+" "+(user.Email??"null"));
+    }
 
     private void InitCallback()
     {

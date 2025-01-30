@@ -263,7 +263,8 @@ Nov 2024
 25/1	* Implemented Facebook log-in
 28/1	* Added custom pro guard file with info: -keep class com.facebook.** { *; }"
 		* Made Facebook Login Work again - needed to add email as request data for my project and update Hash to XXX
-
+29/1	* Added name change panel for Changing names from Facebook Name
+		
 
 
 

@@ -3,7 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public enum LoadingState{LogIn,Register,SubmitLevel,LoadingLevels,LoadingLevelsFailed}
+public enum LoadingState{LogIn,Register,SubmitLevel,LoadingLevels,LoadingLevelsFailed,ChangingName}
 public class ProgressPanel : MonoBehaviour
 {
     public static ProgressPanel Instance { get; private set; }
@@ -30,6 +30,9 @@ public class ProgressPanel : MonoBehaviour
         
         FirestoreManager.SubmitLevelAttemptSuccess += OnSubmitLevelSuccess;        
         FirestoreManager.SubmitLevelAttemptFailed += OnSubmitLevelFailed;        
+
+        AuthManager.OnNameChangeSuccess += OnNameChangeSuccess;
+        AuthManager.OnNameChangeFail += OnNameChangeFailed;        
 
         FirestoreManager.OnSuccessfulLoadingOfLevels += OnSuccessfulLoadLevels;
         FirestoreManager.OnLevelCollectionLevelsDownloaded += OnSuccessfulLoadLevels;
@@ -70,6 +73,31 @@ public class ProgressPanel : MonoBehaviour
         // Set Name to Regitrating
         headerText.text = "Registrating new Player";
         subText.text = "Trying to Register, please wait!";
+    }
+    public void OnDisplayNameChangeStarted()
+    {
+        currentState = LoadingState.ChangingName;
+        ShowLoadingCircleAnimation(true);
+        Debug.Log("Progress Panel - OnDisplayNameChangeStarted");
+        // Set Name to Regitrating
+        headerText.text = "Changing Display Name";
+        subText.text = "Trying to change player display name, please wait!";
+    }
+    public void OnNameChangeSuccess()
+    {
+        ShowLoadingCircleAnimation(false);
+        Debug.Log("Progress Panel - OnDisplayNameChangeStarted");
+        // Set Name to Regitrating
+        headerText.text = "Changing Display Name";
+        subText.text = "Name changed successfully!";
+    }
+    public void OnNameChangeFailed()
+    {
+        ShowLoadingCircleAnimation(false);
+        Debug.Log("Progress Panel - OnDisplayNameChangeStarted");
+        // Set Name to Regitrating
+        headerText.text = "Changing Display Name";
+        subText.text = "Name changed failed!";
     }
     public void OnLoginStarted()
     {

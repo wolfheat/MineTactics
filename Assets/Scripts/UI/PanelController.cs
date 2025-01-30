@@ -22,6 +22,7 @@ public class PanelController : MonoBehaviour
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject loginSelectMenu;
     [SerializeField] GameObject loginMenu;
+    [SerializeField] DisplayNamePanel changeDisplayNamePanel;
     [SerializeField] GameObject registerMenu;
     [SerializeField] LocalLevelsPanel localLevelPanel;
 
@@ -176,6 +177,17 @@ public class PanelController : MonoBehaviour
         progressPanel.OnRegisterStarted();
     }
     
+    public void ShowChangeDisplayNamePanel(Firebase.Auth.FirebaseUser user)
+    {
+        changeDisplayNamePanel.gameObject.SetActive(true);
+        changeDisplayNamePanel.InitilizeDisplayNamePanel(user);
+    }
+    public void ShowLoaderPanelChangeDisplayName()
+    {
+        progressPanel.gameObject.SetActive(true);
+        progressPanel.OnDisplayNameChangeStarted();
+    }
+    
     public void ShowLoaderPanelLogin()
     {
         progressPanel.gameObject.SetActive(true);
@@ -224,6 +236,12 @@ public class PanelController : MonoBehaviour
     {
         Debug.Log("RequestSignInWithFaceBook");     
         FindFirstObjectByType<FirebaseFacebookSignInManager>().RequestSignInWithFacebook();
+    }
+           
+    public void ShowSelectDisplayNamePanel()
+    {
+        Debug.Log("ShowSelectDisplayNamePanel");
+
     }
         
     public void LoginConfirmed()

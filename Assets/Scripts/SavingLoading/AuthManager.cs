@@ -7,7 +7,6 @@ using System.Collections;
 using TMPro;
 using System.Threading.Tasks;
 using Firebase;
-
 public class AuthManager : MonoBehaviour
 {
     FirebaseFirestore db;
@@ -24,6 +23,8 @@ public class AuthManager : MonoBehaviour
     public static Action OnSuccessfulCreation;
 
     public static Action<string> OnDependenciesSuccess;
+    public static Action OnNameChangeSuccess;
+    public static Action OnNameChangeFail;
     public static Action<string> OnShowInfo;
 
     public static AuthManager Instance { get; private set; }
@@ -279,37 +280,46 @@ public class AuthManager : MonoBehaviour
             // Firebase user has been created.
             //Debug.LogFormat("Firebase user created successfully: {0} ({1})",
             FirebaseUser user = auth.CurrentUser;
-            if (user != null)
-            {
-                Debug.Log("Updating Player "+user.Email+" with name "+user.DisplayName+" to "+userName);
-                UserProfile profile = new UserProfile
-                {
-                    DisplayName = userName
-                    //PhotoUrl = new System.Uri("https://example.com/jane-q-user/profile.jpg"),
-                };
-                user.UpdateUserProfileAsync(profile).ContinueWithOnMainThread(task => {
-                    if (task.IsCanceled)
-                    {
-                        Debug.LogError("UpdateUserProfileAsync was canceled.");
-                        return;
-                    }
-                    if (task.IsFaulted)
-                    {
-                        Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
-                        return;
-                    }
-
-                    Debug.Log("User profile updated successfully.");
-                });
-            }
-
-
-
-
+            UpdateFirebaseUserName(user,userName);
+            
         });
 
 
     }
+
+    public void UpdateFirebaseUserName(string userName) => UpdateFirebaseUserName(auth.CurrentUser, userName);
+
+    public void UpdateFirebaseUserName(FirebaseUser user, string userName)
+    {
+        if (user != null)
+        {
+            Debug.Log("Updating Player " + user.Email + " with name " + user.DisplayName + " to " + userName);
+            UserProfile profile = new UserProfile
+            {
+                DisplayName = userName
+                //PhotoUrl = new System.Uri("https://example.com/jane-q-user/profile.jpg"),
+            };
+            user.UpdateUserProfileAsync(profile).ContinueWithOnMainThread(task => {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("UpdateUserProfileAsync was canceled.");
+                    OnNameChangeFail.Invoke();
+                    return;
+                }
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
+                    OnNameChangeFail.Invoke();
+                    return;
+                }
+
+                Debug.Log("User profile updated successfully.");
+                OnNameChangeSuccess.Invoke();
+            });
+        }
+
+    }
+
     Task<AuthResult> authResult = null;
     string errorMessage = "";
     
