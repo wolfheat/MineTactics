@@ -74,6 +74,13 @@ public class SettingsPanel : MonoBehaviour
 
     public void SaveSettingsToFile() => SavingUtility.Instance.SaveAllDataToFile();
 
+    public void RequestNameChange()
+    {
+        Debug.Log("Player Requested name to be changed");
+        
+        
+        PanelController.Instance.ShowChangeDisplayNamePanel(AuthManager.Instance.Auth.CurrentUser);
+    }
     public void UpdateSizeText(Slider slider)
     {
         // Read value of slider and update

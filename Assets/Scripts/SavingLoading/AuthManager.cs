@@ -78,6 +78,26 @@ public class AuthManager : MonoBehaviour
             
     }
 
+    internal IEnumerator MainSceneLoaded()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        Debug.Log("MainSceneLoaded");
+        Debug.Log("");
+        Debug.Log("auth default user = "+auth.CurrentUser.DisplayName);
+        auth = FirebaseAuth.DefaultInstance;
+        Debug.Log("auth default user = "+auth.CurrentUser.DisplayName);
+        Debug.Log("");
+
+        Debug.Log("MainSceneLoaded");
+        if(auth.CurrentUser != null) {
+            // The user is already defined when scene is loaded
+            // Set this as main player by default and load corresponding local save files
+            Debug.Log("SetCredentialsAndLoadMainGame "+auth.CurrentUser?.DisplayName);
+            SetCredentialsAndLoadMainGame(auth.CurrentUser);
+        }
+    }
+
     private string logInEmail = "none@none.com";
     public void RegisterPlayerWithEmailAndPassword(string userName,string email, string password, TextMeshProUGUI resultTextfield = null)
     {
@@ -408,7 +428,10 @@ public class AuthManager : MonoBehaviour
     public void SetCredentialsAndLoadMainGame(FirebaseUser user)
     {
         Debug.Log("-- SetCredentialsAndLoadMainGame (with google auth result) for UID:"+gameObject.GetInstanceID());
-
+        Debug.Log("User anme = "+user?.DisplayName);
+        if(USerInfo.Instance == null)
+            Debug.Log("Useriunf null");
+        Debug.Log("USerInfo.Instance = " + USerInfo.Instance);
         USerInfo.Instance.SetUserInfoFromFirebaseUser(user);
 
         // Set the playerName in Stats and Save file
@@ -435,6 +458,7 @@ public class AuthManager : MonoBehaviour
     }
 
     public void LogOut() => auth?.SignOut();
+
 
     /*
     void InitializeFirebase()

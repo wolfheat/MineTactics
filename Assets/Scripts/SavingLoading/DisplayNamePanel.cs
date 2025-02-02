@@ -33,7 +33,7 @@ public class DisplayNamePanel : MonoBehaviour
     public void InitilizeDisplayNamePanel(Firebase.Auth.FirebaseUser user)
     {
         username_field.text = user.DisplayName;
-        errorMessageText.text = "Type your wanted Display Name. This name will be visible to others if you create levels.";
+        errorMessageText.text = "Pick your Display Name. Your name will be visible to others if you create levels.";
     }
     
     public void InitilizeDisplayNamePanel(string initName)
@@ -45,7 +45,7 @@ public class DisplayNamePanel : MonoBehaviour
     {
         // Keep the user name supplied by facebook
         Debug.Log("Keeping default User name");
-        GotoLoaderPage();
+        gameObject.SetActive(false);
     }
     public void OnConfirmUserName()
     {
@@ -61,22 +61,14 @@ public class DisplayNamePanel : MonoBehaviour
         }
         Debug.Log("Changed User name to "+currentUserName);
         AuthManager.Instance.UpdateFirebaseUserName(currentUserName);
-        GotoLoaderPage();
-        
-    }
-
-    private void GotoLoaderPage()
-    {
         PanelController.Instance.ShowLoaderPanelChangeDisplayName();
         gameObject.SetActive(false);
-        StartCoroutine(DelayedStartGame());
     }
 
     private IEnumerator DelayedStartGame()
     {
         Debug.Log("Delayed Start Game Display Name changed");
-        yield return new WaitForSeconds(3f);
-        AuthManager.Instance.SetCredentialsAndLoadMainGame(AuthManager.Instance.Auth.CurrentUser);
+        yield return new WaitForSeconds(0.4f);
     }
 
     private bool ValidateUserName(string currentUserName) => currentUserName.All(c => Char.IsDigit(c) || Char.IsLetter(c));

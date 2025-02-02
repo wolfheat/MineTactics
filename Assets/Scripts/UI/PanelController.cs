@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -60,7 +61,8 @@ public class PanelController : MonoBehaviour
     {
         AuthManager.RegisterAttemptStarted += ShowLoaderPanelRegister;
         AuthManager.LoginAttemptStarted += ShowLoaderPanelLogin;
-        AuthManager.OnSuccessfulLogIn += LoginConfirmed;        
+        AuthManager.OnSuccessfulLogIn += LoginConfirmed;
+        AuthManager.OnNameChangeSuccess += NameChangeSuccess;
         FirestoreManager.OnSubmitLevelStarted += ShowLoaderPanelSubmitLevel;
         FirestoreManager.OnLoadLevelStarted += ShowLoaderPanelReceiveLevel;
     }
@@ -244,6 +246,12 @@ public class PanelController : MonoBehaviour
 
     }
         
+    public void NameChangeSuccess()
+    {
+        Debug.Log("** NameChangeSuccess - in PanelController - SetCredentials and load main game");
+        AuthManager.Instance.SetCredentialsAndLoadMainGame(AuthManager.Instance.Auth.CurrentUser);    
+    }
+    
     public void LoginConfirmed()
     {
         Debug.Log("** Recieve Invoked OnSuccessfulLogIn - in PanelController");

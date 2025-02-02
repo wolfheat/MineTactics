@@ -52,6 +52,6 @@ public class SceneHandeler : MonoBehaviour
         SceneManager.LoadScene("Main",LoadSceneMode.Additive);
         Debug.Log(" -- Loading Main Scene --");
         Debug.Log(" ");
-
+        StartCoroutine(AuthManager.Instance.MainSceneLoaded());
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using System.Collections;
-using System.Collections.ObjectModel;
 
 public class SavingUtility : MonoBehaviour
 {
@@ -9,6 +8,7 @@ public class SavingUtility : MonoBehaviour
     private const string PlayerDataSaveFile = "player-data";
     private const string GameSettingsDataSaveFile = "player-settings";
     private string PlayerName = "";
+    private string PlayerID = "";
     public static SavingUtility Instance { get; private set; }
 
     public static Action LoadingComplete;  
@@ -64,7 +64,7 @@ public class SavingUtility : MonoBehaviour
     public void SaveSettingsDataToFile()
     {
         IDataService dataService = new JsonDataService();
-        if (dataService.SaveData(GameSettingsDataSaveFile + "-" + PlayerName, gameSettingsData, false))
+        if (dataService.SaveData(GameSettingsDataSaveFile + "-" + PlayerID, gameSettingsData, false))
             Debug.Log("  Saved settings data in: " + GameSettingsDataSaveFile);
         else
             Debug.LogError("  Could not save file: GameSettingsData");
@@ -82,11 +82,14 @@ public class SavingUtility : MonoBehaviour
             if (AuthManager.Instance.Auth.CurrentUser.IsValid())
             {
                 PlayerName = AuthManager.Instance.Auth.CurrentUser.DisplayName;
+
+                // Maybe need to use the player ID instead since that wont change?
+                PlayerID = AuthManager.Instance.Auth.CurrentUser.UserId;
                 Debug.Log("Player "+ PlayerName +" Logged in, load correct settings from file");
             }
-            GameSettingsData data = dataService.LoadData<GameSettingsData>(GameSettingsDataSaveFile+"-"+PlayerName, false);
+            GameSettingsData data = dataService.LoadData<GameSettingsData>(GameSettingsDataSaveFile+"-"+ PlayerID, false);
             if (data != null)
-            {
+            {   
                 Debug.Log("  PlayerGameData loaded - Valid data!");
                 Debug.Log("Read data GameSettingsdata 6x6 ="+data.Records);
                 gameSettingsData = data;

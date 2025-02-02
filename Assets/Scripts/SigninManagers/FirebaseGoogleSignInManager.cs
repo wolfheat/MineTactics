@@ -51,6 +51,10 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
             firebaseUser = auth.CurrentUser;
             Debug.Log($"    Already signed in with Firebase. User: {firebaseUser.DisplayName}");
             BottomInfoController.Instance?.ShowDebugText($"Already signed in with Firebase. User: {firebaseUser.DisplayName}");
+            // Use this player and load game Automatically
+            // Do same as loading comlete does?
+            // successful login does
+
         }
         else
         {

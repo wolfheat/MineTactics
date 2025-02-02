@@ -6,14 +6,13 @@ using Firebase.Extensions;
 
 public class FirebaseFacebookSignInManager : MonoBehaviour
 {
-
-
     public static FirebaseFacebookSignInManager Instance { get; private set; }
 
     private Firebase.Auth.FirebaseAuth auth;
 
     private void Awake()
     {
+
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -27,6 +26,10 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
         if(auth==null)
             Debug.Log(" ** ** FirebaseFacebookSignInManager Auth == null ** ** ");
 
+        // Facebook does not work in Editor?
+#if UNITY_EDITOR
+        return;
+#endif
         if (!FB.IsInitialized)
         {
             Debug.Log(" ** ** FirebaseFacebookSignInManager IsInitialized ** ** ");
@@ -75,8 +78,13 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
 
     private void FirebaseFacebookAuth(string accessToken)
     {
+        
+        // USe the access token to get the firebase credential
         Debug.Log(" ** ** FirebaseFacebookSignInManager FirebaseFacebookAuth ** ** ");
         Firebase.Auth.Credential credential = Firebase.Auth.FacebookAuthProvider.GetCredential(accessToken);
+
+
+
 
         auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task => {
         //auth.SignInAndRetrieveDataWithCredentialAsync(credential).ContinueWith(task => {
@@ -93,14 +101,30 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
 
             Firebase.Auth.FirebaseUser user = task.Result;
             Debug.Log("Facebook - Player Logged in as: "+user.DisplayName+" ID:"+user.UserId);
+            Debug.Log("");
+            Debug.Log("");
+            Debug.Log(" NEW INFO ");
 
-            // If This is not first time this user logs in load game
-            // AuthManager.Instance.SetCredentialsAndLoadMainGame(user);
-            // 
-            // Else Have him select User name first
-            PanelController.Instance.ShowChangeDisplayNamePanel(user);
+            // At this point the player has successfully signed in into Firebase with the credentials gained from exchanging the token from Facebook
 
-            FirebaseSignInFacebookCredentials(user);
+            // Only show the change displayname if this player did not exist before?
+
+            // Trying to use the metadata to decide if this is the first time this user sigs in
+
+
+            Debug.Log("First login is: "+ user.Metadata.CreationTimestamp+" this log in is: "+ user.Metadata.LastSignInTimestamp);
+            if(user.Metadata.LastSignInTimestamp - user.Metadata.CreationTimestamp < 10) {
+                // Have him select User name at first login
+                Debug.Log("Let User pick new displayname");
+                PanelController.Instance.ShowChangeDisplayNamePanel(user);
+            }
+            else {
+                Debug.Log("Do not let User pick new displayname");
+
+                AuthManager.Instance.SetCredentialsAndLoadMainGame(user);
+                // If This is not first time this user logs in load game
+                FirebaseSignInFacebookCredentials(user);
+            }
         });
     }
 

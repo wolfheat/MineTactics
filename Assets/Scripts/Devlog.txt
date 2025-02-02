@@ -266,11 +266,36 @@ Nov 2024
 29/1	* Added name change panel for Changing names from Facebook Name
 30/1	* Adjusted New Record positions		
 		* Implemented Monokai correctly
-		
+1/2		* Fixed so Player ID is stored as local filenames instead of player Displayname. Since displayname can change.
+		* Player logs in automatically if already logged into firebase Auth
+
+
+		* Also fix so loading player generated levels only possible for the user who creatoed them. Is this based on name? and has to change to id?
+
 
 		* Fix log in panel change name interaction correctly
 		* Auto Log in player if allready logged in at Firebase with credentials?
 		
+
+
+
+
+
+		// New record should be a small box etc instead of just text
+
+
+		// USER NAME
+		* First time a player logs in with facebook let him pick a user name
+		* Every other time a user logges in use that username
+		* Maybe have a change username panel also
+
+		* Save files are set from user name which will break if player changes visible name
+		* How to solve this?
+
+		* Fix issue where player can log in in several ways and it creates one account per log in - Link these - Do I need to have one firebase auth account per each?
+
+
+
 
 		
 		* Make player able to log in and pick a username - dont have to use their main name from Facebook or Google!
