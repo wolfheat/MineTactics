@@ -270,22 +270,13 @@ Nov 2024
 		* Player logs in automatically if already logged into firebase Auth
 		* Player can now change name
 2/2		* Fixed so Changing layer on a device resets the loaded levels 
-
-
+		* Positionaed New record and added medal sprite
 
 		* Also fix so loading player generated levels only possible for the user who created them. Is this based on name? and has to change to id?
 			* Currently no limits for loading levels
 
-		* Make sure players cant change name to some name thats alreadu used?
-
-
-
-		* Fix log in panel change name interaction correctly
-		* Auto Log in player if allready logged in at Firebase with credentials?
-		
-
-
-
+		// LATER?
+		* Make sure players cant change name to some name thats already used?
 
 
 		// New record should be a small box etc instead of just text

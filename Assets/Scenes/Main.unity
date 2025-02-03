@@ -1488,10 +1488,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1421051004}
     m_Modifications:
-    - target: {fileID: 3182773542655414732, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 264.2
-      objectReference: {fileID: 0}
     - target: {fileID: 3545813174664177688, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
       propertyPath: m_text
       value: Clicks
@@ -5496,6 +5492,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195627853}
   m_CullTransparentMesh: 1
+--- !u!1 &204224571 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5995072138765996695, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
+  m_PrefabInstance: {fileID: 920819380}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &207398007
 GameObject:
   m_ObjectHideFlags: 0
@@ -10808,12 +10809,12 @@ MonoBehaviour:
   B3V: {fileID: 1859158107}
   efficiency: {fileID: 1477289652}
   B3Vs: {fileID: 1620678529}
-  B3VRecordText: {fileID: 1620678528}
+  B3VRecordText: {fileID: 1967318676}
   rating: {fileID: 0}
   creatorId: {fileID: 0}
   votes: {fileID: 0}
   time: {fileID: 920819383}
-  timeRecordText: {fileID: 920819381}
+  timeRecordText: {fileID: 204224571}
   playerRatingChange: {fileID: 0}
   levelRatingChange: {fileID: 0}
   status: {fileID: 0}
@@ -27223,9 +27224,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1421051004}
     m_Modifications:
-    - target: {fileID: 3182773542655414732, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
+    - target: {fileID: 2916240049132418510, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 264.2
+      value: 30.6
       objectReference: {fileID: 0}
     - target: {fileID: 3545813174664177688, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
       propertyPath: m_text
@@ -27320,11 +27321,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
---- !u!1 &920819381 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8549477191640864187, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
-  m_PrefabInstance: {fileID: 920819380}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &920819382 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6911113444573650385, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
@@ -44274,10 +44270,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1421051004}
     m_Modifications:
-    - target: {fileID: 3182773542655414732, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 264.2
-      objectReference: {fileID: 0}
     - target: {fileID: 3545813174664177688, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
       propertyPath: m_text
       value: 'Eff
@@ -49978,10 +49970,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1421051004}
     m_Modifications:
-    - target: {fileID: 3182773542655414732, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 264.2
-      objectReference: {fileID: 0}
     - target: {fileID: 3545813174664177688, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
       propertyPath: m_text
       value: 3BV/s
@@ -50078,11 +50066,6 @@ PrefabInstance:
 --- !u!224 &1620678527 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6911113444573650385, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
-  m_PrefabInstance: {fileID: 1620678526}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1620678528 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8549477191640864187, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
   m_PrefabInstance: {fileID: 1620678526}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1620678529 stripped
@@ -61735,6 +61718,11 @@ MonoBehaviour:
   uid: 00
   levelID: 
   currentType: 0
+--- !u!1 &1967318676 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5995072138765996695, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
+  m_PrefabInstance: {fileID: 1620678526}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1969023792
 GameObject:
   m_ObjectHideFlags: 0
@@ -72207,10 +72195,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1421051004}
     m_Modifications:
-    - target: {fileID: 3182773542655414732, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 264.2
-      objectReference: {fileID: 0}
     - target: {fileID: 6911113444573650385, guid: d412c469ee333f246ba4ec47539da4fe, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
