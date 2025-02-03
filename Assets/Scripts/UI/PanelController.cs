@@ -274,6 +274,9 @@ public class PanelController : MonoBehaviour
         // Log out Menu ?? not needed since its sync?
         AuthManager.Instance.LogOut();
 
+        // Make player forget loaded levels here?
+
+
         USerInfo.Instance.IsPlayerLoggedIn = false;
 
         InitStartMenu();

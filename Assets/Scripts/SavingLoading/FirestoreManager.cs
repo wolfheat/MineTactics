@@ -739,8 +739,13 @@ public class FirestoreManager : MonoBehaviour
         foreach (var item in LocalCollectionList) { item.Collection = lastSavedCollectionName; }
     }
 
-    internal void ReactivateAllActiveCollectionsToChallengeList(bool onlyActives = false)
+    internal void ReactivateAllActiveCollectionsToChallengeList(bool onlyActives = false,bool clearLeveldataCollection = false)
     {
+        if (clearLeveldataCollection) {
+            ClearActiveLevelsList();
+            LevelDataCollections.Clear();
+        }
+
         Debug.Log("** Reactivating Collections from local");
         bool deletedUnavailablesFromList = false;
         for (int i = USerInfo.Instance.ActiveCollections.Count - 1; i >= 0; i--) {
@@ -815,6 +820,8 @@ public class FirestoreManager : MonoBehaviour
         OnLevelCollectionListChange?.Invoke(-1);
         OnLevelCollectionListItemUpdatedItsCollection?.Invoke(collectionName);// Invoke change of Level amount [-1 = select none]
     }
+
+    public void ClearActiveLevelsList() => ActiveChallengeLevels.Clear();
 
     private void ActivateAllLevelsFromCollection(LevelDataCollection collection, string collectionName,bool onlyActives = false)
     {

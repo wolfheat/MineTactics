@@ -83,13 +83,7 @@ public class AuthManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         Debug.Log("MainSceneLoaded");
-        Debug.Log("");
-        Debug.Log("auth default user = "+auth.CurrentUser.DisplayName);
         auth = FirebaseAuth.DefaultInstance;
-        Debug.Log("auth default user = "+auth.CurrentUser.DisplayName);
-        Debug.Log("");
-
-        Debug.Log("MainSceneLoaded");
         if(auth.CurrentUser != null) {
             // The user is already defined when scene is loaded
             // Set this as main player by default and load corresponding local save files

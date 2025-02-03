@@ -268,9 +268,16 @@ Nov 2024
 		* Implemented Monokai correctly
 1/2		* Fixed so Player ID is stored as local filenames instead of player Displayname. Since displayname can change.
 		* Player logs in automatically if already logged into firebase Auth
+		* Player can now change name
+2/2		* Fixed so Changing layer on a device resets the loaded levels 
 
 
-		* Also fix so loading player generated levels only possible for the user who creatoed them. Is this based on name? and has to change to id?
+
+		* Also fix so loading player generated levels only possible for the user who created them. Is this based on name? and has to change to id?
+			* Currently no limits for loading levels
+
+		* Make sure players cant change name to some name thats alreadu used?
+
 
 
 		* Fix log in panel change name interaction correctly
@@ -331,7 +338,7 @@ keytool -exportcert -alias androiddebugkey -keystore "E:\Unity Projects\#keystor
 
 
 		Facebook Access Token - EAAHYxUcklsYBO86pPRZB8ttzrUqfM7DlzFXZAxssPZAKVxli1hZCE7kp59ALLsII8wxMHa3MQYdZBjr5vKoIX4YgRKX1wf1O9gHBGVzFjeAMt1rGr86fA9CuV22MyFlC2sV7GOa3Y6bBbZAnek1wVrTTjmjW3ZAAvRj6aHt2Ewkq7LAk1Px6VMZAZCs0GQEq3XsU0dIGvVPGJEkGhfUZB7ZBzK8tiHyW5ynJntcAg7as4QLF2GwTnuQGXqm3wZAfZB31PoEkFFQJAgbxp
-
+								EAAHYxUcklsYBOZCZCfIarUmq5XzYEbRlFn3caNWEsu6OCSUiHybqxXLvvig7HiqH0ZCSfK5akhuBOZANcGMoz0bRDvRNbuKnZBu8KfIM6ZC3x5740sdcSSdvInAUhRUTk9CDh2ee6hapuznIDQgodrHUHKsYqFPfGYraTf34ujYmtVkEi2ZBeC6VDGN9crGF8ECosaq6uojKwZCQ3yz9WxobTz4oCTobxWZBaFRzhJj8pH0wvAp3ve5XVJLnnRVpJ6iZAqjEWZCiT8H
 
 		Development key
 keytool -exportcert -alias androiddebugkey -keystore "C:\Users\USERNAME\.android\debug.keystore" | "PATH_TO_OPENSSL_LIBRARY\bin\openssl" sha1 -binary | "PATH_TO_OPENSSL_LIBRARY\bin\openssl" base64

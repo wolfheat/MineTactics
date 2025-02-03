@@ -27,9 +27,6 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
             Debug.Log(" ** ** FirebaseFacebookSignInManager Auth == null ** ** ");
 
         // Facebook does not work in Editor?
-#if UNITY_EDITOR
-        return;
-#endif
         if (!FB.IsInitialized)
         {
             Debug.Log(" ** ** FirebaseFacebookSignInManager IsInitialized ** ** ");
