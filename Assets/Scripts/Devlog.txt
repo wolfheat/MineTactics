@@ -271,166 +271,23 @@ Nov 2024
 		* Player can now change name
 2/2		* Fixed so Changing layer on a device resets the loaded levels 
 		* Positionaed New record and added medal sprite
+3/2		* Updated UI visuals
+		* Updated list of todo's
+
 
 		* Also fix so loading player generated levels only possible for the user who created them. Is this based on name? and has to change to id?
 			* Currently no limits for loading levels
-
-		// LATER?
+	
+		// // DO'S // //
+		// LOGIN
 		* Make sure players cant change name to some name thats already used?
-
-
-		// New record should be a small box etc instead of just text
-
-
-		// USER NAME
-		* First time a player logs in with facebook let him pick a user name
-		* Every other time a user logges in use that username
-		* Maybe have a change username panel also
-
-		* Save files are set from user name which will break if player changes visible name
-		* How to solve this?
-
 		* Fix issue where player can log in in several ways and it creates one account per log in - Link these - Do I need to have one firebase auth account per each?
-
-
-
-
-		
-		* Make player able to log in and pick a username - dont have to use their main name from Facebook or Google!
-
-was not using Gradle installed with unity but this: E:\Unity Projects\#Plugins\gradle-8.11.1-all\gradle-8.11.1
-
-Installed by Unity is:
-E:\Unity Projects\2022.3.56f1\Editor\Data\PlaybackEngines\AndroidPlayer\Tools\gradle
-
-
-		Changing teh com.WolfheatProduction.MineTactics to i5 makes the login blocked auth access
-
-		// TODO
-		* Implement Facebook login
-
 		* Figure out Account linking?
-
-
-		* Generating ssl developement code
-
-		E:\Unity Projects\#Assets\FacebookTools\openssl-0.9.8k_X64
-
-		E:\Unity Projects\#Assets\FacebookTools\openssl-0.9.8k_X64\bin\openssl
-		E:\Unity Projects\#keystore\user.keystore
-
-Windows
-You will need the following:
-Key and Certificate Management Tool (keytool) from the Java Development Kit
-openssl-for-windows openssl library for Windows from the Google Code Archive
-To generate a development key hash, run the following command in a command prompt in the Java SDK folder: 
-
-keytool -exportcert -alias androiddebugkey -keystore "E:\Unity Projects\#keystore\user.keystore" | "E:\Unity Projects\#Assets\FacebookTools\openssl-0.9.8k_X64\bin\openssl" sha1 -binary | "E:\Unity Projects\#Assets\FacebookTools\openssl-0.9.8k_X64\bin\openssl" base64
-
-
-		Facebook Access Token - EAAHYxUcklsYBO86pPRZB8ttzrUqfM7DlzFXZAxssPZAKVxli1hZCE7kp59ALLsII8wxMHa3MQYdZBjr5vKoIX4YgRKX1wf1O9gHBGVzFjeAMt1rGr86fA9CuV22MyFlC2sV7GOa3Y6bBbZAnek1wVrTTjmjW3ZAAvRj6aHt2Ewkq7LAk1Px6VMZAZCs0GQEq3XsU0dIGvVPGJEkGhfUZB7ZBzK8tiHyW5ynJntcAg7as4QLF2GwTnuQGXqm3wZAfZB31PoEkFFQJAgbxp
-								EAAHYxUcklsYBOZCZCfIarUmq5XzYEbRlFn3caNWEsu6OCSUiHybqxXLvvig7HiqH0ZCSfK5akhuBOZANcGMoz0bRDvRNbuKnZBu8KfIM6ZC3x5740sdcSSdvInAUhRUTk9CDh2ee6hapuznIDQgodrHUHKsYqFPfGYraTf34ujYmtVkEi2ZBeC6VDGN9crGF8ECosaq6uojKwZCQ3yz9WxobTz4oCTobxWZBaFRzhJj8pH0wvAp3ve5XVJLnnRVpJ6iZAqjEWZCiT8H
-
-		Development key
-keytool -exportcert -alias androiddebugkey -keystore "C:\Users\USERNAME\.android\debug.keystore" | "PATH_TO_OPENSSL_LIBRARY\bin\openssl" sha1 -binary | "PATH_TO_OPENSSL_LIBRARY\bin\openssl" base64
-
-
-
-		Release Key
-		      
-keytool -exportcert -alias YOUR_RELEASE_KEY_ALIAS -keystore YOUR_RELEASE_KEY_PATH | openssl sha1 -binary | openssl base64
-
-Copy Code
-This will generate a 28-character string that you should copy and paste into the field below. Also, see the Android documentation for signing your apps. 
-
-
-		// Google signin issues - OLD //
-		* Setting the E:\Unity Projects\GitHub\MineTacticsB\Assets\GoogleSignIn\Editor\m2repository\com\google\signin\google-signin-support\1.0.4
-		google-signin-support-1.0.4 setting to be used on Android crashes it again
-
-		* removed the aar extensions only no change
-		* only keeping the aar extensions -crash
-
-		* Game crashes when ticking the box for Android use in the aar file
-		* If its not ticked I can read the DLL error and the game keeps working. When ticked it crashes before I can read any error
-
-		 - GoogleSignInSupportDependencies.xml from folder E:\Unity Projects\GitHub\MineTacticsB\Assets\GoogleSignIn\Editor
-		* Trying to remove the GoogleSignInSupportDependencies.xml file and moving the aar fie to the main Plugins folder
-
-		"Exception: Unable to load DLL 'native-googlesignin' Tried to load the following dynamic libraries: Unable to load dynamic library (0x06000000) dlerror() = dlopen failed: library "native-googlesignin' not found"
-		// Google signin issues - OLD END //
-
-		** || ** Using OAUTH 2.0
-
-		Making a OAuth Consent Screen
-		Adding Credential
-
-		Used video https://www.youtube.com/watch?v=OCCe1TXDEq8
-
-		Getting Unsupported request when opening OAuth page for logon
-
-
-
-		Webpage
-		https://wolfheat.github.io/privacyPolicy.html
-
-
-		Accepting licenses Android SDK
-		C:\Users\Micael10\AppData\Local\Android\Sdk\cmdline-tools\latest\bin
-		C:\Users\Micael10\AppData\Local\Android\Sdk\tools\bin
-		sdkmanager --licenses
-
-		installed Java v23
-
-		changing environment variables from
-		E:\Unity Projects\#Editors\2022.3.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK
-		to C:\Program Files\Java\jdk-23
-		E:\Unity Projects\#Editors\2022.3.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK
-
-		C:\Program Files\Java\jre1.8.0_431
-
-
-		TODO
-		Start by filling out the needed info in the Google Play Console page
-		https://play.google.com/console/u/0/developers/8419211252620831558/app/4973714629124742289/games/publication
-
-		Then keep reading from 
-		https://github.com/Nichathan-Gaming/GooglePlayAuthenticationInUnityWithFirebase?tab=readme-ov-file
-
-
-		-- Makes most sense to have X amount of standard diff level collections which player can pick from as the standard Challenge mode
-
-		
-
-		// Responsiveness
-		* Issue with responsive result screens fix later		
-			Result Screens
-			Settings
-		
-		* Only Allow a player to send Rating the first time they encounter a level?
-		* Issue - with slow loading of levels in collections sometimes, fix? Still issue?
-
-		// Moderator Tools
-		* What Creation tools should be allowed for users, and when?
-
-		// Trouble with Id only unique inside each document not both
-
 		// PLAYERSTATS
 		* Add page with statistics for the player?
 			* Total games cleared
-			* Practice levels completed?
-			* Rating?
-				
-		// MODES
-		* Add find missflagged mine Game Mode??				
-		* Have some as Optional - Reasonable - Wishful?
-		* Mode where there are guesses but the highest prob are always the mines?
-		
-		
-		// PAPER
-		* Create Paper on Expected features for the game and Steps to get there?
 
-		// TODO
+		// ERROR HANDELING
 		* Fix the error handeling of submitting levels
 
 		// MONITIZATION
@@ -439,19 +296,50 @@ This will generate a 28-character string that you should copy and paste into the
 		// USER EXPERIENCE
 		* Have player be able to favour some levels they want to practice and keep them locally? Have an option to run only favourite levels?
 
+		// // DONT'S // //
+
+
+		// // MAYBEES // //
+		// Responsiveness -  Automatically scaling of UI
+		* Issue with responsive result screens fix later		
+			Result Screens
+			Settings
+		* Only Allow a player to send Rating the first time they encounter a level?
+		* Issue - with slow loading of levels in collections sometimes, fix? Still issue?
+
+		// Moderator Tools
+		* What Creation tools should be allowed for users, and when? -Everyone can use them to begin with?
+
+		// LEVEL ID UNIQUENESS
+		* Trouble with Id only unique inside each document not both
+
+		// PLAYERSTATS
+		* Add page with statistics for the player?
+			* Rating?
 		// RATING
 		* Figure out more exactly how to deal with player ratings and levels ratings.
 		* Have a limit for levels for them to count towards rating? How to set this range?
 
+		// MODES
+		* Add find missflagged mine Game Mode??				
+		* Have some as Optional - Reasonable - Wishful?
+		* Mode where there are guesses but the highest prob are always the mines?
+		
+		// PAPER
+		* Create Paper on Expected features for the game and Steps to get there?
+		
 		// LEVEL COLLECTIONS
 		* Have logic categories for levels? How to handle this, how to handle multiple logics?
 		* Should player have different strengths in different logics and unlocking new ones? Prob not. Just have harder levels not appear for new users
-		
+
 		// LEVEL CREATION SYSTEM
 		// USER CREATION ALLOWENCE
 		* How about having new Pending levels in a pot where players can play and rate them and after 100 ratings it is ether approved or discarded?
 		* Approved goes into certain Collections? Maybe Monthly new or Weekly?
 		* Initially players get the basic collections maybe 1000 levels? Need to complete them to unlock rest?		
+
+-- -- --// // END // //-- -- --
+		
 		
 		// PRO USERS
 		* Maybe only allow paying players to rate and play pending games?
@@ -463,10 +351,6 @@ This will generate a 28-character string that you should copy and paste into the
 
 		// UI		
 		
-		// AUTHENTICATION
-		* Players need to be able to log in with Facebook/googleaccount
-		* Have Log out use Loadingpanel and show result?
-
 		// FIREBASE LIMITS
 		Monthly active users	50k/month 
 		Stored data 			1 GiB total 
@@ -477,97 +361,11 @@ This will generate a 28-character string that you should copy and paste into the
 		Maximum size for a document 	1 MiB (1,048,576 bytes)
 		Maximum size of a field value 	1 MiB - 89 bytes (1,048,487 bytes)
 
-
-
 		// Google Play Service
 			// Icon specification
 			JPEG or 32-bit PNG - 512 px by 512 px - Up to 1 MB
 			// Feature graphic
 			JPEG or 24-bit PNG - 1024px by 500px - Up to 1 MB
-
-
-
-
-		
-		// Look Into Playtest
-
-		// Minor things
-		* Drinking bounce giving things whouldnt be allowed if full bounce?
-		* The additional clay/stone generated when getting a full success minigame isnt clear. Have it be 100%? Have it given to player directly better or somehow more visual.
-
-		* Have someone directing you to the camp by town to sleep until you get the house sorted?
-		* Have the Bed craftable but only placable inside your house
-		* Sleeping in bed might give a certain benefit
-
-		* At researchtable unlocking platinum shown twice
-
-		* Would be nice with quests that increase players inventory - or getting a backpack etc
-		* Sperrylite mining starts at 3 per hit to much also easy minigame
-
-		// Inputs
-		* Allow TAB out from Town Hall Build Menu	
-		* Purple rain should have a F to show requrements
-		* Would like to add stack with coal etc to smelter by right click
-
-		// Tweaks
-		* Rope and Burlap could take longer to craft
-		* Iron Axe/ Pickaxe should require more than 5 iron	
-		* Bit to low agency requirement for unlocking valley exit
-			
-		// Additional Content
-		* Sheets for Large Chest recipe?
-		* Missing Platinum Axe/Pickaxe recipe	
-
-		// Bugs
-		* Exiting the menu with ESC when the chose amount window is visible, won't close it.
-		* Ramiro and Manuela are not in the valley like ever
-		* Game crashed - after fixing the museum and getting the fix broken pillar quest
-
-		* Ball person Notice of "Manuaela and Ramiros house" - typo? inThimbleton one word
-
-		// Mechanics
-		* Fast double click in mini game should be valid, now a delay is needed
-		* Maybe unlocking stuff in research should be based on amount of total items gathered of a type over time not the amound you got on you?	
-		* Drinking an item (or filling it) if no space for empty bowl/glass should not be allowed rather than sending it to lost and found?
-		* Maybe unlocking a map part should open the map menu automatically?
-		
-
-		// Visuals
-		* Deer keeps moonwalking backwards
-		
-		// LOOK INTO
-		Played your game, latest version got stuck here... https://imgur.com/MahzJjb
-		Got stock in wall behind ramiros house
-
-		When picking up stuff from crafters the notice text is under the output panel
-		Trying to pick up stuff with full inventory should make different sound and notice player better of failure to do so. Also makes axe sound hitting wood/rock if clicking anywhere
-		dragging from anywhere in the inventory+ drags the selected item out into the world to drop, maybe you should require the player to drag from the item.
-		Using a tool in a crowded area makes harvesting fail (instead check more than the closest item to see if any is harvestable with the tool)
-		spyglass I - is there a version II ?
-		consuming a blueberry drink with full inventory (having 2+ drinks) discards the glass - should keep it
-		blueberries at camp seems to spawn multiple times making stacks (also seems to happen to some clay and stone)
-		failing minigmae cutting wood should have another sound than hitting stone?
-		E- to interract and fixing cost does not show at the fireplace at the hilltop or the hill
-		maybe sitting should speed up recovery?
-		Right clicking a stack in inventory moves all stacks of same type, should only move all of the clicked stack
-		Shift clicking items in the inventory changes sprint on/off - which it prob shouldnt
-		Trying to fix ramiras farm - gets you unavalible notice but costs you BOUNCE each time
-		Minor - When fixing a torch you can light it before it is completed
-
-		Step Sounds are off in the town - wooden floor sound on grass areas a bit random
-
-
-		- NEW
-
-		NOT AN ISSUE when placing stuff I get option above a stack say for soft wood 190 but when placing only the stack is placed
-		Did you spell turmeric wrong by mistake?
-		Piñjon adds only 1 bounce instead of 10
-		oRES AND mORES selling crystals for 0 sparks (seems that multiple buy screens pop up when there is several items on the table, like crystals		)
-		Would be nice to teb out from trade for sparks menu
-		Lots of duplicate items, my save ali file was 45.5Mb
-
-
-
 
 		******************************
 		Minesweeper GO Pro Cons
@@ -668,3 +466,173 @@ This will generate a 28-character string that you should copy and paste into the
 		* MISSING FEATURE
 
 ------ ------- ------
+
+// Look Into Playtest
+
+		// Minor things
+		* Drinking bounce giving things whouldnt be allowed if full bounce?
+		* The additional clay/stone generated when getting a full success minigame isnt clear. Have it be 100%? Have it given to player directly better or somehow more visual.
+
+		* Have someone directing you to the camp by town to sleep until you get the house sorted?
+		* Have the Bed craftable but only placable inside your house
+		* Sleeping in bed might give a certain benefit
+
+		* At researchtable unlocking platinum shown twice
+
+		* Would be nice with quests that increase players inventory - or getting a backpack etc
+		* Sperrylite mining starts at 3 per hit to much also easy minigame
+
+		// Inputs
+		* Allow TAB out from Town Hall Build Menu	
+		* Purple rain should have a F to show requrements
+		* Would like to add stack with coal etc to smelter by right click
+
+		// Tweaks
+		* Rope and Burlap could take longer to craft
+		* Iron Axe/ Pickaxe should require more than 5 iron	
+		* Bit to low agency requirement for unlocking valley exit
+			
+		// Additional Content
+		* Sheets for Large Chest recipe?
+		* Missing Platinum Axe/Pickaxe recipe	
+
+		// Bugs
+		* Exiting the menu with ESC when the chose amount window is visible, won't close it.
+		* Ramiro and Manuela are not in the valley like ever
+		* Game crashed - after fixing the museum and getting the fix broken pillar quest
+
+		* Ball person Notice of "Manuaela and Ramiros house" - typo? inThimbleton one word
+
+		// Mechanics
+		* Fast double click in mini game should be valid, now a delay is needed
+		* Maybe unlocking stuff in research should be based on amount of total items gathered of a type over time not the amound you got on you?	
+		* Drinking an item (or filling it) if no space for empty bowl/glass should not be allowed rather than sending it to lost and found?
+		* Maybe unlocking a map part should open the map menu automatically?
+		
+
+		// Visuals
+		* Deer keeps moonwalking backwards
+		
+// LOOK INTO
+		Played your game, latest version got stuck here... https://imgur.com/MahzJjb
+		Got stock in wall behind ramiros house
+
+		When picking up stuff from crafters the notice text is under the output panel
+		Trying to pick up stuff with full inventory should make different sound and notice player better of failure to do so. Also makes axe sound hitting wood/rock if clicking anywhere
+		dragging from anywhere in the inventory+ drags the selected item out into the world to drop, maybe you should require the player to drag from the item.
+		Using a tool in a crowded area makes harvesting fail (instead check more than the closest item to see if any is harvestable with the tool)
+		spyglass I - is there a version II ?
+		consuming a blueberry drink with full inventory (having 2+ drinks) discards the glass - should keep it
+		blueberries at camp seems to spawn multiple times making stacks (also seems to happen to some clay and stone)
+		failing minigmae cutting wood should have another sound than hitting stone?
+		E- to interract and fixing cost does not show at the fireplace at the hilltop or the hill
+		maybe sitting should speed up recovery?
+		Right clicking a stack in inventory moves all stacks of same type, should only move all of the clicked stack
+		Shift clicking items in the inventory changes sprint on/off - which it prob shouldnt
+		Trying to fix ramiras farm - gets you unavalible notice but costs you BOUNCE each time
+		Minor - When fixing a torch you can light it before it is completed
+
+		Step Sounds are off in the town - wooden floor sound on grass areas a bit random
+
+
+		- NEW
+
+		NOT AN ISSUE when placing stuff I get option above a stack say for soft wood 190 but when placing only the stack is placed
+		Did you spell turmeric wrong by mistake?
+		Piñjon adds only 1 bounce instead of 10
+		oRES AND mORES selling crystals for 0 sparks (seems that multiple buy screens pop up when there is several items on the table, like crystals		)
+		Would be nice to teb out from trade for sparks menu
+		Lots of duplicate items, my save ali file was 45.5Mb
+
+A LOOK INTO - END
+
+
+
+
+ /// LOGON METHODS USED IN PROJECT REFERENCE
+Windows
+		E:\Unity Projects\#Assets\FacebookTools\openssl-0.9.8k_X64
+		E:\Unity Projects\#Assets\FacebookTools\openssl-0.9.8k_X64\bin\openssl
+		E:\Unity Projects\#keystore\user.keystore
+
+You will need the following:
+Key and Certificate Management Tool (keytool) from the Java Development Kit
+openssl-for-windows openssl library for Windows from the Google Code Archive
+To generate a development key hash, run the following command in a command prompt in the Java SDK folder: 
+
+keytool -exportcert -alias androiddebugkey -keystore "E:\Unity Projects\#keystore\user.keystore" | "E:\Unity Projects\#Assets\FacebookTools\openssl-0.9.8k_X64\bin\openssl" sha1 -binary | "E:\Unity Projects\#Assets\FacebookTools\openssl-0.9.8k_X64\bin\openssl" base64
+
+
+		Facebook Access Token - EAAHYxUcklsYBO86pPRZB8ttzrUqfM7DlzFXZAxssPZAKVxli1hZCE7kp59ALLsII8wxMHa3MQYdZBjr5vKoIX4YgRKX1wf1O9gHBGVzFjeAMt1rGr86fA9CuV22MyFlC2sV7GOa3Y6bBbZAnek1wVrTTjmjW3ZAAvRj6aHt2Ewkq7LAk1Px6VMZAZCs0GQEq3XsU0dIGvVPGJEkGhfUZB7ZBzK8tiHyW5ynJntcAg7as4QLF2GwTnuQGXqm3wZAfZB31PoEkFFQJAgbxp
+								EAAHYxUcklsYBOZCZCfIarUmq5XzYEbRlFn3caNWEsu6OCSUiHybqxXLvvig7HiqH0ZCSfK5akhuBOZANcGMoz0bRDvRNbuKnZBu8KfIM6ZC3x5740sdcSSdvInAUhRUTk9CDh2ee6hapuznIDQgodrHUHKsYqFPfGYraTf34ujYmtVkEi2ZBeC6VDGN9crGF8ECosaq6uojKwZCQ3yz9WxobTz4oCTobxWZBaFRzhJj8pH0wvAp3ve5XVJLnnRVpJ6iZAqjEWZCiT8H
+
+		Development key
+keytool -exportcert -alias androiddebugkey -keystore "C:\Users\USERNAME\.android\debug.keystore" | "PATH_TO_OPENSSL_LIBRARY\bin\openssl" sha1 -binary | "PATH_TO_OPENSSL_LIBRARY\bin\openssl" base64
+
+
+
+		Release Key
+		      
+keytool -exportcert -alias YOUR_RELEASE_KEY_ALIAS -keystore YOUR_RELEASE_KEY_PATH | openssl sha1 -binary | openssl base64
+
+Copy Code
+This will generate a 28-character string that you should copy and paste into the field below. Also, see the Android documentation for signing your apps. 
+
+
+		// Google signin issues - OLD //
+		* Setting the E:\Unity Projects\GitHub\MineTacticsB\Assets\GoogleSignIn\Editor\m2repository\com\google\signin\google-signin-support\1.0.4
+		google-signin-support-1.0.4 setting to be used on Android crashes it again
+
+		* removed the aar extensions only no change
+		* only keeping the aar extensions -crash
+
+		* Game crashes when ticking the box for Android use in the aar file
+		* If its not ticked I can read the DLL error and the game keeps working. When ticked it crashes before I can read any error
+
+		 - GoogleSignInSupportDependencies.xml from folder E:\Unity Projects\GitHub\MineTacticsB\Assets\GoogleSignIn\Editor
+		* Trying to remove the GoogleSignInSupportDependencies.xml file and moving the aar fie to the main Plugins folder
+
+		"Exception: Unable to load DLL 'native-googlesignin' Tried to load the following dynamic libraries: Unable to load dynamic library (0x06000000) dlerror() = dlopen failed: library "native-googlesignin' not found"
+		// Google signin issues - OLD END //
+
+		** || ** Using OAUTH 2.0
+
+		Making a OAuth Consent Screen
+		Adding Credential
+
+		Used video https://www.youtube.com/watch?v=OCCe1TXDEq8
+
+		Getting Unsupported request when opening OAuth page for logon
+
+
+
+		Webpage
+		https://wolfheat.github.io/privacyPolicy.html
+
+
+		Accepting licenses Android SDK
+		C:\Users\Micael10\AppData\Local\Android\Sdk\cmdline-tools\latest\bin
+		C:\Users\Micael10\AppData\Local\Android\Sdk\tools\bin
+		sdkmanager --licenses
+
+		installed Java v23
+
+		changing environment variables from
+		E:\Unity Projects\#Editors\2022.3.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK
+		to C:\Program Files\Java\jdk-23
+		E:\Unity Projects\#Editors\2022.3.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK
+
+		C:\Program Files\Java\jre1.8.0_431
+
+
+		TODO
+		Start by filling out the needed info in the Google Play Console page
+		https://play.google.com/console/u/0/developers/8419211252620831558/app/4973714629124742289/games/publication
+
+		Then keep reading from 
+		https://github.com/Nichathan-Gaming/GooglePlayAuthenticationInUnityWithFirebase?tab=readme-ov-file
+
+
+		-- Makes most sense to have X amount of standard diff level collections which player can pick from as the standard Challenge mod
+
+////////////////////////////////////////////////
