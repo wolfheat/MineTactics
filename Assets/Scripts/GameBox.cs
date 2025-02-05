@@ -68,16 +68,18 @@ public class GameBox : MonoBehaviour
         // If Busted Level disallow any click on Area
 
 
-        GameAreaMaster.Instance.MainGameArea.AddClicks();
 
         // This workds for normal gameplay keep it
         if (value > 0)
         {
-            Chord();
+            bool wasted = Chord();
+            if(!wasted)
+                GameAreaMaster.Instance.MainGameArea.AddClicks();
             return;
         }
-        if (Marked)
+        if (Marked) {
             return;
+        }
 
         if (GameAreaMaster.Instance.MainGameArea.OpenBox(Pos))
         {
@@ -98,9 +100,9 @@ public class GameBox : MonoBehaviour
         transform.gameObject.SetActive(false);
     }
 
-    private void Chord()
+    private bool Chord()
     {
-        GameAreaMaster.Instance.MainGameArea.Chord(Pos);
+        return GameAreaMaster.Instance.MainGameArea.Chord(Pos);
     }
 
     public void Mark()

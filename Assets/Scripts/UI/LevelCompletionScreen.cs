@@ -53,13 +53,16 @@ public class LevelCompletionScreen : MonoBehaviour
         }
         else
         {
-            int extraClicks = (GameAreaMaster.Instance.MainGameArea.Clicks - GameAreaMaster.Instance.MainGameArea.B3V);
-            string extraClicksText = (extraClicks >= 0 ? "+" : "") + extraClicks;
-            Clicks.text = GameAreaMaster.Instance.MainGameArea.Clicks + " (" + GameAreaMaster.Instance.MainGameArea.B3V + extraClicksText + ")";
+            int extraClicks = (GameAreaMaster.Instance.MainGameArea.TotalClicks - GameAreaMaster.Instance.MainGameArea.Clicks);
+
+            Debug.Log("Clicks = "+ GameAreaMaster.Instance.MainGameArea.Clicks);
+            Debug.Log("extraClicks = " + extraClicks);
+
+            Clicks.text = GameAreaMaster.Instance.MainGameArea.TotalClicks + " (" + extraClicks + " + "+ GameAreaMaster.Instance.MainGameArea.Clicks + ")";
 
             float B3VsValue = GameAreaMaster.Instance.MainGameArea.B3V / Timer.TimeElapsed;
             B3Vs.text = B3VsValue.ToString("F3");
-            float efficencyValue = (float)GameAreaMaster.Instance.MainGameArea.B3V / GameAreaMaster.Instance.MainGameArea.Clicks;
+            float efficencyValue = (float)GameAreaMaster.Instance.MainGameArea.B3V / GameAreaMaster.Instance.MainGameArea.TotalClicks;
             efficiency.text = (efficencyValue*100).ToString("F0")+"%";
             if (B3VRecordText != null)
                 B3VRecordText?.SetActive(record3BV);

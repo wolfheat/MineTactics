@@ -268,7 +268,11 @@ public class Inputs : MonoBehaviour
         //var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(touchPos),100f,LayerMask.NameToLayer("Default"));
         Debug.Log("Ray Hit "+(rayHit.collider != null));
         if (!rayHit.collider) return;
-        
+
+        // Hitting something Add to total Clicks
+        GameAreaMaster.Instance.MainGameArea.AddTotalClicks();
+
+
         Debug.Log("TOUCH! Rightclick ="+rightClick);
         GameBox box = rayHit.collider.GetComponent<GameBox>();
         Debug.Log("box ="+box?.name);

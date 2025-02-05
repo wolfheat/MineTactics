@@ -33,6 +33,7 @@ public class GameArea : MonoBehaviour
     public bool LevelBusted { get; private set; }
     public int B3V { get; private set; }
     public int Clicks { get; private set; }
+    public int TotalClicks { get; private set; }
 
     public static GameArea Instance { get; private set; }
     public float GameWidth { get; set; }
@@ -81,6 +82,7 @@ public class GameArea : MonoBehaviour
         mines = newMines;
 
         Clicks = 0;
+        TotalClicks = 0;
 
         LoadGame(gameLoaded, editorcreateMode);
     }
@@ -114,6 +116,7 @@ public class GameArea : MonoBehaviour
         amtText.text = "" + FirestoreManager.Instance.LoadedAmount;
 
         Clicks = 0;
+        TotalClicks = 0;
         LevelBusted = false;
         USerInfo.Instance.currentType = GameType.Normal;
 
@@ -337,14 +340,20 @@ public class GameArea : MonoBehaviour
     {
         Clicks++;
     }
-    public void Chord(Vector2Int pos)
+    public void AddTotalClicks()
     {
+        TotalClicks++;
+    }
+    public bool Chord(Vector2Int pos)
+    {
+        bool wasted = false;
         //Debug.Log("Charding levelcreator at "+pos);
         if (Chordable(pos))
         {
             //Debug.Log("Chardable");
-            OpenAllNeighbors(pos);
+            wasted = OpenAllNeighbors(pos);
         }
+        return wasted;
     }
 
     private bool Chordable(Vector2Int pos)
@@ -596,10 +605,11 @@ public class GameArea : MonoBehaviour
     }
     private Vector2Int[] steps = new Vector2Int[] { new Vector2Int(-1, -1), new Vector2Int(-1, 0), new Vector2Int(-1, 1), new Vector2Int(0, -1), new Vector2Int(0, 1), new Vector2Int(1, -1), new Vector2Int(1, 0), new Vector2Int(1, 1) };
 
-    private void OpenAllNeighbors(Vector2Int pos)
+    private bool OpenAllNeighbors(Vector2Int pos)
     {
         int iCenter = pos.x;
         int jCenter = pos.y;
+        bool wasted = false; 
 
         for (int i = iCenter - 1; i <= iCenter + 1; i++)
         {
@@ -613,9 +623,12 @@ public class GameArea : MonoBehaviour
                 {
                     //Debug.Log("Opening overlayBox ["+i+","+j+"] since it is active");
                     OpenBox(new Vector2Int(i, j));
+                    wasted = false;
                 }
             }
         }
+        return wasted;
+
     }
     private void BustLevel()
     {
