@@ -15,6 +15,10 @@ public class LoginMenu : MonoBehaviour
     [SerializeField] Button submitButton;
     [SerializeField] Button adam;
 
+    public string InputName { get { return username_field.text; }}
+    public string InputPass { get { return password_field.text; }}
+
+
     private void Start()
     {
     }
@@ -30,6 +34,8 @@ public class LoginMenu : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(username_field.gameObject);
     }
+
+    
 
     private void OnEnter(InputAction.CallbackContext context)
     {

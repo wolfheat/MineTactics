@@ -49,7 +49,6 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
         OnlyGetCredentials = OnlyCredentials;
     }
     private bool OnlyGetCredentials = false;
-    public static Action<Firebase.Auth.Credential> OnCredentialsRecieved { get; set; }
 
     private void AuthCallback(ILoginResult result)
     {
@@ -83,7 +82,7 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
         Firebase.Auth.Credential credential = Firebase.Auth.FacebookAuthProvider.GetCredential(accessToken);
 
         if (OnlyGetCredentials) {
-            OnCredentialsRecieved?.Invoke(credential);
+            AuthManager.OnCredentialsRecieved?.Invoke(credential);
             return;
         }
         // If player is already signed in - link the accounts

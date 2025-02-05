@@ -275,6 +275,11 @@ Nov 2024
 		* Updated list of todo's
 4/2		* Made changing name store correctly in local settings save
 5/2		* Linking Facebook Account to Email login now works if facebook account is not in firebase already - also gives error message if not linking		
+		* Linking a password now works for a facebook only account as well
+
+
+		* How to handle a FB user wanting to add another credential method? Like Email/pass?
+
 
 		* Fix clicks count and use useful/wasted clicks instead of 3BV number
 		* Show message to player when opening Challenge level with no levels loaded. 

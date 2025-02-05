@@ -8,6 +8,7 @@ using TMPro;
 using System.Threading.Tasks;
 using Firebase;
 using i5.Toolkit.Core.RocketChatClient;
+using System.Net;
 public class AuthManager : MonoBehaviour
 {
     FirebaseFirestore db;
@@ -334,11 +335,20 @@ public class AuthManager : MonoBehaviour
                 OnNameChangeSuccess?.Invoke();
             });
         }
-
     }
 
+    public void EmailAuth(string email, string password)
+    {
+        // USe the access token to get the firebase credential
+        Debug.Log(" ** ** Email Auth ** ** ");
+        Firebase.Auth.Credential credential = Firebase.Auth.EmailAuthProvider.GetCredential(email, password);
+        LinkAccounts(credential);
+    }
 
-    // USE LATER FOR LINKING ACCOUNTS
+    public static Action<Firebase.Auth.Credential> OnCredentialsRecieved { get; set; }
+
+
+    // USE LATER FOR LINKING ACCOUNTS - Should allow any credential to be linked to the current user
     public void LinkAccounts(Credential credential)
     {
         auth.CurrentUser.LinkWithCredentialAsync(credential).ContinueWithOnMainThread(linkTask =>
