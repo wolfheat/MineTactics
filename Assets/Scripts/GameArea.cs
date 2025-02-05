@@ -148,7 +148,9 @@ public class GameArea : MonoBehaviour
             Debug.Log("MINI VIEW - View Should does not load the normal Challenge levels!");
             return;
         }
-        //Debug.Log("LOADING GAME IN GAMEAREA View: "+isOnlyView);
+
+
+        Debug.Log("LOADING GAME IN GAMEAREA View: "+isOnlyView);
 
         USerInfo.Instance.BoardSize = gameLoaded.GetLength(0);
         ResetBoard();

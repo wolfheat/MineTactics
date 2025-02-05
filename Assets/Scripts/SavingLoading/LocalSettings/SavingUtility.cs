@@ -44,6 +44,12 @@ public class SavingUtility : MonoBehaviour
         LoadingComplete?.Invoke(); // Call this to update all ingame values
     }
 
+    public void UpdatePlayerNameAndSaveAllDataToFile(string newName)
+    {
+        gameSettingsData.PlayerName = newName;
+        SaveAllDataToFile();
+    }
+
     public void SaveAllDataToFile()
     {
         Debug.Log("ID in SaVe: "+USerInfo.Instance.GetInstanceID());

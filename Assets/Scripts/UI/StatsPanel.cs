@@ -81,6 +81,7 @@ public class StatsPanel : MonoBehaviour
         challengeLost.text = lost.ToString();
         challengeWon.text= won.ToString();
         player.text = SavingUtility.gameSettingsData.PlayerName.ToString();   
+        Debug.Log(" ** Loading player name from gamesettingsdata PLayername: "+ SavingUtility.gameSettingsData.PlayerName.ToString());
         rating.text = SavingUtility.gameSettingsData.Rating.ToString();
         register.text = SavingUtility.gameSettingsData.Registration.ToString();
 
@@ -91,7 +92,6 @@ public class StatsPanel : MonoBehaviour
         // Specifics
         for (int i = 0; i < records.Count; i++)
         {
-            Debug.Log("records "+i);
             float record = records[i];
             float record3bv = records3bv[i];
             if (record == 0)
@@ -108,7 +108,6 @@ public class StatsPanel : MonoBehaviour
 
         for (int i = 0; i < originalRecords.Count; i++)
         {
-            Debug.Log("records " + i);
             float record = originalRecords[i];
             float record3bv = originalRecords3bv[i];
             if (record == 0)

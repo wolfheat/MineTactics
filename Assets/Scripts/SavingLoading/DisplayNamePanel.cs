@@ -12,7 +12,7 @@ public class DisplayNamePanel : MonoBehaviour
     [SerializeField] TMP_InputField username_field;
     [SerializeField] TextMeshProUGUI errorMessageText;
     [SerializeField] Button submitButton;
-
+    private string startName = "";
 
     public static DisplayNamePanel Instance { get; private set; }
 
@@ -27,7 +27,10 @@ public class DisplayNamePanel : MonoBehaviour
         Debug.Log("<color=red>Test In Red Color</color>");
     }
 
-
+    private void OnEnable()
+    {
+        startName = SavingUtility.gameSettingsData.PlayerName.ToString();
+    }
 
 
     public void InitilizeDisplayNamePanel(Firebase.Auth.FirebaseUser user)
@@ -59,9 +62,12 @@ public class DisplayNamePanel : MonoBehaviour
             errorMessageText.text = "Invalid User Name";
             return;
         }
-        Debug.Log("Changed User name to "+currentUserName);
-        AuthManager.Instance.UpdateFirebaseUserName(currentUserName);
-        PanelController.Instance.ShowLoaderPanelChangeDisplayName();
+        if(startName != currentUserName) {
+            AuthManager.Instance.UpdateFirebaseUserName(currentUserName);
+            PanelController.Instance.ShowLoaderPanelChangeDisplayName();
+            SavingUtility.Instance.UpdatePlayerNameAndSaveAllDataToFile(currentUserName);
+            Debug.Log("Changed User name to "+currentUserName);
+        }
         gameObject.SetActive(false);
     }
 

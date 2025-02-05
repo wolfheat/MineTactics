@@ -273,6 +273,8 @@ Nov 2024
 		* Positionaed New record and added medal sprite
 3/2		* Updated UI visuals
 		* Updated list of todo's
+4/2		* Made changing name store correctly in local settings save
+		
 
 
 		* Also fix so loading player generated levels only possible for the user who created them. Is this based on name? and has to change to id?
