@@ -74,6 +74,11 @@ public class SettingsPanel : MonoBehaviour
 
     public void SaveSettingsToFile() => SavingUtility.Instance.SaveAllDataToFile();
 
+    public void RequestLinkCredentials()
+    {
+        Debug.Log("Player Requested linking credentials");
+        PanelController.Instance.ShowLinkCredentialsPanel();
+    }
     public void RequestNameChange()
     {
         Debug.Log("Player Requested name to be changed");

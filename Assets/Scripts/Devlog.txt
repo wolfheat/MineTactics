@@ -274,7 +274,15 @@ Nov 2024
 3/2		* Updated UI visuals
 		* Updated list of todo's
 4/2		* Made changing name store correctly in local settings save
-		
+5/2		* Linking Facebook Account to Email login now works if facebook account is not in firebase already - also gives error message if not linking		
+
+		* Fix clicks count and use useful/wasted clicks instead of 3BV number
+		* Show message to player when opening Challenge level with no levels loaded. 
+			You need to go to the Collections Panel and download the collections you want to include in your challenge list.
+		* Show message first time a player enters the Create mode explaining how it works
+		* Clicking long on a collection that is already downloaded in loading Collections panel opens a info panel with redownload option, fix this panel
+
+
 
 
 		* Also fix so loading player generated levels only possible for the user who created them. Is this based on name? and has to change to id?

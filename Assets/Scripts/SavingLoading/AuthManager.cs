@@ -7,6 +7,7 @@ using System.Collections;
 using TMPro;
 using System.Threading.Tasks;
 using Firebase;
+using i5.Toolkit.Core.RocketChatClient;
 public class AuthManager : MonoBehaviour
 {
     FirebaseFirestore db;
@@ -24,6 +25,8 @@ public class AuthManager : MonoBehaviour
 
     public static Action<string> OnDependenciesSuccess;
     public static Action OnNameChangeSuccess;
+    public static Action OnLinkSuccess;
+    public static Action<string> OnLinkFail;
     public static Action OnNameChangeFail;
     public static Action<string> OnShowInfo;
 
@@ -323,16 +326,42 @@ public class AuthManager : MonoBehaviour
                 if (task.IsFaulted)
                 {
                     Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
-                    OnNameChangeFail.Invoke();
+                    OnNameChangeFail?.Invoke();
                     return;
                 }
 
                 Debug.Log("User profile updated successfully.");
-                OnNameChangeSuccess.Invoke();
+                OnNameChangeSuccess?.Invoke();
             });
         }
 
     }
+
+
+    // USE LATER FOR LINKING ACCOUNTS
+    public void LinkAccounts(Credential credential)
+    {
+        auth.CurrentUser.LinkWithCredentialAsync(credential).ContinueWithOnMainThread(linkTask =>
+        {
+            if (linkTask.IsCanceled) {
+                Debug.LogError("LinkWithCredentialAsync was canceled.");
+                return;
+            }
+            if (linkTask.IsFaulted) {
+
+                OnLinkFail?.Invoke(linkTask.Exception.Message.ToString());
+                Debug.LogError("LinkWithCredentialAsync encountered an error: " + linkTask.Exception);
+                return;
+            }
+
+            if (linkTask.IsCompleted){
+                BottomInfoController.Instance.ShowDebugText("Google account linked with Firebase.");
+                Debug.Log("Linking of Credentials to Logged in Account completed successfully!");
+                OnLinkSuccess?.Invoke();
+            }
+        });
+    }
+
 
     Task<AuthResult> authResult = null;
     string errorMessage = "";

@@ -41,13 +41,15 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
         }
     }
 
-    public void RequestSignInWithFacebook()
+    public void RequestSignInWithFacebook(bool OnlyCredentials = false)
     {
         Debug.Log(" ** ** FirebaseFacebookSignInManager RequestSignInWithFacebook ** ** ");
         var perms = new List<string>() { "public_profile", "email" };
         FB.LogInWithReadPermissions(perms, AuthCallback);
-
+        OnlyGetCredentials = OnlyCredentials;
     }
+    private bool OnlyGetCredentials = false;
+    public static Action<Firebase.Auth.Credential> OnCredentialsRecieved { get; set; }
 
     private void AuthCallback(ILoginResult result)
     {
@@ -80,7 +82,11 @@ public class FirebaseFacebookSignInManager : MonoBehaviour
         Debug.Log(" ** ** FirebaseFacebookSignInManager FirebaseFacebookAuth ** ** ");
         Firebase.Auth.Credential credential = Firebase.Auth.FacebookAuthProvider.GetCredential(accessToken);
 
-
+        if (OnlyGetCredentials) {
+            OnCredentialsRecieved?.Invoke(credential);
+            return;
+        }
+        // If player is already signed in - link the accounts
 
 
         auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task => {

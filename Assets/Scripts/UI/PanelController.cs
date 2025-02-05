@@ -24,6 +24,7 @@ public class PanelController : MonoBehaviour
     [SerializeField] GameObject loginSelectMenu;
     [SerializeField] GameObject loginMenu;
     [SerializeField] DisplayNamePanel changeDisplayNamePanel;
+    [SerializeField] LinkCredentials linkCredentialsPanel;
     [SerializeField] GameObject registerMenu;
     [SerializeField] LocalLevelsPanel localLevelPanel;
 
@@ -179,6 +180,10 @@ public class PanelController : MonoBehaviour
         progressPanel.OnRegisterStarted();
     }
     
+    public void ShowLinkCredentialsPanel()
+    {
+        linkCredentialsPanel.gameObject.SetActive(true);
+    }
     public void ShowChangeDisplayNamePanel(Firebase.Auth.FirebaseUser user)
     {
         changeDisplayNamePanel.gameObject.SetActive(true);

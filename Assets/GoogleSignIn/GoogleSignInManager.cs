@@ -39,18 +39,6 @@ public class GoogleSignInManager : MonoBehaviour
         StartCoroutine(DelayedSignIn());
     }
 
-    // USE LATER FOR LINKING ACCOUNTS
-    private void LinkAccounts(Credential credential)
-    {
-        user.LinkWithCredentialAsync(credential).ContinueWithOnMainThread(linkTask =>
-        {
-            if (linkTask.IsCompleted && !linkTask.IsFaulted)
-            {
-                BottomInfoController.Instance.ShowDebugText("Google account linked with Firebase.");
-            }
-        });
-    }
-
     private IEnumerator DelayedSignIn()
     {
         while (!firebaseresolved)

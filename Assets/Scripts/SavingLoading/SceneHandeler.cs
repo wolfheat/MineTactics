@@ -1,5 +1,4 @@
 
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -8,8 +7,8 @@ using UnityEngine.SceneManagement;
 public class SceneHandeler : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI resultText;
-    [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] TextMeshProUGUI info;
+    [SerializeField] TextMeshProUGUI info2;
     [SerializeField] GameObject ui;
     void Start()
     {
@@ -27,19 +26,21 @@ public class SceneHandeler : MonoBehaviour
         StartCoroutine(DelayedLoad(result));
     }
 
-    int timer = 2;
+    int timer = 3;
     private IEnumerator DelayedLoad(string result)
     {
-        string resultTextMain = result;
+        string resultTextMain = " Starting game in";
         resultText.text = result;
-        if (result == "Success")
-            resultTextMain += " " + AuthManager.Instance?.Auth?.CurrentUser?.DisplayName;
+        if (result == "Success") {
+            info2.text = "Welcome " + AuthManager.Instance?.Auth?.CurrentUser?.DisplayName;
+        }
+        resultTextMain += " ";
 
         resultText.text = resultTextMain + " " + timer;
         while (timer > 0) { 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1f);
             timer--;
-            resultText.text = resultTextMain+" "+timer;
+            resultText.text = resultTextMain+timer;
         }
 
         // Remove the start UI 
