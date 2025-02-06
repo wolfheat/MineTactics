@@ -73,7 +73,7 @@ public class GameBox : MonoBehaviour
         if (value > 0)
         {
             bool wasted = Chord();
-            if(!wasted)
+            if(wasted)
                 GameAreaMaster.Instance.MainGameArea.AddClicks();
             return;
         }
@@ -145,8 +145,9 @@ public class GameBox : MonoBehaviour
             return; // Breaks if in edit mode and placing Mines
         }
 
+        // Rightclicking is never a wasted click?
+        //GameAreaMaster.Instance.MainGameArea.AddClicks();
 
-        GameAreaMaster.Instance.MainGameArea.AddClicks();
         if (!Marked)
             GameAreaMaster.Instance.MainGameArea.IncreaseMineCount();
         else

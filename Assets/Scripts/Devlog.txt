@@ -277,7 +277,9 @@ Nov 2024
 5/2		* Linking Facebook Account to Email login now works if facebook account is not in firebase already - also gives error message if not linking		
 		* Linking a password now works for a facebook only account as well
 		* Fixed click count useful/wasted clicks instead of 3BV number
+		* Fixed issue with clicks count
 
+		* Also make moving game area not count as clicks??
 
 		* Show message to player when opening Challenge level with no levels loaded. 
 			You need to go to the Collections Panel and download the collections you want to include in your challenge list.

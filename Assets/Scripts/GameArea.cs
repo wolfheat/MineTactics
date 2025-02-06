@@ -346,7 +346,7 @@ public class GameArea : MonoBehaviour
     }
     public bool Chord(Vector2Int pos)
     {
-        bool wasted = false;
+        bool wasted = true;
         //Debug.Log("Charding levelcreator at "+pos);
         if (Chordable(pos))
         {
@@ -609,7 +609,7 @@ public class GameArea : MonoBehaviour
     {
         int iCenter = pos.x;
         int jCenter = pos.y;
-        bool wasted = false; 
+        bool wasted = true; 
 
         for (int i = iCenter - 1; i <= iCenter + 1; i++)
         {

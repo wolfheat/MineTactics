@@ -266,11 +266,15 @@ public class Inputs : MonoBehaviour
             }
         }
         //var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(touchPos),100f,LayerMask.NameToLayer("Default"));
-        Debug.Log("Ray Hit "+(rayHit.collider != null));
-        if (!rayHit.collider) return;
 
-        // Hitting something Add to total Clicks
+        // Hitting something Add to total Clicks -  also count hitting box without collider
         GameAreaMaster.Instance.MainGameArea.AddTotalClicks();
+
+        Debug.Log("Ray Hit "+(rayHit.collider != null));
+        if (!rayHit.collider) {
+            GameAreaMaster.Instance.MainGameArea.AddClicks(); // Wasted
+            return;
+        }
 
 
         Debug.Log("TOUCH! Rightclick ="+rightClick);
@@ -289,7 +293,7 @@ public class Inputs : MonoBehaviour
                     return;
                 }
                 if(!GameAreaMaster.Instance.MainGameArea.UnSolved(box.Pos))
-                    box.Click();
+                    box.Click(); // Rightclicking a solved area treats it as a left click chord?
                 else
                     box.RightClick();
             }
