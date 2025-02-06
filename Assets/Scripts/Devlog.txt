@@ -282,13 +282,9 @@ Nov 2024
 		* Show message to player when opening Challenge level with no levels loaded. 
 		* Show message first time a player enters the Create mode explaining how it works
 		* Updated text and look of Challenge resultscreen
-
-
+		* Fixed collection Info from download challenge collection page
+		
 		* Issue: zoomed in game does not have limit at top button border. It gets beneith it - fix
-		* Clicking long on a collection that is already downloaded in loading Collections panel opens a info panel with redownload option, fix this panel
-
-
-
 
 		* Also fix so loading player generated levels only possible for the user who created them. Is this based on name? and has to change to id?
 			* Currently no limits for loading levels

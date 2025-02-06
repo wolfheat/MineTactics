@@ -231,7 +231,7 @@ public class LoadPanel : MonoBehaviour
     public void AddACollectionByText()
     {
         Debug.Log("Add a collection by text");
-        ConfirmInputPanel.Instance.ShowConfirmationOption("Add Collection?", "Type the name of the Collection you want to add to the list!", AddACollectionByText);
+        ConfirmInputPanel.Instance.ShowConfirmationOption("Add Collection?", "Type the name of the Collection you want to add!", AddACollectionByText);
     }
     public void AddACollectionByText(string nameOfCollectionToAdd)
     {
