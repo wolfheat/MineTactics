@@ -325,6 +325,9 @@ public class LevelCreator : MonoBehaviour
         BackgroundController.Instance.SetColorEditMode();
         levelText.text = "CREATE " + gameWidth + "x" + gameHeight;
 
+        PanelController.Instance.ShowInfo("This is the Creation Section. It consists of two main sections. This first one you place mines/flags. Second one you finalize the level by opening boxes. Then you add it to the collection page.");
+
+
     }
 
 

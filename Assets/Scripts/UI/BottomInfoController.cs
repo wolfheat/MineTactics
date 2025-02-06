@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -15,6 +13,7 @@ public class BottomInfoController : MonoBehaviour
     [SerializeField] TextMeshProUGUI levelAmtText;
     [SerializeField] TextMeshProUGUI levelText;
     [SerializeField] TextMeshProUGUI debugText;
+    [SerializeField] TextMeshProUGUI clickText;
     [SerializeField] RectTransform rect;
 
     private const int AmountDebugMessages = 15;
@@ -35,6 +34,10 @@ public class BottomInfoController : MonoBehaviour
     }
 
 
+    public void ShowClickText(string showText)
+    {
+        clickText.text = showText;
+    }
     public void ShowDebugText(string showText)
     {
         if (messages.Count >= AmountDebugMessages)

@@ -269,6 +269,7 @@ public class Inputs : MonoBehaviour
 
         // Hitting something Add to total Clicks -  also count hitting box without collider
         GameAreaMaster.Instance.MainGameArea.AddTotalClicks();
+        BottomInfoController.Instance.ShowClickText(""+ GameAreaMaster.Instance.MainGameArea.TotalClicks);
 
         Debug.Log("Ray Hit "+(rayHit.collider != null));
         if (!rayHit.collider) {

@@ -141,7 +141,11 @@ public class PanelController : MonoBehaviour
             GameAreaMaster.Instance.MainGameArea.ResetBoard();
             BackgroundController.Instance.SetColorTactics(); 
             SmileyButton.Instance.ShowNormal();
-        }else if(type ==2)
+            // If there is no collections loaded show info about this
+            if (USerInfo.Instance.ActiveCollections.Count == 0)
+                PanelController.Instance.ShowInfo("You got no Collections loaded, click the collections button and download the collections you want to play levels from.");
+        }
+        else if(type ==2)
         {
             if(USerInfo.EditMode == 1)
             {
