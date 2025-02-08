@@ -286,7 +286,8 @@ Nov 2024
 		* Added flourish
 7/2		* Rewamped UI - Made Header+Flourishes autoscale and changed all Headers to these
 		* Changed info text to be dark grey instead of light for contrast and made all same size
-
+		* Changed Most buttons to be same size
+		* Changed red text to be dark grey
 
 
 		* Also Change so all buttons are same scale and size?
