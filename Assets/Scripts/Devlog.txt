@@ -288,6 +288,8 @@ Nov 2024
 		* Changed info text to be dark grey instead of light for contrast and made all same size
 		* Changed Most buttons to be same size
 		* Changed red text to be dark grey
+		* Solid background for login pages
+
 
 
 		* Also Change so all buttons are same scale and size?
