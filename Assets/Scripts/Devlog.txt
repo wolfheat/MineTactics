@@ -284,6 +284,31 @@ Nov 2024
 		* Updated text and look of Challenge resultscreen
 		* Fixed collection Info from download challenge collection page
 		* Added flourish
+7/2		* Rewamped UI - Made Header+Flourishes autoscale and changed all Headers to these
+		* Changed info text to be dark grey instead of light for contrast and made all same size
+
+
+
+		* Also Change so all buttons are same scale and size?
+
+
+		* Augment contrast in buttons
+		* Make same border size
+		* Less white backgrounds in input fields
+
+		Grey Used
+		717171
+		B0B0B0
+		D0D0D0 <- New 
+
+		White substitute:
+		D9D9D9
+
+		Black Substitute:
+		3C3C3C
+
+
+
 
 		* Show info panel after a player fails a level as well? Have it possible to favourize and rate? Should play count be used here as well?
 		* Make it impossible to save games with no boxes opened? this makes challenges confusing when loaded
