@@ -46,7 +46,7 @@ public class ProgressPanel : MonoBehaviour
         ShowLoadingCircleAnimation(false);
         Debug.Log("OnRegisterFailed: "+error);
         // Set Name to Regitrating
-        headerText.text = "Registrating new Player";
+        headerText.text = "Registrating";
         subText.text = "Failed to register!";
     }
     private void OnLoginFailed(string error)
@@ -71,7 +71,7 @@ public class ProgressPanel : MonoBehaviour
         ShowLoadingCircleAnimation(true);
         Debug.Log("Progress Panel - OnRegisterStarted");
         // Set Name to Regitrating
-        headerText.text = "Registrating new Player";
+        headerText.text = "Registrating";
         subText.text = "Trying to Register, please wait!";
     }
     public void OnDisplayNameChangeStarted()
