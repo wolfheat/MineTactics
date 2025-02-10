@@ -290,7 +290,7 @@ Nov 2024
 		* Changed red text to be dark grey
 		* Solid background for login pages
 8/2		* Remade some of the UI buttons 
-
+9/2		* Remade UI, made Prefabs for PanelBase and Set all panels to this
 
 		* Also Change so all buttons are same scale and size?
 
