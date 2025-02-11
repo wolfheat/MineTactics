@@ -75,7 +75,6 @@ public class FirebaseGoogleSignInManager : MonoBehaviour
 
         await ServiceManager.GetService<OpenIDConnectService>().OpenLoginPageAsync();
     }
-    AuthResult result = null;
     private void LoginComplete(AuthResult result)
     {
         Debug.Log(" - Login Complete -");

@@ -3,18 +3,20 @@ using TMPro;
 using UnityEngine;
 public class LevelCompletionScreen : MonoBehaviour
 {
+    [Header("Main Info Texts")] 
     [SerializeField] TextMeshProUGUI collection;
     [SerializeField] TextMeshProUGUI levelID;
+    [SerializeField] TextMeshProUGUI time;
+    [SerializeField] GameObject timeRecordText;
     [SerializeField] TextMeshProUGUI Clicks;
     [SerializeField] TextMeshProUGUI B3V;
     [SerializeField] TextMeshProUGUI efficiency;
     [SerializeField] TextMeshProUGUI B3Vs;
     [SerializeField] GameObject B3VRecordText;
+    [Header("Other Stuff")] 
     [SerializeField] TextMeshProUGUI rating;
     [SerializeField] TextMeshProUGUI creatorId;
     [SerializeField] TextMeshProUGUI votes;
-    [SerializeField] TextMeshProUGUI time;
-    [SerializeField] GameObject timeRecordText;
     [SerializeField] TextMeshProUGUI playerRatingChange;
     [SerializeField] TextMeshProUGUI levelRatingChange;
     [SerializeField] TextMeshProUGUI status;
@@ -170,7 +172,7 @@ public class LevelCompletionScreen : MonoBehaviour
         // For now increase Level rating by 1 if busted, or lower it if completed
 
         // Level Rating (Temporatily +1 when cleared -1 when bust)
-        dict.Add("DifficultyRating", LoadedData.DifficultyRating);
+        dict.Add("DifficultyRating", LoadedData.Rating);
         //dict.Add("DifficultyRating", LoadedData.DifficultyRating + (bust?-1:1));
 
         FirestoreManager.Instance.UpdateLevel(dict,LoadedData.LevelId);

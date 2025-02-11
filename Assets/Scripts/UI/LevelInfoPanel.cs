@@ -39,7 +39,7 @@ public class LevelInfoPanel : MonoBehaviour
         Data = data;
         creatorId.text = data.CreatorId.ToString();
         collection.text = data.Collection.ToString();
-        rating.text = data.DifficultyRating.ToString();
+        rating.text = data.Rating.ToString();
         votes.text = data.Upvotes.ToString()+"/"+ data.Downvotes.ToString();
         level.text = data.Level.ToString();
         levelID.text = data.LevelId.ToString();

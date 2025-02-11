@@ -10,7 +10,7 @@ public class GoogleSignInManager : MonoBehaviour
 {
     string GoogleWebAPI = "623452355834-4o5t6qte51usb4a1epa4f83i1vnv3afh.apps.googleusercontent.com";
     private GoogleSignInConfiguration googleSignInConfiguration;
-    Firebase.DependencyStatus firebaseStatus = Firebase.DependencyStatus.UnavailableOther;
+    //Firebase.DependencyStatus firebaseStatus = Firebase.DependencyStatus.UnavailableOther;
     Firebase.Auth.FirebaseAuth auth;
     Firebase.Auth.FirebaseUser user;
     private bool firebaseresolved = false;

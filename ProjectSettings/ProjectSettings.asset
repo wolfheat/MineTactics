@@ -16,14 +16,14 @@ PlayerSettings:
   productName: MineTactics
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 0.6784314, g: 0.6784314, b: 0.6745098, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
-  m_SplashScreenOverlayOpacity: 1
+  m_SplashScreenOverlayOpacity: 0.314
   m_SplashScreenAnimation: 2
   m_SplashScreenLogoStyle: 0
   m_SplashScreenDrawMode: 0
-  m_SplashScreenBackgroundAnimationZoom: 0.674
+  m_SplashScreenBackgroundAnimationZoom: 0.539
   m_SplashScreenLogoAnimationZoom: 1
   m_SplashScreenBackgroundLandscapeAspect: 1
   m_SplashScreenBackgroundPortraitAspect: 1
@@ -40,8 +40,8 @@ PlayerSettings:
     width: 1
     height: 1
   m_SplashScreenLogos:
-  - logo: {fileID: -1917983664, guid: bacfa614e2371ed42b6ff2c9b48e5469, type: 3}
-    duration: 3.65
+  - logo: {fileID: -1109321041211706920, guid: 97917cf4a9d835243a3db5a044712e67, type: 3}
+    duration: 2.5
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1920
@@ -142,7 +142,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 0.01.04
+  bundleVersion: 0.01.06
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -459,32 +459,38 @@ PlayerSettings:
       m_Height: 36
       m_Kind: 1
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 0}
       m_Width: 192
       m_Height: 192
       m_Kind: 0
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 0}
       m_Width: 144
       m_Height: 144
       m_Kind: 0
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 0}
       m_Width: 96
       m_Height: 96
       m_Kind: 0
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 0}
       m_Width: 72
       m_Height: 72
       m_Kind: 0
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 0}
       m_Width: 48
       m_Height: 48
       m_Kind: 0
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 0}
       m_Width: 36
       m_Height: 36
       m_Kind: 0

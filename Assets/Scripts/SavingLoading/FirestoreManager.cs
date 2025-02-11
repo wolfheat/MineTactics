@@ -24,7 +24,7 @@ public class LevelData
     [FirestoreProperty]    public string LevelId { get; set; }
     [FirestoreProperty]    public string CreatorId { get; set; }
     [FirestoreProperty]    public string Status { get; set; } // Pending, Approved, Declined
-    [FirestoreProperty] public float DifficultyRating { get; set; } = 1000;// 0-3000 ?? 
+    [FirestoreProperty] public float Rating { get; set; } = 1000;// 0-3000 ?? 
     [FirestoreProperty] public int Upvotes { get; set; } = 0;
     [FirestoreProperty] public int Downvotes { get; set; } = 0;
     [FirestoreProperty] public int PlayCount { get; set; } = 0;
@@ -399,7 +399,7 @@ public class FirestoreManager : MonoBehaviour
                 LevelId = levelCollection.LevelId[i],
                 CreatorId = levelCollection.CreatorId[i],
                 Status = levelCollection.Status[i],
-                DifficultyRating = levelCollection.DifficultyRating[i],
+                Rating = levelCollection.DifficultyRating[i],
                 Upvotes = levelCollection.Upvotes[i],
                 Downvotes = levelCollection.Downvotes[i],
                 PlayCount = levelCollection.PlayCount[i],
@@ -434,7 +434,7 @@ public class FirestoreManager : MonoBehaviour
             ans.LevelId[i] = levels[i].LevelId;
             ans.CreatorId[i] = levels[i].CreatorId;
             ans.Status[i] = levels[i].Status;
-            ans.DifficultyRating[i] = levels[i].DifficultyRating;
+            ans.DifficultyRating[i] = levels[i].Rating;
             ans.Upvotes[i] = levels[i].Upvotes;
             ans.Downvotes[i] = levels[i].Downvotes;
             ans.PlayCount[i] = levels[i].PlayCount;
@@ -652,7 +652,7 @@ public class FirestoreManager : MonoBehaviour
             Status = "Pending",
             Upvotes = 0,
             Downvotes = 0,
-            DifficultyRating = 0,
+            Rating = 0,
             CreatorId = USerInfo.Instance.userName
         };
         return levelData;

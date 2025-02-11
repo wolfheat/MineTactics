@@ -80,7 +80,7 @@ public class ProgressPanel : MonoBehaviour
         ShowLoadingCircleAnimation(true);
         Debug.Log("Progress Panel - OnDisplayNameChangeStarted");
         // Set Name to Regitrating
-        headerText.text = "Changing Display Name";
+        headerText.text = "Changing Name";
         subText.text = "Trying to change player display name, please wait!";
     }
     public void OnNameChangeSuccess()
@@ -88,7 +88,6 @@ public class ProgressPanel : MonoBehaviour
         ShowLoadingCircleAnimation(false);
         Debug.Log("Progress Panel - OnDisplayNameChangeStarted");
         // Set Name to Regitrating
-        headerText.text = "Changing Display Name";
         subText.text = "Name changed successfully!";
         StartCoroutine(DelayedLoadGame());
     }
@@ -105,7 +104,6 @@ public class ProgressPanel : MonoBehaviour
         ShowLoadingCircleAnimation(false);
         Debug.Log("Progress Panel - OnDisplayNameChangeStarted");
         // Set Name to Regitrating
-        headerText.text = "Changing Display Name";
         subText.text = "Name changed failed!";
     }
     public void OnLoginStarted()
@@ -123,7 +121,7 @@ public class ProgressPanel : MonoBehaviour
         ShowLoadingCircleAnimation(true);
         Debug.Log("Progress Panel - OnLoadLevelsStarted");
         // Set Name to Regitrating
-        headerText.text = "Loading new Levels";
+        headerText.text = "Loading Levels";
         subText.text = "Trying to Load new Levels, please wait!";
     }
     private void OnDisable()

@@ -11,7 +11,7 @@ public class SelecetByConditionPanel : MonoBehaviour
     [SerializeField] TMP_Dropdown DropDownField;
     [SerializeField] TMP_Dropdown DropDownExpression;
     [SerializeField] TMP_InputField inputFieldCompareAgainst;
-    private List<string> valueStringList = new List<string>{"CreatorId","Collection","Downvotes", "Upvotes", "DifficultyRating","PlayCount"};
+    private List<string> valueStringList = new List<string>{"CreatorId","Collection","Downvotes", "Upvotes", "Rating","PlayCount"};
     private List<int> Query { get; set; }
 
     private void OnEnable()
@@ -141,33 +141,33 @@ public class SelecetByConditionPanel : MonoBehaviour
                 else
                     return;
                 break;
-            case "DifficultyRating":
+            case "Rating":
                 if (operatorType == ">")
                 {
                     //Query = FirestoreManager.Instance.LocalCollectionList?.Where(x => x.Downvotes > againstInt).Select(x => x.index).ToList();
                     Query = FirestoreManager.Instance.LocalCollectionList?.Select((item, index) => new { Item = item, Index = index })
-                    .Where(x => x.Item.DifficultyRating > againstInt)                  // Filter based on the condition
+                    .Where(x => x.Item.Rating > againstInt)                  // Filter based on the condition
                     .Select(x => x.Index)                                       // Select only the indexes
                     .ToList();
                 }
                 else if (operatorType == "<")
                 {
                     Query = FirestoreManager.Instance.LocalCollectionList?.Select((item, index) => new { Item = item, Index = index })
-                    .Where(x => x.Item.DifficultyRating < againstInt)                  // Filter based on the condition
+                    .Where(x => x.Item.Rating < againstInt)                  // Filter based on the condition
                     .Select(x => x.Index)                                       // Select only the indexes
                     .ToList();
                 }
                 else if (operatorType == "==")
                 {
                     Query = FirestoreManager.Instance.LocalCollectionList?.Select((item, index) => new { Item = item, Index = index })
-                    .Where(x => x.Item.DifficultyRating == againstInt)                  // Filter based on the condition
+                    .Where(x => x.Item.Rating == againstInt)                  // Filter based on the condition
                     .Select(x => x.Index)                                       // Select only the indexes
                     .ToList();
                 }
                 else if (operatorType == "!=")
                 {
                     Query = FirestoreManager.Instance.LocalCollectionList?.Select((item, index) => new { Item = item, Index = index })
-                    .Where(x => x.Item.DifficultyRating != againstInt)                  // Filter based on the condition
+                    .Where(x => x.Item.Rating != againstInt)                  // Filter based on the condition
                     .Select(x => x.Index)                                       // Select only the indexes
                     .ToList();
                 }

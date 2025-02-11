@@ -21,7 +21,7 @@ public class LevelInfo : MonoBehaviour
         if (data == null) return;
         collection.text = data.Collection.ToString();
         creatorId.text = data.CreatorId.ToString();
-        rating.text = data.DifficultyRating.ToString();
+        rating.text = data.Rating.ToString();
         votes.text = data.Upvotes.ToString()+"/"+ data.Downvotes.ToString();
         level.text = data.Level.ToString();
         levelID.text = data.LevelId.ToString();

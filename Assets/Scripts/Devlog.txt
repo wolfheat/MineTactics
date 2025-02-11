@@ -291,6 +291,8 @@ Nov 2024
 		* Solid background for login pages
 8/2		* Remade some of the UI buttons 
 9/2		* Remade UI, made Prefabs for PanelBase and Set all panels to this
+10/2	* Updated more UI stuff
+		* Changed the Logo at app startup
 
 		* Also Change so all buttons are same scale and size?
 
