@@ -1,7 +1,9 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.PlayerLoop;
 
 public class Inputs : MonoBehaviour
 {
@@ -67,10 +69,16 @@ public class Inputs : MonoBehaviour
 
     private void Update()
     {
+        // Update Poiter Over UI
+        PointerOverUI = EventSystem.current.IsPointerOverGameObject();
+
         UpdateTouchCount();
         if (IsMousePressed && BoxClickValidStart && ActiveTouchCount==1 && !DidZoom)
             TouchMove();
+
     }
+
+    public bool PointerOverUI { get; private set; }
 
     private void UpdateTouchCount()
     {
@@ -246,13 +254,12 @@ public class Inputs : MonoBehaviour
         return (USerInfo.Instance.BoardSize <= 10);
     }
 
+    
+
     public void OnTouchClick(Vector2 touchPos,bool rightClick = false)
     {
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            //Debug.Log("Pointer is hitting UI discard touch");
+        if (PointerOverUI)
             return;
-        }
 
         var rayHits = Physics2D.GetRayIntersectionAll(Camera.main.ScreenPointToRay(touchPos));
         RaycastHit2D rayHit = new();

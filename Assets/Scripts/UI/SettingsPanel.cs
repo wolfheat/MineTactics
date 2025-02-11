@@ -51,6 +51,7 @@ public class SettingsPanel : MonoBehaviour
         USerInfo.Instance.BoardSize = (int)slider.value;
         USerInfo.Instance.UsePending = pendingToggle.isOn;
         USerInfo.Instance.UseRotatedExpert = expertRotatedToggle.isOn;
+        Debug.Log("** UseRotatedExpert "+ USerInfo.Instance.UseRotatedExpert);
 
         // Update settings values
         SavingUtility.gameSettingsData.BoardSize = (int)slider.value;

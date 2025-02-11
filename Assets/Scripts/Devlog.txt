@@ -294,8 +294,13 @@ Nov 2024
 10/2	* Updated more UI stuff
 		* Changed the Logo at app startup
 		* Minor Fixes
+11/2	* Made the drop Down hitbox larger
+		* Fixed MouseOverUI issue
 
-		* Drop Down arrow to small, easy to miss and hit create, fix make larger?
+
+
+
+		* Fix positioning of New record text
 
 		* Rotated Expert does not work anymore FIX
 
