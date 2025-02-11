@@ -109,7 +109,7 @@ public class GameArea : MonoBehaviour
         SmileyButton.Instance.ShowNormal();
         Timer.Instance.ResetCounterAndPause();
         USerInfo.Instance.WaitForFirstMove = true;
-        USerInfo.Instance.levelID = "RANDOM " + gameWidth + "x" + gameHeight;
+        USerInfo.Instance.levelID = gameWidth + "x" + gameHeight;
 
         // Exchange this
         levelText.text = USerInfo.Instance.levelID;

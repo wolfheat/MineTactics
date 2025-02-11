@@ -28,7 +28,8 @@ public class CreatePanelController : MonoBehaviour
 
         //SetCreateButtonsToLevel(1);
         //UpdateCreateLevelSize();
-        SetSliderSize();
+        if (USerInfo.Instance != null)
+            SetSliderSize();
         //UpdateCreateLevelSize();
     }
 
@@ -134,6 +135,7 @@ public class CreatePanelController : MonoBehaviour
     }
 
     public void SetSliderSize() => slider.value = USerInfo.Instance.BoardSize;
+
     public void UpdateCreateLevelSize()
     {
         // Read value of slider and update

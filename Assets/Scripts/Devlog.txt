@@ -293,9 +293,22 @@ Nov 2024
 9/2		* Remade UI, made Prefabs for PanelBase and Set all panels to this
 10/2	* Updated more UI stuff
 		* Changed the Logo at app startup
+		* Minor Fixes
+
+		* Drop Down arrow to small, easy to miss and hit create, fix make larger?
+
+		* Rotated Expert does not work anymore FIX
 
 		* Also Change so all buttons are same scale and size?
 
+		* Make the Stars reset after a level is cleared, now its set to same
+
+		* Expert level loads slowly, have player limited from giving additional inputs while loading?
+
+
+		* Have Challenge mode greyed out if no levels loaded so player knows to click collection button / go directly to load? Maybe confusing
+
+		* FOrce PLayers to use Pascal case for Collection names? Large first letter rest small, only one word?
 
 		* Augment contrast in buttons
 		* Make same border size

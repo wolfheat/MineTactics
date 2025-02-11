@@ -41,6 +41,7 @@ public class LevelCompletionScreen : MonoBehaviour
         if (USerInfo.Instance.currentType == GameType.Challenge) { 
             if (data == null)
                 return;
+            Debug.Log("Setting Challenge Result data: Collection:"+data.Collection+" Creator: "+data.CreatorId+" Status: "+data.Status+" Play OCunt: "+data.PlayCount+" Votes: "+data.vote);
             LoadedData = data;
             creatorId.text = data.CreatorId.ToString();
             //rating.text = data.DifficultyRating.ToString();

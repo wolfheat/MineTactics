@@ -160,7 +160,7 @@ public class ProgressPanel : MonoBehaviour
         ShowLoadingCircleAnimation(true);
         Debug.Log("OnSubmitLevelStarted");
         // Set Name to Regitrating
-        headerText.text = "Submitting Levels";
+        headerText.text = "Submitting";
         subText.text = "Trying to Submit the Levels, please wait!";
     }
 
