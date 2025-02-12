@@ -15,6 +15,8 @@ public class PanelController : MonoBehaviour
 
     [SerializeField] GameObject normalModeButtonPanel;
     [SerializeField] GameObject challengeModeButtonPanel;
+
+    [SerializeField] GameObject challengeModeDarkening;
     
     [SerializeField] GameObject cancelButton;
     [SerializeField] GameObject nextButton;
@@ -66,7 +68,14 @@ public class PanelController : MonoBehaviour
         AuthManager.OnNameChangeSuccess += NameChangeSuccess;
         FirestoreManager.OnSubmitLevelStarted += ShowLoaderPanelSubmitLevel;
         FirestoreManager.OnLoadLevelStarted += ShowLoaderPanelReceiveLevel;
+        FirestoreManager.OnLevelCollectionListChange += UpdateChallengeCollectionSize;
     }
+
+    private void UpdateChallengeCollectionSize(int obj)
+    {
+        ChallengeListIsEmpty(USerInfo.Instance.ActiveCollections.Count == 0);
+    }
+
     private void OnDisable()
     {
         AuthManager.RegisterAttemptStarted -= ShowLoaderPanelRegister;
@@ -74,6 +83,7 @@ public class PanelController : MonoBehaviour
         AuthManager.OnSuccessfulLogIn -= LoginConfirmed;
         FirestoreManager.OnSubmitLevelStarted -= ShowLoaderPanelSubmitLevel;
         FirestoreManager.OnLoadLevelStarted -= ShowLoaderPanelReceiveLevel;
+        FirestoreManager.OnLevelCollectionListChange -= UpdateChallengeCollectionSize;
     }
     private void InitStartMenu()
     {
@@ -142,8 +152,7 @@ public class PanelController : MonoBehaviour
             BackgroundController.Instance.SetColorTactics(); 
             SmileyButton.Instance.ShowNormal();
             // If there is no collections loaded show info about this
-            if (USerInfo.Instance.ActiveCollections.Count == 0)
-                PanelController.Instance.ShowInfo("You got no Collections loaded, click the collections button and download the collections you want to play levels from.");
+            ChallengeListIsEmpty(USerInfo.Instance.ActiveCollections.Count == 0);
         }
         else if(type ==2)
         {
@@ -171,6 +180,8 @@ public class PanelController : MonoBehaviour
         }
         UpdateModeShown();
     }
+
+    private void ChallengeListIsEmpty(bool isEmpty) => challengeModeDarkening.SetActive(isEmpty);
 
     public void ShowLoaderPanelLoadLevels()
     {

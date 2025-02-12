@@ -241,7 +241,7 @@ public class Inputs : MonoBehaviour
         //Debug.Log("move >");    
 
 
-        OnMoveCameraMovement.Invoke(LastPos-CurrentPosition);
+        OnMoveCameraMovement?.Invoke(LastPos-CurrentPosition);
         LastPos = CurrentPosition;
     }
 
@@ -320,11 +320,9 @@ public class Inputs : MonoBehaviour
     public void OnClick(InputAction.CallbackContext context)
     {
         // This method handles clicks on items below UI so exit if hitting UI
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            //Debug.Log("Clicked on the UI");
+        if (PointerOverUI)
             return;
-        }
+
         if(Input.touches.Length>0)
             TouchDebug.Instance.ShowText("Touch At: " + Mouse.current.position.ReadValue() + " touch " + Input.touches[0].position);
 

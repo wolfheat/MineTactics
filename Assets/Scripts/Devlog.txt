@@ -296,29 +296,21 @@ Nov 2024
 		* Minor Fixes
 11/2	* Made the drop Down hitbox larger
 		* Fixed MouseOverUI issue
+		* Rotated Expert works again
+		* Made the Stars reset after a level is cleared
+		* Challenge mode is now greyed out if no levels loaded 
+		* Record text changed and aligned
+		* Pascal formatting forced on collection names
+		* Fixed large game scaling correctly
 
 
 
+		* Have current normal level highlighted in the menu
 
-		* Fix positioning of New record text
 
-		* Rotated Expert does not work anymore FIX
-
-		* Also Change so all buttons are same scale and size?
-
-		* Make the Stars reset after a level is cleared, now its set to same
 
 		* Expert level loads slowly, have player limited from giving additional inputs while loading?
-
-
-		* Have Challenge mode greyed out if no levels loaded so player knows to click collection button / go directly to load? Maybe confusing
-
-		* FOrce PLayers to use Pascal case for Collection names? Large first letter rest small, only one word?
-
-		* Augment contrast in buttons
-		* Make same border size
-		* Less white backgrounds in input fields
-
+		
 		Grey Used
 		717171
 		B0B0B0

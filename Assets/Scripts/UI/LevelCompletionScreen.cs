@@ -25,8 +25,9 @@ public class LevelCompletionScreen : MonoBehaviour
 
     private LevelData LoadedData = new LevelData();
     private int vote = 3;
+    private const int DefaultVote = 3;
 
-    private void Start() => OnClickStar(vote);
+    private void Start() => OnClickStar(DefaultVote);
     public void RequestUpdateLevelInfo() => UpdateLevelInfo(FirestoreManager.Instance.LevelData);
 
     public void UpdateLevelInfo(LevelData data,bool record = false,bool record3BV = false)
@@ -50,7 +51,7 @@ public class LevelCompletionScreen : MonoBehaviour
             collection.text = data.Collection.ToString();
             status.text = data.Status.ToString();
             playCount.text = data.PlayCount.ToString();
-            Clicks.text = GameAreaMaster.Instance.MainGameArea.Clicks.ToString();
+            //Clicks.text = GameAreaMaster.Instance.MainGameArea.Clicks.ToString();
 
             //  
         }
@@ -71,7 +72,7 @@ public class LevelCompletionScreen : MonoBehaviour
                 B3VRecordText?.SetActive(record3BV);
 
         }
-        OnClickStar(3); // Sets to 3 star as default
+        OnClickStar(DefaultVote); // Sets to 3 star as default
     }
     
     public void SetVote(int set)

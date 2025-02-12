@@ -74,7 +74,8 @@ public class BottomInfoController : MonoBehaviour
 
     internal float Height()
     {
-        return rect.sizeDelta.y;
+        return rect.rect.height;
+        //return rect.sizeDelta.y;
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using WolfheatProductions;
 
@@ -28,9 +29,16 @@ public class ConfirmInputPanel : ConfirmPanelBase
     public override void YesClicked()
     {
         int lengthOfText = inputField.text.Length;
+
         if (lengthOfText < 4)
         {
             PanelController.Instance.ShowInfo("The name is to short. Needs to be 4+ letters!");
+            return;
+        }
+
+        if (!Pascal())
+        {
+            PanelController.Instance.ShowInfo("Please use a Pascal Name formatting! Xxxxx");
             return;
         }
 
@@ -42,4 +50,16 @@ public class ConfirmInputPanel : ConfirmPanelBase
         panel.SetActive(false);
     }
 
+    private bool Pascal()
+    {
+        string word = inputField.text;
+        if (!Char.IsUpper(word[0]))
+            return false;
+        for (int i = 1; i < word.Length; i++) {
+            char c = word[i];
+            if (!Char.IsLower(word[i]))
+                return false;
+        }
+        return true;
+    }
 }
