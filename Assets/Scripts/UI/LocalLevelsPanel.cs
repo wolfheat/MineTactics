@@ -7,8 +7,8 @@ using UnityEngine;
 public class LocalLevelsPanel : MonoBehaviour
 {
     [SerializeField] GameObject panel;
-    private List<ListItem> listItems = new List<ListItem>();
-    [SerializeField] ListItem listItemPrefab;
+    private List<List> listItems = new List<List>();
+    [SerializeField] List listItemPrefab;
     [SerializeField] GameObject listItemHolder;
     [SerializeField] SaveCollectionPanel storeCollection;
     [SerializeField] TextMeshProUGUI selectedAmoutButton;
@@ -70,7 +70,7 @@ public class LocalLevelsPanel : MonoBehaviour
         FirestoreManager.Instance.LocalCollectionList.RemoveAt(i);
         Debug.Log("List size after " + FirestoreManager.Instance.LocalCollectionList.Count);
 
-        ListItem itemToDestroy = listItems[i];
+        List itemToDestroy = listItems[i];
         listItems.RemoveAt(i);
         Destroy(itemToDestroy.gameObject);
         UpdateListIndexes(i);
@@ -89,7 +89,7 @@ public class LocalLevelsPanel : MonoBehaviour
         List<LevelData> levelDatas = FirestoreManager.Instance.LocalCollectionList;
         for (int i = i_start; i < levelDatas.Count; i++)
         {
-            ListItem newListItem = listItems[i];
+            List newListItem = listItems[i];
             newListItem.UpdateIndex(i);
         }
     }
@@ -120,7 +120,7 @@ public class LocalLevelsPanel : MonoBehaviour
         for (int i = 0; i < levelDatas.Count; i++) 
         {
             LevelData levelData = levelDatas[i];
-            ListItem newListItem = Instantiate(listItemPrefab,listItemHolder.transform);
+            List newListItem = Instantiate(listItemPrefab,listItemHolder.transform);
             newListItem.UpdateData(i,levelData);
             listItems.Add(newListItem);
             if (selectedIndexes.Contains(i))
@@ -171,7 +171,7 @@ public class LocalLevelsPanel : MonoBehaviour
         for (int i = selectedIndexes.Count - 1; i >= 0; i--)
         {
             FirestoreManager.Instance.LocalCollectionList.RemoveAt(selectedIndexes[i]);
-            ListItem itemToDestroy = listItems[selectedIndexes[i]];
+            List itemToDestroy = listItems[selectedIndexes[i]];
             listItems.RemoveAt(selectedIndexes[i]);
             Destroy(itemToDestroy.gameObject);
         }
@@ -297,10 +297,10 @@ public class LocalLevelsPanel : MonoBehaviour
         }
     }
 
-    private ListItem loadedLevelListItem;
+    private List loadedLevelListItem;
     private LevelData loadedLevelData;
 
-    public void LoadLevel(LevelData levelData, ListItem listItem)
+    public void LoadLevel(LevelData levelData, List listItem)
     {
         LastLoadedIndex = listItem.Index;
         if (loadedLevelListItem != null)
@@ -326,8 +326,8 @@ public class LocalLevelsPanel : MonoBehaviour
     }
 
     List<int> selectedIndexes = new List<int>();
-    List<ListItem> selectedListItems = new List<ListItem>();
-    public void AddSelectedLevelToList(ListItem item, bool keep = false)
+    List<List> selectedListItems = new List<List>();
+    public void AddSelectedLevelToList(List item, bool keep = false)
     {
         if(selectedIndexes.Contains(item.Index))
         {
@@ -356,7 +356,7 @@ public class LocalLevelsPanel : MonoBehaviour
     {
         foreach (var index in selectedIndexes)
         {
-            ListItem listItem = listItems[index];
+            List listItem = listItems[index];
                 listItem?.DeMark();
         }
         selectedListItems.Clear();
@@ -369,7 +369,7 @@ public class LocalLevelsPanel : MonoBehaviour
         UnselectAllMarked();
         foreach (var selected in newSelectedIndexes)
         {
-            ListItem selectedItem = listItems[selected];
+            List selectedItem = listItems[selected];
             selectedIndexes.Add(selectedItem.Index);
             selectedListItems.Add(selectedItem);
             selectedItem.Mark();
@@ -377,7 +377,7 @@ public class LocalLevelsPanel : MonoBehaviour
         UpdateSelectedAmt();
     }
 
-    internal void AddSelectedLevelsToCurrentMousePositionFromLast_UsingShift(ListItem listItem)
+    internal void AddSelectedLevelsToCurrentMousePositionFromLast_UsingShift(List listItem)
     {
         // Mark all items from index min to max
         int minIndex = Math.Min(listItem.Index, selectedListItems[selectedListItems.Count - 1].Index);
@@ -400,7 +400,7 @@ public class LocalLevelsPanel : MonoBehaviour
                 continue;
             Debug.Log("Adding Index "+index+" to selected");
             selectedIndexes.Add(index);            
-            ListItem listItem = listItems[index];
+            List listItem = listItems[index];
             selectedListItems.Add(listItem);
             listItem.Mark();
         }

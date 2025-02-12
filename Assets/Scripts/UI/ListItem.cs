@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class List : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] TextMeshProUGUI index_text;
     [SerializeField] TextMeshProUGUI id_text;

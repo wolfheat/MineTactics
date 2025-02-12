@@ -16,7 +16,8 @@ public class IconButton : MonoBehaviour
     public void SetSelected(bool set)
     {
         text_field.color = set?selectedIconColor:unselectedIconColor;
-        image.color = set?selectedIconColor:unselectedIconColor;
+        if(image != null)
+            image.color = set?selectedIconColor:unselectedIconColor;
         background.color = set?selectedBackgroundColor:unselectedBackgroundColor;
     }
 }

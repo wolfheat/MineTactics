@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class NormalPanelController : MonoBehaviour
     private Vector3 panelClosedPosition;
     Coroutine activeRoutine;
     Coroutine autoClose;
+    [SerializeField] private IconButton lastbutton;
 
     const float TotTime = 0.1f;
     const float WaitTime = 4f;
@@ -89,6 +91,7 @@ public class NormalPanelController : MonoBehaviour
 
     public void StartAutoCloseCO(bool fast = false)
     {
+
         if (autoClose != null)
             StopCoroutine(autoClose);
         autoClose = StartCoroutine(AutoClose(fast));
@@ -101,30 +104,46 @@ public class NormalPanelController : MonoBehaviour
         LevelCreator.Instance.RestartGame(false,true);
     }
 
-    public void RequestStartBeginner()
+    public void RequestStartBeginner(IconButton button)
     {
+        HighlighButton(button);
+        
         Debug.Log("Beginner");
         USerInfo.Instance.BoardType = BoardTypes.Beginner;
         LevelCreator.Instance.RestartGame(false,true);
         StartAutoCloseCO(true);
     }
-    public void RequestStartIntermediate()
+
+    private void HighlighButton(IconButton button)
     {
+        lastbutton?.SetSelected(false);
+        lastbutton = button;
+        lastbutton.SetSelected(true);
+    }
+
+    public void RequestStartIntermediate(IconButton button)
+    {
+        HighlighButton(button);
+
         Debug.Log("Intermediate");
         USerInfo.Instance.BoardType = BoardTypes.Intermediate;
         LevelCreator.Instance.RestartGame(false, true);
         StartAutoCloseCO(true);
     }
-    public void RequestStartExpert()
+    public void RequestStartExpert(IconButton button)
     {
+        HighlighButton(button);
+
         Debug.Log("Expert");
         USerInfo.Instance.BoardType = BoardTypes.Expert;
         LevelCreator.Instance.RestartGame(false, true);
         StartAutoCloseCO(true);
     }
 
-    public void UpdateCreateLevelSize()
+    public void UpdateCreateLevelSize(IconButton button)
     {
+        HighlighButton(button);
+
         // Read value of slider and update
         int nexValue = (int)slider.value;
         boardSizeText.text = nexValue + "x" + nexValue;

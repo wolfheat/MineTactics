@@ -124,9 +124,5 @@ public class ButtonController : MonoBehaviour
         ShowButtons(stateBeforeSettings);
     }
 
-    internal float Height()
-    {
-        return rect.sizeDelta.y;
-
-    }
+    internal float Height() => rect.sizeDelta.y;
 }

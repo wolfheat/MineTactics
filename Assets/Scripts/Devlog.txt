@@ -302,11 +302,7 @@ Nov 2024
 		* Record text changed and aligned
 		* Pascal formatting forced on collection names
 		* Fixed large game scaling correctly
-
-
-
-		* Have current normal level highlighted in the menu
-
+		* Made normal level buttons highlighted in the menu
 
 
 		* Expert level loads slowly, have player limited from giving additional inputs while loading?
