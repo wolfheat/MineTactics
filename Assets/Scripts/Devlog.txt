@@ -303,7 +303,11 @@ Nov 2024
 		* Pascal formatting forced on collection names
 		* Fixed large game scaling correctly
 		* Made normal level buttons highlighted in the menu
+12/2	* Have Expert mode start with top part aligned to top area
 
+		
+		* Remake the game into tilemaps instead of induvidual tiles? Large rework but will speed it up.
+		
 
 		* Expert level loads slowly, have player limited from giving additional inputs while loading?
 		

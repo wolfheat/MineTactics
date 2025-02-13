@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -340,9 +341,23 @@ public class LevelCreator : MonoBehaviour
 
     public void RestartGame(bool keepZoom = false,bool resetPosition = false)
     {
+        // When restarting a game make a load screen that prohibits player from clicking anything
+        PanelController.Instance.ShowLoaderPanelGame();
+
         Debug.Log("LevelCreator - RestartGame");
         gameArea.RestartGame(resetPosition);        
+
+        //await Task.Run(() => gameArea.RestartGame(resetPosition));        
+
         AlignGameArea(keepZoom);
+
+        Debug.Log("--- RestartGame USerInfo.Instance.UseRotatedExpert = " + USerInfo.Instance.UseRotatedExpert);
+        if (USerInfo.Instance.BoardType == BoardTypes.Expert && USerInfo.Instance.UseRotatedExpert) {
+            Debug.Log("Align TOP!");
+            CameraController.Instance.AlignTop();
+        }
+        PanelController.Instance.RemoveLoaderPanelGame();
+
         return;
     }
 

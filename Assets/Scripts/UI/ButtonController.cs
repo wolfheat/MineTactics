@@ -45,7 +45,7 @@ public class ButtonController : MonoBehaviour
         {
             //Close Settings here!
             state = stateBeforeSettings;
-        }
+        }   
         mainButtons[(int)lastState].SetSelected(false);
         switch (lastState)
         {

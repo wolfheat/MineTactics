@@ -177,6 +177,7 @@ public class GameArea : MonoBehaviour
         if (isOnlyView)
             return;
         Timer.Instance.ResetCounterAndPause();
+
         SmileyButton.Instance.UpdateCollectionSize(FirestoreManager.Instance.ActiveChallengeLevels.Count);
     }
 

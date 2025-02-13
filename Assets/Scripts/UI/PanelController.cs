@@ -210,6 +210,16 @@ public class PanelController : MonoBehaviour
         progressPanel.OnDisplayNameChangeStarted();
     }
     
+    public void ShowLoaderPanelGame()
+    {
+        Debug.Log("--- Prohibit player inputs");    
+    }
+    
+    public void RemoveLoaderPanelGame()
+    {
+        Debug.Log("--- Enable player inputs again.");
+    }
+    
     public void ShowLoaderPanelLogin()
     {
         progressPanel.gameObject.SetActive(true);

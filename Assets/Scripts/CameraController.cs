@@ -63,6 +63,18 @@ public class CameraController : MonoBehaviour
         ClampToGameArea();
     }
 
+    public void AlignTop()
+    {
+        float totalHalfHeight = Camera.main.orthographicSize;
+        float topButtonsHeight = cam.orthographicSize * 2 * (ButtonController.Instance.Height() / 1920);
+        float HeightUsableAreaUp = totalHalfHeight - topButtonsHeight;
+
+        // Sprite Size
+        float SpriteHalfHeight = spriteRenderer.size.y / 2;
+        float CameraMovableUp = HeightUsableAreaUp - SpriteHalfHeight;
+        transform.position = new Vector3(transform.position.x, -CameraMovableUp, transform.position.z);
+    }
+
     private void ClampToGameArea()
     {
         // World Game Size
