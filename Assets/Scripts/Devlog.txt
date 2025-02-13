@@ -304,6 +304,7 @@ Nov 2024
 		* Fixed large game scaling correctly
 		* Made normal level buttons highlighted in the menu
 12/2	* Have Expert mode start with top part aligned to top area
+		* Made validation of levels tell whats wrong in popup
 
 		
 		* Remake the game into tilemaps instead of induvidual tiles? Large rework but will speed it up.

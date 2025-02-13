@@ -623,6 +623,15 @@ public class FirestoreManager : MonoBehaviour
         return true;
     }
     
+    public bool LocalCollectionListContains(string level)
+    {
+        foreach (var item in LocalCollectionList) {
+            if(item.Level == level)
+                return true;
+        }
+        return false;
+    }
+
     public void AddToLocalCollection(string val)
     {
         LevelData levelData = CreateLevelDataFromName(val);

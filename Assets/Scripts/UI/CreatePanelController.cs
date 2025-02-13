@@ -55,18 +55,21 @@ public class CreatePanelController : MonoBehaviour
         Debug.Log("Add this Level to The Collection List");
 
         // CHeck here for valid Level
-        bool isValid = GameAreaMaster.Instance.MainGameArea.ValidateLevel();
+        string validationString = GameAreaMaster.Instance.MainGameArea.ValidateLevel();
 
-        if (isValid)
-        {
-            GameAreaMaster.Instance.MainGameArea.AddLevelToCollection();
-            PanelController.Instance.ShowFadableInfo("Level Added!");
-            // Set this new Level as avtive in list
-            LocalLevelsPanel.Instance.SelectRecentlyAdded();
-            PanelController.Instance.ShowLocalLevelPanel();
+        switch (validationString) {
+            case "Valid":
+                if (!GameAreaMaster.Instance.MainGameArea.AddLevelToCollection())
+                    break;
+                PanelController.Instance.ShowFadableInfo("Level Added!");
+                // Set this new Level as avtive in list
+                LocalLevelsPanel.Instance.SelectRecentlyAdded();
+                PanelController.Instance.ShowLocalLevelPanel();
+                break;
+            default:
+                PanelController.Instance.ShowInfo(validationString);
+                break;
         }
-        else
-            PanelController.Instance.ShowInfo("not able to save level due to no clickable tiles");
     }
 
     public void ExitTest()

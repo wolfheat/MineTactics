@@ -35,13 +35,16 @@ public class List : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         Debug.Log("Request Replace Level (ListItem)");
         // CHeck here for valid Level
-        bool isValid = GameAreaMaster.Instance.MainGameArea.ValidateLevel();
-        
-        // Open Replace Confirmation screen
-        if (isValid) 
-            ConfirmPanel.Instance.ShowConfirmationOption("Replace Level?", "Are you sure you want to replace level " + index+" with the current layout?", ReplaceSelected);
-        else
-            PanelController.Instance.ShowInfo("this level can not be replaced because the current one is not valid");            
+        string validationString = GameAreaMaster.Instance.MainGameArea.ValidateLevel();
+
+        switch (validationString) {
+            case "Valid":
+                ConfirmPanel.Instance.ShowConfirmationOption("Replace Level?", "Are you sure you want to replace level " + index+" with the current layout?", ReplaceSelected);
+                break;
+            default:
+                PanelController.Instance.ShowInfo(validationString);
+                break;
+        }
     }
     public void RequestDeleteLevel()
     {

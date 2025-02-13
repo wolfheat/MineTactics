@@ -758,6 +758,19 @@ public class GameArea : MonoBehaviour
         return unFlagged;
     }
     
+    private bool SomeOpened()
+    {
+        for (int j = 0; j < gameHeight; j++)
+        {
+            for (int i = 0; i < gameWidth; i++)
+            {
+                if (mines[i,j]!=-1 && !overlayBoxes[i, j].gameObject.activeSelf)
+                    return true;
+            }
+        }
+        return false;
+    }
+    
     private int TotalClickable()
     {
         int clickable = 0;
@@ -1000,12 +1013,20 @@ public class GameArea : MonoBehaviour
         return valid;
     }
 
-    public void AddLevelToCollection()
+    public bool AddLevelToCollection()
     {
         (int[,] charArray, string pre) = SavingLoadingConverter.LevelTo2DArray(mines, overlayBoxes);
         string compressed = SavingLoadingConverter.ComressToString(charArray, pre);
+
+        // Check if level is already in the list, not allowing duplicates
+        if (FirestoreManager.Instance.LocalCollectionListContains(compressed)) {
+
+            PanelController.Instance.ShowInfo("This level already exist in the list");
+            return false;
+        }
         FirestoreManager.Instance.AddToLocalCollection(compressed);
         Debug.Log("Saved Level added to Collection");
+        return true;
     }
     
     public string GetCompressedLevel()
@@ -1024,9 +1045,17 @@ public class GameArea : MonoBehaviour
 
     public bool UnSolved(Vector2Int pos) => overlayBoxes[pos.x, pos.y].UnSolved();
 
-    public bool ValidateLevel()
+
+
+    public string ValidateLevel()
     {
-        return TotalClickable() > 0;
+        // Checks that a level is Valid and return the result
+        // Is there at least one clickable spot
+        if (TotalClickable() == 0)
+            return "You can not save a level with all boxes opened.";
+        if(!SomeOpened())
+            return "You can not save a level with no boxes opened.";
+        return "Valid";
     }
 
     internal void ShowLevel(LevelData level)
