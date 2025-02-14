@@ -17,7 +17,8 @@ public class USerInfo : MonoBehaviour
 
     public static USerInfo Instance { get; private set; }
 	public BoardTypes BoardType { get; set; } = BoardTypes.Slider;
-	public int BoardSize { get; set; } = 6;
+    public int ActiveBordSize { get; set; } = 6;
+    public int LastUsedNormalBordSize { get; set; } = 6;
 	public int Sensitivity { get; set; } = 15;
 	public float SensitivityMS => Sensitivity / 100f;
 
@@ -48,7 +49,7 @@ public class USerInfo : MonoBehaviour
     {
 		Debug.Log(" Setting data from Saved Settings File");
         Sensitivity = SavingUtility.gameSettingsData.TouchSensitivity;
-		BoardSize = SavingUtility.gameSettingsData.BoardSize;
+		ActiveBordSize = SavingUtility.gameSettingsData.BoardSize;
 		UsePending = SavingUtility.gameSettingsData.UsePending;
 		UseRotatedExpert = SavingUtility.gameSettingsData.UseRotatedExpert;
 		Theme = SavingUtility.gameSettingsData.Theme;

@@ -121,7 +121,7 @@ public class CreatePanelController : MonoBehaviour
 
     public void ConfirmSettings()
     {
-        USerInfo.Instance.BoardSize = (int)slider.value;
+        USerInfo.Instance.ActiveBordSize = (int)slider.value;
 
         // SAVE THIS??? NO
 
@@ -137,7 +137,7 @@ public class CreatePanelController : MonoBehaviour
         GameAreaMaster.Instance.MainGameArea.OnCreateBack(flagged);
     }
 
-    public void SetSliderSize() => slider.value = USerInfo.Instance.BoardSize;
+    public void SetSliderSize() => slider.value = USerInfo.Instance.ActiveBordSize;
 
     public void UpdateCreateLevelSize()
     {

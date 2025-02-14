@@ -12,11 +12,11 @@ public class SizePick : MonoBehaviour
         // Set slider to current Size
         // Clear level and set it to stored size
         Debug.Log("OnEnable SizePick - Sets slider to stored value");
-        slider.value = USerInfo.Instance.BoardSize;
+        slider.value = USerInfo.Instance.ActiveBordSize;
     }
     public void ConfirmSettings()
     {
-        USerInfo.Instance.BoardSize = (int)slider.value;
+        USerInfo.Instance.ActiveBordSize = (int)slider.value;
 
         // SAVE THIS??? NO
 

@@ -22,8 +22,8 @@ public class NormalPanelController : MonoBehaviour
 
     private void OnEnable()
     {
-        // Initiate the Create With start of creat buttons and 
-        SetSliderSize();
+        // Initiate the Create With start of create buttons and 
+        //SetSliderSize();
         autoClose = StartCoroutine(AutoClose(true));
 
     }
@@ -38,7 +38,7 @@ public class NormalPanelController : MonoBehaviour
     {
         if (activeRoutine != null) 
             return;
-        Debug.Log("Expand");
+        //Debug.Log("Expand");
         if (expanded)
         {
             //transform.localPosition = panelClosedPosition;
@@ -100,7 +100,9 @@ public class NormalPanelController : MonoBehaviour
     public void ConfirmSettings()
     {
         USerInfo.Instance.BoardType = BoardTypes.Slider;
-        USerInfo.Instance.BoardSize = (int)slider.value;
+        USerInfo.Instance.ActiveBordSize = (int)slider.value;
+        USerInfo.Instance.LastUsedNormalBordSize = (int)slider.value;
+        Debug.Log("--- Setting USerInfo.Instance.LastLoadedNormalBoardSize to "+ USerInfo.Instance.ActiveBordSize);
         LevelCreator.Instance.RestartGame(false,true);
     }
 
@@ -110,7 +112,8 @@ public class NormalPanelController : MonoBehaviour
         
         Debug.Log("Beginner");
         USerInfo.Instance.BoardType = BoardTypes.Beginner;
-        LevelCreator.Instance.RestartGame(false,true);
+        USerInfo.Instance.LastUsedNormalBordSize = 0;
+        LevelCreator.Instance.RestartGame(false,true); 
         StartAutoCloseCO(true);
     }
 
@@ -127,6 +130,7 @@ public class NormalPanelController : MonoBehaviour
 
         Debug.Log("Intermediate");
         USerInfo.Instance.BoardType = BoardTypes.Intermediate;
+        USerInfo.Instance.LastUsedNormalBordSize = 1;
         LevelCreator.Instance.RestartGame(false, true);
         StartAutoCloseCO(true);
     }
@@ -136,6 +140,7 @@ public class NormalPanelController : MonoBehaviour
 
         Debug.Log("Expert");
         USerInfo.Instance.BoardType = BoardTypes.Expert;
+        USerInfo.Instance.LastUsedNormalBordSize = 2;
         LevelCreator.Instance.RestartGame(false, true);
         StartAutoCloseCO(true);
     }
@@ -150,5 +155,11 @@ public class NormalPanelController : MonoBehaviour
         ConfirmSettings();
         StartAutoCloseCO();
     }
-    public void SetSliderSize() => slider.value = USerInfo.Instance.BoardSize;
+    public void SetSliderSize()
+    {
+        // Only run this when player sets it cause the update
+        if(USerInfo.Instance.LastUsedNormalBordSize >= 5)
+            slider.SetValueWithoutNotify(USerInfo.Instance.LastUsedNormalBordSize);
+
+    }
 }

@@ -410,7 +410,7 @@ public class PanelController : MonoBehaviour
             switch (USerInfo.Instance.BoardType)
             {
                 case BoardTypes.Slider:
-                    (record,recordB3V) = SavingUtility.gameSettingsData.AddIfRecord(Timer.TimeElapsed,USerInfo.Instance.BoardSize-5,GameAreaMaster.Instance.MainGameArea.B3V);
+                    (record,recordB3V) = SavingUtility.gameSettingsData.AddIfRecord(Timer.TimeElapsed,USerInfo.Instance.ActiveBordSize-5,GameAreaMaster.Instance.MainGameArea.B3V);
                     break;
                 case BoardTypes.Beginner:
                     (record, recordB3V) = SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed,0, GameAreaMaster.Instance.MainGameArea.B3V);

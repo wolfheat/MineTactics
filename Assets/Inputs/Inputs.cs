@@ -153,7 +153,7 @@ public class Inputs : MonoBehaviour
         Vector2 pos = Controls.Main.TouchPosition.ReadValue<Vector2>(); 
         //Vector2 pos = Touchscreen.current.touches[0].position.ReadValue();
             
-        Debug.Log("OnTouchStart "+pos   );
+        //Debug.Log("OnTouchStart "+pos   );
         var rayHit = Physics2D.GetRayIntersectionAll(Camera.main.ScreenPointToRay(pos));
         //var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Touchscreen.current.touches[0].position.ReadValue()),100f,LayerMask.NameToLayer("GameAreaLayer"));
         //Debug.Log("Starting Touch on position "+ Touchscreen.current.touches[0].position.ReadValue() + " has collider "+(rayHit.collider!=null));
@@ -176,7 +176,7 @@ public class Inputs : MonoBehaviour
         }
         else
         {
-            Debug.Log("OnTouchStart - Disable");
+            //Debug.Log("OnTouchStart - Disable");
             if (MoveEnabled)
             {
                 MoveEnabled = false;
@@ -205,7 +205,7 @@ public class Inputs : MonoBehaviour
             return; // Dont click if dragging
         }
 
-        Debug.Log("Ended Touch "+DidZoom);
+        //Debug.Log("Ended Touch "+DidZoom);
         TimeHeld = (Time.time - startTouch);
         
         Vector2 pos = Controls.Main.TouchPosition.ReadValue<Vector2>();
@@ -251,7 +251,7 @@ public class Inputs : MonoBehaviour
         {
             return USerInfo.Instance.BoardType == BoardTypes.Beginner; // All standard sizes except Beginner allows for zoom
         }
-        return (USerInfo.Instance.BoardSize <= 10);
+        return (USerInfo.Instance.ActiveBordSize <= 10);
     }
 
     

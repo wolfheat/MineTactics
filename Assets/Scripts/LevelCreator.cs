@@ -335,7 +335,7 @@ public class LevelCreator : MonoBehaviour
     public void OnPlaySizeChange()
     {
         Debug.Log("LevelCreator - Play size changed, restarting Game");
-        BottomInfoController.Instance.ShowDebugText("Play Size Changing to "+USerInfo.Instance.BoardSize);
+        BottomInfoController.Instance.ShowDebugText("Play Size Changing to "+USerInfo.Instance.ActiveBordSize);
         RestartGame(false,true);
     }
 

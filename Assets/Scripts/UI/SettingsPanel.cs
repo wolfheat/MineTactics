@@ -48,7 +48,7 @@ public class SettingsPanel : MonoBehaviour
     public void ConfirmSettings()
     {
         Debug.Log("** ConfirmSettings");
-        USerInfo.Instance.BoardSize = (int)slider.value;
+        USerInfo.Instance.ActiveBordSize = (int)slider.value;
         USerInfo.Instance.UsePending = pendingToggle.isOn;
         USerInfo.Instance.UseRotatedExpert = expertRotatedToggle.isOn;
         Debug.Log("** UseRotatedExpert "+ USerInfo.Instance.UseRotatedExpert);

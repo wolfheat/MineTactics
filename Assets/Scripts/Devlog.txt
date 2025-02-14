@@ -305,13 +305,26 @@ Nov 2024
 		* Made normal level buttons highlighted in the menu
 12/2	* Have Expert mode start with top part aligned to top area
 		* Made validation of levels tell whats wrong in popup
+13/2	* Made Normal games load the last played size
 
-		
-		* Remake the game into tilemaps instead of induvidual tiles? Large rework but will speed it up.
-		
 
+		* Remember last played Normal map when player returns to app and to mode
+
+
+		* Show info panel after a player fails a level as well? Have it possible to favourize and rate? Should play count be used here as well?
+
+		// Major rework
+		* Remake the game into tilemaps instead of induvidual tiles? Large rework but will speed it up.		
 		* Expert level loads slowly, have player limited from giving additional inputs while loading?
-		
+
+		// BASIC USER -	Free Version
+		* Have a base User game that does not use the Firebase at all and are free with ads ?
+		* Create base Collections available for everyone and not needed to be downloaded
+
+		// USER EXPERIENCE
+		* Have player be able to favour some levels they want to practice and keep them locally? Have an option to run only favourite levels?
+
+
 		Grey Used
 		717171
 		B0B0B0
@@ -324,41 +337,19 @@ Nov 2024
 		3C3C3C
 
 
-
-
-		* Show info panel after a player fails a level as well? Have it possible to favourize and rate? Should play count be used here as well?
-		* Make it impossible to save games with no boxes opened? this makes challenges confusing when loaded
-
-		* Create base Collections available for everyone and not needed to be downloaded
-
-		// BASIC USER
-		* Have a base User game that does not use the Firebase at all and are free with ads ?
-
-
-
 		// Prob later
 		* Also fix so loading player generated levels only possible for the user who created them. Is this based on name? and has to change to id?
 			* Currently no limits for loading levels
 			* Players may overwrite others collections in the Firebase -  make this not possible unless you are the creator??
-
-		* Issue: zoomed in game does not have limit at top button border. It gets beneith it - fix - Game is playable without but it should be fixed eventually
-	
+					
 		// // DO'S // //
-		// LOGIN
-		* Make sure players cant change name to some name thats already used? - This is handeled by Firebase y default ?? 
-
-		// PLAYERSTATS
-		* Add additional info for players?
-			* Total games cleared
-
+		// LOGIN		
+		// PLAYERSTATS		
 		// ERROR HANDELING
 		* Fix the error handeling of submitting levels
 
 		// MONITIZATION
 		* How to monitize? Have unlock fee / buying game remove all ads and for rest have x amount of free games before require ad for continueation / or wait.
-
-		// USER EXPERIENCE
-		* Have player be able to favour some levels they want to practice and keep them locally? Have an option to run only favourite levels?
 
 		// // DONT'S // //
 

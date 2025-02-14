@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using i5.Toolkit.Core.RocketChatClient;
 using TMPro;
 using UnityEngine;
 using WolfheatProductions;
@@ -99,6 +100,28 @@ public class GameArea : MonoBehaviour
     {
         if (isOnlyView)
             return;
+
+        switch (USerInfo.Instance.LastUsedNormalBordSize) {
+            case 0:
+                USerInfo.Instance.BoardType = BoardTypes.Beginner;
+                Debug.Log("Restart to Beginner");
+                break;
+            case 1:
+                USerInfo.Instance.BoardType = BoardTypes.Intermediate;
+                Debug.Log("Restart to Intermediate");
+                break;
+            case 2:
+                USerInfo.Instance.BoardType = BoardTypes.Expert;
+                Debug.Log("Restart to Expert");
+                break;
+            default:
+                USerInfo.Instance.BoardType = BoardTypes.Slider;
+                USerInfo.Instance.ActiveBordSize = USerInfo.Instance.LastUsedNormalBordSize;
+                Debug.Log("Restart to Slider "+ USerInfo.Instance.ActiveBordSize);
+                break;
+        }
+
+        Debug.Log("Setting Board size to: "+ USerInfo.Instance.ActiveBordSize);
         SizeGameArea();
 
         RandomizeMines();
@@ -155,7 +178,7 @@ public class GameArea : MonoBehaviour
 
         Debug.Log("LOADING GAME IN GAMEAREA View: "+isOnlyView);
 
-        USerInfo.Instance.BoardSize = gameLoaded.GetLength(0);
+        USerInfo.Instance.ActiveBordSize = gameLoaded.GetLength(0);
         ResetBoard();
         // Pre open and flag
         PreOpenAndFlag(gameLoaded, editorcreateMode);
@@ -809,7 +832,7 @@ public class GameArea : MonoBehaviour
         
         if (sizeFromSettings)
         {
-            int boardSize = USerInfo.Instance.BoardSize;
+            int boardSize = USerInfo.Instance.ActiveBordSize;
             Debug.Log("**** Loading game of type "+ USerInfo.Instance.BoardType);
             switch (USerInfo.Instance.BoardType)
             {
