@@ -55,6 +55,9 @@ public class SavingUtility : MonoBehaviour
         Debug.Log("ID in SaVe: "+USerInfo.Instance.GetInstanceID());
         Debug.Log("USerInfo.Instance.ActiveCollections = " + USerInfo.Instance.ActiveCollections.Count);
         gameSettingsData.ActiveCollections = USerInfo.Instance.ActiveCollections;
+        gameSettingsData.LastUsedNormalBordSize = USerInfo.Instance.LastUsedNormalBordSize;
+        Debug.Log("Saving LastUsedNormalBordSize as: " + gameSettingsData.LastUsedNormalBordSize);
+
         Debug.Log("gameSettingsData.ActiveCollections = "+ gameSettingsData.ActiveCollections.Count);
 
         Debug.Log("USerInfo.Instance.InactiveCollections = " + USerInfo.Instance.InactiveCollections.Count);

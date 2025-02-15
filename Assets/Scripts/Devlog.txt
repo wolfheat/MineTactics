@@ -306,9 +306,11 @@ Nov 2024
 12/2	* Have Expert mode start with top part aligned to top area
 		* Made validation of levels tell whats wrong in popup
 13/2	* Made Normal games load the last played size
+14/2	* Made game remember last played Normal map when player restarts app
 
 
-		* Remember last played Normal map when player returns to app and to mode
+
+		* Make the remembering of normal gmae type better?
 
 
 		* Show info panel after a player fails a level as well? Have it possible to favourize and rate? Should play count be used here as well?

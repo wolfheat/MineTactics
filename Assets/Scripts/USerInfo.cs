@@ -50,6 +50,8 @@ public class USerInfo : MonoBehaviour
 		Debug.Log(" Setting data from Saved Settings File");
         Sensitivity = SavingUtility.gameSettingsData.TouchSensitivity;
 		ActiveBordSize = SavingUtility.gameSettingsData.BoardSize;
+        LastUsedNormalBordSize = SavingUtility.gameSettingsData.LastUsedNormalBordSize;
+		Debug.Log(" Setting data from Saved Settings File: "+LastUsedNormalBordSize);
 		UsePending = SavingUtility.gameSettingsData.UsePending;
 		UseRotatedExpert = SavingUtility.gameSettingsData.UseRotatedExpert;
 		Theme = SavingUtility.gameSettingsData.Theme;

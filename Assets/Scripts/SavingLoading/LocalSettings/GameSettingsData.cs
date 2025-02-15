@@ -23,6 +23,7 @@ public class GameSettingsData
     public float PlayTime { get; set; }
     public int TouchSensitivity { get; set; } = 15;
     public int BoardSize { get; set; } = 6;
+    public int LastUsedNormalBordSize { get; set; } = 6;
     public bool UsePending { get; set; } = true;
     public bool UseRotatedExpert { get; set; } = false;
     public int Theme { get; set; } = 0;

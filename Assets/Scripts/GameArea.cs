@@ -121,6 +121,9 @@ public class GameArea : MonoBehaviour
                 break;
         }
 
+        // Need this save somewhere to save down the LastUsedNormalBoardType
+        SavingUtility.Instance.SaveAllDataToFile();
+
         Debug.Log("Setting Board size to: "+ USerInfo.Instance.ActiveBordSize);
         SizeGameArea();
 
