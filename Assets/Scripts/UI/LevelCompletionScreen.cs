@@ -4,6 +4,8 @@ using UnityEngine;
 public class LevelCompletionScreen : MonoBehaviour
 {
     [Header("Main Info Texts")] 
+    [SerializeField] TextMeshProUGUI header;
+
     [SerializeField] TextMeshProUGUI collection;
     [SerializeField] TextMeshProUGUI levelID;
     [SerializeField] TextMeshProUGUI time;
@@ -28,9 +30,9 @@ public class LevelCompletionScreen : MonoBehaviour
     private const int DefaultVote = 3;
 
     private void Start() => OnClickStar(DefaultVote);
-    public void RequestUpdateLevelInfo() => UpdateLevelInfo(FirestoreManager.Instance.LevelData);
+    //public void RequestUpdateLevelInfo() => UpdateLevelInfo(FirestoreManager.Instance.LevelData);
 
-    public void UpdateLevelInfo(LevelData data,bool record = false,bool record3BV = false)
+    public void UpdateLevelInfo(LevelData data,bool win, bool record = false,bool record3BV = false)
     {
         levelID.text = USerInfo.Instance.levelID;
         time.text = Timer.TimeElapsed.ToString("F3") + "s";
@@ -39,7 +41,10 @@ public class LevelCompletionScreen : MonoBehaviour
 
         B3V.text = GameAreaMaster.Instance.MainGameArea.B3V.ToString();
 
-        if (USerInfo.Instance.currentType == GameType.Challenge) { 
+        header.text = win?"Level Won!":"Level Lost!";
+
+        if (USerInfo.Instance.currentType == GameType.Challenge) {
+            Debug.Log("--- Data null:"+(data==null));
             if (data == null)
                 return;
             Debug.Log("Setting Challenge Result data: Collection:"+data.Collection+" Creator: "+data.CreatorId+" Status: "+data.Status+" Play OCunt: "+data.PlayCount+" Votes: "+data.vote);
@@ -65,9 +70,9 @@ public class LevelCompletionScreen : MonoBehaviour
             Clicks.text = GameAreaMaster.Instance.MainGameArea.TotalClicks + " (" + extraClicks + " + "+ GameAreaMaster.Instance.MainGameArea.Clicks + ")";
 
             float B3VsValue = GameAreaMaster.Instance.MainGameArea.B3V / Timer.TimeElapsed;
-            B3Vs.text = B3VsValue.ToString("F3");
+            B3Vs.text = win?B3VsValue.ToString("F3"):"---";
             float efficencyValue = (float)GameAreaMaster.Instance.MainGameArea.B3V / GameAreaMaster.Instance.MainGameArea.TotalClicks;
-            efficiency.text = (efficencyValue*100).ToString("F0")+"%";
+            efficiency.text = win?((efficencyValue*100).ToString("F0")+"%"):"---";
             if (B3VRecordText != null)
                 B3VRecordText?.SetActive(record3BV);
 

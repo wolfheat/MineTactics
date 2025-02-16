@@ -400,44 +400,48 @@ public class PanelController : MonoBehaviour
         
     }*/
 
-    public void ShowLevelComplete()
+    public void ShowLevelComplete(bool win)
     {
         if (USerInfo.Instance.currentType == GameType.Normal)
         {
             // Add to record
             bool record = false;
             bool recordB3V = false;
-            switch (USerInfo.Instance.BoardType)
-            {
-                case BoardTypes.Slider:
-                    (record,recordB3V) = SavingUtility.gameSettingsData.AddIfRecord(Timer.TimeElapsed,USerInfo.Instance.ActiveBordSize-5,GameAreaMaster.Instance.MainGameArea.B3V);
-                    break;
-                case BoardTypes.Beginner:
-                    (record, recordB3V) = SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed,0, GameAreaMaster.Instance.MainGameArea.B3V);
-                    break;
-                case BoardTypes.Intermediate:
-                    (record, recordB3V) = SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed,1, GameAreaMaster.Instance.MainGameArea.B3V);
-                    break;
-                case BoardTypes.Expert:
-                    (record, recordB3V) = SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed,2, GameAreaMaster.Instance.MainGameArea.B3V);
-                    break;
-            }
+            if (win) 
+                (record, recordB3V) = DetermineRecords();
 
             levelCompleteNormal.gameObject.SetActive(true);
-            levelCompleteNormal.UpdateLevelInfo(FirestoreManager.Instance.LevelData,record,recordB3V);
+            levelCompleteNormal.UpdateLevelInfo(FirestoreManager.Instance.LevelData,win,record,recordB3V);
 
+            /* Prob not needed cause already called before
             if (record || recordB3V)
                 SavingUtility.Instance.SaveAllDataToFile();
+            */
         }
         else if (USerInfo.Instance.currentType == GameType.Challenge)
         {
             levelComplete.gameObject.SetActive(true);
-            levelComplete.UpdateLevelInfo(FirestoreManager.Instance.LevelData);
+            levelComplete.UpdateLevelInfo(FirestoreManager.Instance.LevelData,win);
 
             //SavingUtility.gameSettingsData.AddIfRecord(Timer.TimeElapsed,USerInfo.Instance.BoardSize-6);
 
         }// Else when in Create Test mode do nothing
 
+    }
+
+    private static (bool,bool) DetermineRecords()
+    {
+        switch (USerInfo.Instance.BoardType) {
+            case BoardTypes.Slider:
+                return SavingUtility.gameSettingsData.AddIfRecord(Timer.TimeElapsed, USerInfo.Instance.ActiveBordSize - 5, GameAreaMaster.Instance.MainGameArea.B3V);
+            case BoardTypes.Beginner:
+                return SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed, 0, GameAreaMaster.Instance.MainGameArea.B3V);
+            case BoardTypes.Intermediate:
+                return SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed, 1, GameAreaMaster.Instance.MainGameArea.B3V);
+            case BoardTypes.Expert:
+                return SavingUtility.gameSettingsData.AddOriginalRecord(Timer.TimeElapsed, 2, GameAreaMaster.Instance.MainGameArea.B3V);
+        }
+        return (false, false);
     }
 
     public void ShowFadableInfo(string info)

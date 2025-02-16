@@ -122,7 +122,7 @@ public class GameArea : MonoBehaviour
         }
 
         // Need this save somewhere to save down the LastUsedNormalBoardType
-        SavingUtility.Instance.SaveAllDataToFile();
+        SavingUtility.Instance?.SaveAllDataToFile();
 
         Debug.Log("Setting Board size to: "+ USerInfo.Instance.ActiveBordSize);
         SizeGameArea();
@@ -499,7 +499,7 @@ public class GameArea : MonoBehaviour
         // If last opened is a number check if game is cleared?
         if (opened == totalToOpen && !Timer.Instance.Paused)
         {
-            WinLevel();
+            WinBustLevel(GameResult.Win);
         }
         return true;
     }
@@ -510,7 +510,7 @@ public class GameArea : MonoBehaviour
         {
             //Debug.Log("Bust");
             overlayBoxes[pos.x, pos.y].Bust();
-            BustLevel();
+            WinBustLevel(GameResult.Bust);
             return false;
         }
         if (mines[pos.x, pos.y] == 0)
@@ -535,42 +535,64 @@ public class GameArea : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    private void WinLevel()
+    enum GameResult{Win,Bust}
+
+    private void WinBustLevel(GameResult result)
     {
         // Pause the timer
         Timer.Instance.Pause();
 
-        Debug.Log("Win Level " + Timer.TimeElapsed);
+        Debug.Log("Level Ended at time: " + Timer.TimeElapsed);
+
         // Go through all mines and flagg all un-flagged 
         for (int j = 0; j < gameHeight; j++)
         {
             for (int i = 0; i < gameWidth; i++)
             {
-                // If flagged and wrong change to red flag
-                if (overlayBoxes[i, j].Marked && mines[i, j] != -1)
-                    overlayBoxes[i, j].ShowWrongFlag();
-                //else if (mines[i,j]==-1 && overlayBoxes[i, j].gameObject.activeSelf)
-                else if (mines[i, j] == -1)
-                    overlayBoxes[i, j].Mark();
+                switch (result) {
+                    case GameResult.Win:
+                        if (mines[i, j] == -1)
+                            overlayBoxes[i, j].Mark();
+                        break;
+                    case GameResult.Bust:
+                        if (overlayBoxes[i, j].Marked && mines[i, j] != -1)
+                            overlayBoxes[i, j].ShowWrongFlag();
+                        else if (mines[i, j] == -1 && overlayBoxes[i, j].gameObject.activeSelf && !overlayBoxes[i, j].Marked && !overlayBoxes[i, j].Busted)
+                            overlayBoxes[i, j].ShowMine();
+                        break;
+                }
+
             }
         }
-        SmileyButton.Instance.ShowWin();
 
-        LevelBusted = false;
 
+        LevelBusted = result == GameResult.Bust;
         B3V = Calculate3BV();
 
-        // Add Stats
-        if(USerInfo.Instance.currentType == GameType.Normal)
-            SavingUtility.gameSettingsData.NormalWon++;
-        else if(USerInfo.Instance.currentType == GameType.Challenge)
-            SavingUtility.gameSettingsData.ChallengeWon++;
-        SavingUtility.Instance.SaveAllDataToFile();
 
-        // Open Completion Panel - Pick correct one depending on level type
-
-        PanelController.Instance.ShowLevelComplete();
-
+        switch (result) {
+            case GameResult.Win:
+                SmileyButton.Instance.ShowWin();
+                
+                // Add Stats
+                if(USerInfo.Instance.currentType == GameType.Normal)
+                    SavingUtility.gameSettingsData.NormalWon++;
+                else if(USerInfo.Instance.currentType == GameType.Challenge)
+                    SavingUtility.gameSettingsData.ChallengeWon++;        
+                break;
+            case GameResult.Bust:
+                SmileyButton.Instance.ShowBust();
+                // Add Stats
+                if (USerInfo.Instance.currentType == GameType.Normal)
+                    SavingUtility.gameSettingsData.NormalLost++;
+                else if (USerInfo.Instance.currentType == GameType.Challenge)
+                    SavingUtility.gameSettingsData.ChallengeLost++;
+                break;
+            default:
+                break;
+        }
+        SavingUtility.Instance.SaveAllDataToFile(); 
+        PanelController.Instance.ShowLevelComplete(result == GameResult.Win);
     }
 
     private int Calculate3BV()
@@ -656,34 +678,6 @@ public class GameArea : MonoBehaviour
         }
         return wasted;
 
-    }
-    private void BustLevel()
-    {
-        // Pause the timer
-        Timer.Instance.Pause();
-        LevelBusted = true;
-
-        Debug.Log("Bust Level");
-        // Go through all flagged boxes and change wrongly marked to red flags and show all unmarked mines
-        for (int j = 0; j < gameHeight; j++)
-        {
-            for (int i = 0; i < gameWidth; i++)
-            {
-                // If flagged and wrong change to red flag
-                if (overlayBoxes[i, j].Marked && mines[i, j] != -1)
-                    overlayBoxes[i, j].ShowWrongFlag();
-                else if (mines[i, j] == -1 && overlayBoxes[i, j].gameObject.activeSelf && !overlayBoxes[i, j].Marked && !overlayBoxes[i, j].Busted)
-                    overlayBoxes[i, j].ShowMine();
-            }
-        }
-        SmileyButton.Instance.ShowBust();
-
-        // Add Stats
-        if (USerInfo.Instance.currentType == GameType.Normal)
-            SavingUtility.gameSettingsData.NormalLost++;
-        else if (USerInfo.Instance.currentType == GameType.Challenge)
-            SavingUtility.gameSettingsData.ChallengeLost++;
-        SavingUtility.Instance.SaveAllDataToFile();
     }
 
     private void SwapAndRecalculateLevel(Vector2Int pos)
