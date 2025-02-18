@@ -215,9 +215,6 @@ public class ProgressPanel : MonoBehaviour
         // Load Main Menu if coming from log in or register else just close?
         if(currentState == LoadingState.LogIn || currentState == LoadingState.Register)
             startMenu.gameObject.SetActive(true);
-        if (currentState == LoadingState.LoadingLevels)
-            // Select a random level from the retrieved documents
-            FirestoreManager.Instance.GetRandomLevel(1000);
         else if (currentState == LoadingState.SubmitLevel)
         {
             Debug.Log("Closing Window SubmitLevel mode - do nothing");

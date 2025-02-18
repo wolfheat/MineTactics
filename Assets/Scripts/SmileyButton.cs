@@ -19,11 +19,11 @@ public class SmileyButton : MonoBehaviour
             return;
         }
         Instance = this;
-        FirestoreManager.OnLevelCollectionListChange += UpdateCollectionSize;
+        FirestoreManager.OnLevelCollectionListChange += SetSmileyTypeFromLevelAmountLoaded;
     }
 
     public void SetColliderWidth(float newWidth) => boxCollider.size = new Vector2(newWidth, boxCollider.size.y);
-    public void UpdateCollectionSize(int select)
+    public void SetSmileyTypeFromLevelAmountLoaded(int select)
     {
         Debug.Log("** UPDATING SMILEY");
         // Amount of loaded challenge levels changed - if there is levels set the smiley to evil?
@@ -39,8 +39,12 @@ public class SmileyButton : MonoBehaviour
         spriteRenderer.sprite = sprites[1];
         if (USerInfo.Instance.currentType == GameType.Normal)
             LevelCreator.Instance.RestartGame(true);
-        else if (USerInfo.Instance.currentType == GameType.Challenge)
+        else if (USerInfo.Instance.currentType == GameType.Challenge) {
             LevelCreator.Instance.LoadRandomLevel();
+        }
+        else if (USerInfo.Instance.currentType == GameType.Favourite) {
+            LevelCreator.Instance.LoadRandomFavouriteLevel();
+        }
         else if (USerInfo.Instance.currentType == GameType.Create)
         {
             spriteRenderer.sprite = sprites[0];

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 public class PanelController : MonoBehaviour
@@ -13,17 +14,11 @@ public class PanelController : MonoBehaviour
     [SerializeField] GameObject randomButton;
     [SerializeField] GameObject startMenuButton;
 
-    [SerializeField] GameObject normalModeButtonPanel;
-    [SerializeField] GameObject challengeModeButtonPanel;
-
     [SerializeField] GameObject challengeModeDarkening;
     
-    [SerializeField] GameObject cancelButton;
-    [SerializeField] GameObject nextButton;
     [SerializeField] TextMeshProUGUI modeText;
 
     [SerializeField] GameObject startMenu;
-    [SerializeField] GameObject loginSelectMenu;
     [SerializeField] GameObject loginMenu;
     [SerializeField] DisplayNamePanel changeDisplayNamePanel;
     [SerializeField] LinkCredentials linkCredentialsPanel;
@@ -68,12 +63,17 @@ public class PanelController : MonoBehaviour
         AuthManager.OnNameChangeSuccess += NameChangeSuccess;
         FirestoreManager.OnSubmitLevelStarted += ShowLoaderPanelSubmitLevel;
         FirestoreManager.OnLoadLevelStarted += ShowLoaderPanelReceiveLevel;
-        FirestoreManager.OnLevelCollectionListChange += UpdateChallengeCollectionSize;
+        FirestoreManager.OnLevelCollectionListChange += DetermineIfPageDarkeningShouldShow;
     }
 
-    private void UpdateChallengeCollectionSize(int obj)
+    private void DetermineIfPageDarkeningShouldShow(int obj)
     {
-        ChallengeListIsEmpty(USerInfo.Instance.ActiveCollections.Count == 0);
+        // Separate the favourites here
+        if(USerInfo.Instance.currentType == GameType.Challenge)
+            ChallengeListIsEmpty(USerInfo.Instance.ActiveCollections.Count == 0);
+        else if(USerInfo.Instance.currentType == GameType.Favourite)
+            FavouriteListIsEmpty(FirestoreManager.Instance.FavouriteLevels.Count == 0);
+
     }
 
     private void OnDisable()
@@ -83,7 +83,7 @@ public class PanelController : MonoBehaviour
         AuthManager.OnSuccessfulLogIn -= LoginConfirmed;
         FirestoreManager.OnSubmitLevelStarted -= ShowLoaderPanelSubmitLevel;
         FirestoreManager.OnLoadLevelStarted -= ShowLoaderPanelReceiveLevel;
-        FirestoreManager.OnLevelCollectionListChange -= UpdateChallengeCollectionSize;
+        FirestoreManager.OnLevelCollectionListChange -= DetermineIfPageDarkeningShouldShow;
     }
     private void InitStartMenu()
     {
@@ -126,12 +126,17 @@ public class PanelController : MonoBehaviour
         }
     }
 
+    public void ToggleFavMode() => ChangeMode(USerInfo.Instance.currentType == GameType.Favourite ? 1 : 4);
     public void ChangeMode(int type)
     {
         Debug.Log("CHANGE MODE +"+type);
         bool sameMode = USerInfo.Instance.currentType == (GameType)type;
         USerInfo.Instance.BoardType = BoardTypes.Slider;
         USerInfo.Instance.currentType = (GameType)type;
+
+        // Handle unselect fav mode
+        if (type == 4 && sameMode)
+            type = 1;
 
         if (type == 0)
         {
@@ -152,7 +157,8 @@ public class PanelController : MonoBehaviour
             BackgroundController.Instance.SetColorTactics(); 
             SmileyButton.Instance.ShowNormal();
             // If there is no collections loaded show info about this
-            ChallengeListIsEmpty(USerInfo.Instance.ActiveCollections.Count == 0);
+            DetermineIfPageDarkeningShouldShow(-1);
+            FirestoreManager.OnLevelCollectionListChange?.Invoke(-1);
         }
         else if(type ==2)
         {
@@ -177,10 +183,28 @@ public class PanelController : MonoBehaviour
             //GameAreaMaster.Instance.MainGameArea.ResetBoard();
             BackgroundController.Instance.SetColorTest(); 
             SmileyButton.Instance.ShowNormal();
+        }else if(type == 4)
+        {
+            // Keep buttons mode as Chalenge
+            ButtonController.Instance.ShowButtons(MenuState.Challenge);
+
+            // If no levels are loaded reload all from the settings list
+            //GameAreaMaster.Instance.MainGameArea.ResetBoard();
+            BackgroundController.Instance.SetColorFavourites(); 
+            SmileyButton.Instance.ShowNormal();
+
+            // If there is no collections loaded show info about this
+            DetermineIfPageDarkeningShouldShow(-1);
+
+            if (FirestoreManager.Instance.FavouriteLevels.Count > 0) {
+                Debug.Log("Favourites Mode loaded, amt of levels "+ FirestoreManager.Instance.FavouriteLevels.Count);
+            }
+            FirestoreManager.OnLevelCollectionListChange?.Invoke(-1);
         }
         UpdateModeShown();
     }
 
+    private void FavouriteListIsEmpty(bool isEmpty) => challengeModeDarkening.SetActive(isEmpty);
     private void ChallengeListIsEmpty(bool isEmpty) => challengeModeDarkening.SetActive(isEmpty);
 
     public void ShowLoaderPanelLoadLevels()
@@ -341,12 +365,7 @@ public class PanelController : MonoBehaviour
     {
         LevelCreator.Instance.OnToggleCreate(true,true);
     }
-    public void LoadLevels()
-    {
-        Debug.Log("Request Load Levels");
-        FirestoreManager.Instance.GetRandomLevel(1000f);
-    }
-    
+
     public void Back()
     {
         BaseMenu();

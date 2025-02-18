@@ -141,6 +141,30 @@ public class FirestoreManager : MonoBehaviour
         //Inputs.Instance.Controls.Main.S.performed += SaveToFile;
     }
 
+    public void LoadFavouriteLevel()
+    {
+        if(FavouriteLevels == null || FavouriteLevels.Count == 0)
+        {
+            Debug.Log("There is no favourites in the list.");
+            return;
+        }
+        LoadARandomFavourite();
+
+    }
+
+    public void LoadARandomFavourite()
+    {
+        Debug.Log("Loading a random Favourite");
+
+        // Load one level
+        int loadIndex = UnityEngine.Random.Range(0, FavouriteLevels.Count);
+
+        LevelData = FavouriteLevels[loadIndex];
+
+        // Callback with the retrieved level data
+        LoadComplete?.Invoke(LevelData.Level);
+    }
+
     public void LoadDownloadedLevel()
     {
         if(ActiveChallengeLevels.Count > 0)
@@ -164,80 +188,6 @@ public class FirestoreManager : MonoBehaviour
             }*/
         }
         SmileyButton.Instance.ShowNormal();
-    }
-
-    public void GetRandomLevel(float playerRating)
-    {
-        if (ActiveChallengeLevels.Count > 0)
-        {
-            Debug.Log("There is Downloaded levels in the list, not allowed to download new from database");
-
-            return;
-        }
-
-        Debug.Log("Get a random Level But none exists - go get one from the open database");
-        Debug.Log("Goeas and grabs levels from the database here");
-        return;
-
-        float minDifficulty = 0;
-        float maxDifficulty = playerRating+500;
-
-        string statusToLoad = "Approved";
-        // Select Pending or Approved
-        if (USerInfo.Instance.UsePending)
-        {
-            //if (UnityEngine.Random.Range(0, 2) == 1)
-                statusToLoad = "Pending";
-        }
-        Debug.Log("No Downloaded Levels in the list, Loading Level with Status: "+statusToLoad+" PendingToggle is set to "+ USerInfo.Instance.UsePending);
-
-        // Show LoadingPanel here
-        OnLoadLevelStarted?.Invoke();
-
-        CollectionReference levelsRef = db.Collection("Levels");
-        levelsRef
-            .WhereEqualTo("Status", statusToLoad)
-            .WhereGreaterThanOrEqualTo("DifficultyRating", minDifficulty)
-            .WhereLessThanOrEqualTo("DifficultyRating", maxDifficulty)
-            .GetSnapshotAsync().ContinueWithOnMainThread(task =>
-            {
-                if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
-                {
-                    QuerySnapshot snapshot = task.Result;
-                    if (snapshot.Count > 0)
-                    {
-                        foreach (var document in snapshot.Documents)
-                        {
-                            try
-                            {
-                                LevelData level = document.ConvertTo<LevelData>();
-                                Debug.Log("Read a level from db added to the list: "+level.Level);
-                                ActiveChallengeLevels.Add(level);
-                            }
-                            catch (Exception ex)
-                            {
-                                Debug.LogError("Error converting document: " + document.Id + " - " + ex.Message);
-                            }
-                        }
-                        // Save all Recieved levels into the Downloaded List
-                        //DownloadedLevels = snapshot.Documents.Select(x=>x.ConvertTo<LevelData>()).ToList();
-
-                        Debug.Log("Downloaded LEvels from the database: "+snapshot.Count);
-                        OnSuccessfulLoadingOfLevels?.Invoke(snapshot.Documents.Count());
-                        OnLevelCollectionListChange?.Invoke(-1);
-                        USerInfo.Instance.Collection = null;
-                    }
-                    else
-                    {
-                        Debug.Log("No levels found within the specified range.");
-                        OnSuccessfulLoadingOfLevels?.Invoke(0);
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Error retrieving levels: " + task.Exception);
-                }
-            });
     }
 
     public void GetLevelCollectionLatestVersion(string id)

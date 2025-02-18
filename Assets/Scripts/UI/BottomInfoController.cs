@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BottomInfoController : MonoBehaviour
@@ -68,8 +69,11 @@ public class BottomInfoController : MonoBehaviour
         collectionAmtText.text = USerInfo.Instance.ActiveCollections.Count.ToString();
         levelAmtText.text = FirestoreManager.Instance.LoadedAmount.ToString();
 
-        collectionSizeTextB.text =FirestoreManager.Instance.LoadedAmount.ToString();
         levelText.text = "" + FirestoreManager.Instance.LevelData?.LevelId ?? "";
+
+        // TOP PART in CHALLENGE MODE
+        collectionSizeTextB.text = (USerInfo.Instance.currentType==GameType.Favourite) ? FirestoreManager.Instance.FavouriteLevels.Count.ToString() : FirestoreManager.Instance.LoadedAmount.ToString();
+
     }
 
     internal float Height()

@@ -204,7 +204,7 @@ public class GameArea : MonoBehaviour
             return;
         Timer.Instance.ResetCounterAndPause();
 
-        SmileyButton.Instance.UpdateCollectionSize(FirestoreManager.Instance.ActiveChallengeLevels.Count);
+        SmileyButton.Instance.SetSmileyTypeFromLevelAmountLoaded(FirestoreManager.Instance.ActiveChallengeLevels.Count);
     }
 
     private void PreOpenAndFlag(int[,] gameLoaded,bool editorcreateMode = false)

@@ -193,26 +193,33 @@ public class LevelCreator : MonoBehaviour
     public void UpdateLevel(LevelData data)
     {
         // Create Dictionary of changed values
-
         
     }
-
+    /*
     public void OnRequestLoadLevel(InputAction.CallbackContext context)
     {
         Debug.Log("Loading Level requested");
         LoadRandomLevel();
-    }
+    }*/
     public void CancelEditMode()
     {
         EditMode = false;
         EditModeB = false;
         BackgroundController.Instance.SetColorNormal();
     }
+
     public void LoadRandomLevel()
     {
         Debug.Log("Loading Level requested");
         //FirestoreManager.Instance.Load("L02");
         FirestoreManager.Instance.LoadDownloadedLevel();
+    }
+    
+    public void LoadRandomFavouriteLevel()
+    {
+        Debug.Log("Loading Favourite Level requested");
+        //FirestoreManager.Instance.Load("L02");
+        FirestoreManager.Instance.LoadARandomFavourite();
     }
 
     public void OnPlayerSignedInSuccessTest()

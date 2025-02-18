@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum BoardTypes{Slider,Beginner,Intermediate,Expert}
-public enum GameType{Normal,Challenge,Create,Test}
+public enum GameType{Normal,Challenge,Create,Test,Favourite}
 public class USerInfo : MonoBehaviour
 {
 	

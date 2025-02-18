@@ -309,8 +309,12 @@ Nov 2024
 14/2	* Made game remember last played Normal map when player restarts app
 15/2	* Made Lost game show COmplete Sumamries as well
 17/2	* Can now load and save Favourites.
+18/2	* Made favourite games work. Does not show results after completion
+		
+		
 
-		* Implement a fav mode tyhat accurately plays favourite games
+		* Implement a fav mode that accurately plays favourite games
+
 
 		* Make the remembering of normal game type better?
 
