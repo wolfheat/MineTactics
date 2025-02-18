@@ -60,10 +60,12 @@ public class USerInfo : MonoBehaviour
 
 		ThemePicker.Instance.SetTheme(Theme);
 
-
         BoardSizeChange?.Invoke();
+
 		// Load Local Collections
 		LoadLocalCollections();
+
+		FirestoreManager.Instance.LoadFavourites();
     }
 
     private void LoadLocalCollections()

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Collections;
 using System.Text;
+using Mono.Collections.Generic;
 
 
 [FirestoreData]
@@ -60,6 +61,7 @@ public class FirestoreManager : MonoBehaviour
     public LevelData LevelData { get; private set; }
     public HashSet<string> SentLevels { get; private set; } = new HashSet<string>();
     public List<LevelData> ActiveChallengeLevels { get; private set; } = new List<LevelData>();
+    public List<LevelData> FavouriteLevels { get; private set; } = new List<LevelData>();
     public List<LevelData> LocalCollectionList { get; private set; } = new List<LevelData>();
     public int LoadedAmount => ActiveChallengeLevels.Count;
 
@@ -383,7 +385,7 @@ public class FirestoreManager : MonoBehaviour
         });
     }
 
-    private List<LevelData> ConvertCollectionToLevels(LevelDataCollection levelCollection,string collectionName,bool onlyActives = false)
+    public List<LevelData> ConvertCollectionToLevels(LevelDataCollection levelCollection,string collectionName=null,bool onlyActives = false)
     {
         List<LevelData> ans = new List<LevelData>();
 
@@ -403,15 +405,15 @@ public class FirestoreManager : MonoBehaviour
                 Upvotes = levelCollection.Upvotes[i],
                 Downvotes = levelCollection.Downvotes[i],
                 PlayCount = levelCollection.PlayCount[i],
-                Collection = collectionName
+                Collection = collectionName ?? "Favourites"
             });
             //if(length<5)Debug.Log("Adding level " + levelCollection.Level[i]);
         }
         //if(length>0) Debug.Log("Added "+length+" levels.");
         return ans;
     }
-    
-    private LevelDataCollection ConvertLevelsToCollection(List<LevelData> levels)
+
+    public LevelDataCollection ConvertLevelsToCollection(List<LevelData> levels)
     {
         Debug.Log("Converting Levels to LevelCollection");
         LevelDataCollection ans = new();
@@ -748,8 +750,10 @@ public class FirestoreManager : MonoBehaviour
         foreach (var item in LocalCollectionList) { item.Collection = lastSavedCollectionName; }
     }
 
+    
     internal void ReactivateAllActiveCollectionsToChallengeList(bool onlyActives = false,bool clearLeveldataCollection = false)
     {
+        Debug.Log("___ReactivateAllActiveCollectionsToChallengeList");
         if (clearLeveldataCollection) {
             ClearActiveLevelsList();
             LevelDataCollections.Clear();
@@ -795,6 +799,38 @@ public class FirestoreManager : MonoBehaviour
         return sb.ToString();
     }
 
+    internal void LoadFavourites()
+    {
+        Debug.Log("Setting Favourites in FirestoreManager");
+        FavouriteLevels = SavingUtility.Instance.LoadFavouritesDataFromFile();
+    }
+
+    internal void AddOrRemoveLevelFromFavourites(LevelData data, bool add = false)
+    {
+
+        if (FavouriteLevels == null) {
+            FavouriteLevels = new List<LevelData>();
+            // Maybe have these
+        }
+
+        Debug.Log("AddOrRemoveLevelFromFavourites: add:" + add);
+        // Add to the List here in Manager
+
+        bool removed = false;
+        foreach (LevelData level in FavouriteLevels) {
+            if (level.LevelId == data.LevelId) {
+                FavouriteLevels.Remove(level);
+                removed = true;
+                break;
+            }
+        }
+        if(!removed)
+            FavouriteLevels.Add(data);
+
+        // Save file to disk
+        SavingUtility.Instance.SaveFavouritesDataToFile(ConvertLevelsToCollection(FavouriteLevels));
+    }
+
     internal void RemoveCollectionFromChallengeList(string collectionName)
     {
 
@@ -829,6 +865,9 @@ public class FirestoreManager : MonoBehaviour
         OnLevelCollectionListChange?.Invoke(-1);
         OnLevelCollectionListItemUpdatedItsCollection?.Invoke(collectionName);// Invoke change of Level amount [-1 = select none]
     }
+
+
+    public void SetFavouritesFromData(List<LevelData> levels) => FavouriteLevels = levels;
 
     public void ClearActiveLevelsList() => ActiveChallengeLevels.Clear();
 

@@ -18,16 +18,19 @@ public class LevelCompletionScreen : MonoBehaviour
     [Header("Other Stuff")] 
     [SerializeField] TextMeshProUGUI rating;
     [SerializeField] TextMeshProUGUI creatorId;
-    [SerializeField] TextMeshProUGUI votes;
+    [SerializeField] TextMeshProUGUI votes; 
     [SerializeField] TextMeshProUGUI playerRatingChange;
     [SerializeField] TextMeshProUGUI levelRatingChange;
     [SerializeField] TextMeshProUGUI status;
     [SerializeField] TextMeshProUGUI playCount;
     [SerializeField] Star[] stars;
 
+    [SerializeField] Star favourite;
+
     private LevelData LoadedData = new LevelData();
     private int vote = 3;
     private const int DefaultVote = 3;
+    private bool isFavourite = false;
 
     private void Start() => OnClickStar(DefaultVote);
     //public void RequestUpdateLevelInfo() => UpdateLevelInfo(FirestoreManager.Instance.LevelData);
@@ -186,6 +189,17 @@ public class LevelCompletionScreen : MonoBehaviour
         return true;
     }
 
+    public void OnClickFavourite()
+    {
+        Debug.Log("Favourite Clicked");
+        isFavourite = !isFavourite;
+        Debug.Log(isFavourite?"Level is a favourite":"Level is not Favourite");
+        favourite.ShowStar(isFavourite?1:0);
+
+        // Add or remove the level from the local store and resave the file
+        FirestoreManager.Instance.AddOrRemoveLevelFromFavourites(LoadedData,isFavourite);
+
+    }
     public void OnClickStar(int amt)
     {
         Debug.Log("Highlight "+amt+" stars");

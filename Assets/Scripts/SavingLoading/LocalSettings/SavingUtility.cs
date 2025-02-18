@@ -1,12 +1,14 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SavingUtility : MonoBehaviour
 {
 
     private const string PlayerDataSaveFile = "player-data";
     private const string GameSettingsDataSaveFile = "player-settings";
+    private const string FavouriteAddon = "_FAV";
     private string PlayerName = "";
     private string PlayerID = "";
     public static SavingUtility Instance { get; private set; }
@@ -87,7 +89,7 @@ public class SavingUtility : MonoBehaviour
         IDataService dataService = new JsonDataService();
         try
         {
-            Debug.Log("** Trying To load data from file. ** ");
+            Debug.Log(" -- Loading Settings Data From File Started --");
             if (AuthManager.Instance.Auth.CurrentUser.IsValid())
             {
                 PlayerName = AuthManager.Instance.Auth.CurrentUser.DisplayName;
@@ -116,13 +118,18 @@ public class SavingUtility : MonoBehaviour
         }
         finally
         { 
-            Debug.Log(" -- Loading From File Completed --");
-            Debug.Log("");
+            Debug.Log(" -- Loading Settings Data From File Completed --");
             LoadingComplete?.Invoke();
             //StartCoroutine(KeepTrackOfPlaytime());
         }
     }
-    
+
+
+    public void SaveFavouritesDataToFile<T>(T Data)
+    {
+        SaveCollectionDataToFile<T>( Data, PlayerID + FavouriteAddon);
+    }
+
     public void SaveCollectionDataToFile<T>(T Data, string collectionName)
     {
         IDataService dataService = new JsonDataService();
@@ -132,8 +139,16 @@ public class SavingUtility : MonoBehaviour
             Debug.LogError("Could not save file: "+collectionName);
     }
 
+    public List<LevelData> LoadFavouritesDataFromFile()
+    {
+        return FirestoreManager.Instance.ConvertCollectionToLevels(LoadCollectionDataFromFile(PlayerID + FavouriteAddon), PlayerID + FavouriteAddon);
+    }
+
     public LevelDataCollection LoadCollectionDataFromFile(string collectionName)
     {
+        //Debug.Log("--- Loading A Collection From File: "+collectionName);
+        string logString = "--- Loading A Collection From File: " + collectionName;
+        Debug.Log($"<color=red>{logString}</color>");
         // Hold the load so Game has time to load
         //yield return new WaitForSeconds(0.4f);
 
